@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuario } from '../../../../models'
+import { Usuario,Response, Persona } from '../../../../models'
 import { Location } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { UsuarioService } from '../../../../services/usuario.service';
+
 @Component({
   selector: 'editar-usuario',
   templateUrl: 'editar.template.html',
@@ -8,13 +12,35 @@ import { Location } from '@angular/common';
 })
 export class EditarUsuarioComponent implements OnInit  {
 
-  public item : Usuario;
-  constructor(private _location: Location) {
-    this.item = new Usuario();
+  public item : Persona;
+  private sub: any;
+  private itemCodigo: number;
+  constructor(private _location: Location,  private route: ActivatedRoute,private toastr: ToastrService, private router: Router,
+    private service: UsuarioService) {
+    this.item = new Persona();
   }
 
   ngOnInit():any {
-
+    this.sub = this.route.params.subscribe(params => {
+      this.itemCodigo = +params['id'];
+    });
+    console.log(this.itemCodigo);
+    if(this.itemCodigo){
+      this.service.obtenerUsuario(this.itemCodigo).subscribe(
+        (response: Response)=>{
+          this.item = response.resultado;
+          console.log(this.item);
+        }
+      );
+    }
+    /* if (this.itemCodigo) {
+      this.service.buscarPorCodigo(this.itemCodigo).subscribe(
+        (response:Response) => this.item = Object.assign(new Asunto(), <Asunto>response.resultado),
+        (error) => this.controlarError(error)
+      );
+    } else {
+      this.item = this.service.crear();
+    } */
   }
   OnRegresar(){
     this._location.back();

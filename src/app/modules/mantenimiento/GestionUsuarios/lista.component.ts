@@ -34,7 +34,11 @@ export class GestionUsuarioListaComponent implements OnInit  {
   OnNuevo(){
     this.router.navigate([`mantenimiento/configuracion-usuarios/nuevo`]);
   }
+  OnRowClick(i:number, item:Persona){
+
+  }
   OnEditar(item:Persona){
+    console.log(`mantenimiento/configuracion-usuarios/editar/${item.idUsuario}`);
     this.router.navigate([`mantenimiento/configuracion-usuarios/editar/${item.idUsuario}`]);
   }
   OnPageChanged(event): void {

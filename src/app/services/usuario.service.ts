@@ -33,4 +33,17 @@ export class UsuarioService{
             return throwError(e);
           }));
     }
+    obtenerUsuario(id:number){
+      const url = `${this.apiEndpoint}/${id}`;
+      return this.http.get(url).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
 }
