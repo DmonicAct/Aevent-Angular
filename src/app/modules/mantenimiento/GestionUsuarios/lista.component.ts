@@ -6,7 +6,8 @@ import { UsuarioService } from '../../../services/usuario.service';
 @Component({
   selector: 'usuarios-lista',
   templateUrl: 'lista.template.html',
-  styleUrls: ['lista.template.scss']
+  styleUrls: ['lista.template.scss'],
+  providers: [UsuarioService] 
 })
 export class GestionUsuarioListaComponent implements OnInit  {
 
@@ -14,7 +15,8 @@ export class GestionUsuarioListaComponent implements OnInit  {
   public paginacion: Paginacion;
   constructor(private toastr: ToastrService, 
               private router: Router,
-              private service: UsuarioService) {
+              private service: UsuarioService
+              ) {
     this.items = new Array<Persona>();
     this.paginacion = new Paginacion({pagina:0,registros: 10});
   }
@@ -28,6 +30,7 @@ export class GestionUsuarioListaComponent implements OnInit  {
       (response: Response)=>{
         console.log(response);
         this.items = response.resultado;
+        this.paginacion = response.paginacion;
       }
     );
   }
@@ -38,7 +41,6 @@ export class GestionUsuarioListaComponent implements OnInit  {
 
   }
   OnEditar(item:Persona){
-    console.log(`mantenimiento/configuracion-usuarios/editar/${item.idUsuario}`);
     this.router.navigate([`mantenimiento/configuracion-usuarios/editar/${item.idUsuario}`]);
   }
   OnPageChanged(event): void {
@@ -52,6 +54,14 @@ export class GestionUsuarioListaComponent implements OnInit  {
     this.getLista();
   }
 
-
+  OnDeshabilitar(item: Persona){
+    this.service.eliminarUsuario(item.idUsuario).subscribe(
+      (response: Response) =>{
+        if(response.estado=="OK"){
+          this.toastr.success(`Se ha deshabilitado con exito`, 'Aviso', {closeButton: true});
+        }
+      }
+    );
+  }
 
 }

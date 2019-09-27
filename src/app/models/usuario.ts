@@ -1,7 +1,7 @@
 import { Estado } from "./enums/estado";
 
 export class Usuario{
-    public idUsuario : Number;
+    public idUsuario : number;
     public username : string;
     public email : string;
     public password :string;

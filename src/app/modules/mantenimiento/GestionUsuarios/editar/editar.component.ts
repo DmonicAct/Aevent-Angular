@@ -33,14 +33,6 @@ export class EditarUsuarioComponent implements OnInit  {
         }
       );
     }
-    /* if (this.itemCodigo) {
-      this.service.buscarPorCodigo(this.itemCodigo).subscribe(
-        (response:Response) => this.item = Object.assign(new Asunto(), <Asunto>response.resultado),
-        (error) => this.controlarError(error)
-      );
-    } else {
-      this.item = this.service.crear();
-    } */
   }
   OnRegresar(){
     this._location.back();

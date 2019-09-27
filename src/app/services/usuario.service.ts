@@ -3,6 +3,8 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import { Observable,throwError } from 'rxjs';
 import {  catchError } from 'rxjs/operators';
+import { Usuario } from '../models/usuario';
+
 @Injectable({
     providedIn: 'root',
   })
@@ -33,7 +35,7 @@ export class UsuarioService{
             return throwError(e);
           }));
     }
-    obtenerUsuario(id:number){
+    obtenerUsuario(id:number):Observable<any>{
       const url = `${this.apiEndpoint}/${id}`;
       return this.http.get(url).pipe(
         catchError(e => {
@@ -46,4 +48,19 @@ export class UsuarioService{
           return throwError(e);
         }));
     }
+
+    eliminarUsuario(id:number):Observable<any>{
+      let url = `${this.apiEndpoint}/${id}`;
+      return this.http.delete(url).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));;
+    }
+
 }

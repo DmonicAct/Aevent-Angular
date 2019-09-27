@@ -27,7 +27,8 @@ export class LoginComponent {
 
   login(): void {
     console.log(this.usuario);
-    if (this.usuario.username == null || this.usuario.password == null) {
+    if (this.usuario.username == null || this.usuario.password == null ||
+      this.usuario.username == "" || this.usuario.password =="") {
       //swal('Error Login', 'Username o password vacías!', 'error');
       this.toastr.warning('Username o password vacías!', 'Error', {closeButton: true});
       return;

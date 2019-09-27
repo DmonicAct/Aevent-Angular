@@ -84,7 +84,7 @@
                 <span *ngIf="item.enabled==false" class="label" [class.label-default]="item.enabled==false">INACTIVO</span>
               </td>
               <td class="text-center" data-col="editar" (click)="OnEditar(item)"><button class="btn btn-success"><i class="fa fa-edit"></i></button></td>
-              <td class="text-center" data-col="eliminar"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+              <td class="text-center" data-col="eliminar" (click)="OnDeshabilitar(item)"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
               
               <!-- <td class="text-center" disabled="disabled" data-col="fecha">{{item.fechaRegistro | date:'dd/MM/yyyy'}}</td> -->
 
