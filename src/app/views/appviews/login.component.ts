@@ -3,24 +3,26 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Usuario } from '../../models/';
-import { AuthService } from '../../auth/service/auth.service';
+import { AuthService as AeventAuthService } from '../../auth/service/auth.service';
+import { AuthService as SocialAuthService,SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider,LinkedinLoginProvider } from "angular-6-social-login";
 @Component({
   selector: 'login',
-  templateUrl: 'login.template.html'
+  templateUrl: 'login.template.html',
+  styleUrls:['login.template.scss']
 })
 export class LoginComponent {
   titulo: string = 'Por favor Sign In!';
   usuario: Usuario;
 
-  constructor(private authService: AuthService, 
+  constructor(private authService: AeventAuthService, 
               private toastr: ToastrService,
-              private router: Router) {
+              private router: Router,
+              private socialAuthService: SocialAuthService) {
     this.usuario = new Usuario();
   }
 
   ngOnInit() {
     if (this.authService.isAuthenticated()) {
-     // swal('Login', `Hola ${this.authService.usuario.username} ya estás autenticado!`, 'info');
       this.router.navigate(['inicio']);
     }
   }
@@ -28,7 +30,6 @@ export class LoginComponent {
   login(): void {
     if (this.usuario.username == null || this.usuario.password == null ||
       this.usuario.username == "" || this.usuario.password =="") {
-      //swal('Error Login', 'Username o password vacías!', 'error');
       this.toastr.warning('Username o password vacías!', 'Error', {closeButton: true});
       return;
     }
@@ -38,15 +39,24 @@ export class LoginComponent {
       this.authService.guardarToken(response.access_token);
       let usuario = this.authService.usuario;
       this.router.navigate(['inicio']);
-      //swal('Login', `Hola ${usuario.username}, has iniciado sesión con éxito!`, 'success');
       this.toastr.success(`Hola ${usuario.username}, has iniciado sesión con éxito!`, 'Error', {closeButton: true});
     }, err => {
       if (err.status == 400) {
-        //swal('Error Login', 'Usuario o clave incorrectas!', 'error');
         this.toastr.warning('Usuario o clave incorrectas!', 'Error', {closeButton: true});
       }
     }
     );
   }
-
+  public socialSignIn(socialPlatform : string) {
+    let socialPlatformProvider;
+    socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+    this.socialAuthService.signIn(socialPlatformProvider).then(
+      (userData) => {
+        console.log(socialPlatform+" sign in data : " , userData);
+        // Now sign-in with userData
+        // ...
+            
+      }
+    );
+  }
  }

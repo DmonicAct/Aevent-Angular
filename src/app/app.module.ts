@@ -1,35 +1,48 @@
 
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule,LOCALE_ID } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import {RouterModule} from "@angular/router";
-import {LocationStrategy, HashLocationStrategy} from '@angular/common';
+import { RouterModule } from "@angular/router";
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ToastrModule } from 'ngx-toastr';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 
-import {ROUTES} from "./app.routes";
+import { ROUTES } from "./app.routes";
 import { AppComponent } from './app.component';
 
 // App views
-import {DashboardsModule} from "./views/dashboards/dashboards.module";
-import {AppviewsModule} from "./views/appviews/appviews.module";
+import { DashboardsModule } from "./views/dashboards/dashboards.module";
+import { AppviewsModule } from "./views/appviews/appviews.module";
 // App modules/components
-import {SpinKitModule} from "./components/common/spinkit/spinkit.module";
-import {LayoutsModule} from "./components/common/layouts/layouts.module";
-import {SampleModule} from "./modules/sample/sample.module";
-import {AppComponentsModule} from "./views/appcomponents/appcomponents.module";
-import {BootstrapModule} from "./modules/bootstrap/bootstrap.module";
-import {MantenimientoModule} from "./modules/mantenimiento/mantenimiento.module";
+import { SpinKitModule } from "./components/common/spinkit/spinkit.module";
+import { LayoutsModule } from "./components/common/layouts/layouts.module";
+import { SampleModule } from "./modules/sample/sample.module";
+import { AppComponentsModule } from "./views/appcomponents/appcomponents.module";
+import { BootstrapModule } from "./modules/bootstrap/bootstrap.module";
+import { MantenimientoModule } from "./modules/mantenimiento/mantenimiento.module";
 import { PaginacionModule } from './components/common/paginacion/paginacion.module';
 
-import {TokenInterceptor} from './auth/interceptors/token.interceptor';
-import {AuthInterceptor} from './auth/interceptors/auth.interceptor';
+import { TokenInterceptor } from './auth/interceptors/token.interceptor';
+import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { RoleGuard } from './auth/guards/role.guard';
+import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider,LinkedinLoginProvider } from "angular-6-social-login";
+
+export function getAuthServiceConfigs() {
+  let config = new AuthServiceConfig(
+      [
+        {
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider("832951798674-t388unprfrv6djsofmkl3c832idsrr6h.apps.googleusercontent.com")
+        }
+      ]
+  );
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -59,12 +72,15 @@ import { RoleGuard } from './auth/guards/role.guard';
     SampleModule,
     AppComponentsModule,
     BootstrapModule,
-    HttpClientModule
+    HttpClientModule,
+    //Social Login
+    SocialLoginModule
   ],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, Title,
-    { provide: LOCALE_ID, useValue: 'es' },
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, Title,
+  { provide: AuthServiceConfig, useFactory: getAuthServiceConfigs},
+  { provide: LOCALE_ID, useValue: 'es' },
+  { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

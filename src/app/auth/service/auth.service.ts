@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../../models';
 import {environment} from '../../../environments/environment';
+import { BaseLoginProvider } from 'angular-6-social-login/entities/base-login-provider';
 
 @Injectable({
   providedIn: 'root'
@@ -61,14 +62,16 @@ export class AuthService {
     console.log(params.toString());
     return this.http.post<any>(urlEndpoint, params.toString(), { headers: httpHeaders }).pipe(
       catchError(e => {
-        if (e.status == 401) {
-          this.toastr.warning('No se pudo ingresar, el usuario ' + usuario.username + ' ha sido deshabilitado, contactar con Administracion', 'Aviso', {closeButton: true});
-          return throwError(e);
+        switch(e.status){
+          case 401:
+              this.toastr.warning('No se pudo ingresar, el usuario ' + usuario.username + ' ha sido deshabilitado, contactar con Administracion', 'Aviso', {closeButton: true});
+              console.error(e.error.mensaje);
+              return throwError(e);
+          default:
+              this.toastr.warning('No se pudo realizar conexión con el servidor, contactar con Administracion', 'Aviso', {closeButton: true});
+              console.error(e.error.mensaje);
+              return throwError(e);
         }
-        if (e.error.mensaje) {
-          console.error(e.error.mensaje);
-        }
-        return throwError(e);
       }));;
   }
 
