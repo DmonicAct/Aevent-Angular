@@ -26,7 +26,6 @@ export class LoginComponent {
   }
 
   login(): void {
-    console.log(this.usuario);
     if (this.usuario.username == null || this.usuario.password == null ||
       this.usuario.username == "" || this.usuario.password =="") {
       //swal('Error Login', 'Username o password vacías!', 'error');
@@ -35,8 +34,6 @@ export class LoginComponent {
     }
 
     this.authService.login(this.usuario).subscribe(response => {
-      console.log(response);
-
       this.authService.guardarUsuario(response.access_token);
       this.authService.guardarToken(response.access_token);
       let usuario = this.authService.usuario;

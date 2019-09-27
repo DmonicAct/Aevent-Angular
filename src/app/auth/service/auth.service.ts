@@ -1,17 +1,28 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError} from 'rxjs';
+import {  catchError } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../../models';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  private authiEndpoint: string;
+  private config_name: string
+  private config_password: string;
   private _usuario: Usuario;
   private _token: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private toastr: ToastrService, ) { 
+    this.authiEndpoint = environment.serviceAuthEndpoint;
+    this.config_name = environment.APP_CONFIG_NAME;
+    this.config_password = environment.APP_CONFIG_PASSWORD;
+  }
 
   public get usuario(): Usuario {
     if (this._usuario != null) {
@@ -34,9 +45,9 @@ export class AuthService {
   }
 
   login(usuario: Usuario): Observable<any> {
-    const urlEndpoint = 'http://localhost:8080/aevent/oauth/token';
+    const urlEndpoint = this.authiEndpoint;
 
-    const credenciales = btoa('angularApp' + ':' + 'angularApp');
+    const credenciales = btoa(this.config_name + ':' + this.config_password);
 
     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -48,17 +59,29 @@ export class AuthService {
     params.set('username', usuario.username);
     params.set('password', usuario.password);
     console.log(params.toString());
-    return this.http.post<any>(urlEndpoint, params.toString(), { headers: httpHeaders });
+    return this.http.post<any>(urlEndpoint, params.toString(), { headers: httpHeaders }).pipe(
+      catchError(e => {
+        if (e.status == 401) {
+          this.toastr.warning('No se pudo ingresar, el usuario ' + usuario.username + ' ha sido deshabilitado, contactar con Administracion', 'Aviso', {closeButton: true});
+          return throwError(e);
+        }
+        if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
+        return throwError(e);
+      }));;
   }
 
   guardarUsuario(accessToken: string): void {
     let payload = this.obtenerDatosToken(accessToken);
+    console.log(payload);
     this._usuario = new Usuario();
     //this._usuario.nombre = payload.nombre;
     //this._usuario.apellido = payload.apellido;
     this._usuario.email = payload.email;
     this._usuario.username = payload.user_name;
     this._usuario.roles = payload.authorities;
+    console.log(this._usuario);
     sessionStorage.setItem('usuario', JSON.stringify(this._usuario));
   }
 

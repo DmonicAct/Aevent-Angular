@@ -3,6 +3,7 @@ import { Persona,Paginacion, Estado, Response } from '../../../models';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UsuarioService } from '../../../services/usuario.service';
+import { Location } from '@angular/common';
 @Component({
   selector: 'usuarios-lista',
   templateUrl: 'lista.template.html',
@@ -15,7 +16,8 @@ export class GestionUsuarioListaComponent implements OnInit  {
   public paginacion: Paginacion;
   constructor(private toastr: ToastrService, 
               private router: Router,
-              private service: UsuarioService
+              private service: UsuarioService,
+              private _location:Location
               ) {
     this.items = new Array<Persona>();
     this.paginacion = new Paginacion({pagina:0,registros: 10});
@@ -59,6 +61,7 @@ export class GestionUsuarioListaComponent implements OnInit  {
       (response: Response) =>{
         if(response.estado=="OK"){
           this.toastr.success(`Se ha deshabilitado con exito`, 'Aviso', {closeButton: true});
+          this.getLista()
         }
       }
     );
