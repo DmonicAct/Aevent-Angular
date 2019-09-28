@@ -1,0 +1,93 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+
+<div class="container wrapper pull-left">
+  <div class="col-lg-10">
+    <h2>Crear Nuevo Evento</h2>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a (click)="verDatos($event)">Datos del Evento</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a (click)="verPapers($event)">Call for Papers</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a (click)="verFases($event)">Fases</a>
+      </li>
+    </ol>
+  </div>
+  <div *ngIf = "datos">
+    <div class="container pull-left" style="background-color: moccasin; width: 50%">
+        <div class="row input-group input-group-lg">
+          <div class="input-group-prepend col-3">
+            <p>Código</p>
+          </div>
+          <div class="col-1">&nbsp;</div>
+          <div class="col-8">
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">  
+          </div>
+        </div>
+        <div class="row"> &nbsp;</div>
+        <div class="row input-group input-group-lg">
+          <div class="input-group-prepend col-3">
+            <p>Nombre</p>
+          </div>
+          <div class="col-1">&nbsp;</div>
+          <div class="col-8">
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">  
+          </div>
+        </div>
+        <div class="row"> &nbsp;</div>
+        <div class="row input-group input-group-lg">
+            <div class="input-group-prepend col-3">
+              <p>Descripción</p>
+            </div>
+            <div class="col-1">&nbsp;</div>
+            <div class="col-8">
+              <input type="text" class="form-control" aria-label="Sizing example input" 
+              aria-describedby="inputGroup-sizing-lg" style="height: 50px">  
+            </div>
+        </div>
+        <div class="row"> &nbsp;</div>
+        <div class="row"> &nbsp;</div>
+        <div class="row input-group input-group-lg">
+          <div class="input-group-prepend col-3">
+            <p>Fecha de Inicio:</p>
+          </div>
+          <div class="col-1">&nbsp;</div>
+          <div class="col-8">
+              <div class="form-group">
+                  <label for="dateOfBirth">Date of Birth</label>
+                  <input id="dateOfBirth" name="dateOfBirth" [(ngModel)]="dateOfBirth" type="text" bsDatepicker class="form-control" />
+                </div>
+          </div>
+        </div>
+        <div class="row"> &nbsp;</div>
+        <div class="row input-group input-group-lg">
+          <div class="input-group-prepend col-3">
+            <p>Fecha de Fin:</p>
+          </div>
+          <div class="col-1">&nbsp;</div>
+          <div class="col-8">
+            <input type="datetime" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">  
+          </div>
+        </div>
+        <div class="row"> &nbsp;</div>
+        <div class="row input-group input-group-lg">
+          <div class="input-group-prepend col-3">
+            <p>Lugar:</p>
+          </div>
+          <div class="col-1">&nbsp;</div>
+          <div class="col-8">
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">  
+          </div>
+        </div>
+    </div>
+  </div>
+  <div *ngIf = "call">
+      Call
+  </div>
+  <div *ngIf = "fases">
+      Fases
+  </div>
+    
+</div>
