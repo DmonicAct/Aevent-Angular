@@ -34,8 +34,7 @@ export const ROUTES:Routes = [
     path: '', component: BasicLayoutComponent,
     children: [
       { path: 'inicio', component: StarterViewComponent },
-      { path: 'outlook', component: OutlookViewComponent },
-      { path: 'crearEvento', component: CrearEventoComponent}
+      { path: 'outlook', component: OutlookViewComponent }
     ]
   },
   {
