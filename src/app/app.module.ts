@@ -24,6 +24,7 @@ import { SampleModule } from "./modules/sample/sample.module";
 import { AppComponentsModule } from "./views/appcomponents/appcomponents.module";
 import { BootstrapModule } from "./modules/bootstrap/bootstrap.module";
 import { MantenimientoModule } from "./modules/mantenimiento/mantenimiento.module";
+import { GestionOrganizadorModule } from './modules/gestionar_eventos/gestion.module';
 import { PaginacionModule } from './components/common/paginacion/paginacion.module';
 
 import { TokenInterceptor } from './auth/interceptors/token.interceptor';
@@ -49,7 +50,7 @@ export function getAuthServiceConfigs() {
   imports: [
     //AEvent Moddules
     MantenimientoModule,
-
+    GestionOrganizadorModule,
     PaginacionModule,
 
     BrowserModule,

@@ -19,9 +19,11 @@ import {TopNavigationLayoutComponent} from "./components/common/layouts/topNavig
 
 
 import {GestionUsuariosRoutes} from './modules/mantenimiento/mantenimiento.routes';
+import { GestionOrganizadorRoutes } from './modules/gestionar_eventos/gestion.routes';
+
 import { AuthGuard } from './auth/guards/auth.guard';
 import { RoleGuard } from './auth/guards/role.guard';
-import { GestionUsuarioListaComponent } from "./modules/mantenimiento/gestionUsuarios/lista.component";
+
 export const ROUTES:Routes = [
   // Main redirect
   {path: '', redirectTo: 'inicio', pathMatch: 'full'},
@@ -40,6 +42,16 @@ export const ROUTES:Routes = [
       {
         path: 'configuracion-usuarios', component: BlankLayoutComponent,
         children: GestionUsuariosRoutes,
+        canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } 
+      }
+    ],
+  },
+  {
+    path: 'gestionOrganizadorEvento', component: BasicLayoutComponent,
+    children: [
+      {
+        path: 'eventos-organizador', component: BlankLayoutComponent,
+        children: GestionOrganizadorRoutes,
         canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } 
       }
     ],

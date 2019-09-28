@@ -20,6 +20,14 @@
           <li [ngClass]="{active: activeRoute('configuracion-usuarios')}"><a [routerLink]="['/mantenimiento/configuracion-usuarios']">Usuarios</a></li>
         </ul>
       </li>
+      <li [ngClass]="{active: activeRoute('gestionOrganizadorEvento')}">
+        <a href="#"><i class="fa fa-calculator"></i> <span class="nav-label">Gestionar Evento</span> <span class="fa arrow"></span> </a>
+        <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('gestionOrganizadorEvento')}">
+            <!-- *ngIf="checkPermission('/mantenimiento')" -->
+          <!-- *ngIf="checkPermission('/mantenimiento/configuracion-usuarios')" -->
+          <li [ngClass]="{active: activeRoute('eventos-organizador')}"><a [routerLink]="['/gestionOrganizadorEvento/eventos-organizador']">Administrar Evento</a></li>
+        </ul>
+      </li>
       <li [ngClass]="{active: activeRoute('mantenimiento')}">
         <a href="#"><i class="fa fa-calendar"></i> <span class="nav-label">Eventos Académicos</span> <span class="fa arrow"></span> </a>
         <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('mantenimiento')}">
