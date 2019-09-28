@@ -11,7 +11,6 @@ import {StarterViewComponent} from "./views/appviews/starterview.component";
 import {LoginComponent} from "./views/appviews/login.component";
 import {ResetComponent} from "./views/appviews/reset.component";
 import {OutlookViewComponent} from './views/appviews/outlook.component';
-import {CrearEventoComponent} from './views/appviews/crearEvento.component';
 import {BootstrapRoutes} from "./modules/bootstrap/bootstrap.routes";
 
 import {BlankLayoutComponent} from "./components/common/layouts/blankLayout.component";
