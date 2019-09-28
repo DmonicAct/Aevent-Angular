@@ -12,15 +12,13 @@ import {SparklineModule } from '../../components/charts/sparkline';
 import {SpinKitModule} from '../../components/common/spinkit/spinkit.module';
 import {ToastrModule} from 'ngx-toastr';
 import {FormsModule} from "@angular/forms";
-import { CrearEventoComponent } from "./crearEvento.component";
 
 @NgModule({
   declarations: [
     StarterViewComponent,
     OutlookViewComponent,
     LoginComponent,
-    ResetComponent,
-    CrearEventoComponent
+    ResetComponent
   ],
   imports: [
     BrowserModule,
@@ -35,8 +33,7 @@ import { CrearEventoComponent } from "./crearEvento.component";
     StarterViewComponent,
     OutlookViewComponent,
     LoginComponent,
-    ResetComponent,
-    CrearEventoComponent
+    ResetComponent
   ],
 })
 
