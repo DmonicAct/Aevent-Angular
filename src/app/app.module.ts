@@ -28,9 +28,7 @@ import { PaginacionModule } from './components/common/paginacion/paginacion.modu
 
 import { TokenInterceptor } from './auth/interceptors/token.interceptor';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
-import { AuthGuard } from './auth/guards/auth.guard';
-import { RoleGuard } from './auth/guards/role.guard';
-import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider,LinkedinLoginProvider } from "angular-6-social-login";
+import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider } from "angular-6-social-login";
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(

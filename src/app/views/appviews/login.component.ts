@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Usuario } from '../../models/';
 import { AuthService as AeventAuthService } from '../../auth/service/auth.service';
-import { AuthService as SocialAuthService,SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider,LinkedinLoginProvider } from "angular-6-social-login";
+import { AuthService as SocialAuthService, GoogleLoginProvider} from "angular-6-social-login";
 @Component({
   selector: 'login',
   templateUrl: 'login.template.html',
