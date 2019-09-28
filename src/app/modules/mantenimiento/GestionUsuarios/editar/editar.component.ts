@@ -28,7 +28,12 @@ export class EditarUsuarioComponent implements OnInit  {
     if(this.itemCodigo){
       this.service.obtenerUsuario(this.itemCodigo).subscribe(
         (response: Response)=>{
+          console.log(response);
           this.item = response.resultado;
+          console.log(this.item.nombre);
+          console.log(this.item.appaterno);
+          console.log(this.item.apmaterno);
+          console.log("item :");
           console.log(this.item);
         }
       );

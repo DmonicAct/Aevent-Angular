@@ -39,7 +39,7 @@ export class LoginComponent {
       this.authService.guardarToken(response.access_token);
       let usuario = this.authService.usuario;
       this.router.navigate(['inicio']);
-      this.toastr.success(`Hola ${usuario.username}, has iniciado sesión con éxito!`, 'Error', {closeButton: true});
+      this.toastr.success(`Hola ${usuario.username}, has iniciado sesión con éxito!`, 'Aviso', {closeButton: true});
     }, err => {
       if (err.status == 400) {
         this.toastr.warning('Usuario o clave incorrectas!', 'Error', {closeButton: true});
