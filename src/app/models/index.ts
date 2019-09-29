@@ -4,6 +4,7 @@ import {Roles}  from './roles';
 import {Paginacion} from './paginacion'
 import {Response} from './response';
 import {Estado} from './enums/estado';
+import {Evento} from './evento';
 
 export{
     Persona,
@@ -11,5 +12,6 @@ export{
     Roles,
     Estado,
     Paginacion,
-    Response
+    Response,
+    Evento
 }

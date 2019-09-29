@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -8,9 +10,15 @@ import { Component, OnInit } from '@angular/core';
   })
 
   export class ListaEventosOrganizador implements OnInit{
-      
-    ngOnInit(): void {
-        throw new Error("Method not implemented.");
-    }
+    
+    constructor(private toastr: ToastrService, 
+      private router: Router){
 
+    }
+    ngOnInit(): void {
+
+    }
+    OnNuevo(){
+      this.router.navigate([`gestionOrganizadorEvento/eventos-organizador/nuevo`]);
+    }
   }
