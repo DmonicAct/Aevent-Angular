@@ -4,5 +4,5 @@ import {EditarGestionarEventoComponent} from './gestion_eventos/editar/editar.co
 export const GestionOrganizadorRoutes= [  
     {path: '', component:ListaEventosOrganizador},
     {path: 'nuevo', component:EditarGestionarEventoComponent},
-    {path: 'editar/:id', component:EditarGestionarEventoComponent}
+    {path: 'prueba', component:EditarGestionarEventoComponent}
 ];
