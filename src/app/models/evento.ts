@@ -4,4 +4,6 @@ export class Evento{
     public descripcion:string;
     public fechaInicio: Date;
     public fechaFin: Date;
+    public tipoEvento:string;
+    public estado:string;
 }

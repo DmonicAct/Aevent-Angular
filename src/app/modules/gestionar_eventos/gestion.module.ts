@@ -15,11 +15,15 @@ import {PaginacionModule} from '../../components/common/paginacion/paginacion.mo
 import {ListaEventosOrganizador} from './gestion_eventos/lista.component';
 import {EditarGestionarEventoComponent} from './gestion_eventos/editar/editar.component';
 import {DetalleEventoConfiguracion} from './gestion_eventos/editar/tabset-parts/detalle-evento/detalle-evento.component';
+import {CallForPaperComponent} from './gestion_eventos/editar/tabset-parts/call-for-papers/call-for-paper.component';
+import {FaseEventoComponent} from './gestion_eventos/editar/tabset-parts/fases/fase-evento.component';
 @NgModule({
   declarations: [
     ListaEventosOrganizador,
     EditarGestionarEventoComponent,
-    DetalleEventoConfiguracion
+    DetalleEventoConfiguracion,
+    CallForPaperComponent,
+    FaseEventoComponent
   ],
   imports:[
     CommonModule, 
