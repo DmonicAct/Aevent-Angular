@@ -6,4 +6,9 @@ export class Persona extends Usuario{
     public apmaterno : String;
     public dni: String;
     public direccion: String;
+    public sexo: String;
+    public edad: number;
+    public fechaNacimiento: Date;
+    public fechaCreacion: Date;
+    public fechaModificacion: Date;
 }

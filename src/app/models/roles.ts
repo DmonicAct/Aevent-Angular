@@ -1,5 +1,5 @@
 export class Roles{
     public id_rol: Number;
-    public descripcion: String;
+    public nombre: String;
     public codigo_rol: String;
 }
