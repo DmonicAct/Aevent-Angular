@@ -2,10 +2,9 @@
     <sk-three-bounce></sk-three-bounce>
     <div class="row m-b-sm">
         <div class="col-lg-12">
-
             <div *ngIf="datos">
                 <form class="form-horizontal">
-                    <div class="color ibox-content">
+                    <div class="">
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Código </label>
@@ -13,7 +12,8 @@
 
                             <div class="col-sm-2">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="codigo">
+                                    <input [(ngModel)]="evento.id"  type="text" class="form-control" name="id"
+                                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" readonly>  
                                 </div>
                             </div>
 
@@ -56,7 +56,6 @@
                             <label class="col-sm-2 control-label">Fecha Fin:</label>
                             <div class="col-sm-2">
                                 <div class="input-group date">
-
                                     <input bsDatepicker #dp="bsDatepicker" name='fechaFin' [(bsValue)]="item.fechaFin"
                                         (bsValueChange)="DetectChange()" value="{{ item.fechaFin | date:'dd/MM/yyyy' }}"
                                         type="text" class="form-control">
@@ -71,8 +70,6 @@
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Lugar </label>
-
-
                             <div class="col-sm-8">
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="lugar">
@@ -80,37 +77,35 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group"> 
                             <label class="col-sm-2 control-label">Categorias </label>
-
-
                             <div class="col-sm-4">
-                                    <input type="text" class="form-control" name="categorias">
+                                <ul class="list-group" *ngFor="let data of categorias">
+                                    <li style="list-style: none;">
+                                        <input [(ngModel)]="data.nombre" type="text" class="form-control" 
+                                            readonly [ngModelOptions]="{standalone: true}">
+                                    </li>
+                                </ul>
                             </div>
-                            
-                            <span class="input-group-btn">
-                                    <button class="btn btn-info" (click)="OnAgregarCategorias()"><i
-                                        class="fa fa-plus"></i></button>
+                            <span class="input-group-btn col-sm-1" >
+                                <button class="btn btn-info" (click)="OnAgregarCategorias()"><i
+                                    class="fa fa-plus"></i></button>
 
-                                  </span>
+                            </span>
                         </div>
-
-
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-sm-2 control-label">Presidente </label>
-
-
                             <div class="col-sm-4">
-                             
-                                    <input type="text" class="form-control" name="categorias">
-                               
+                                <input [(ngModel)]="presidente.nombre" type="text" 
+                                    class="form-control" name="categorias" readonly>
                             </div>
-                            <span class="input-group-btn">
-                                    <button class="btn btn-info" (click)="OnAgregarPresidente()"><i
-                                        class="fa fa-plus"></i></button>
-                                  </span>
-                
-
+                            <span class="input-group-btn col-sm-1">
+                                <button class="btn btn-info" (click)="OnAgregarPresidente()"><i
+                                    class="fa fa-plus"></i></button>
+                            </span>
+                            <div *ngIf="modalPresidenteCorrecto" class="col-sm-4 pull-right">
+                                <b style="color: red">¡Solo elegir un presidente!*</b>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -131,52 +126,62 @@
 
 
 
-
-
-
-
-
-
-
-    <div *ngIf="isModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoShownModal="bs-modal"
+    <div *ngIf="isModalShownPresidente" [config]="{ show: true }" (onHidden)="onHiddenPresidente()" bsModal #autoShownModal="bs-modal"
         class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 id="dialog-auto-name" class="modal-title pull-left">Nuevo Modal</h4>
-                    <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+                    <h3 id="dialog-auto-name" class="modal-title pull-left">Presidentes</h3>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hideModalPresidente()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <label class="col-sm-12 control-label">Area modal1</label>
-                        <div class="col-sm-12">
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-12 control-label">Area modal2:</label>
-                        <div class="col-sm-12">
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-12 control-label">Area modal3:</label>
-                        <div class="col-sm-12">
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-12 control-label">Area modal4:</label>
-                        <div class="col-sm-12">
-
-
+                    <div>
+                        <div class="row" *ngFor="let data of maestroPresidentes">
+                            <div class="col-sm-10"><input [(ngModel)]="data.nombre" type="text" class="form-control" 
+                                readonly [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="checkbox" [(ngModel)]="data.check" [ngModelOptions]="{standalone: true}">
+                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12 text-center m-t-sm">
-                            <button (click)='onNuevo()' class="btn btn-primary container-button"><i
+                            <button (click)='onAceptarPresidente()' class="btn btn-primary container-button"><i
+                                    class="fa fa-check"></i> Aceptar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isModalShownCategorias" [config]="{ show: true }" (onHidden)="onHiddenCategorias()" bsModal #autoShownModal="bs-modal"
+        class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="dialog-auto-name" class="modal-title pull-left">Categorias</h3>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hideModalCategorias()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="row" *ngFor="let data of categoriasMaestro">
+                            <div class="col-sm-10"><input [(ngModel)]="data.nombre" type="text" class="form-control" 
+                                readonly [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="checkbox" [(ngModel)]="data.check" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-center m-t-sm">
+                            <button (click)='onAceptarCategorias()' class="btn btn-primary container-button"><i
                                     class="fa fa-check"></i> Aceptar</button>
                         </div>
                     </div>
