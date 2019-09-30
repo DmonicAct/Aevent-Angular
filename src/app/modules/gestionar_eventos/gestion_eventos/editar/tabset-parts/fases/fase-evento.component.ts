@@ -7,7 +7,6 @@ import { OnInit, Component } from "@angular/core";
 })
 export class FaseEventoComponent implements OnInit{
     ngOnInit(): void {
-        throw new Error("Method not implemented.");
     }
 
 }
