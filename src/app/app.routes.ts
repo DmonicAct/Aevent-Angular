@@ -9,6 +9,7 @@ import {Dashboard5Component} from "./views/dashboards/dashboard5.component";
 
 import {StarterViewComponent} from "./views/appviews/starterview.component";
 import {LoginComponent} from "./views/appviews/login.component";
+import {LoginCreateComponent} from "./views/appviews/login-create/loginCreate.component";
 import {ResetComponent} from "./views/appviews/reset.component";
 import {OutlookViewComponent} from './views/appviews/outlook.component';
 import {BootstrapRoutes} from "./modules/bootstrap/bootstrap.routes";
@@ -60,7 +61,8 @@ export const ROUTES:Routes = [
     path: '', component: BlankLayoutComponent,
     children: [
       { path: 'login', component: LoginComponent },
-      { path: 'login/reset', component: ResetComponent }
+      { path: 'login/reset', component: ResetComponent },
+      { path: 'login/create', component: LoginCreateComponent}
     ]
   },
   {
@@ -84,6 +86,7 @@ export const ROUTES:Routes = [
     path: 'bootstrap', component: BasicLayoutComponent,
     children: BootstrapRoutes
   },
+
   
 
   // Handle all other routes
