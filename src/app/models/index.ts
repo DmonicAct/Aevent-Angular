@@ -3,9 +3,10 @@ import {Usuario}  from './usuario';
 import {Roles}  from './roles';
 import {Paginacion} from './paginacion'
 import {Response} from './response';
-import {Estado} from './enums/estado';
 import {Evento} from './evento';
-
+import {Parametro} from './parametro';
+import {Criterio} from './enums/criterio'
+import {Estado} from './enums/estado';
 export{
     Persona,
     Usuario,
@@ -13,5 +14,7 @@ export{
     Estado,
     Paginacion,
     Response,
-    Evento
+    Criterio,
+    Evento,
+    Parametro
 }
