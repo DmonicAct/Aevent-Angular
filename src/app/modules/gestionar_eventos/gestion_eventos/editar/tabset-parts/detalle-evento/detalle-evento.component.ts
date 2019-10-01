@@ -40,6 +40,16 @@ export class DetalleEventoConfiguracion implements OnInit {
         {id: 2, nombre: 'César Aguilera', check: false},
     ];
 
+    maestroUsuarios = [
+        {id: 1, nombre: 'Luis Flores', check: false},
+        {id: 2, nombre: 'César Aguilera', check: false},
+        {id: 3, nombre: 'Alejandro García', check: false},
+        {id: 4, nombre: 'Willy Chung', check: false},
+    ];
+
+    maestroUsuariosFilter = this.maestroUsuarios;
+    nombreUsuario = "";
+
     evento = {
         id: 22,
     }
@@ -102,6 +112,18 @@ export class DetalleEventoConfiguracion implements OnInit {
     onHiddenPresidente(): void {
         this.isModalShownPresidente = false;
     }
+
+    buscarUsuario(){
+        debugger
+        if (this.nombreUsuario.length > 0){
+            this.maestroUsuariosFilter = this.maestroUsuarios.filter(
+                item => item.nombre.toLowerCase().indexOf(this.nombreUsuario.toLowerCase()) > -1
+             )
+        } else {
+            this.maestroUsuariosFilter = this.maestroUsuarios;
+        }
+        
+    }
     onAceptarPresidente() {
         let aux = {
             id: 0,
@@ -110,7 +132,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         };
         let count = 0;
         this.isModalShownPresidente = false;
-        this.maestroPresidentes.forEach(function (value){
+        this.maestroUsuariosFilter.forEach(function (value){
             if (value.check == true){
                 count += 1;
                 aux = value;
@@ -130,5 +152,6 @@ export class DetalleEventoConfiguracion implements OnInit {
             this.isModalShownCategorias = false;
             this.modalPresidenteCorrecto = false;
         }
+        this.maestroUsuariosFilter = this.maestroUsuarios;
     }
 }
