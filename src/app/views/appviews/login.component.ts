@@ -53,10 +53,29 @@ export class LoginComponent {
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
         console.log(socialPlatform+" sign in data : " , userData);
+        this.validarCreacionGoogle(this.obtenerDatosToken(userData.idToken));
         // Now sign-in with userData
         // ...
             
       }
     );
   }
+  validarCreacionGoogle(idToken: any): any{
+    let usrName : String;
+    usrName = (String) (this.usuario.username);
+    usrName.substr(0,usrName.indexOf("@"));
+    this.usuario.password =  idToken.sub;
+    this.login();
+
+    console.log("THIS SHOULD WORK: ",idToken);
+
+
+  }
+  obtenerDatosToken(accessToken: string): any {
+    if (accessToken != null) {
+      return JSON.parse(atob(accessToken.split(".")[1]));
+    }
+    return null;
+  }
+
  }
