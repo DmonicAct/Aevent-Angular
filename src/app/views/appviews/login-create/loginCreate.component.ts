@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Usuario } from '../../../models';
+import { Persona } from '../../../models';
 import { AuthService as AeventAuthService } from '../../../auth/service/auth.service';
 import { AuthService as SocialAuthService, GoogleLoginProvider} from "angular-6-social-login";
 
@@ -14,13 +15,14 @@ import { AuthService as SocialAuthService, GoogleLoginProvider} from "angular-6-
 export class LoginCreateComponent /*implements OnInit*/ {
 
   titulo: string = 'Por favor Sign In!';
-  usuario: Usuario;
+  //usuario: Usuario;
+  usuario: Persona;
 
   constructor(private authService: AeventAuthService, 
               private toastr: ToastrService,
               private router: Router,
               private socialAuthService: SocialAuthService) {
-    this.usuario = new Usuario();
+    this.usuario = new Persona();
   }
 
   ngOnInit() {
@@ -29,12 +31,19 @@ export class LoginCreateComponent /*implements OnInit*/ {
     }
   }
 
-  login(): void {
-    if (this.usuario.username == null || this.usuario.password == null ||
-      this.usuario.username == "" || this.usuario.password =="") {
-      this.toastr.warning('Username o password vacías!', 'Error', {closeButton: true});
+  create(): void {
+    if(this.usuario.username == null || this.usuario.password == null ||
+      this.usuario.username == "" || this.usuario.password ==""||
+      this.usuario.email == null || this.usuario.appaterno == null ||
+      this.usuario.email == "" || this.usuario.appaterno ==""||
+      this.usuario.sexo == null || this.usuario.direccion == null ||
+      this.usuario.sexo == "" || this.usuario.direccion ==""){      
+    
+      this.toastr.warning('Ingrese los campos requeridos!', 'Error', {closeButton: true});
+      
       return;
     }
+    
 
     this.authService.login(this.usuario).subscribe(response => {
       this.authService.guardarUsuario(response.access_token);

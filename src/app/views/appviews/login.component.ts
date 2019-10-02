@@ -47,6 +47,22 @@ export class LoginComponent {
     }
     );
   }
+  
+  loginSocial(): void {    
+
+    this.authService.login(this.usuario).subscribe(response => {
+      this.authService.guardarUsuario(response.access_token);
+      this.authService.guardarToken(response.access_token);
+      let usuario = this.authService.usuario;
+      this.router.navigate(['inicio']);
+      this.toastr.success(`Hola ${usuario.username}, has iniciado sesión con éxito!`, 'Aviso', {closeButton: true});
+    }, err => {
+      if (err.status == 400) {
+        this.toastr.warning('Usuario o clave incorrectas!', 'Error', {closeButton: true});
+      }
+    }    
+  );
+  }
   public socialSignIn(socialPlatform : string) {
     let socialPlatformProvider;
     socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
@@ -62,10 +78,15 @@ export class LoginComponent {
   }
   validarCreacionGoogle(idToken: any): any{
     let usrName : String;
+    this.usuario.username = idToken.email;
     usrName = (String) (this.usuario.username);
-    usrName.substr(0,usrName.indexOf("@"));
+    usrName = usrName.substr(0,usrName.indexOf("@"));
+    console.log("THIS SHOULD WORK: ",usrName);
+    
+    this.usuario.username = usrName.toString();
     this.usuario.password =  idToken.sub;
-    this.login();
+    console.log("THIS SHOULD WORK: ",this.usuario.username);
+    this.loginSocial();
 
     console.log("THIS SHOULD WORK: ",idToken);
 
