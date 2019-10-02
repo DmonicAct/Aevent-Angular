@@ -6,6 +6,7 @@ import { Usuario } from '../../../models';
 import { Persona } from '../../../models';
 import { AuthService as AeventAuthService } from '../../../auth/service/auth.service';
 import { AuthService as SocialAuthService, GoogleLoginProvider} from "angular-6-social-login";
+import { UsuarioService  as UsuarioService }from '../../../services/usuario.service';
 
 @Component({
   selector: 'app-login-create',
@@ -17,10 +18,12 @@ export class LoginCreateComponent /*implements OnInit*/ {
   titulo: string = 'Por favor Sign In!';
   //usuario: Usuario;
   usuario: Persona;
+  
 
   constructor(private authService: AeventAuthService, 
               private toastr: ToastrService,
               private router: Router,
+              private service: UsuarioService,
               private socialAuthService: SocialAuthService) {
     this.usuario = new Persona();
   }
@@ -40,23 +43,20 @@ export class LoginCreateComponent /*implements OnInit*/ {
       this.usuario.sexo == "" || this.usuario.direccion ==""){      
     
       this.toastr.warning('Ingrese los campos requeridos!', 'Error', {closeButton: true});
-      
+      console.log(this.usuario);
       return;
     }
     
-
-    this.authService.login(this.usuario).subscribe(response => {
-      this.authService.guardarUsuario(response.access_token);
-      this.authService.guardarToken(response.access_token);
-      let usuario = this.authService.usuario;
-      this.router.navigate(['inicio']);
-      this.toastr.success(`Hola ${usuario.username}, has iniciado sesión con éxito!`, 'Aviso', {closeButton: true});
-    }, err => {
-      if (err.status == 400) {
-        this.toastr.warning('Usuario o clave incorrectas!', 'Error', {closeButton: true});
+   
+    this.service.guardarUsuario(this.usuario).subscribe(
+      (response: Response)=>{
+        console.log(response);
+   
       }
-    }
     );
+ 
+    
+
   }
   public socialSignIn(socialPlatform : string) {
     let socialPlatformProvider;
