@@ -41,6 +41,7 @@ export class CallForPaperComponent implements OnInit{
         console.log(this.itemParametro);
     }
     OnAgregarDivision(){}
+    OnVerPreliminar(){}
     OnEditar(){}
     OnEliminar(){}
 }
