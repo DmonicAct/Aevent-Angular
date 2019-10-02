@@ -1,4 +1,5 @@
 import { OnInit, Component } from "@angular/core";
+import { Parametro } from "../../../../../../../models";
 
 @Component({
     selector:'criterio-formulario',
@@ -6,6 +7,10 @@ import { OnInit, Component } from "@angular/core";
     styleUrls:['criterio-pregunta-formulario.template.scss']
 })
 export class CriterioFormularioComponent implements OnInit{
+    public items: Array<Parametro>;
+    constructor(){
+        this.items=new Array<Parametro>();
+    }
     ngOnInit(): void {
        
     }

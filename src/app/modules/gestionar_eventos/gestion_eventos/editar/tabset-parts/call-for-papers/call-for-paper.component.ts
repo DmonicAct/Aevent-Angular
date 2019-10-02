@@ -14,6 +14,7 @@ export class CallForPaperComponent implements OnInit{
         
         this.itemsParametro = new Array<Parametro>();
         this.itemParametro = new Parametro;
+        this.itemParametro.codigo = null;
     }
     ngOnInit(): void {
         let parametro1 : Parametro;
@@ -39,6 +40,7 @@ export class CallForPaperComponent implements OnInit{
     OnSeleccionCriterio(){
         console.log(this.itemParametro);
     }
+    OnAgregarDivision(){}
     OnEditar(){}
     OnEliminar(){}
 }
