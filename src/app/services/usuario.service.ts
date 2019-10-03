@@ -4,6 +4,8 @@ import {environment} from '../../environments/environment';
 import { Observable,throwError } from 'rxjs';
 import {  catchError } from 'rxjs/operators';
 import { Usuario } from '../models/usuario';
+import { Persona } from '../models';
+
 
 @Injectable({
     providedIn: 'root',
@@ -11,11 +13,15 @@ import { Usuario } from '../models/usuario';
 
 export class UsuarioService{
     private apiEndpoint: string;
+    private config_name: string
+  private config_password: string;
 
     private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   
     constructor(public http: HttpClient) {
       this.apiEndpoint = environment.serviceEndpoint + '/usuarios';
+      this.config_name = environment.APP_CONFIG_NAME;
+      this.config_password = environment.APP_CONFIG_PASSWORD;
   
     }
 
@@ -61,6 +67,25 @@ export class UsuarioService{
           }
           return throwError(e);
         }));;
+    }
+
+    guardarUsuario(usuario:Persona){
+      const credenciales = btoa(this.config_name + ':' + this.config_password);
+      const httpHeaders = new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Basic ' + credenciales
+      });
+
+      return this.http.post(this.apiEndpoint, usuario,{ headers: httpHeaders }).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
     }
 
 }

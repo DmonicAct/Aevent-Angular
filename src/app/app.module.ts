@@ -30,6 +30,7 @@ import { PaginacionModule } from './components/common/paginacion/paginacion.modu
 import { TokenInterceptor } from './auth/interceptors/token.interceptor';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider } from "angular-6-social-login";
+import { LoginCreateComponent } from './views/appviews/login-create/loginCreate.component';
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
@@ -45,7 +46,8 @@ export function getAuthServiceConfigs() {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginCreateComponent
   ],
   imports: [
     //AEvent Moddules
