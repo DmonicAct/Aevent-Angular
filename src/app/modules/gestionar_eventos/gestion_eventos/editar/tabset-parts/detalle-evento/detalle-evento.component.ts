@@ -154,4 +154,24 @@ export class DetalleEventoConfiguracion implements OnInit {
         }
         this.maestroUsuariosFilter = this.maestroUsuarios;
     }
+    nuevaCategoria = {
+        id: 0,
+        nombre: "",
+        check: false,
+    };
+    nuevaCategoriaNombre = "";
+
+    agregarCategoria(){
+        this.nuevaCategoria.id = this.categoriasMaestro.length+1
+        this.nuevaCategoria.nombre = this.nuevaCategoriaNombre;
+        this.nuevaCategoria.check = false;
+        this.categoriasMaestro.push(this.nuevaCategoria);
+        this.nuevaCategoria = {
+            id: 0,
+            nombre: "",
+            check: false,
+        };
+        this.nuevaCategoriaNombre = "";
+    }
+
 }

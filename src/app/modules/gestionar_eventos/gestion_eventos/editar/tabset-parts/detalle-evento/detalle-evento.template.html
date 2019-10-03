@@ -182,14 +182,24 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div>
-                        <div class="row" *ngFor="let data of categoriasMaestro">
-                            <div class="col-sm-10"><input [(ngModel)]="data.nombre" type="text" class="form-control" 
-                                readonly [ngModelOptions]="{standalone: true}">
-                            </div>
-                            <div class="col-sm-2">
-                                <input type="checkbox" [(ngModel)]="data.check" [ngModelOptions]="{standalone: true}">
-                            </div>
+                    <div class="row">
+                        <div class="col-sm-8 pull-left">
+                            <input type="text" [(ngModel)]="nuevaCategoriaNombre" name="nuevaCategoria">
+                        </div>
+                        <div class="pull-right">
+                            <button (click) = "agregarCategoria()">
+                                <span class="glyphicon glyphicon-plus">
+                                    </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                    <div class="row" *ngFor="let data of categoriasMaestro">
+                        <div class="col-sm-10"><input [(ngModel)]="data.nombre" type="text" class="form-control" 
+                            readonly [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="checkbox" [(ngModel)]="data.check" [ngModelOptions]="{standalone: true}">
                         </div>
                     </div>
                     <div class="row">
