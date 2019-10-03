@@ -162,16 +162,19 @@ export class DetalleEventoConfiguracion implements OnInit {
     nuevaCategoriaNombre = "";
 
     agregarCategoria(){
-        this.nuevaCategoria.id = this.categoriasMaestro.length+1
-        this.nuevaCategoria.nombre = this.nuevaCategoriaNombre;
-        this.nuevaCategoria.check = false;
-        this.categoriasMaestro.push(this.nuevaCategoria);
-        this.nuevaCategoria = {
-            id: 0,
-            nombre: "",
-            check: false,
-        };
-        this.nuevaCategoriaNombre = "";
+        if (this.nuevaCategoriaNombre.length > 0 ){
+            this.nuevaCategoria.id = this.categoriasMaestro.length+1
+            this.nuevaCategoria.nombre = this.nuevaCategoriaNombre;
+            this.nuevaCategoria.check = false;
+            this.categoriasMaestro.push(this.nuevaCategoria);
+            this.nuevaCategoria = {
+                id: 0,
+                nombre: "",
+                check: false,
+            };
+            this.nuevaCategoriaNombre = "";
+        }
+        
     }
 
 }
