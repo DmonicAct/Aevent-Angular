@@ -1,3 +1,18 @@
+table {
+    tr{
+      td[data-col='idDivision'] {width: 10%;}
+      td[data-col='descripcion'] {width: 80%;}
+      td[data-col='editar'] {width: 5%;}
+      td[data-col='eliminar'] {width: 5%;}
+    }
+  }
+  
+
 .cfp-height{
- height: 400px;   
+    height: 300px;   
 }
+
+.preguntas-height{
+  height: 100px;
+}
+

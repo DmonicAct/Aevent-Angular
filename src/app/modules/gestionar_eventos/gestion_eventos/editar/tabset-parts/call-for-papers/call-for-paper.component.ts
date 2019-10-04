@@ -1,6 +1,8 @@
-import { OnInit, Component } from "@angular/core";
-import { Parametro, Criterio } from "../../../../../../models";
-
+import { OnInit, Component, ViewChild } from "@angular/core";
+import { Parametro, TipoPregunta, FormularioCFP, Division, Pregunta } from "../../../../../../models";
+import { ModalDirective } from "ngx-bootstrap";
+import { ToastRef, ToastrService } from "ngx-toastr";
+declare var jQuery:any;
 
 @Component({
     selector:'call-for-paper',
@@ -10,38 +12,73 @@ import { Parametro, Criterio } from "../../../../../../models";
 export class CallForPaperComponent implements OnInit{
     public itemsParametro: Array<Parametro>;
     public itemParametro: Parametro;
-    constructor(){
+    public descripcion: string;
+    public itemFormulario: FormularioCFP;
+    public itemsDivision: Array<Division>;
+    public itemDivision: Division;
+    public isModalShown: Boolean;
+    public itemsTipoPreguntas: Array<TipoPregunta>;
+    public itemsPreguntas:Array<Pregunta>;
+    public itemPregunta: Pregunta;
+    @ViewChild('autoShownModal') autoShownModal: ModalDirective;
+    constructor(
+        private toaster: ToastrService
+    ){
         
         this.itemsParametro = new Array<Parametro>();
         this.itemParametro = new Parametro;
-        this.itemParametro.codigo = null;
+        this.itemsDivision = Array<Division>();
+        this.itemDivision = new Division();
+        this.itemsPreguntas = new Array<Pregunta>();
+        this.itemPregunta = new Pregunta();
+        this.itemsTipoPreguntas = new Array<TipoPregunta>();
+        //
+        let item: TipoPregunta;
+        item = TipoPregunta.PREGUNTA_ABIERTA;
+        this.itemsTipoPreguntas.push(item);
+        item = TipoPregunta.PREGUNTA_FORMULARIO;
+        this.itemsTipoPreguntas.push(item);
+        item = TipoPregunta.PREGUNTA_MULTIPLE;
+        this.itemsTipoPreguntas.push(item);
+        console.log(this.itemsTipoPreguntas);
     }
+    ngAfterViewInit() {
+        jQuery('.full-height-scroll').slimscroll({
+          height: '100%'
+        });
+      }
     ngOnInit(): void {
-        let parametro1 : Parametro;
-        let parametro2 : Parametro;
-        let parametro3 : Parametro;
-        parametro1 = new Parametro();
-        parametro2 = new Parametro();
-        parametro3 = new Parametro();
-        parametro1.id=1;
-        parametro1.codigo=Criterio.PREGUNTA_ABIERTA;
-        parametro1.decripcion="Pregunta Abierta";
-        parametro2.id=2;
-        parametro2.codigo=Criterio.PREGUNTA_FORMULARIO;
-        parametro2.decripcion="Pregunta de formulario";
-        parametro3.id=3;
-        parametro3.codigo=Criterio.PREGUNTA_MULTIPLE;
-        parametro3.decripcion="Pregunta de de opción multiple";
-
-        this.itemsParametro.push(parametro1);
-        this.itemsParametro.push(parametro2);
-        this.itemsParametro.push(parametro3);
+        
     }
     OnSeleccionCriterio(){
         console.log(this.itemParametro);
     }
-    OnAgregarDivision(){}
+    OnAgregarDivision(){
+        if(this.descripcion! || this.descripcion==""){
+            return;
+        }
+        this.itemDivision = new Division()
+        this.itemDivision.descripcion = this.descripcion;
+        this.itemsDivision.push(this.itemDivision);
+        this.descripcion = null;
+    }
+    OnRowClick(){}
     OnVerPreliminar(){}
-    OnEditar(){}
-    OnEliminar(){}
+    OnEditar(){
+        this.isModalShown=true;
+    }
+    OnEliminar(index:number){
+        this.itemsDivision.splice(index,1)[0];
+    }
+    hideModal(): void {
+        this.autoShownModal.hide();
+    }
+    
+    onHidden(): void {
+        this.isModalShown = false;
+    }
+    onNuevo(){
+        this.isModalShown=false;
+        this.autoShownModal.hide();
+    }
 }

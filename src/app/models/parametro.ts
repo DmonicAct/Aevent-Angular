@@ -1,6 +1,7 @@
-import {Criterio} from './enums/criterio';
+import { TipoPregunta } from ".";
+
 export class Parametro{
     public id: number;
     public decripcion: string;
-    public codigo: Criterio;
+    public codigo: TipoPregunta;
 }
