@@ -1,0 +1,204 @@
+<div class="ibox-content" style="border-top: 0;" [class.sk-loading]="loading">
+    <sk-three-bounce></sk-three-bounce>
+    <div class="row m-b-sm">
+        <div class="col-lg-12">
+            <div *ngIf="datos">
+                <form class="form-horizontal">
+                    <div class="">
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Código </label>
+
+
+                            <div class="col-sm-2">
+                                <div class="input-group">
+                                    <input [(ngModel)]="evento.id"  type="text" class="form-control" name="id"
+                                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" readonly>  
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Nombre </label>
+
+
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="nombre">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Descripcion </label>
+                            <div class="col-sm-9">
+                                <textarea oninput="this.value = this.value.toUpperCase()" class="form-control"
+                                    name="descripcion" rows="4"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Fecha Inicio:</label>
+                            <div class="col-sm-2">
+                                <div class="input-group date">
+                                    <input bsDatepicker #dp="bsDatepicker" name='fechaInicio'
+                                        [(bsValue)]="item.fechaInicio" (bsValueChange)="DetectChange()"
+                                        value="{{ item.fechaInicio | date:'dd/MM/yyyy' }}" type="text"
+                                        class="form-control">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Fecha Fin:</label>
+                            <div class="col-sm-2">
+                                <div class="input-group date">
+                                    <input bsDatepicker #dp="bsDatepicker" name='fechaFin' [(bsValue)]="item.fechaFin"
+                                        (bsValueChange)="DetectChange()" value="{{ item.fechaFin | date:'dd/MM/yyyy' }}"
+                                        type="text" class="form-control">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Lugar </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="lugar">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group"> 
+                            <label class="col-sm-2 control-label">Categorias </label>
+                            <div class="col-sm-4">
+                                <ul class="list-group" *ngFor="let data of categorias">
+                                    <li style="list-style: none;">
+                                        <input [(ngModel)]="data.nombre" type="text" class="form-control" 
+                                            readonly [ngModelOptions]="{standalone: true}">
+                                    </li>
+                                </ul>
+                            </div>
+                            <span class="input-group-btn col-sm-1" >
+                                <button class="btn btn-info" (click)="OnAgregarCategorias()"><i
+                                    class="fa fa-plus"></i></button>
+
+                            </span>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label">Presidente </label>
+                            <div class="col-sm-4">
+                                <input [(ngModel)]="presidente.nombre" type="text" 
+                                    class="form-control" name="categorias" readonly>
+                            </div>
+                            <span class="input-group-btn col-sm-1">
+                                <button class="btn btn-info" (click)="OnAgregarPresidente()"><i
+                                    class="fa fa-plus"></i></button>
+                            </span>
+                            <div *ngIf="modalPresidenteCorrecto" class="col-sm-4 pull-right">
+                                <b style="color: red">¡Solo elegir un presidente!*</b>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="text-center">
+                                <button type="button" class="btn btn-success m-r"><i class="fa fa-save"></i>
+                                    Guardar</button>
+                                <button type="button" class="btn btn-danger"><i class="fa fa-arrow"></i>
+                                    Cancelar</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div *ngIf="isModalShownPresidente" [config]="{ show: true }" (onHidden)="onHiddenPresidente()" bsModal #autoShownModal="bs-modal"
+        class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="dialog-auto-name" class="modal-title pull-left">Usuarios</h3>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hideModalPresidente()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-8 pull-left">
+                            <input type="text" [(ngModel)]="nombreUsuario" name="nombreUsuario"
+                                (input)="buscarUsuario()">
+                        </div>
+                        <div class="pull-right">
+                            <button (click) = "buscarUsuario()">
+                                <span class="glyphicon glyphicon-search">
+                                    </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div>&nbsp;</div>
+                    <div>
+                        <div class="row" *ngFor="let data of maestroUsuariosFilter">
+                            <div class="col-sm-10"><input [(ngModel)]="data.nombre" type="text" class="form-control" 
+                                readonly [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="checkbox" [(ngModel)]="data.check" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-center m-t-sm">
+                            <button (click)='onAceptarPresidente()' class="btn btn-primary container-button"><i
+                                    class="fa fa-check"></i> Aceptar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isModalShownCategorias" [config]="{ show: true }" (onHidden)="onHiddenCategorias()" bsModal #autoShownModal="bs-modal"
+        class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="dialog-auto-name" class="modal-title pull-left">Categorias</h3>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hideModalCategorias()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="row" *ngFor="let data of categoriasMaestro">
+                            <div class="col-sm-10"><input [(ngModel)]="data.nombre" type="text" class="form-control" 
+                                readonly [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="checkbox" [(ngModel)]="data.check" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-center m-t-sm">
+                            <button (click)='onAceptarCategorias()' class="btn btn-primary container-button"><i
+                                    class="fa fa-check"></i> Aceptar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

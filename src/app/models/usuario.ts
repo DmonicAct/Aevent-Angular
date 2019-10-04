@@ -7,4 +7,6 @@ export class Usuario{
     public password :string;
     public estado : Estado;
     public roles: string[] = [];
+    public fechaCreacion: Date;
+    public fechaModificacion: Date;
 }

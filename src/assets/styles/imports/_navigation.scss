@@ -85,8 +85,23 @@
 .dropdown-menu > .active > a:hover {
   color: #fff;
   text-decoration: none;
-  background-color: $navy;
+  background-color: $color-default;
   outline: 0;
+}
+.btn-primary.dropdown-toggle ~ .dropdown-menu > .active > a {
+  background-color: $color-primary;
+}
+.btn-success.dropdown-toggle ~ .dropdown-menu > .active > a {
+  background-color: $color-success;
+}
+.btn-warning.dropdown-toggle ~ .dropdown-menu > .active > a {
+  background-color: $color-warning;
+}
+.btn-info.dropdown-toggle ~ .dropdown-menu > .active > a {
+  background-color: $color-info;
+}
+.btn-error.dropdown-toggle ~ .dropdown-menu > .active > a {
+  background-color: $color-danger;
 }
 
 .dropdown-menu > li > a.font-bold {

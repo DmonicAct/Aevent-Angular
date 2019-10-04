@@ -52,8 +52,8 @@ export const ROUTES:Routes = [
     children: [
       {
         path: 'eventos-organizador', component: BlankLayoutComponent,
-        children: GestionOrganizadorRoutes,
-        canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } 
+        children: GestionOrganizadorRoutes
+        //,canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } 
       }
     ],
   },

@@ -9,6 +9,4 @@ export class Persona extends Usuario{
     public sexo: String;
     public edad: number;
     public fechaNacimiento: Date;
-    public fechaCreacion: Date;
-    public fechaModificacion: Date;
 }
