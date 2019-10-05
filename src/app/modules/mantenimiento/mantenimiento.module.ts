@@ -10,13 +10,24 @@ import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 // views
 import {GestionUsuarioListaComponent} from './gestionUsuarios/lista.component';
 import {EditarUsuarioComponent}from './gestionUsuarios/editar/editar.component';
+
+import {GestionCategoriaListaComponent} from './GestionCategorias/lista.component';
+import {EditarCategoriaComponent}from './GestionCategorias/editar/editar.component';
+
+import {GestionTipoEventoListaComponent} from './GestionTipoEvento/lista.component';
+import {EditarTipoEventoComponent}from './GestionTipoEvento/editar/editar.component';
+
 // modules/components
 import {PaginacionModule} from './../../components/common/paginacion/paginacion.module';
 
 @NgModule({
   declarations: [
     GestionUsuarioListaComponent,
-    EditarUsuarioComponent
+    EditarUsuarioComponent,
+    GestionCategoriaListaComponent,
+    EditarCategoriaComponent,
+    GestionTipoEventoListaComponent,
+    EditarTipoEventoComponent,
   ],
   imports:[
     CommonModule, 

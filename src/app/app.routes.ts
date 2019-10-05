@@ -19,8 +19,11 @@ import {BasicLayoutComponent} from "./components/common/layouts/basicLayout.comp
 import {TopNavigationLayoutComponent} from "./components/common/layouts/topNavigationlayout.component";
 
 
-import {GestionUsuariosRoutes} from './modules/mantenimiento/mantenimiento.routes';
+import { GestionUsuariosRoutes } from './modules/mantenimiento/mantenimiento.routes';
 import { GestionOrganizadorRoutes } from './modules/gestionar_eventos/gestion.routes';
+//add
+import { GestionCategoriasRoutes } from './modules/mantenimiento/mantenimiento.routes';
+import { GestionTipoEventoRoutes } from './modules/mantenimiento/mantenimiento.routes';
 
 import { AuthGuard } from './auth/guards/auth.guard';
 import { RoleGuard } from './auth/guards/role.guard';
@@ -43,6 +46,16 @@ export const ROUTES:Routes = [
       {
         path: 'configuracion-usuarios', component: BlankLayoutComponent,
         children: GestionUsuariosRoutes,
+        canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } 
+      },
+      {
+        path: 'categorias', component: BlankLayoutComponent,
+        children: GestionCategoriasRoutes,
+        canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } 
+      },
+      {
+        path: 'tipoEvento', component: BlankLayoutComponent,
+        children: GestionTipoEventoRoutes,
         canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } 
       }
     ],
