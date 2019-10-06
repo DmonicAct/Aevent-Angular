@@ -7,6 +7,7 @@ import {Evento} from './evento';
 import {Parametro} from './parametro';
 import {Criterio} from './enums/criterio'
 import {Estado} from './enums/estado';
+import {Categoria} from './categoria';
 export{
     Persona,
     Usuario,
@@ -16,5 +17,6 @@ export{
     Response,
     Criterio,
     Evento,
-    Parametro
+    Parametro,
+    Categoria
 }

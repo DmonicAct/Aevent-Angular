@@ -1,6 +1,8 @@
 import { OnInit, Component, ViewChild } from "@angular/core";
 import { Evento } from '../../../../../../models'
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import {CategoriasServices} from '../../../../../../services';
+import { Categoria, Response } from "src/app/models";
 @Component({
     selector: 'detalle-evento',
     templateUrl: 'detalle-evento.template.html',
@@ -11,21 +13,29 @@ export class DetalleEventoConfiguracion implements OnInit {
 
     loading: Boolean;
     item: Evento;
-    constructor() {
+    public itemsCategorias: Array<Categoria>;
+    constructor( private service: CategoriasServices) {
         this.item = new Evento();
+        this.itemsCategorias = new Array<Categoria>();
     }
     @ViewChild('autoShownModal') autoShownModal: ModalDirective;
     isModalShownPresidente = false;
     isModalShownCategorias = false;
     ngOnInit(): void {
-
+        this.obtenerListaCategorias();
     }
     datos: boolean = true;
     call: boolean = false;
     fases: boolean = false;
     modalPresidenteCorrecto: boolean = false;
 
-
+    obtenerListaCategorias(){
+        this.service.obtenerCategorias().subscribe(
+            (response: Response)=>{
+                this.itemsCategorias=response.resultado;
+            }
+        );
+    }
     categoriasMaestro = [
         {id: 1, nombre: 'Gobierno Electrónico', check: false},
         {id: 2, nombre: 'Marketing Digital', check: false},
