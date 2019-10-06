@@ -19,6 +19,7 @@ import {EditarTipoEventoComponent}from './GestionTipoEvento/editar/editar.compon
 
 // modules/components
 import {PaginacionModule} from './../../components/common/paginacion/paginacion.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {PaginacionModule} from './../../components/common/paginacion/paginacion.
     NgSelectModule,
     PaginacionModule,
     PaginationModule.forRoot(),
-    SpinKitModule
+    SpinKitModule,
+    ModalModule,
   ]
 })
 export class MantenimientoModule { }
