@@ -1,8 +1,13 @@
 import { OnInit, Component, ViewChild } from "@angular/core";
-import { Evento } from '../../../../../../models'
+import { Evento, Usuario, Persona } from '../../../../../../models'
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import {CategoriasServices} from '../../../../../../services';
+import { CategoriasServices} from '../../../../../../services';
+import { PersonaService} from '../../../../../../services';
 import { Categoria, Response } from "src/app/models";
+import { TipoEventoServices } from '../../../../../../services';
+/*
+obtenerTipoEvento
+*/
 @Component({
     selector: 'detalle-evento',
     templateUrl: 'detalle-evento.template.html',
@@ -14,15 +19,19 @@ export class DetalleEventoConfiguracion implements OnInit {
     loading: Boolean;
     item: Evento;
     public itemsCategorias: Array<Categoria>;
-    constructor( private service: CategoriasServices) {
+    public itemsPersona: Array<Persona>;
+    constructor( private service: CategoriasServices, private servicePersonas: PersonaService,
+        private serviceTipoEvento: TipoEventoServices) {
         this.item = new Evento();
         this.itemsCategorias = new Array<Categoria>();
-    }
+    };
     @ViewChild('autoShownModal') autoShownModal: ModalDirective;
     isModalShownPresidente = false;
     isModalShownCategorias = false;
     ngOnInit(): void {
         this.obtenerListaCategorias();
+        this.obtenerUsuarios();
+        this.obtenerTipoEventos();
     }
     datos: boolean = true;
     call: boolean = false;
@@ -37,28 +46,27 @@ export class DetalleEventoConfiguracion implements OnInit {
             }
         );
     }
-    categoriasMaestro = [
-        {id: 1, nombre: 'Gobierno Electrónico', check: false},
-        {id: 2, nombre: 'Marketing Digital', check: false},
-        {id: 3, nombre: 'Bussiness Inteligence', check: false},
-        {id: 4, nombre: 'Inteligencia Artificial', check: false},
-        {id: 5, nombre: 'Lean IT', check: false},
-        {id: 6, nombre: 'Gráficos de Computadoras', check: false},
-    ];
+
+    obtenerUsuarios(){
+        this.servicePersonas.obtenerPersonas().subscribe(
+            (response: Response)=>{
+                this.itemsPersona=response.resultado;
+                console.log(this.itemsPersona);
+            }
+        );
+    }
+
+    obtenerTipoEventos(){
+        
+    }
 
     maestroPresidentes = [
         {id: 1, nombre: 'Luis Flores', check: false},
         {id: 2, nombre: 'César Aguilera', check: false},
     ];
 
-    maestroUsuarios = [
-        {id: 1, nombre: 'Luis Flores', check: false},
-        {id: 2, nombre: 'César Aguilera', check: false},
-        {id: 3, nombre: 'Alejandro García', check: false},
-        {id: 4, nombre: 'Willy Chung', check: false},
-    ];
 
-    maestroUsuariosFilter = this.maestroUsuarios;
+    maestroUsuariosFilter = this.itemsPersona;
     nombreUsuario = "";
 
     evento = {
@@ -90,100 +98,23 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.call = false;
         this.fases = true;
     }
-    DetectChange(){}
-    OnAgregarCategorias() { 
-        this.isModalShownCategorias = true;
-    }
-    hideModalCategorias(): void {
-        this.autoShownModal.hide();
-    }
-
-    onHiddenCategorias(): void {
-        this.isModalShownCategorias = false;
-    }
-    onAceptarCategorias() {
-        let aux = [];
-        this.categoriasMaestro.forEach(function (value){
-            if (value.check == true){
-                aux.push(value);
-            }
-        });
-        this.categorias = aux;
-        this.isModalShownCategorias = false;
-    }
 
 
-    OnAgregarPresidente() {
-        this.isModalShownPresidente = true;
-    }
-    hideModalPresidente(): void {
-        this.autoShownModal.hide();
-    }
-
-    onHiddenPresidente(): void {
-        this.isModalShownPresidente = false;
-    }
-
-    buscarUsuario(){
-        debugger
-        if (this.nombreUsuario.length > 0){
-            this.maestroUsuariosFilter = this.maestroUsuarios.filter(
-                item => item.nombre.toLowerCase().indexOf(this.nombreUsuario.toLowerCase()) > -1
-             )
-        } else {
-            this.maestroUsuariosFilter = this.maestroUsuarios;
-        }
-        
-    }
-    onAceptarPresidente() {
-        let aux = {
-            id: 0,
-            nombre: 'Agregar Presidente',
-            check: false,
-        };
-        let count = 0;
-        this.isModalShownPresidente = false;
-        this.maestroUsuariosFilter.forEach(function (value){
-            if (value.check == true){
-                count += 1;
-                aux = value;
-            }
-        });
-        if (count > 1){
-            console.log("Esta mal");
-            this.modalPresidenteCorrecto = true;
-            this.presidente = {
-                id: 0,
-                nombre: 'Agregar Presidente',
-                check: false,
-            }
-        } else if (count == 1){
-            console.log("Esta bien");
-            this.presidente = aux;
-            this.isModalShownCategorias = false;
-            this.modalPresidenteCorrecto = false;
-        }
-        this.maestroUsuariosFilter = this.maestroUsuarios;
-    }
-    nuevaCategoria = {
-        id: 0,
-        nombre: "",
-        check: false,
-    };
-    nuevaCategoriaNombre = "";
-
+    presidenteSeleccionado: Persona;
+    categoriasSeleccionadas = Array<Categoria>();
+    categoriaSeleccionada: Categoria;
+    unico: Boolean;
     agregarCategoria(){
-        if (this.nuevaCategoriaNombre.length > 0 ){
-            this.nuevaCategoria.id = this.categoriasMaestro.length+1
-            this.nuevaCategoria.nombre = this.nuevaCategoriaNombre;
-            this.nuevaCategoria.check = false;
-            this.categoriasMaestro.push(this.nuevaCategoria);
-            this.nuevaCategoria = {
-                id: 0,
-                nombre: "",
-                check: false,
-            };
-            this.nuevaCategoriaNombre = "";
+        this.unico = true;
+        for(let cat of this.categoriasSeleccionadas){
+            if (this.categoriaSeleccionada == cat){
+                this.unico = false;
+            }
+        }
+        if (this.unico){
+            this.categoriasSeleccionadas.push(this.categoriaSeleccionada);
+        } else {
+            
         }
         
     }
