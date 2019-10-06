@@ -1,7 +1,7 @@
-import { Pregunta } from "./pregunta";
+import { Seccion } from "./seccion";
 
 export class Division{
     public idDivision: number;
     public descripcion: string;
-    public preguntas: Array<Pregunta>;
+    public secciones: Array<Seccion>;
 }

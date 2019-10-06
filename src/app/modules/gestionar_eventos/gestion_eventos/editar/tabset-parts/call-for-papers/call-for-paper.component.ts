@@ -1,5 +1,5 @@
 import { OnInit, Component, ViewChild } from "@angular/core";
-import { Parametro, TipoPregunta, FormularioCFP, Division, Pregunta } from "../../../../../../models";
+import { Parametro, TipoPregunta, FormularioCFP, Division, Pregunta, Seccion } from "../../../../../../models";
 import { ModalDirective } from "ngx-bootstrap";
 import { ToastRef, ToastrService } from "ngx-toastr";
 declare var jQuery:any;
@@ -17,14 +17,29 @@ export class CallForPaperComponent implements OnInit{
     public itemsDivision: Array<Division>;
     public itemDivision: Division;
     public isModalShown: Boolean;
+    public itemsSecciones: Array<Seccion>;
     public itemsTipoPreguntas: Array<TipoPregunta>;
+    public itemTipoPregunta: TipoPregunta;
     public itemsPreguntas:Array<Pregunta>;
     public itemPregunta: Pregunta;
-    @ViewChild('autoShownModal') autoShownModal: ModalDirective;
+    public limite:number;
+    public descripcionPregunta:string;
+    public descripcionSeccion:string;
+    public counterSeccion: number;
+    
+    public counterPreguntaAbierta: number = 0;
+    public counterPreguntaMultiple:number = 0;
+    public counterPreguntaFormulario:number = 0;
+
+    //Seccions
+    public itemsSeccion: Array<Seccion>;
+    public itemSeccion: Seccion;
+
+    @ViewChild('autoShownModal') 
+    autoShownModal: ModalDirective;
     constructor(
-        private toaster: ToastrService
+        private toastr: ToastrService
     ){
-        
         this.itemsParametro = new Array<Parametro>();
         this.itemParametro = new Parametro;
         this.itemsDivision = Array<Division>();
@@ -32,6 +47,9 @@ export class CallForPaperComponent implements OnInit{
         this.itemsPreguntas = new Array<Pregunta>();
         this.itemPregunta = new Pregunta();
         this.itemsTipoPreguntas = new Array<TipoPregunta>();
+        
+        this.itemsSeccion = new Array<Seccion>();
+        this.itemSeccion = new Seccion();
         //
         let item: TipoPregunta;
         item = TipoPregunta.PREGUNTA_ABIERTA;
@@ -54,7 +72,8 @@ export class CallForPaperComponent implements OnInit{
         console.log(this.itemParametro);
     }
     OnAgregarDivision(){
-        if(this.descripcion! || this.descripcion==""){
+        if(this.descripcion==null || this.descripcion.trim()==""){
+            this.toastr.warning(`Descripcion vacia`, 'Aviso', {closeButton: true});
             return;
         }
         this.itemDivision = new Division()
@@ -65,6 +84,7 @@ export class CallForPaperComponent implements OnInit{
     OnRowClick(){}
     OnVerPreliminar(){}
     OnEditar(){
+        console.log(this.isModalShown)
         this.isModalShown=true;
     }
     OnEliminar(index:number){
@@ -80,5 +100,42 @@ export class CallForPaperComponent implements OnInit{
     onNuevo(){
         this.isModalShown=false;
         this.autoShownModal.hide();
+    }
+    OnAgrgarSeccion(){
+        console.log(this.itemTipoPregunta);
+    }
+    OnAgregarSeccion(){
+        this.itemSeccion = new Seccion();
+        this.itemSeccion.descripcion = this.descripcionSeccion;
+        this.itemSeccion.tipoSeccion = this.itemTipoPregunta;
+        this.itemsSeccion.push(this.itemSeccion);
+        this.descripcionSeccion = null;
+    }
+    OnAgregarPregunta(){
+        console.log(this.itemTipoPregunta);
+        this.itemPregunta = new Pregunta();
+        this.itemPregunta.descripcion = this.descripcionPregunta;
+        this.itemPregunta.tipoPregunta = this.itemTipoPregunta;
+        switch(this.itemTipoPregunta){
+            case "PREGUNTA ABIERTA":{
+                this.itemsPreguntas.push(this.itemPregunta);
+                break;
+            }
+            case "PREGUNTA MULTIPLE":{
+                this.itemsPreguntas.push(this.itemPregunta);
+                this.counterPreguntaMultiple++;
+                break;
+            }
+            case "PREGUNTA FORMULARIO":{
+                this.itemsPreguntas.push(this.itemPregunta);
+                this.counterPreguntaFormulario++;
+                break;
+            }
+        }
+        this.descripcionPregunta=null;
+        this.descripcionSeccion=null;
+    }
+    OnEliminarSeccion(item){
+
     }
 }

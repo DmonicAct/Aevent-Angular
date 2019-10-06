@@ -12,6 +12,7 @@ import {Criterio} from './criterio';
 import {TipoPregunta} from './enums/tipo-pregunta'
 import {Estado} from './enums/estado';
 import {Fase} from './fase';
+import { Seccion } from './seccion';
 export{
     Persona,
     Usuario,
@@ -26,5 +27,6 @@ export{
     Pregunta,
     Division,
     Parametro,
-    Fase
+    Fase,
+    Seccion
 }
