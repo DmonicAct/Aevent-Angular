@@ -14,12 +14,12 @@ export class TipoEventoServices{
     private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   
     constructor(public http: HttpClient) {
-      this.apiEndpoint = environment.serviceEndpoint + '/tipoevento';
+      this.apiEndpoint = environment.serviceEndpoint + '/tipoEvento';
   
     }
 
     obtenerTipoEvento(pagina:number, registros:number):Observable<any> {
-        return this.http.get(this.apiEndpoint).pipe(
+        return this.http.get(this.apiEndpoint+'/paginacion').pipe(
         catchError(e => {
             if (e.status == 400) {
             return throwError(e);
@@ -30,4 +30,17 @@ export class TipoEventoServices{
             return throwError(e);
         }));
     }
+
+    obtenerTipoEventos():Observable<any> {
+      return this.http.get(this.apiEndpoint).pipe(
+      catchError(e => {
+          if (e.status == 400) {
+          return throwError(e);
+          }
+          if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+          }
+          return throwError(e);
+      }));
+  }
 }

@@ -1,5 +1,4 @@
 export class TipoEvento{
-    public id: Number;
-    public descripcion: String;
-    public codigo: String;
+    public idTipoEvento: Number;
+    public nombre: String;
 }
