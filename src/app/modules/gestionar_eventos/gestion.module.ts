@@ -18,6 +18,7 @@ import { DetalleEventoConfiguracion } from './gestion_eventos/editar/tabset-part
 import { CallForPaperComponent } from './gestion_eventos/editar/tabset-parts/call-for-papers/call-for-paper.component';
 import { CriterioOpcionMultiple, CriterioFormularioComponent, CriterioPreguntaAbierta } from './gestion_eventos/editar/tabset-parts/call-for-papers/criterios';
 import { FaseEventoComponent } from './gestion_eventos/editar/tabset-parts/fases/fase-evento.component';
+
 @NgModule({
   declarations: [
     ListaEventosOrganizador,

@@ -5,18 +5,30 @@ import {Paginacion} from './paginacion'
 import {Response} from './response';
 import {Evento} from './evento';
 import {Parametro} from './parametro';
-import {Criterio} from './enums/criterio'
+import {FormularioCFP} from './formulariocfp';
+import {Pregunta} from './pregunta';
+import {Division} from './division';
+import {Criterio} from './criterio';
+import {TipoSeccion} from './enums/tipo-seccion'
 import {Estado} from './enums/estado';
-import {Categoria} from './categoria';
+import {Fase} from './fase';
+import {Categoria} from './categoria'
+import { Seccion } from './seccion';
 export{
     Persona,
     Usuario,
     Roles,
     Estado,
+    TipoSeccion,
     Paginacion,
     Response,
     Criterio,
     Evento,
+    FormularioCFP,
+    Pregunta,
+    Division,
     Parametro,
+    Fase,
+    Seccion,
     Categoria
 }

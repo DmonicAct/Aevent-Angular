@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Usuario } from '../../models/';
 import { AuthService as AeventAuthService } from '../../auth/service/auth.service';
 import { AuthService as SocialAuthService, GoogleLoginProvider} from "angular-6-social-login";
+import { UsuarioService } from '../../services/usuario.service';
 @Component({
   selector: 'login',
   templateUrl: 'login.template.html',
@@ -17,7 +18,8 @@ export class LoginComponent {
   constructor(private authService: AeventAuthService, 
               private toastr: ToastrService,
               private router: Router,
-              private socialAuthService: SocialAuthService) {
+              private socialAuthService: SocialAuthService,
+              private service: UsuarioService) {
     this.usuario = new Usuario();
   }
 
@@ -81,14 +83,21 @@ export class LoginComponent {
     this.usuario.username = idToken.email;
     usrName = (String) (this.usuario.username);
     usrName = usrName.substr(0,usrName.indexOf("@"));
-    console.log("THIS SHOULD WORK: ",usrName);
+    console.log("THIS SHOULD WORK1: ",usrName);
     
     this.usuario.username = usrName.toString();
     this.usuario.password =  idToken.sub;
-    console.log("THIS SHOULD WORK: ",this.usuario.username);
-    this.loginSocial();
+    console.log("THIS SHOULD WORK2: ",this.usuario.username);
+    this.service.autenticarUsuarioGoogle(this.usuario).subscribe((response: Response)=>{
+      console.log(response);
+    }
+    );
+    
+    
 
-    console.log("THIS SHOULD WORK: ",idToken);
+    //this.loginSocial();
+
+    console.log("THIS SHOULD WORK3: ",idToken);
 
 
   }

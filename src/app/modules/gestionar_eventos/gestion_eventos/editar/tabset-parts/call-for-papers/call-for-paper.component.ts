@@ -1,6 +1,8 @@
-import { OnInit, Component } from "@angular/core";
-import { Parametro, Criterio } from "../../../../../../models";
-
+import { OnInit, Component, ViewChild } from "@angular/core";
+import { Parametro, TipoSeccion, FormularioCFP, Division, Pregunta, Seccion } from "../../../../../../models";
+import { ModalDirective } from "ngx-bootstrap";
+import { ToastRef, ToastrService } from "ngx-toastr";
+declare var jQuery:any;
 
 @Component({
     selector:'call-for-paper',
@@ -10,38 +12,178 @@ import { Parametro, Criterio } from "../../../../../../models";
 export class CallForPaperComponent implements OnInit{
     public itemsParametro: Array<Parametro>;
     public itemParametro: Parametro;
-    constructor(){
-        
+
+
+
+    public isModalShown: Boolean;
+    public limite:number;
+   
+    
+    public counterPreguntaAbierta: number = 0;
+    public counterPreguntaMultiple:number = 0;
+    public counterPreguntaFormulario:number = 0;
+    public counterSeccion: number;
+
+   
+    public itemFormulario: FormularioCFP;
+    //Tipos Preguntas
+    public itemsTipoSeccion: Array<TipoSeccion>;
+    public itemTipoSeccion: TipoSeccion;
+    //Division
+    public itemsDivision: Array<Division>;
+    public itemDivision: Division;
+    public descripcionDivision: string;
+    public indexDivision: number;
+    //Secciones
+    public itemsSeccion: Array<Seccion>;
+    public itemSeccion: Seccion;
+    public descripcionSeccion:string;
+    public indexSeccion: number;
+    //Preguntas
+    public itemsPreguntas:Array<Pregunta>;
+    public itemPregunta: Pregunta;
+    public descripcionPregunta:string;
+    public indexPregunta: number;
+    //Edicion
+    public editarPregunta : Boolean=false;
+    public editarSeccion: Boolean=false;
+    public editarDivision: Boolean=false;
+    @ViewChild('autoShownModal') 
+    autoShownModal: ModalDirective;
+    constructor(
+        private toastr: ToastrService
+    ){
         this.itemsParametro = new Array<Parametro>();
         this.itemParametro = new Parametro;
-        this.itemParametro.codigo = null;
+        this.itemsDivision = Array<Division>();
+        this.itemDivision = new Division();
+        this.itemsPreguntas = new Array<Pregunta>();
+        this.itemPregunta = new Pregunta();
+        this.itemsTipoSeccion = new Array<TipoSeccion>();
+        
+        this.itemsSeccion = new Array<Seccion>();
+        this.itemSeccion = new Seccion();
+        //
+        let item: TipoSeccion;
+        item = TipoSeccion.PREGUNTA_ABIERTA;
+        this.itemsTipoSeccion.push(item);
+        item = TipoSeccion.PREGUNTA_FORMULARIO;
+        this.itemsTipoSeccion.push(item);
+        item = TipoSeccion.PREGUNTA_MULTIPLE;
+        this.itemsTipoSeccion.push(item);
+        console.log(this.itemsTipoSeccion);
     }
+    ngAfterViewInit() {
+        jQuery('.full-height-scroll').slimscroll({
+          height: '100%'
+        });
+      }
     ngOnInit(): void {
-        let parametro1 : Parametro;
-        let parametro2 : Parametro;
-        let parametro3 : Parametro;
-        parametro1 = new Parametro();
-        parametro2 = new Parametro();
-        parametro3 = new Parametro();
-        parametro1.id=1;
-        parametro1.codigo=Criterio.PREGUNTA_ABIERTA;
-        parametro1.decripcion="Pregunta Abierta";
-        parametro2.id=2;
-        parametro2.codigo=Criterio.PREGUNTA_FORMULARIO;
-        parametro2.decripcion="Pregunta de formulario";
-        parametro3.id=3;
-        parametro3.codigo=Criterio.PREGUNTA_MULTIPLE;
-        parametro3.decripcion="Pregunta de de opción multiple";
-
-        this.itemsParametro.push(parametro1);
-        this.itemsParametro.push(parametro2);
-        this.itemsParametro.push(parametro3);
+        
     }
     OnSeleccionCriterio(){
         console.log(this.itemParametro);
     }
-    OnAgregarDivision(){}
+    
+
     OnVerPreliminar(){}
-    OnEditar(){}
-    OnEliminar(){}
+    hideModal(): void {
+        this.autoShownModal.hide();
+    }
+    
+    onHidden(): void {
+        this.isModalShown = false;
+    }
+    onNuevo(){
+        this.isModalShown=false;
+        this.autoShownModal.hide();
+    }
+    /**
+     * 
+     * backup del arreglo de secciones
+     * para regresar a los valores anteriores
+     * let backup_secciones = JSON.string(this.itemsDivision.secciones);
+     * 
+     */
+    OnAgregarDivision(){
+        if(this.descripcionDivision==null || this.descripcionDivision.trim()==""){
+            this.toastr.warning(`Descripcion vacia`, 'Aviso', {closeButton: true});
+            return;
+        }
+        this.itemDivision = new Division()
+        this.itemDivision.descripcion = this.descripcionDivision;
+        let index = this.itemsDivision.length;
+        this.itemsDivision.push(this.itemDivision);
+        this.itemsDivision[index].secciones = new Array<Seccion>();
+        this.descripcionDivision = null;
+    }
+    OnEditar(index:number){
+        console.log(this.isModalShown)
+        this.itemsSeccion= this.itemsDivision[index].secciones;
+        this.itemsPreguntas = new Array<Pregunta>();
+        this.isModalShown=true;
+    }
+    OnEliminar(index:number){
+        this.itemsDivision.splice(index,1)[0];
+    }
+    //Secciones
+    OnAgregarSeccion(){
+        this.itemSeccion = new Seccion();
+        this.itemSeccion.descripcion = this.descripcionSeccion;
+        this.itemSeccion.tipoSeccion = this.itemTipoSeccion;
+        this.itemSeccion.preguntas = this.itemsPreguntas = new Array<Pregunta>();
+        let index = this.itemsSeccion.length;
+        this.itemsSeccion.push(this.itemSeccion);
+        this.itemsPreguntas = this.itemsSeccion[index].preguntas;
+        this.descripcionSeccion = null;
+    }
+    
+    OnEliminarSeccion(index:number){
+        this.itemsSeccion.splice(index,0)[0];
+    }
+    OnEditarSeccion(index:number){
+        this.itemsPreguntas = this.itemsSeccion[index].preguntas;
+    }
+    //Preguntas
+    OnAgregarPregunta(){
+        console.log(this.itemTipoSeccion);
+        this.itemPregunta = new Pregunta();
+        this.itemPregunta.descripcion = this.descripcionPregunta;
+        this.itemPregunta.tipoSeccion = this.itemTipoSeccion;
+        switch(this.itemTipoSeccion){
+            case "PREGUNTA ABIERTA":{
+                if(this.itemsPreguntas.length==0)
+                    this.itemsPreguntas.push(this.itemPregunta);
+                /* else
+                this.toastr.warning(``, 'Aviso', {closeButton: true}); */
+                break;
+            }
+            case "PREGUNTA MULTIPLE":{
+                this.itemsPreguntas.push(this.itemPregunta);
+                this.counterPreguntaMultiple++;
+                break;
+            }
+            case "PREGUNTA FORMULARIO":{
+                this.itemsPreguntas.push(this.itemPregunta);
+                this.counterPreguntaFormulario++;
+                break;
+            }
+        }
+        this.descripcionPregunta=null;
+        this.descripcionSeccion=null;
+    }
+    OnEditarPregunta(){
+        this.editarPregunta=true;
+    }
+    OnGuardarPregunta(){
+        this.editarPregunta=false;
+    }
+    OnEliminarPregunta(index:number){
+        this.itemsPreguntas.splice(index,0)[0];
+    }
+
+    //---------------->
+    OnRowClick(index:number, item:Pregunta){
+
+    }
 }

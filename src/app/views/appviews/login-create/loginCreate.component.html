@@ -11,9 +11,18 @@
               <p>Ingrese sus Datos para poder crear su cuenta</p>
             
               <form method="post">
+
+                  <div class="form-group">
+                      <input [(ngModel)]="usuario.username" input type="text" class="form-control" placeholder="Username*" required="" name="username"  autofocus required>
+                    </div>
+              
+                  <div class="form-group">
+                    <input [(ngModel)]="usuario.password" type="password" class="form-control"
+                    name="password" id="password" placeholder="Password*" required>
+                  </div>
                   <div class="form-group">
                       <input [(ngModel)]="usuario.nombre" type="text" class="form-control"
-                      name="Nombre" id="name" placeholder="Nombre(s)*" required>
+                      name="Nombre" id="name" placeholder="Nombre*" required>
                   </div>
 
                   <div class="form-group">
@@ -29,25 +38,38 @@
                   <div class="form-group">
                       <input [(ngModel)]="usuario.email" type="text" class="form-control"
                       name="Correo" id="email" placeholder="Correo Electrónico*" required>
-                  </div>
+                  </div>                  
                   <div class="form-group">
-                    <input [(ngModel)]="usuario.sexo" type="text" class="form-control"
-                    name="Sexo" id="sex" placeholder="Sexo*" required>
-                  </div>
+                      <select class="combobox form-control" name="inline" placeholder="Sexo*">
+                          <option value="" selected="selected">Escoger Sexo*</option>
+                            <option value="AL">Masculino</option>
+                            <option value="AK">Femenino</option>
+                             <option value="AZ">Prefiero No Decir</option>
+                          </select>
+                  </div> 
+
+                  <div class="form-group">
+                      <div class="input-group date">
+                          <input bsDatepicker #dp="bsDatepicker" name='fechaInicio'
+                              [(bsValue)]="usuario.fechaNacimiento" (bsValueChange)="DetectChange()"
+                              value="{{ usuario.fechaNacimiento | date:'dd/MM/yyyy' }}" type="text"
+                              class="form-control">
+                          <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+
+                      </div>
+                  </div>                   
 
                   <div class="form-group">
                     <input [(ngModel)]="usuario.direccion" type="text" class="form-control"
-                    name="Dirección" id="address" placeholder="Dirección*" required>
+                    name="Dirección" id="address" placeholder="Dirección" required>
                   </div>
 
                   <div class="form-group">
-                    <input [(ngModel)]="usuario.username" input type="text" class="form-control" placeholder="Username*" required="" name="username"  autofocus required>
+                    <input [(ngModel)]="usuario.dni" type="text" class="form-control"
+                    name="DNI" id="dni" placeholder="DNI" required>
                   </div>
-            
-                  <div class="form-group">
-                    <input [(ngModel)]="usuario.password" type="password" class="form-control"
-                    name="password" id="password" placeholder="Password*" required>
-                  </div>
+
+
                   <p class="text-muted text-left"><small>*Requerido</small></p> 
             <!-- 
                   <div class="form-group"> -->
