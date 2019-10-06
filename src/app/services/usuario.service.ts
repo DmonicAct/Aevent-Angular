@@ -69,6 +69,31 @@ export class UsuarioService{
         }));;
     }
 
+    autenticarUsuarioGoogle(usuario: Usuario):Observable<any>{
+      let email = usuario.username;
+      const credenciales = btoa(this.config_name + ':' + this.config_password);
+
+      let url = `${this.apiEndpoint}/email/${email}`;
+      const httpHeaders = new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Basic ' + credenciales
+      });
+      return this.http.get(url).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));;
+      
+    }
+
+
+
+
     guardarUsuario(usuario:Persona){
       const credenciales = btoa(this.config_name + ':' + this.config_password);
       const httpHeaders = new HttpHeaders({
