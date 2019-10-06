@@ -61,19 +61,14 @@
             <tr>
               <th class="text-center">Código</th>
               <th class="text-center" >Categoría</th>
-              <th class="text-center" >Estado</th>
               <th class="text-center">Editar</th>
               <th class="text-center">Eliminar</th>              
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let item of items; let i = index" (click)="OnRowClick(i, item)" [class.selected]="i == selectedRow">
-              <td class="text-center"  data-col="codigo"><code>{{item.idUsuario}}</code></td>
-              <td class="text-center" data-col="nombre">{{item.nombre}}</td>
-              <td class="text-center" data-col="estado" style="padding-left: 0">
-                <span *ngIf="item.enabled==true" class="label" [class.label-success]="item.enabled==true">ACTIVO</span>
-                <span *ngIf="item.enabled==false" class="label" [class.label-default]="item.enabled==false">INACTIVO</span>
-              </td>
+              <td class="text-center"  data-col="codigo"><code>{{item.id}}</code></td>
+              <td class="text-center" data-col="nombre">{{item.descripcion}}</td>
               <td class="text-center" data-col="editar" (click)="OnEditar(item)"><button class="btn btn-success"><i class="fa fa-edit"></i></button></td>
               <td class="text-center" data-col="eliminar" (click)="OnDeshabilitar(item)"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
               

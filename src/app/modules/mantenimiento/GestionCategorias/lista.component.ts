@@ -2,24 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { Persona,Paginacion, Estado, Response } from '../../../models';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { UsuarioService } from '../../../services/usuario.service';
+import { CategoriaService } from '../../../services/categoria.service';
 import { Location } from '@angular/common';
+import { Categoria } from 'src/app/models/categoria';
 @Component({
-  selector: 'usuarios-lista',
+  selector: 'categorias-lista',
   templateUrl: 'lista.template.html',
   styleUrls: ['lista.template.scss'],
-  providers: [UsuarioService] 
+  providers: [CategoriaService] 
 })
 export class GestionCategoriaListaComponent implements OnInit  {
 
-  public items : Array<Persona>;
+  public items : Array<Categoria>;
   public paginacion: Paginacion;
   constructor(private toastr: ToastrService, 
               private router: Router,
-              private service: UsuarioService,
+              private service: CategoriaService,
               private _location:Location
               ) {
-    this.items = new Array<Persona>();
+    this.items = new Array<Categoria>();
     this.paginacion = new Paginacion({pagina:0,registros: 10});
   }
 
@@ -28,9 +29,10 @@ export class GestionCategoriaListaComponent implements OnInit  {
   }
 
   getLista(){
-    this.service.obtenerUsuarios(this.paginacion.pagina, this.paginacion.registros).subscribe(
+    this.service.obtenerCategoriasPaginadas(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response)=>{
         console.log(response);
+
         this.items = response.resultado;
         this.paginacion = response.paginacion;
       }
@@ -39,12 +41,14 @@ export class GestionCategoriaListaComponent implements OnInit  {
   OnNuevo(){
     this.router.navigate([`mantenimiento/configuracion-usuarios/nuevo`]);
   }
-  OnRowClick(i:number, item:Persona){
+  OnRowClick(i:number, item:Categoria){
 
   }
+  /*
   OnEditar(item:Persona){
     this.router.navigate([`mantenimiento/configuracion-usuarios/editar/${item.idUsuario}`]);
   }
+  */
   OnPageChanged(event): void {
     this.paginacion.pagina = event.page;
     this.getLista();
@@ -55,7 +59,7 @@ export class GestionCategoriaListaComponent implements OnInit  {
     this.paginacion.pagina = 1;
     this.getLista();
   }
-
+/*
   OnDeshabilitar(item: Persona){
     this.service.eliminarUsuario(item.idUsuario).subscribe(
       (response: Response) =>{
@@ -65,6 +69,6 @@ export class GestionCategoriaListaComponent implements OnInit  {
         }
       }
     );
-  }
+  }*/
 
 }
