@@ -18,6 +18,8 @@
             <!-- *ngIf="checkPermission('/mantenimiento')" -->
           <!-- *ngIf="checkPermission('/mantenimiento/configuracion-usuarios')" -->
           <li [ngClass]="{active: activeRoute('configuracion-usuarios')}"><a [routerLink]="['/mantenimiento/configuracion-usuarios']">Usuarios</a></li>
+          <li [ngClass]="{active: activeRoute('categorias')}"><a [routerLink]="['/mantenimiento/categorias']">Mantenimiento Categorias</a></li>
+          <li [ngClass]="{active: activeRoute('tipoEvento')}"><a [routerLink]="['/mantenimiento/tipoEvento']">Mantenimiento Tipo Evento</a></li>
         </ul>
       </li>
       <li [ngClass]="{active: activeRoute('gestionOrganizadorEvento')}">
@@ -50,15 +52,15 @@
 
         </ul>
       </li>
-      <li [ngClass]="{active: activeRoute('mantenimiento')}">
+      <!-- <li [ngClass]="{active: activeRoute('mantenimiento')}">
         <a href="#"><i class="fa fa-cogs"></i> <span class="nav-label">Mantenimiento</span> <span class="fa arrow"></span> </a>
-        <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('mantenimiento')}">
+        <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('mantenimiento')}"> -->
             <!-- *ngIf="checkPermission('/mantenimiento')" -->
           <!-- *ngIf="checkPermission('/mantenimiento/configuracion-usuarios')" -->
-          <li [ngClass]="{active: activeRoute('categorias')}"><a [routerLink]="['/mantenimiento/categorias']">Mantenimiento Categorias</a></li>
+         <!--  <li [ngClass]="{active: activeRoute('categorias')}"><a [routerLink]="['/mantenimiento/categorias']">Mantenimiento Categorias</a></li>
           <li [ngClass]="{active: activeRoute('tipoEvento')}"><a [routerLink]="['/mantenimiento/tipoEvento']">Mantenimiento Tipo Evento</a></li>
         </ul>
-      </li>
+      </li> -->
       <!-- <li [ngClass]="{active: activeRoute('dashboards')}">
         <a href="#"><i class="fa fa-dashboard"></i> <span class="nav-label">Dashboard examples</span> <span class="fa arrow"></span> </a>
         <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('dashboards')}">

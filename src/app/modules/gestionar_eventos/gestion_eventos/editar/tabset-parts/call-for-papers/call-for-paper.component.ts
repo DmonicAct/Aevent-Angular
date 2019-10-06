@@ -1,5 +1,5 @@
 import { OnInit, Component, ViewChild } from "@angular/core";
-import { Parametro, TipoPregunta, FormularioCFP, Division, Pregunta, Seccion } from "../../../../../../models";
+import { Parametro, TipoSeccion, FormularioCFP, Division, Pregunta, Seccion } from "../../../../../../models";
 import { ModalDirective } from "ngx-bootstrap";
 import { ToastRef, ToastrService } from "ngx-toastr";
 declare var jQuery:any;
@@ -12,29 +12,42 @@ declare var jQuery:any;
 export class CallForPaperComponent implements OnInit{
     public itemsParametro: Array<Parametro>;
     public itemParametro: Parametro;
-    public descripcion: string;
-    public itemFormulario: FormularioCFP;
-    public itemsDivision: Array<Division>;
-    public itemDivision: Division;
+
+
+
     public isModalShown: Boolean;
-    public itemsSecciones: Array<Seccion>;
-    public itemsTipoPreguntas: Array<TipoPregunta>;
-    public itemTipoPregunta: TipoPregunta;
-    public itemsPreguntas:Array<Pregunta>;
-    public itemPregunta: Pregunta;
     public limite:number;
-    public descripcionPregunta:string;
-    public descripcionSeccion:string;
-    public counterSeccion: number;
+   
     
     public counterPreguntaAbierta: number = 0;
     public counterPreguntaMultiple:number = 0;
     public counterPreguntaFormulario:number = 0;
+    public counterSeccion: number;
 
-    //Seccions
+   
+    public itemFormulario: FormularioCFP;
+    //Tipos Preguntas
+    public itemsTipoSeccion: Array<TipoSeccion>;
+    public itemTipoSeccion: TipoSeccion;
+    //Division
+    public itemsDivision: Array<Division>;
+    public itemDivision: Division;
+    public descripcionDivision: string;
+    public indexDivision: number;
+    //Secciones
     public itemsSeccion: Array<Seccion>;
     public itemSeccion: Seccion;
-
+    public descripcionSeccion:string;
+    public indexSeccion: number;
+    //Preguntas
+    public itemsPreguntas:Array<Pregunta>;
+    public itemPregunta: Pregunta;
+    public descripcionPregunta:string;
+    public indexPregunta: number;
+    //Edicion
+    public editarPregunta : Boolean=false;
+    public editarSeccion: Boolean=false;
+    public editarDivision: Boolean=false;
     @ViewChild('autoShownModal') 
     autoShownModal: ModalDirective;
     constructor(
@@ -46,19 +59,19 @@ export class CallForPaperComponent implements OnInit{
         this.itemDivision = new Division();
         this.itemsPreguntas = new Array<Pregunta>();
         this.itemPregunta = new Pregunta();
-        this.itemsTipoPreguntas = new Array<TipoPregunta>();
+        this.itemsTipoSeccion = new Array<TipoSeccion>();
         
         this.itemsSeccion = new Array<Seccion>();
         this.itemSeccion = new Seccion();
         //
-        let item: TipoPregunta;
-        item = TipoPregunta.PREGUNTA_ABIERTA;
-        this.itemsTipoPreguntas.push(item);
-        item = TipoPregunta.PREGUNTA_FORMULARIO;
-        this.itemsTipoPreguntas.push(item);
-        item = TipoPregunta.PREGUNTA_MULTIPLE;
-        this.itemsTipoPreguntas.push(item);
-        console.log(this.itemsTipoPreguntas);
+        let item: TipoSeccion;
+        item = TipoSeccion.PREGUNTA_ABIERTA;
+        this.itemsTipoSeccion.push(item);
+        item = TipoSeccion.PREGUNTA_FORMULARIO;
+        this.itemsTipoSeccion.push(item);
+        item = TipoSeccion.PREGUNTA_MULTIPLE;
+        this.itemsTipoSeccion.push(item);
+        console.log(this.itemsTipoSeccion);
     }
     ngAfterViewInit() {
         jQuery('.full-height-scroll').slimscroll({
@@ -71,25 +84,9 @@ export class CallForPaperComponent implements OnInit{
     OnSeleccionCriterio(){
         console.log(this.itemParametro);
     }
-    OnAgregarDivision(){
-        if(this.descripcion==null || this.descripcion.trim()==""){
-            this.toastr.warning(`Descripcion vacia`, 'Aviso', {closeButton: true});
-            return;
-        }
-        this.itemDivision = new Division()
-        this.itemDivision.descripcion = this.descripcion;
-        this.itemsDivision.push(this.itemDivision);
-        this.descripcion = null;
-    }
-    OnRowClick(){}
+    
+
     OnVerPreliminar(){}
-    OnEditar(){
-        console.log(this.isModalShown)
-        this.isModalShown=true;
-    }
-    OnEliminar(index:number){
-        this.itemsDivision.splice(index,1)[0];
-    }
     hideModal(): void {
         this.autoShownModal.hide();
     }
@@ -101,24 +98,64 @@ export class CallForPaperComponent implements OnInit{
         this.isModalShown=false;
         this.autoShownModal.hide();
     }
-    OnAgrgarSeccion(){
-        console.log(this.itemTipoPregunta);
+    /**
+     * 
+     * backup del arreglo de secciones
+     * para regresar a los valores anteriores
+     * let backup_secciones = JSON.string(this.itemsDivision.secciones);
+     * 
+     */
+    OnAgregarDivision(){
+        if(this.descripcionDivision==null || this.descripcionDivision.trim()==""){
+            this.toastr.warning(`Descripcion vacia`, 'Aviso', {closeButton: true});
+            return;
+        }
+        this.itemDivision = new Division()
+        this.itemDivision.descripcion = this.descripcionDivision;
+        let index = this.itemsDivision.length;
+        this.itemsDivision.push(this.itemDivision);
+        this.itemsDivision[index].secciones = new Array<Seccion>();
+        this.descripcionDivision = null;
     }
+    OnEditar(index:number){
+        console.log(this.isModalShown)
+        this.itemsSeccion= this.itemsDivision[index].secciones;
+        this.itemsPreguntas = new Array<Pregunta>();
+        this.isModalShown=true;
+    }
+    OnEliminar(index:number){
+        this.itemsDivision.splice(index,1)[0];
+    }
+    //Secciones
     OnAgregarSeccion(){
         this.itemSeccion = new Seccion();
         this.itemSeccion.descripcion = this.descripcionSeccion;
-        this.itemSeccion.tipoSeccion = this.itemTipoPregunta;
+        this.itemSeccion.tipoSeccion = this.itemTipoSeccion;
+        this.itemSeccion.preguntas = this.itemsPreguntas = new Array<Pregunta>();
+        let index = this.itemsSeccion.length;
         this.itemsSeccion.push(this.itemSeccion);
+        this.itemsPreguntas = this.itemsSeccion[index].preguntas;
         this.descripcionSeccion = null;
     }
+    
+    OnEliminarSeccion(index:number){
+        this.itemsSeccion.splice(index,0)[0];
+    }
+    OnEditarSeccion(index:number){
+        this.itemsPreguntas = this.itemsSeccion[index].preguntas;
+    }
+    //Preguntas
     OnAgregarPregunta(){
-        console.log(this.itemTipoPregunta);
+        console.log(this.itemTipoSeccion);
         this.itemPregunta = new Pregunta();
         this.itemPregunta.descripcion = this.descripcionPregunta;
-        this.itemPregunta.tipoPregunta = this.itemTipoPregunta;
-        switch(this.itemTipoPregunta){
+        this.itemPregunta.tipoSeccion = this.itemTipoSeccion;
+        switch(this.itemTipoSeccion){
             case "PREGUNTA ABIERTA":{
-                this.itemsPreguntas.push(this.itemPregunta);
+                if(this.itemsPreguntas.length==0)
+                    this.itemsPreguntas.push(this.itemPregunta);
+                /* else
+                this.toastr.warning(``, 'Aviso', {closeButton: true}); */
                 break;
             }
             case "PREGUNTA MULTIPLE":{
@@ -135,7 +172,18 @@ export class CallForPaperComponent implements OnInit{
         this.descripcionPregunta=null;
         this.descripcionSeccion=null;
     }
-    OnEliminarSeccion(item){
+    OnEditarPregunta(){
+        this.editarPregunta=true;
+    }
+    OnGuardarPregunta(){
+        this.editarPregunta=false;
+    }
+    OnEliminarPregunta(index:number){
+        this.itemsPreguntas.splice(index,0)[0];
+    }
+
+    //---------------->
+    OnRowClick(index:number, item:Pregunta){
 
     }
 }

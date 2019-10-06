@@ -9,7 +9,7 @@ import {FormularioCFP} from './formulariocfp';
 import {Pregunta} from './pregunta';
 import {Division} from './division';
 import {Criterio} from './criterio';
-import {TipoPregunta} from './enums/tipo-pregunta'
+import {TipoSeccion} from './enums/tipo-seccion'
 import {Estado} from './enums/estado';
 import {Fase} from './fase';
 import {Categoria} from './categoria'
@@ -19,7 +19,7 @@ export{
     Usuario,
     Roles,
     Estado,
-    TipoPregunta,
+    TipoSeccion,
     Paginacion,
     Response,
     Criterio,
