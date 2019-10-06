@@ -33,6 +33,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.service.obtenerCategorias().subscribe(
             (response: Response)=>{
                 this.itemsCategorias=response.resultado;
+                console.log(this.itemsCategorias);
             }
         );
     }

@@ -14,6 +14,7 @@ import {Estado} from './enums/estado';
 import {Fase} from './fase';
 import {Categoria} from './categoria'
 import { Seccion } from './seccion';
+import { TipoEvento } from './tipoevento';
 export{
     Persona,
     Usuario,
@@ -30,5 +31,6 @@ export{
     Parametro,
     Fase,
     Seccion,
-    Categoria
+    Categoria,
+    TipoEvento
 }
