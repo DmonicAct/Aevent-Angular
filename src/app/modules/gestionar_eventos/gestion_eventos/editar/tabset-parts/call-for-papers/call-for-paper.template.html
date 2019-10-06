@@ -202,7 +202,7 @@
                                             <tr *ngFor="let item of itemsSeccion; let i = index"
                                                 (click)="OnRowClick(i, item)" [class.selected]="i == selectedRow">
                                                 <td class="text-center" data-col="nro">
-                                                    <code>{{item.indice}}</code></td>
+                                                    <code>{{indexDivision}}.{{item.indice}}</code></td>
                                                 <td class="text-left" data-col="descripcion">
                                                     {{item.descripcion}}</td>
                                                 <td class="text-center" data-col="tipoSeccion">

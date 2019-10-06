@@ -130,6 +130,7 @@ export class CallForPaperComponent implements OnInit {
         this.itemsSeccion = this.itemFormulario.divisiones[index].secciones;
         this.itemsPreguntas = new Array<Pregunta>();
         this.isModalShown = true;
+        this.indexDivision = index;
     }
     OnEliminar(index: number) {
         this.itemsDivision.splice(index, 1)[0];
