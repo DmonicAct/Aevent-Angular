@@ -75,7 +75,8 @@ export function getAuthServiceConfigs() {
     BootstrapModule,
     HttpClientModule,
     //Social Login
-    SocialLoginModule
+    SocialLoginModule,
+
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, Title,
   { provide: AuthServiceConfig, useFactory: getAuthServiceConfigs},
