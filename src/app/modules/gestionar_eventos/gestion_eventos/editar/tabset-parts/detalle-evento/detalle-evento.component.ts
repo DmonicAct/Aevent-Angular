@@ -1,13 +1,11 @@
 import { OnInit, Component, ViewChild } from "@angular/core";
-import { Evento, Usuario, Persona } from '../../../../../../models'
+import { Evento, Usuario, Persona, TipoEvento } from '../../../../../../models'
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { CategoriasServices} from '../../../../../../services';
 import { PersonaService} from '../../../../../../services';
 import { Categoria, Response } from "src/app/models";
 import { TipoEventoServices } from '../../../../../../services';
-/*
-obtenerTipoEvento
-*/
+
 @Component({
     selector: 'detalle-evento',
     templateUrl: 'detalle-evento.template.html',
@@ -20,6 +18,12 @@ export class DetalleEventoConfiguracion implements OnInit {
     item: Evento;
     public itemsCategorias: Array<Categoria>;
     public itemsPersona: Array<Persona>;
+    public itemsTipoEvento: Array<TipoEvento>;
+
+    fechaInicio;
+    fechaFin;
+
+
     constructor( private service: CategoriasServices, private servicePersonas: PersonaService,
         private serviceTipoEvento: TipoEventoServices) {
         this.item = new Evento();
@@ -55,32 +59,19 @@ export class DetalleEventoConfiguracion implements OnInit {
             }
         );
     }
+    
 
     obtenerTipoEventos(){
-        
+        this.serviceTipoEvento.obtenerTipoEventos().subscribe(
+            (response: Response)=>{
+                this.itemsTipoEvento=response.resultado;
+                console.log(this.itemsTipoEvento);
+            }
+        );
     }
 
-    maestroPresidentes = [
-        {id: 1, nombre: 'Luis Flores', check: false},
-        {id: 2, nombre: 'César Aguilera', check: false},
-    ];
+    codEvento = 22;
 
-
-    maestroUsuariosFilter = this.itemsPersona;
-    nombreUsuario = "";
-
-    evento = {
-        id: 22,
-    }
-    presidente = {
-        id: 0,
-        nombre: 'Agregar Presidente',
-        check: false,
-    }
-    categorias = [
-        {id: 0, nombre: 'Agregar Categorías'},
-    ];
-    
     verDatos(event) {
         this.datos = true;
         this.call = false;
@@ -103,6 +94,7 @@ export class DetalleEventoConfiguracion implements OnInit {
     presidenteSeleccionado: Persona;
     categoriasSeleccionadas = Array<Categoria>();
     categoriaSeleccionada: Categoria;
+    tipoDeEventoSeleccionado: TipoEvento;
     unico: Boolean;
     agregarCategoria(){
         this.unico = true;
@@ -116,7 +108,8 @@ export class DetalleEventoConfiguracion implements OnInit {
         } else {
             
         }
-        
+        console.log(this.fechaFin);
+        console.log(this.fechaInicio);
     }
 
 }
