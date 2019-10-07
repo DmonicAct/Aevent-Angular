@@ -1,13 +1,22 @@
-.table {
-    tr{
-      td[data-col='codigo'] {width: 5%;}
-      td[data-col='nombre'] {width: 10%;}
-      td[data-col='appaterno'] {width:10%; }
-      td[data-col='apmaterno'] {width: 10%;}
-      td[data-col='email'] {width: 20%;}
-      td[data-col='estado'] {width: 5%;}
-      td[data-col='editar'] {width: 5%;}
-      td[data-col='eliminar'] {width: 5%;}
-    }
+table {
+  tr{
+    td[data-col='codigo'] {width: 10%;}
+    td[data-col='nombre'] {width: 60%;}
+    td[data-col='editar'] {width: 15%;}
+    td[data-col='eliminar'] {width: 15%;}
   }
-  
+}
+
+.cfp-height{
+  height: 300px;   
+}
+
+
+.seccion-height{
+height: 150px;
+}
+
+
+.preguntas-height{
+height: 300px;
+}
