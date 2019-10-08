@@ -10,16 +10,23 @@ import {TipoEvento} from '../models/tipoevento';
 
 export class TipoEventoServices{
     private apiEndpoint: string;
+    private config_name: string
+    private config_password: string;
 
     private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   
     constructor(public http: HttpClient) {
       this.apiEndpoint = environment.serviceEndpoint + '/tipoEvento';
-  
+      this.config_name = environment.APP_CONFIG_NAME;
+      this.config_password = environment.APP_CONFIG_PASSWORD;
     }
 
     obtenerTipoEvento(pagina:number, registros:number):Observable<any> {
-        return this.http.get(this.apiEndpoint+'/paginacion').pipe(
+      let params:HttpParams = new HttpParams()
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+        return this.http.get(this.apiEndpoint+'/paginacion',{params}).pipe(
         catchError(e => {
             if (e.status == 400) {
             return throwError(e);
@@ -43,4 +50,49 @@ export class TipoEventoServices{
           return throwError(e);
       }));
   }
+
+  guardarTipoEvento(tipoEvento: TipoEvento){
+    
+    const credenciales = btoa(this.config_name + ':' + this.config_password);
+    const httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + credenciales
+    });
+
+    let url = `${this.apiEndpoint + '/guardar'}`;
+
+    return this.http.post(url, tipoEvento,{ headers: httpHeaders }).pipe(
+      catchError(e => {
+        if (e.status == 400) {
+          return throwError(e);
+        }
+        if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
+        return throwError(e);
+      }));
+  }
+
+  eliminarCategoria(tipoEvento: TipoEvento){
+
+    const credenciales = btoa(this.config_name + ':' + this.config_password);
+    const httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + credenciales
+    });
+
+    let url = `${this.apiEndpoint + '/eliminar'}`;
+
+    return this.http.post(url, tipoEvento,{ headers: httpHeaders }).pipe(
+      catchError(e => {
+        if (e.status == 400) {
+          return throwError(e);
+        }
+        if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
+        return throwError(e);
+      }));
+  }
+
 }

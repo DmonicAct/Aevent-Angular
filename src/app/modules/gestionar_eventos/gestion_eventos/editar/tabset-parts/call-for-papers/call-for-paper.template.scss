@@ -1,10 +1,23 @@
 table {
     tr{
+      //Divisiones
       td[data-col='idDivision'] {width: 10%;}
       td[data-col='descripcion'] {width: 80%;}
       td[data-col='editar'] {width: 5%;}
       td[data-col='guardar'] {width: 5%;}
       td[data-col='eliminar'] {width: 5%;}
+      //Secciones
+      td[data-col='nro_seccion'] {width: 10%;}
+      td[data-col='descripcion_seccion'] {width: 60%;}
+      td[data-col='descripcion_seccion_mod'] {width: 60%;}
+      td[data-col='tipoSeccion'] {width: 20%;}
+      td[data-col='editar_seccion'] {width: 5%;}
+      td[data-col='eliminar_seccion'] {width: 5%;}
+      //Preguntas
+      td[data-col='nro_pregunta'] {width: 10%;}
+      td[data-col='descripcion_pregunta'] {width: 80%;}
+      td[data-col='descripcion_pregunta_mod'] {width: 80%;}
+      td[data-col='eliminar_pregunta'] {width: 10%;}
     }
   }
   

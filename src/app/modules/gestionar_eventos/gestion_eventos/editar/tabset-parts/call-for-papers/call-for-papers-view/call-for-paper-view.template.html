@@ -1,0 +1,47 @@
+<!-- <div class="row">
+    <div class="col-lg-12"> -->
+        <div class="fh-breadcrumb">
+            <div class="full-height">
+                <div class="full-height-scroll white-bg">
+                    <div class="ibox-content">
+                        <!-- <p>Visor de Call For Paper</p> -->
+                        <form role="form">
+                            <!--1 inicio -->
+                            <div *ngFor="let division of items">
+                                <div class="form-group">
+                                    <div class="text-center">
+                                        <h4><strong>{{division.descripcion}}</strong></h4>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <div *ngFor="let seccion of division.secciones">
+                                        <div class="ibox-content">
+                                            <div *ngIf="seccion.tipoSeccion=='PREGUNTA ABIERTA'">
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                            <label class="col-md-4  control-label">{{seccion.preguntas[0].descripcion}}</label>
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control" disabled="true">
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="seccion.tipoSeccion=='PREGUNTA MULTIPLE'">
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                            <div *ngIf="seccion.tipoSeccion=='PREGUNTA FORMULARIO'">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--     </div>
+</div> -->

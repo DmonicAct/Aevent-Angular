@@ -1,7 +1,7 @@
 import { OnInit, Component, ViewChild } from "@angular/core";
 import { Evento, Usuario, Persona, TipoEvento } from '../../../../../../models'
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { CategoriasServices} from '../../../../../../services';
+import { CategoriaService } from '../../../../../../services';
 import { PersonaService} from '../../../../../../services';
 import { Categoria, Response } from "src/app/models";
 import { TipoEventoServices } from '../../../../../../services';
@@ -24,7 +24,7 @@ export class DetalleEventoConfiguracion implements OnInit {
     fechaFin;
 
 
-    constructor( private service: CategoriasServices, private servicePersonas: PersonaService,
+    constructor( private service: CategoriaService, private servicePersonas: PersonaService,
         private serviceTipoEvento: TipoEventoServices) {
         this.item = new Evento();
         this.itemsCategorias = new Array<Categoria>();

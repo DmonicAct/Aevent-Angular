@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import { Observable,throwError } from 'rxjs';
-import {  catchError } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { Categoria } from '../models';
 
 @Injectable({
@@ -21,6 +21,19 @@ export class CategoriaService{
       this.config_name = environment.APP_CONFIG_NAME;
       this.config_password = environment.APP_CONFIG_PASSWORD;
   
+    }
+
+    obtenerCategorias():Observable<any> {
+      return this.http.get(this.apiEndpoint).pipe(
+      catchError(e => {
+          if (e.status == 400) {
+          return throwError(e);
+          }
+          if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+          }
+          return throwError(e);
+      }));
     }
 
     obtenerCategoriasPaginadas(pagina:number, registros:number):Observable<any> {
@@ -51,6 +64,28 @@ export class CategoriaService{
       });
 
       return this.http.post(this.apiEndpoint, categoria,{ headers: httpHeaders }).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
+
+    eliminarCategoria(categoria:Categoria){
+
+      const credenciales = btoa(this.config_name + ':' + this.config_password);
+      const httpHeaders = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + credenciales
+      });
+
+      let url = `${this.apiEndpoint + '/eliminar'}`;
+
+      return this.http.post(url, categoria,{ headers: httpHeaders }).pipe(
         catchError(e => {
           if (e.status == 400) {
             return throwError(e);
