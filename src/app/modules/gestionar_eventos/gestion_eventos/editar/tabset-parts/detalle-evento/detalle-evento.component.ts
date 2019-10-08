@@ -118,7 +118,8 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.categoriasSeleccionadas.splice(index,1)[0];
     }
     onGuardar(){
-
+        this.item.categorias = this.categoriasSeleccionadas;
+        console.log(this.item);
     }
     onCancelar(){
         

@@ -9,7 +9,7 @@
                             <label class="col-sm-3 control-label">Código </label>
                             <div class="col-sm-8">
                                 <div class="input-group">
-                                    <input [(ngModel)]="codEvento"  type="text" class="form-control" name="id"
+                                    <input [ngModel]="item.idEvento"  type="text" class="form-control" name="id"
                                         aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" readonly>  
                                 </div>
                             </div>
@@ -18,7 +18,7 @@
                             <label class="col-sm-3 control-label">Nombre </label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="nombre" maxlength="30"
+                                    <input type="text" class="form-control" name="nombre" maxlength="30" [(ngModel)]="item.titulo"
                                     onkeypress="return /[A-Za-z0-9]/i.test(event.key)">
                                 </div>
                             </div>
@@ -31,7 +31,7 @@
                                     placeholder="Seleccionar Tipo de Evento"
                                     name ="TipoEvento"
                                     [clearable]="false" 
-                                    [(ngModel)]="tipoDeEventoSeleccionado">
+                                    [(ngModel)]="item.tipoEvento">
                                 </ng-select>
                             </div>
                         </div>
@@ -39,7 +39,7 @@
                             <label class="col-sm-3 control-label">Descripcion </label>
                             <div class="col-sm-8">
                                 <textarea oninput="this.value = this.value.toUpperCase()" class="form-control"
-                                    name="descripcion" rows="4"></textarea>
+                                    name="descripcion" [(ngModel)]="item.descripcion" rows="4"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -83,7 +83,7 @@
                                     placeholder="Seleccionar Presidente"
                                     name ="Presidente"
                                     [clearable]="false" 
-                                    [(ngModel)]="presidenteSeleccionado">
+                                    [(ngModel)]="item.presidente">
                                     <ng-template ng-label-tmp let-item="item">
                                             <span >{{ item.nombre + ' ' + item.appaterno }}</span>
                                         </ng-template>

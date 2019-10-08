@@ -43,14 +43,7 @@ export class CategoriaService{
       }
 
     guardarCategoria(categoria:Categoria){
-
-      const credenciales = btoa(this.config_name + ':' + this.config_password);
-      const httpHeaders = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Basic ' + credenciales
-      });
-
-      return this.http.post(this.apiEndpoint, categoria,{ headers: httpHeaders }).pipe(
+      return this.http.post(this.apiEndpoint, categoria).pipe(
         catchError(e => {
           if (e.status == 400) {
             return throwError(e);
@@ -72,6 +65,20 @@ export class CategoriaService{
           console.error(e.error.mensaje);
           }
           return throwError(e);
+      }));
+  }
+  eliminarCategoria(categoria:Categoria){
+  let url = `${this.apiEndpoint + '/eliminar'}`;
+
+    return this.http.post(url, categoria).pipe(
+      catchError(e => {
+        if (e.status == 400) {
+          return throwError(e);
+        }
+        if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
+        return throwError(e);
       }));
   }
 }

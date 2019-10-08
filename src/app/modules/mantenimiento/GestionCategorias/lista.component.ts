@@ -16,6 +16,7 @@ export class GestionCategoriaListaComponent implements OnInit  {
 
   public isModalShown: Boolean;
   public isNewModalShown: Boolean;
+  public isDeleteModalShown : Boolean;
   public esNuevo: Boolean;
 
   public newItem : Categoria; //para la nueva categoria
@@ -29,6 +30,8 @@ export class GestionCategoriaListaComponent implements OnInit  {
   autoShownModal: ModalDirective;
   @ViewChild('autoNewShownModal')
   autoNewShownModal: ModalDirective;
+  @ViewChild('autoDeleteShownModal') 
+  autoDeleteShownModal: ModalDirective;
   constructor(private toastr: ToastrService, 
               private router: Router,
               private service: CategoriaService,
@@ -71,7 +74,11 @@ export class GestionCategoriaListaComponent implements OnInit  {
       this.service.guardarCategoria(this.newItem).subscribe(
         (response: Response)=>{
           console.log(response);
-          this.getLista();
+          if(response.estado=="OK"){
+            this.toastr.success(`Se ha creado la categoría con exito`, 'Aviso', {closeButton: true});
+            this.getLista()
+            this.onHidden()
+          }
         }
       );
     }else{ //editando categoria
@@ -80,6 +87,10 @@ export class GestionCategoriaListaComponent implements OnInit  {
       this.service.guardarCategoria(this.item).subscribe(
         (response: Response)=>{
           console.log(response);
+          if(response.estado=="OK"){
+            this.toastr.success(`Se ha editado la categoría con éxito`, 'Aviso', {closeButton: true});
+            this.getLista()
+          }
         }
       );
     }
@@ -115,16 +126,40 @@ export class GestionCategoriaListaComponent implements OnInit  {
     this.isModalShown=true;
   }
 
+  OnEliminar(index: number){
+    console.log(this.isDeleteModalShown)
+
+    this.item = this.items[index];
+
+    this.isDeleteModalShown=true;
+  }
+
+  OnConfirmar(){
+    this.service.eliminarCategoria(this.item).subscribe(
+      (response: Response)=>{
+        console.log(response);
+        if(response.estado=="OK"){
+          this.toastr.success(`Se ha eliminado la categoría con éxito`, 'Aviso', {closeButton: true});
+          this.getLista()
+          this.onHidden()
+        }
+      }
+    );
+  }
+
   onHidden(): void {
     this.isModalShown = false;
     this.isNewModalShown = false;
+    this.isDeleteModalShown = false;
   }
 
   hideModal(): void {
     if(this.isNewModalShown){
       this.autoNewShownModal.hide();
-    }else{
+    }else if(this.isModalShown){
       this.autoShownModal.hide();
+    }else{
+      this.autoDeleteShownModal.hide();
     }
   }
 /*

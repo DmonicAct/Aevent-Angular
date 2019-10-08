@@ -3,6 +3,7 @@ import { Fase } from ".";
 
 export class Evento{
     public idEvento:number;
+    public titulo: string;
     public descripcion:string;
     public fechaInicio: Date;
     public fechaFin: Date;
