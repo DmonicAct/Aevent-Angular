@@ -91,9 +91,10 @@ export class UsuarioService{
       
     }
 
-    validarEmail(email: string):Observable<any> {
-      const url = `${this.apiEndpoint}/email/${email}`;
-      return this.http.get(url).pipe(
+
+
+    guardarUsuarioSistema(usuario:Persona){
+      return this.http.post(this.apiEndpoint, usuario).pipe(
         catchError(e => {
           if (e.status == 400) {
             return throwError(e);
@@ -105,9 +106,10 @@ export class UsuarioService{
         }));
     }
 
-
-    guardarUsuarioSistema(usuario:Persona){
-      return this.http.post(this.apiEndpoint, usuario).pipe(
+    
+    validarEmail(email: string):Observable<any> {
+      const url = `${this.apiEndpoint}/out/${email}`;
+      return this.http.get(url).pipe(
         catchError(e => {
           if (e.status == 400) {
             return throwError(e);
