@@ -1,7 +1,7 @@
 import { OnInit, Component, ViewChild, Input } from "@angular/core";
 import { Evento, Usuario, Persona, TipoEvento } from '../../../../../../models'
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { CategoriasServices} from '../../../../../../services';
+import { CategoriaService} from '../../../../../../services';
 import { PersonaService} from '../../../../../../services';
 import { Categoria, Response } from "src/app/models";
 import { TipoEventoServices } from '../../../../../../services';
@@ -14,19 +14,19 @@ import { TipoEventoServices } from '../../../../../../services';
 
 export class DetalleEventoConfiguracion implements OnInit {
 
-    loading: Boolean;
+    public loading: Boolean;
     public itemsCategorias: Array<Categoria>;
     public itemsPersona: Array<Persona>;
     public itemsTipoEvento: Array<TipoEvento>;
 
-    fechaInicio;
-    fechaFin;
+    public fechaInicio:Date;
+    public fechaFin:Date;
 
     //Evento de Padre
     @Input('item-evento')
     public item:Evento; 
 
-    constructor( private service: CategoriasServices, private servicePersonas: PersonaService,
+    constructor( private service: CategoriaService, private servicePersonas: PersonaService,
         private serviceTipoEvento: TipoEventoServices) {
         //this.item = new Evento();
         this.itemsCategorias = new Array<Categoria>();
@@ -34,15 +34,16 @@ export class DetalleEventoConfiguracion implements OnInit {
     @ViewChild('autoShownModal') autoShownModal: ModalDirective;
     isModalShownPresidente = false;
     isModalShownCategorias = false;
+
     ngOnInit(): void {
         this.obtenerListaCategorias();
         this.obtenerUsuarios();
         this.obtenerTipoEventos();
     }
-    datos: boolean = true;
-    call: boolean = false;
-    fases: boolean = false;
-    modalPresidenteCorrecto: boolean = false;
+    public datos: boolean = true;
+    public call: boolean = false;
+    public fases: boolean = false;
+    public  modalPresidenteCorrecto: boolean = false;
 
     obtenerListaCategorias(){
         this.service.obtenerCategorias().subscribe(
@@ -115,5 +116,11 @@ export class DetalleEventoConfiguracion implements OnInit {
     }
     onEliminarCategoria(index:number){
         this.categoriasSeleccionadas.splice(index,1)[0];
+    }
+    onGuardar(){
+
+    }
+    onCancelar(){
+        
     }
 }

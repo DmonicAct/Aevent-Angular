@@ -61,4 +61,17 @@ export class CategoriaService{
           return throwError(e);
         }));
     }
+
+    obtenerCategorias():Observable<any> {
+      return this.http.get(this.apiEndpoint).pipe(
+      catchError(e => {
+          if (e.status == 400) {
+          return throwError(e);
+          }
+          if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+          }
+          return throwError(e);
+      }));
+  }
 }

@@ -16,7 +16,7 @@ export class EventoService{
     private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   
     constructor(public http: HttpClient) {
-      this.apiEndpoint = environment.serviceEndpoint + '/categorias';
+      this.apiEndpoint = environment.serviceEndpoint + '/evento';
       this.config_name = environment.APP_CONFIG_NAME;
       this.config_password = environment.APP_CONFIG_PASSWORD;
   
@@ -25,7 +25,23 @@ export class EventoService{
     guardarEvento():Observable<any>{
         return null;
     }
-    obtenerEventos():Observable<any>{
+    obtenerEventos(pagina:number, registros:number):Observable<any>{
+        let params:HttpParams = new HttpParams()
+        .set('pagina', pagina.toString())
+        .set('registros', registros.toString());
+  
+          return this.http.get(this.apiEndpoint, {params}).pipe(
+            catchError(e => {
+              if (e.status == 400) {
+                return throwError(e);
+              }
+              if (e.error.mensaje) {
+                console.error(e.error.mensaje);
+              }
+              return throwError(e);
+            }));
+    }
+    obtenerEvento(idEvento:number):Observable<any>{
         return null;
     }
     eliminarEvento():Observable<any>{
