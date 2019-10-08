@@ -52,6 +52,9 @@ export class CallForPaperComponent implements OnInit {
     public editarDivision: Boolean = false;
     @ViewChild('autoShownModal')
     autoShownModal: ModalDirective;
+
+    selectedRowSeccion: number;
+    selectedRowPregunta: number;
     constructor(
         private toastr: ToastrService
     ) {
@@ -133,7 +136,7 @@ export class CallForPaperComponent implements OnInit {
         this.indexDivision = index;
     }
     OnEliminar(index: number) {
-        this.itemsDivision.splice(index, 1)[0];
+        this.itemFormulario.divisiones.splice(index, 1)[0];
     }
     //Secciones
     OnAgregarSeccion() {
@@ -143,6 +146,8 @@ export class CallForPaperComponent implements OnInit {
         this.itemSeccion.preguntas = this.itemsPreguntas = new Array<Pregunta>();
         let index = this.itemsSeccion.length;
         this.itemsSeccion.push(this.itemSeccion);
+        this.indexSeccion= this.itemsSeccion.length-1;
+        console.log(this.itemsSeccion);
         this.itemsPreguntas = this.itemsSeccion[index].preguntas;
         this.descripcionSeccion = null;
     }
@@ -152,11 +157,13 @@ export class CallForPaperComponent implements OnInit {
         this.itemsPreguntas = new Array<Pregunta>();
     }
     OnEditarSeccion(index: number) {
+        this.indexSeccion=index;
         this.itemsPreguntas = this.itemsSeccion[index].preguntas;
     }
     //Preguntas
     OnAgregarPregunta() {
         console.log(this.itemTipoSeccion);
+        if(this.itemSeccion)
         this.itemPregunta = new Pregunta();
         this.itemPregunta.descripcion = this.descripcionPregunta;
         this.itemPregunta.tipoSeccion = this.itemTipoSeccion;
@@ -195,7 +202,13 @@ export class CallForPaperComponent implements OnInit {
     }
 
     //---------------->
-    OnRowClick(index: number, item: Pregunta) {
+    OnRowClickPreguntas(index: number, item: Pregunta) {
+        this.selectedRowPregunta = index;
+    }
+    OnRowClickSecciones(index: number, item: Pregunta) {
+        this.selectedRowSeccion = index
+    }
+    OnRowClick(index:number, item:Pregunta){
 
     }
 }
