@@ -70,7 +70,7 @@
               <td class="text-center"  data-col="codigo"><code>{{item.id}}</code></td>
               <td class="text-center" data-col="categoria">{{item.descripcion}}</td>
               <td class="text-center" data-col="editar" (click)="OnEditar(i)"><button class="btn btn-success"><i class="fa fa-edit"></i></button></td>
-              <td class="text-center" data-col="eliminar" (click)="OnEliminar(i)"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>        
+              <td class="text-center" data-col="eliminar" (click)="OnDeshabilitar(item)"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>        
               <!-- <td class="text-center" disabled="disabled" data-col="fecha">{{item.fechaRegistro | date:'dd/MM/yyyy'}}</td> -->
             </tr>
             </tbody>
@@ -154,34 +154,6 @@
                 <div class="text-center">
                     <button (click)='OnNuevo()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
                         Guardar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--ELIMINAR UNA CATEGORIA-->
-<div *ngIf="isDeleteModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoDeleteShownModal="bs-modal"
-  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
-  <div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4 id="dialog-auto-name" class="modal-title pull-left">Aviso</h4>
-            <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="row m-b-sm">
-                <div class="row">
-                      <h3 class="text-center">¿Eliminar permanentemente {{item.descripcion}} de la lista?</h3>
-                </div>
-            </div>
-            </div>
-            <div class="form-group">
-                <div class="text-center">
-                    <button (click)='OnConfirmar()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
-                        Confirmar</button>
                 </div>
             </div>
         </div>
