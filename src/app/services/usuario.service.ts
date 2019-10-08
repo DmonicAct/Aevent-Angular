@@ -106,14 +106,21 @@ export class UsuarioService{
     }
 
 
-    guardarUsuario(usuario:Persona){
-      const credenciales = btoa(this.config_name + ':' + this.config_password);
-      const httpHeaders = new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Basic ' + credenciales
-      });
-
-      return this.http.post(this.apiEndpoint, usuario,{ headers: httpHeaders }).pipe(
+    guardarUsuarioSistema(usuario:Persona){
+      return this.http.post(this.apiEndpoint, usuario).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
+    guardarUsuarioOut(usuario: Persona){
+      const url = `${this.apiEndpoint}/out`;
+      return this.http.post(url, usuario).pipe(
         catchError(e => {
           if (e.status == 400) {
             return throwError(e);
