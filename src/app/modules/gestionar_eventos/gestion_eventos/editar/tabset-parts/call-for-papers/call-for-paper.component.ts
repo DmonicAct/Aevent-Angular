@@ -122,8 +122,8 @@ export class CallForPaperComponent implements OnInit {
         }
         if(!this.itemFormulario.divisiones)
             this.itemFormulario.divisiones = new Array<Division>();
-
-        this.itemDivision = new Division()
+        this.itemDivision = new Division();
+        this.itemDivision.indice= this.itemFormulario.divisiones.length+1;
         this.itemDivision.descripcion = this.descripcionDivision;
         this.itemDivision.secciones = new Array<Seccion>();
         this.itemFormulario.divisiones.push(this.itemDivision);
@@ -144,6 +144,7 @@ export class CallForPaperComponent implements OnInit {
         this.itemSeccion.descripcion = this.descripcionSeccion;
         this.itemSeccion.tipoSeccion = this.itemTipoSeccion;
         this.itemSeccion.preguntas = this.itemsPreguntas = new Array<Pregunta>();
+        this.itemSeccion.indice = this.itemsSeccion.length+1;
         let index = this.itemsSeccion.length;
         this.itemsSeccion.push(this.itemSeccion);
         this.indexSeccion= this.itemsSeccion.length-1;
@@ -163,10 +164,12 @@ export class CallForPaperComponent implements OnInit {
     //Preguntas
     OnAgregarPregunta() {
         console.log(this.itemTipoSeccion);
-        if(this.itemSeccion)
+        if(!this.itemSeccion)
+        return;
         this.itemPregunta = new Pregunta();
         this.itemPregunta.descripcion = this.descripcionPregunta;
         this.itemPregunta.tipoSeccion = this.itemTipoSeccion;
+        this.itemPregunta.indice=this.itemsPreguntas.length+1;
         if (this.itemSeccion) {
             switch (this.itemSeccion.tipoSeccion) {
                 case "PREGUNTA ABIERTA": {

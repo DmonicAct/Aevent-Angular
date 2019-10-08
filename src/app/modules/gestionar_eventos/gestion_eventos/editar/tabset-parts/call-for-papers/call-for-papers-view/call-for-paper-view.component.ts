@@ -9,7 +9,7 @@ declare var jQuery: any;
 export class CallForPaperView implements OnInit{
     @Input('items')
     public items: Array<Division>;
-
+    seleccionados: any[];
     ngOnInit(){
 
     }

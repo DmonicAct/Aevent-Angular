@@ -23,7 +23,7 @@ export class EditarUsuarioComponent implements OnInit  {
   public password_repeat: string;
 
   private sub: any;
-  private itemCodigo: number;
+  private itemCodigo: number = null;
   public validar_email:boolean=false;
   public boolean_flags : Array<Boolean>;
   constructor(private _location: Location,  

@@ -71,6 +71,7 @@ export class GestionCategoriaListaComponent implements OnInit  {
       this.service.guardarCategoria(this.newItem).subscribe(
         (response: Response)=>{
           console.log(response);
+          this.getLista();
         }
       );
     }else{ //editando categoria
