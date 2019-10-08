@@ -1,4 +1,4 @@
-import { OnInit, Component, ViewChild } from "@angular/core";
+import { OnInit, Component, ViewChild, Input } from "@angular/core";
 import { Evento, Usuario, Persona, TipoEvento } from '../../../../../../models'
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { CategoriasServices} from '../../../../../../services';
@@ -15,7 +15,6 @@ import { TipoEventoServices } from '../../../../../../services';
 export class DetalleEventoConfiguracion implements OnInit {
 
     loading: Boolean;
-    item: Evento;
     public itemsCategorias: Array<Categoria>;
     public itemsPersona: Array<Persona>;
     public itemsTipoEvento: Array<TipoEvento>;
@@ -23,10 +22,13 @@ export class DetalleEventoConfiguracion implements OnInit {
     fechaInicio;
     fechaFin;
 
+    //Evento de Padre
+    @Input('item-evento')
+    public item:Evento; 
 
     constructor( private service: CategoriasServices, private servicePersonas: PersonaService,
         private serviceTipoEvento: TipoEventoServices) {
-        this.item = new Evento();
+        //this.item = new Evento();
         this.itemsCategorias = new Array<Categoria>();
     };
     @ViewChild('autoShownModal') autoShownModal: ModalDirective;
@@ -111,5 +113,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         console.log(this.fechaFin);
         console.log(this.fechaInicio);
     }
-
+    onEliminarCategoria(index:number){
+        this.categoriasSeleccionadas.splice(index,1)[0];
+    }
 }

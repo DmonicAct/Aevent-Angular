@@ -113,13 +113,18 @@
                                 style="height: 200px; overflow: auto">
                             <table *ngIf="categoriasSeleccionadas.length>0" class="table">
                                 <thead >
-                                    <th>Codigo</th>
-                                    <th>Descripción</th>
+                                    <th class="text-left">Codigo</th>
+                                    <th class="text-left">Descripción</th>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let data of categoriasSeleccionadas">
-                                        <th>{{data.codigo}}</th>
-                                        <th>{{data.descripcion}}</th>
+                                    <tr *ngFor="let data of categoriasSeleccionadas; let i = index">
+                                        <th class="text-left">{{data.codigo}}</th>
+                                        <th class="text-left">{{data.descripcion}}</th>
+                                        <th>
+                                            <button class="btn btn-danger" (click)="onEliminarCategoria(i)">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </th>
                                     </tr>
                                 </tbody>
                             </table>

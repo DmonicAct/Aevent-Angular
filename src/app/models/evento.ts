@@ -12,4 +12,8 @@ export class Evento{
     public estado:string;
     public formulario: FormularioCFP;
     public fases: Array<Fase>;
+
+    constructor(){
+        this.id=-1;
+    }
 }

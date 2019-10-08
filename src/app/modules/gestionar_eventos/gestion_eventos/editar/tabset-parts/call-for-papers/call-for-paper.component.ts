@@ -106,7 +106,7 @@ export class CallForPaperComponent implements OnInit {
         //this.autoShownModal.hide();
     }
     onNuevo() {
-        this.isModalShown = false;
+        console.log(this.itemFormulario);
     }
     /**
      * 
