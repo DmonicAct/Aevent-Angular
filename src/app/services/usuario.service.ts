@@ -14,7 +14,7 @@ import { Persona } from '../models';
 export class UsuarioService{
     private apiEndpoint: string;
     private config_name: string
-  private config_password: string;
+    private config_password: string;
 
     private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   
@@ -91,7 +91,19 @@ export class UsuarioService{
       
     }
 
-
+    validarEmail(email: string):Observable<any> {
+      const url = `${this.apiEndpoint}/email/${email}`;
+      return this.http.get(url).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
 
 
     guardarUsuario(usuario:Persona){
@@ -112,5 +124,4 @@ export class UsuarioService{
           return throwError(e);
         }));
     }
-
 }

@@ -26,6 +26,7 @@ import { BootstrapModule } from "./modules/bootstrap/bootstrap.module";
 import { MantenimientoModule } from "./modules/mantenimiento/mantenimiento.module";
 import { GestionOrganizadorModule } from './modules/gestionar_eventos/gestion.module';
 import { PaginacionModule } from './components/common/paginacion/paginacion.module';
+import { UiSwitchModule } from 'ngx-ui-switch';
 
 import { TokenInterceptor } from './auth/interceptors/token.interceptor';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
@@ -56,6 +57,7 @@ export function getAuthServiceConfigs() {
     PaginacionModule,
 
     BrowserModule,
+    UiSwitchModule,
     FormsModule,
     HttpModule,
     BrowserAnimationsModule, // required for Toastr

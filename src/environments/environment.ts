@@ -4,9 +4,9 @@
 
 //URL DESPLIEGGUE
 //LOCAL
-const url: string='http://localhost:8080/aevent/';
+//const url: string='http://localhost:8080/aevent/';
 //SERVIDOR APACHE TOMCAT LAPTOP
-//const url: string='http://192.168.1.5:8090/aevent/';
+const url: string='http://10.100.56.228:8090/aevent/';
 //SERVIDOR AWS
 export const environment = {
   production: false,

@@ -38,6 +38,4 @@ export class PersonaService{
             return throwError(e);
           }));
     }
-    
-
 }

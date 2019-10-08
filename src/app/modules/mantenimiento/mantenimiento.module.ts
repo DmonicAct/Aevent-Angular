@@ -3,6 +3,7 @@ import {RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {GestionUsuariosRoutes} from './mantenimiento.routes';
+import { UiSwitchModule } from 'ngx-ui-switch';
 import {SpinKitModule} from './../../components/common/spinkit/spinkit.module';
 import {PaginationModule} from 'ngx-bootstrap/pagination';
 import {NgSelectModule} from '@ng-select/ng-select';
@@ -35,6 +36,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     PaginationModule.forRoot(),
     SpinKitModule,
     ModalModule,
+    UiSwitchModule
   ]
 })
 export class MantenimientoModule { }
