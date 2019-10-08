@@ -1,0 +1,20 @@
+<!-- <p>criterio pregunta abierta</p> -->
+<div class="form-group">
+    <label class="col-sm-2 control-label">Subtitulo</label>
+    <div class="col-sm-6">
+        <input type="text" class="form-control" name="subitulo">
+    </div>
+</div>
+
+<div class="form-group">
+        <label class="col-sm-2 control-label">Limite</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" name="tamanho">
+        </div>
+        <div class="col-sm-4">
+                <select class="form-control" name="plazo" [(ngModel)]="tipo-contador" (change)="OnContador()">
+                    <option value="Palabras">Palabras</option>
+                    <option value="Letras">Letras</option>
+                </select>
+                </div>
+</div>
