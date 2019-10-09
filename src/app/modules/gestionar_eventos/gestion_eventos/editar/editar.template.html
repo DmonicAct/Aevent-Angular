@@ -1,29 +1,3 @@
-<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
-
-<div class="container wrapper pull-left">
-  <div class="col-lg-10">
-    <h2>Crear Nuevo Evento</h2>
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item">
-        <a (click)="verDatos($event)">Datos del Evento</a>
-      </li>
-      <li class="breadcrumb-item">
-        <a (click)="verPapers($event)">Call for Papers</a>
-      </li>
-      <li class="breadcrumb-item">
-        <a (click)="verFases($event)">Fases</a>
-      </li>
-    </ol>
-  </div>
-  <div *ngIf = "call">
-      Call
-  </div>
-  <div *ngIf = "fases">
-      Fases
-  </div>
-    
-</div> -->
-
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-lg-12">
     <h2>Gestion de Eventos</h2>
@@ -49,18 +23,18 @@
       <tabset #tabsDetalle>
         <tab heading="Detalle">
           <div class="mail-box-header">
-            <detalle-evento></detalle-evento>
+            <detalle-evento [(item-evento)]="item"></detalle-evento>
           </div>
 
         </tab>
 
-        <tab #tabsCallforPapers heading="Call For Papers">
+        <tab #tabsCallforPapers heading="Call For Papers" [disabled]="item.idEvento==null">
             <div class="mail-box-header">
                 <call-for-paper></call-for-paper>
               </div>
         </tab>
 
-        <tab #tabsFases heading="Fases">
+        <tab #tabsFases heading="Fases" [disabled]="item.idEvento==null">
             <div class="mail-box-header">
               <fase-evento></fase-evento>
             </div>

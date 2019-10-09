@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Usuario } from '../../models/';
+import { Usuario, Persona } from '../../models/';
 import { AuthService as AeventAuthService } from '../../auth/service/auth.service';
 import { AuthService as SocialAuthService, GoogleLoginProvider} from "angular-6-social-login";
 import { UsuarioService } from '../../services/usuario.service';
@@ -40,8 +40,9 @@ export class LoginComponent {
       this.authService.guardarUsuario(response.access_token);
       this.authService.guardarToken(response.access_token);
       let usuario = this.authService.usuario;
+      let persona = this.authService.persona;
       this.router.navigate(['inicio']);
-      this.toastr.success(`Hola ${usuario.username}, has iniciado sesión con éxito!`, 'Aviso', {closeButton: true});
+      this.toastr.success(`Hola ${persona.nombre}, has iniciado sesión con éxito!`, 'Aviso', {closeButton: true});
     }, err => {
       if (err.status == 400) {
         this.toastr.warning('Usuario o clave incorrectas!', 'Error', {closeButton: true});
@@ -72,6 +73,7 @@ export class LoginComponent {
       (userData) => {
         console.log(socialPlatform+" sign in data : " , userData);
         this.validarCreacionGoogle(this.obtenerDatosToken(userData.idToken));
+        
         // Now sign-in with userData
         // ...
             
@@ -87,11 +89,18 @@ export class LoginComponent {
     
     this.usuario.username = usrName.toString();
     this.usuario.password =  idToken.sub;
+    let persona: Persona = new Persona();
+    persona.username = usrName.toString();
+    persona.password = idToken.sub;
+    persona.nombre = idToken.given_name;
+    persona.appaterno = idToken.family_name;    
+
     console.log("THIS SHOULD WORK2: ",this.usuario.username);
-    this.service.autenticarUsuarioGoogle(this.usuario).subscribe((response: Response)=>{
+    this.service.autenticarUsuarioGoogle(persona).subscribe((response: Response)=>{
       console.log(response);
     }
     );
+    this.service.guardarUsuarioOut(persona).subscribe((response: Response)=>{console.log("DONE");});
     
     
 

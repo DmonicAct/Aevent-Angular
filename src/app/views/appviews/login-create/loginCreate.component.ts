@@ -56,13 +56,29 @@ export class LoginCreateComponent /*implements OnInit*/ {
       return;
     }
     //VALIDACION USERNAME
-    if(usrName.length<4||usrName.length>15 ||usrName){
+    if(usrName.length<4||usrName.length>15){
       this.toastr.warning('Usuario debe ser de 4 a 15 caracteres alfanuméricos', 'Error', {closeButton: true});
       console.log(this.usuario);
       return;
     }
     //VALIDACION CONTRASEÑA
     if(contrasenha.length<6||contrasenha.length>25 ){
+      this.toastr.warning('Contraseña debe ser de 6 a 25 caracteres alfanuméricos, con por lo menos \n - una mayúscula \n - una minúscula y \n - un número ', 'Error', {closeButton: true});
+      console.log(this.usuario);
+      return;
+    }
+    //EMAIL
+    if(!this.emailIsValid(this.usuario.email)){
+      this.toastr.warning('Ingresar un correo válido', 'Error', {closeButton: true});
+      console.log(this.usuario);
+      return;
+    }
+
+
+
+    if(!this.checkPassword(contrasenha) ){
+      console.log(contrasenha);
+      console.log(this.checkPassword(contrasenha));
       this.toastr.warning('Contraseña debe ser de 6 a 25 caracteres alfanuméricos, con por lo menos \n - una mayúscula \n - una minúscula y \n - un número ', 'Error', {closeButton: true});
       console.log(this.usuario);
       return;
@@ -99,16 +115,26 @@ export class LoginCreateComponent /*implements OnInit*/ {
     }
     //VALIDACION DNI
     
-    this.service.guardarUsuario(this.usuario).subscribe(
+    this.service.guardarUsuarioOut(this.usuario).subscribe(
       (response: Response)=>{
         console.log(response);
    
       }
     );
- 
     
-
   }
+ 
+  public emailIsValid (email:string):boolean {
+    return /\S+@\S+\.\S+/.test(email);
+  }
+
+  public checkPassword(str) :boolean
+  {
+    var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+    return re.test(str);
+  }
+
+  
   public socialSignIn(socialPlatform : string) {
     let socialPlatformProvider;
     socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;

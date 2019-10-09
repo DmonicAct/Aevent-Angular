@@ -25,98 +25,119 @@
     </div>
   </div>
   <div class="row m-b-md">
-      <div class="ibox-content">
-          <div class="row">
-            <div class="col-lg-10">
-              <div class="ibox-content">
-                <form class="form-horizontal">
-                  <div class="form-group">
-                    <label class="col-sm-2">Nombre :</label>
-                    <div class="col-sm-4"><input required type="text" class="form-control" placement="top" name="nombre" [(ngModel)]="item.nombre"></div>
-                    <label class="col-sm-2">Edad :</label>
-                    <div class="col-sm-4"><input required type="text" class="form-control" placement="top"></div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2">A.Paterno:</label>
-                    <div class="col-sm-4"><input required type="text" class="form-control" placement="top" name="appaterno" [(ngModel)]="item.appaterno"></div>
-                    <label class="col-sm-2">Sexo</label>
-                    <div class="col-sm-4"><input required type="text" class="form-control" placement="top" ></div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2">A.Materno:</label>
-                    <div class="col-sm-4"><input required type="text" class="form-control" placement="top" name="appmaterno" [(ngModel)]="item.apmaterno"></div>
-                    <label class="col-sm-2">Correo:</label>
-                    <div class="col-sm-4"><input required type="text" class="form-control" placement="top"></div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2">Fecha Nacimiento:</label>
-                    <div class="col-sm-4">
-                      <input bsDatepicker #dp="bsDatepicker" name='fechaDocumento' [(bsValue)]="item.fechaNacimiento"  (bsValueChange)="DetectChange()" value="{{ item.fechaNacimiento | date:'dd/MM/yyyy' }}" type="text" class="form-control">
-                    </div>
-                  </div>
-                </form>
-                <form>
-      
-                </form>
+    <div class="ibox-content">
+      <div class="row">
+        <div class="col-lg-10">
+          <div class="ibox-content">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-2">Nombre(*):</label>
+                <div class="col-sm-4"><input required type="text" class="form-control" placement="top" name="nombre"
+                    [(ngModel)]="item.nombre"></div>
+                <label class="col-sm-2">Sexo(*):</label>
+                <div class="col-sm-4">
+                  <select class="form-control m-b-x" name="estado" [(ngModel)]="item.sexo">
+                    <option value="MASCULINO">MASCULINO</option>
+                    <option value="FEMENINO">FEMENINO</option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <div class="col-lg-2">
-              <div class="ibox-content">
-                <form class="form-horizontal">
-                  <div class="form-group">
-                    <div class="col-sm-12">
-                      <img src="../../../../../assets/images/default-user-image.png">
-                    </div>
+              <div class="form-group">
+                <label class="col-sm-2">A.Paterno(*):</label>
+                <div class="col-sm-4"><input required type="text" class="form-control" placement="top" name="appaterno"
+                    [(ngModel)]="item.appaterno"></div>
+                <label class="col-sm-2">Correo(*):</label>
+                <div class="input-group">
+                  <input required type="email" name="email" [(ngModel)]="item.email" class="form-control"
+                    placement="top">
+                  <span class="input-group-btn">
+                    <button *ngIf="!validar_email" class="btn btn-warning col-sm-12" (click)="OnValidarEmail()"><i
+                        class="fa fa-square-o"></i> Validar</button>
+                    <button *ngIf="validar_email" class="btn btn-primary col-sm-12" (click)="OnValidarEmail()"><i
+                        class="fa fa-check-square-o"></i> Validar</button>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2">A.Materno(*):</label>
+                <div class="col-sm-4"><input required type="text" class="form-control" placement="top" name="appmaterno"
+                    [(ngModel)]="item.apmaterno"></div>
+                <label class="col-sm-2">Fecha Nacimiento(*):</label>
+                <div class="col-sm-4">
+                  <div class="input-group date">
+                    <input bsDatepicker #dp="bsDatepicker" name='fechaDocumento' [(bsValue)]="item.fechaNacimiento"
+                      (bsValueChange)="DetectChange()" value="{{ item.fechaNacimiento | date:'dd/MM/yyyy' }}"
+                      type="text" class="form-control">
+                    <span class="input-group-addon" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen"><i
+                        class="fa fa-calendar"></i></span>
                   </div>
-                  <div class="form-group">
-                    <button class="btn btn-primary col-sm-12">Subir Foto</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <div class="ibox-content">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <img src="../../../../../assets/images/default-user-image.png">
+                </div>
+              </div>
+              <div class="form-group">
+                <button class="btn btn-primary col-sm-12">Subir Foto</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ibox-content">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="ibox-content">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-4">Usuario(*):</label>
+                <div class="col-sm-8"><input required type="text" autocomplete="false" name="username" [(ngModel)]="item.username" class="form-control"
+                    placement="top"></div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-4">Nueva Contraseña(*):</label>
+                <div class="col-sm-8"><input required type="password" autocomplete="false" name="password" [(ngModel)]="password" class="form-control"
+                    placement="top"></div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-4">Repetir Contraseña(*):</label>
+                <div class="col-sm-8"><input required type="password" autocomplete="false" name="password_repeat" [(ngModel)]="password_repeat" class="form-control"
+                    placement="top"></div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-4">Fecha Creacion(*):</label>
+                <div class="col-sm-8"><input required type="text" class="form-control" [disabled]="true" placement="top"></div>
+              </div>
+              <div class="form-group">  
+                <label class="col-sm-4">Fecha Modificacion(*):</label>
+                <div class="col-sm-8"><input required type="text" class="form-control" [disabled]="true" placement="top"></div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="ibox-content">
+            <div class="form-horizontal">
+              <div class="form-group">
+                <div *ngFor="let item of itemsRoles; let i = index">
+                  <label class="col-sm-4 text-left">{{item.nombre}}</label>
+                  <div class="col-sm-8 text-left">
+                    <ui-switch [(ngModel)]="this.boolean_flags[i]"></ui-switch>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="ibox-content">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="ibox-content">
-                <form class="form-horizontal">
-                  <div class="form-group">
-                    <label class="col-sm-2">Usuario :</label>
-                    <div class="col-sm-4"><input required type="text" class="form-control" placement="top"></div>
-                    <label class="col-sm-2">Rol :</label>
-                    <!-- <div class="col-sm-4"><input required type="text" class="form-control" placement="top"></div> -->
-                    <div class="col-sm-2">
-                      <ng-select [items]="itemsRoles"
-                                 bindLabel= "nombre"
-                                 placeholder="Seleccionar"
-                                 name ="Roles"
-                                 [clearable]="false"
-                                 [(ngModel)]="itemRol">
-                      </ng-select>
-                    </div>
-                    <div class="col-sm-2">
-                      <button class="btn btn-primary"> Añadir Rol </button>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-2">Fecha Creacion :</label>
-                    <div class="col-sm-4"><input required type="text" class="form-control" placement="top"></div>
-                    <label class="col-sm-2">Fecha Modificacion :</label>
-                    <div class="col-sm-4"><input required type="text" class="form-control" placement="top"></div>
-                  </div>
-      
-                  <div class="form-group">
-                    <label class="col-sm-2">Nueva Contraseña :</label>
-                    <div class="col-sm-4"><input required type="text" class="form-control" placement="top"></div>
-                    <label class="col-sm-2">Repetir Contraseña :</label>
-                    <div class="col-sm-4"><input required type="text" class="form-control" placement="top"></div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
+      </div>
+    </div>
   </div>
-
 </div>

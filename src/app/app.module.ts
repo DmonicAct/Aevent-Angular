@@ -1,11 +1,12 @@
 
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, LOCALE_ID } from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from "@angular/router";
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ToastrModule } from 'ngx-toastr';
@@ -26,6 +27,7 @@ import { BootstrapModule } from "./modules/bootstrap/bootstrap.module";
 import { MantenimientoModule } from "./modules/mantenimiento/mantenimiento.module";
 import { GestionOrganizadorModule } from './modules/gestionar_eventos/gestion.module';
 import { PaginacionModule } from './components/common/paginacion/paginacion.module';
+import { UiSwitchModule } from 'ngx-ui-switch';
 
 import { TokenInterceptor } from './auth/interceptors/token.interceptor';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
@@ -56,6 +58,7 @@ export function getAuthServiceConfigs() {
     PaginacionModule,
 
     BrowserModule,
+    UiSwitchModule,
     FormsModule,
     HttpModule,
     BrowserAnimationsModule, // required for Toastr
@@ -75,11 +78,12 @@ export function getAuthServiceConfigs() {
     BootstrapModule,
     HttpClientModule,
     //Social Login
-    SocialLoginModule
+    SocialLoginModule,
+
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, Title,
+  providers: [{ provide: LocationStrategy,useClass: HashLocationStrategy }, Title,
   { provide: AuthServiceConfig, useFactory: getAuthServiceConfigs},
-  { provide: LOCALE_ID, useValue: 'es' },
+ /*  { provide: LOCALE_ID, useValue: 'es' }, */
   { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

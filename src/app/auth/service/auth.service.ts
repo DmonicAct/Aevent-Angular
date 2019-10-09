@@ -3,7 +3,7 @@ import { Observable, throwError} from 'rxjs';
 import {  catchError } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Usuario } from '../../models';
+import { Usuario, Persona } from '../../models';
 import {environment} from '../../../environments/environment';
 import { BaseLoginProvider } from 'angular-6-social-login/entities/base-login-provider';
 
@@ -16,6 +16,7 @@ export class AuthService {
   private config_name: string
   private config_password: string;
   private _usuario: Usuario;
+  private _persona: Persona;
   private _token: string;
 
   constructor(private http: HttpClient,
@@ -45,6 +46,15 @@ export class AuthService {
     return null;
   }
 
+  public get persona():Persona{
+    if (this._persona != null) {
+      return this._persona;
+    } else if (this._persona == null && sessionStorage.getItem('persona') != null) {
+      this._persona = JSON.parse(sessionStorage.getItem('persona')) as Persona;
+      return this._persona;
+    }
+    return new Persona();
+  }
   login(usuario: Usuario): Observable<any> {
     const urlEndpoint = this.authiEndpoint;
 
@@ -79,13 +89,18 @@ export class AuthService {
     let payload = this.obtenerDatosToken(accessToken);
     console.log(payload);
     this._usuario = new Usuario();
-    //this._usuario.nombre = payload.nombre;
-    //this._usuario.apellido = payload.apellido;
+    this._persona = new Persona();
+    this._persona.username = payload.user_name;
+    this._persona.apmaterno =  payload.apmaterno_usuario;
+    this._persona.appaterno = payload.appaterno_usuario;
+    this._persona.nombre = payload.nombre_usuario; 
+
     this._usuario.email = payload.email;
     this._usuario.username = payload.user_name;
     this._usuario.roles = payload.authorities;
     console.log(this._usuario);
     sessionStorage.setItem('usuario', JSON.stringify(this._usuario));
+    sessionStorage.setItem('persona', JSON.stringify(this._persona));
   }
 
   guardarToken(accessToken: string): void {
@@ -118,6 +133,7 @@ export class AuthService {
   logout(): void {
     this._token = null;
     this._usuario = null;
+    this._persona = null;
     sessionStorage.clear();
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('usuario');

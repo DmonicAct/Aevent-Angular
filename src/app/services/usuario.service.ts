@@ -14,7 +14,7 @@ import { Persona } from '../models';
 export class UsuarioService{
     private apiEndpoint: string;
     private config_name: string
-  private config_password: string;
+    private config_password: string;
 
     private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   
@@ -73,35 +73,16 @@ export class UsuarioService{
       let email = usuario.username;
       const credenciales = btoa(this.config_name + ':' + this.config_password);
 
-      let url = `${this.apiEndpoint}/email/${email}`;
-      const httpHeaders = new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Basic ' + credenciales
-      });
-      return this.http.get(url).pipe(
-        catchError(e => {
-          if (e.status == 400) {
-            return throwError(e);
-          }
-          if (e.error.mensaje) {
-            console.error(e.error.mensaje);
-          }
-          return throwError(e);
-        }));;
+      return this.validarEmail(usuario.email);
+      
+      
       
     }
 
 
 
-
-    guardarUsuario(usuario:Persona){
-      const credenciales = btoa(this.config_name + ':' + this.config_password);
-      const httpHeaders = new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Basic ' + credenciales
-      });
-
-      return this.http.post(this.apiEndpoint, usuario,{ headers: httpHeaders }).pipe(
+    guardarUsuarioSistema(usuario:Persona){
+      return this.http.post(this.apiEndpoint, usuario).pipe(
         catchError(e => {
           if (e.status == 400) {
             return throwError(e);
@@ -113,4 +94,31 @@ export class UsuarioService{
         }));
     }
 
+    
+    validarEmail(email: string):Observable<any> {
+      const url = `${this.apiEndpoint}/out/${email}`;
+      return this.http.get(url).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
+    guardarUsuarioOut(usuario: Persona){
+      const url = `${this.apiEndpoint}/out`;
+      return this.http.post(url, usuario).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
 }

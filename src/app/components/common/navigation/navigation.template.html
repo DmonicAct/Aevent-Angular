@@ -18,8 +18,8 @@
             <!-- *ngIf="checkPermission('/mantenimiento')" -->
           <!-- *ngIf="checkPermission('/mantenimiento/configuracion-usuarios')" -->
           <li [ngClass]="{active: activeRoute('configuracion-usuarios')}"><a [routerLink]="['/mantenimiento/configuracion-usuarios']">Usuarios</a></li>
-          <li [ngClass]="{active: activeRoute('categorias')}"><a [routerLink]="['/mantenimiento/categorias']">Mantenimiento Categorias</a></li>
-          <li [ngClass]="{active: activeRoute('tipoEvento')}"><a [routerLink]="['/mantenimiento/tipoEvento']">Mantenimiento Tipo Evento</a></li>
+          <li [ngClass]="{active: activeRoute('categorias')}"><a [routerLink]="['/mantenimiento/categorias']">Categorias</a></li>
+          <li [ngClass]="{active: activeRoute('tipoEvento')}"><a [routerLink]="['/mantenimiento/tipoEvento']">Tipo Evento</a></li>
         </ul>
       </li>
       <li [ngClass]="{active: activeRoute('gestionOrganizadorEvento')}">
