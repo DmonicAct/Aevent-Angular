@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Paginacion, Estado, Response, Categoria } from '../../../models';
+import { Paginacion, Estado, Response, Lugar } from '../../../models';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { CategoriaService } from '../../../services/categoria.service';
+import { LugarServices } from '../../../services/lugar.services';
 import { Location } from '@angular/common';
 import { ModalDirective } from 'ngx-bootstrap';
 
@@ -10,18 +10,18 @@ import { ModalDirective } from 'ngx-bootstrap';
   selector: 'lugar-lista',
   templateUrl: 'lista.template.html',
   styleUrls: ['lista.template.scss'],
-  providers: [CategoriaService] 
+  providers: [LugarServices] 
 })
-export class GestionCategoriaListaComponent implements OnInit  {
+export class GestionLugarListaComponent implements OnInit  {
 
   public isModalShown: Boolean;
   public isNewModalShown: Boolean;
   public isDeleteModalShown: Boolean;
   public esNuevo: Boolean;
 
-  public newItem : Categoria; 
-  public items : Array<Categoria>;
-  public item : Categoria;
+  public newItem : Lugar; 
+  public items : Array<Lugar>;
+  public item : Lugar;
   public estado: Boolean;
 
   public descripcionModal : String;
@@ -34,11 +34,11 @@ export class GestionCategoriaListaComponent implements OnInit  {
   autoDeleteShownModal: ModalDirective;
   constructor(private toastr: ToastrService, 
               private router: Router,
-              private service: CategoriaService,
+              private service: LugarServices,
               private _location:Location
               ) {
-    this.newItem = new Categoria;    
-    this.items = new Array<Categoria>();
+    this.newItem = new Lugar;    
+    this.items = new Array<Lugar>();
     this.paginacion = new Paginacion({pagina:0,registros: 10});
   }
 
@@ -47,7 +47,7 @@ export class GestionCategoriaListaComponent implements OnInit  {
   };
 
   getLista(){
-    this.service.obtenerCategoriasPaginadas(this.paginacion.pagina, this.paginacion.registros).subscribe(
+    this.service.obtenerLugarPaginado(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response)=>{
         console.log(response);
         this.items = response.resultado;
@@ -63,11 +63,11 @@ export class GestionCategoriaListaComponent implements OnInit  {
     if(this.esNuevo){ //Creando lugar
       this.newItem.descripcion = this.descripcionModal;
       this.newItem.enabled=1;
-      this.service.guardarCategoria(this.newItem).subscribe(
+      this.service.guardarLugar(this.newItem).subscribe(
         (response: Response)=>{
           console.log(response);
           if(response.estado=="OK"){
-            this.toastr.success(`Se ha creado la categoría con exito`, 'Aviso', {closeButton: true});
+            this.toastr.success(`Se ha creado el lugar con exito`, 'Aviso', {closeButton: true});
             this.getLista()
             this.onHidden()
           }
@@ -76,18 +76,18 @@ export class GestionCategoriaListaComponent implements OnInit  {
     }else{ //editando lugar
       this.item.descripcion=this.descripcionModal;
       this.item.enabled = this.estado?1:0;
-      this.service.guardarCategoria(this.item).subscribe(
+      this.service.guardarLugar(this.item).subscribe(
         (response: Response)=>{
           console.log(response);
           if(response.estado=="OK"){
-            this.toastr.success(`Se ha editado la categoría con éxito`, 'Aviso', {closeButton: true});
+            this.toastr.success(`Se ha editado el lugar con éxito`, 'Aviso', {closeButton: true});
             this.getLista()
           }
         }
       );
     }
   }
-  OnRowClick(i:number, item:Categoria){
+  OnRowClick(i:number, item:Lugar){
 
   }
 
@@ -121,11 +121,11 @@ export class GestionCategoriaListaComponent implements OnInit  {
   }
 
   OnConfirmar(){
-    this.service.eliminarCategoria(this.item).subscribe(
+    this.service.eliminarLugar(this.item).subscribe(
       (response: Response)=>{
         console.log(response);
         if(response.estado=="OK"){
-          this.toastr.success(`Se ha eliminado la categoría con éxito`, 'Aviso', {closeButton: true});
+          this.toastr.success(`Se ha eliminado el lugar con éxito`, 'Aviso', {closeButton: true});
           this.getLista()
           this.onHidden()
         }
@@ -161,7 +161,7 @@ export class GestionCategoriaListaComponent implements OnInit  {
     this.getLista();
   }
 
-  OnDeshabilitar(item: Categoria){
+  OnDeshabilitar(item: Lugar){
     /* this.service.eliminarUsuario(item.idUsuario).subscribe(
       (response: Response) =>{
         if(response.estado=="OK"){

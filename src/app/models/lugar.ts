@@ -1,5 +1,5 @@
 export class Lugar{
-    public idLugar:number;
+    public id:number;
     public descripcion: String;
-    public estado: number;
+    public enabled: number;
 }

@@ -18,6 +18,8 @@ import {EditarCategoriaComponent}from './GestionCategorias/editar/editar.compone
 import {GestionTipoEventoListaComponent} from './GestionTipoEvento/lista.component';
 import {EditarTipoEventoComponent}from './GestionTipoEvento/editar/editar.component';
 
+import {GestionLugarListaComponent} from './GestionLugar/lista.component';
+
 // modules/components
 import {PaginacionModule} from './../../components/common/paginacion/paginacion.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -30,6 +32,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     EditarCategoriaComponent,
     GestionTipoEventoListaComponent,
     EditarTipoEventoComponent,
+    GestionLugarListaComponent,
   ],
   imports:[
     CommonModule, 
