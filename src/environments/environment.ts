@@ -4,7 +4,7 @@
 
 //URL DESPLIEGGUE
 //LOCAL
-const url: string='http://localhost:8090/aevent/';
+const url: string='http://localhost:8080/aevent/';
 //SERVIDOR APACHE TOMCAT LAPTOP
 //const url: string='http://10.100.56.228:8090/aevent/';
 //SERVIDOR AWS
