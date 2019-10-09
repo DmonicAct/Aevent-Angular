@@ -1,4 +1,4 @@
-import { OnInit, Component, ViewChild } from "@angular/core";
+    import { OnInit, Component, ViewChild } from "@angular/core";
 import { Evento } from '../../../../../../models'
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import {CategoriasServices} from '../../../../../../services';
@@ -55,7 +55,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         {id: 1, nombre: 'Luis Flores', check: false},
         {id: 2, nombre: 'César Aguilera', check: false},
         {id: 3, nombre: 'Alejandro García', check: false},
-        {id: 4, nombre: 'Willy Chung', check: false},
+        
     ];
 
     maestroUsuariosFilter = this.maestroUsuarios;
@@ -116,7 +116,7 @@ export class DetalleEventoConfiguracion implements OnInit {
     OnAgregarPresidente() {
         this.isModalShownPresidente = true;
     }
-    hideModalPresidente(): void {
+        hideModalPresidente(): void {
         this.autoShownModal.hide();
     }
 

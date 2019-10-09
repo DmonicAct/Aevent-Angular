@@ -15,6 +15,7 @@ import {Fase} from './fase';
 import {Categoria} from './categoria'
 import { Seccion } from './seccion';
 import { TipoEvento } from './tipoevento';
+import { Lugar} from './lugar';
 export{
     Persona,
     Usuario,
@@ -32,5 +33,6 @@ export{
     Fase,
     Seccion,
     Categoria,
-    TipoEvento
+    TipoEvento,
+    Lugar
 }
