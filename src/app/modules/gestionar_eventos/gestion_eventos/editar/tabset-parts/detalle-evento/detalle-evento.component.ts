@@ -3,6 +3,8 @@ import { Evento } from '../../../../../../models'
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import {CategoriasServices} from '../../../../../../services';
 import { Categoria, Response } from "src/app/models";
+import {Usuario} from "src/app/models"
+import {UsuarioService} from '../../../../../../services';
 @Component({
     selector: 'detalle-evento',
     templateUrl: 'detalle-evento.template.html',
@@ -14,15 +16,20 @@ export class DetalleEventoConfiguracion implements OnInit {
     loading: Boolean;
     item: Evento;
     public itemsCategorias: Array<Categoria>;
-    constructor( private service: CategoriasServices) {
+    public itemsUsuarios: Array<Usuario>;
+
+    constructor( private service: CategoriasServices, private service2: UsuarioService) {
         this.item = new Evento();
         this.itemsCategorias = new Array<Categoria>();
+        this.itemsUsuarios = new Array<Usuario>();
     }
     @ViewChild('autoShownModal') autoShownModal: ModalDirective;
     isModalShownPresidente = false;
     isModalShownCategorias = false;
     ngOnInit(): void {
         this.obtenerListaCategorias();
+        this.obtenerListaUsuarios();
+
     }
     datos: boolean = true;
     call: boolean = false;
@@ -34,6 +41,14 @@ export class DetalleEventoConfiguracion implements OnInit {
             (response: Response)=>{
                 this.itemsCategorias=response.resultado;
                 console.log(this.itemsCategorias);
+            }
+        );
+    }
+    obtenerListaUsuarios(){
+        this.service2.obtenerUsuarios(1,1).subscribe(
+            (response: Response)=>{
+                this.itemsUsuarios=response.resultado;
+                console.log(this.itemsUsuarios); 
             }
         );
     }
@@ -50,7 +65,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         {id: 1, nombre: 'Luis Flores', check: false},
         {id: 2, nombre: 'César Aguilera', check: false},
     ];
-
+   
     maestroUsuarios = [
         {id: 1, nombre: 'Luis Flores', check: false},
         {id: 2, nombre: 'César Aguilera', check: false},
