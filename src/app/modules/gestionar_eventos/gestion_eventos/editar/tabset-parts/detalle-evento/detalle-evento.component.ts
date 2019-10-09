@@ -1,11 +1,16 @@
 import { OnInit, Component, ViewChild, Input } from "@angular/core";
-import { Evento, Usuario, Persona, TipoEvento } from '../../../../../../models'
+import { Evento, Persona, TipoEvento } from '../../../../../../models'
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { CategoriaService} from '../../../../../../services';
-import { PersonaService} from '../../../../../../services';
+import { esLocale } from 'ngx-bootstrap/locale';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { CategoriaService } from '../../../../../../services';
+import { PersonaService } from '../../../../../../services';
 import { Categoria, Response } from "src/app/models";
 import { TipoEventoServices } from '../../../../../../services';
-
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { EventoService } from "src/app/services/evento.service";
+import { AuthService as AeventAuthService } from '../../../../../../auth/service/auth.service';
+import * as moment from 'moment';
 @Component({
     selector: 'detalle-evento',
     templateUrl: 'detalle-evento.template.html',
@@ -13,23 +18,27 @@ import { TipoEventoServices } from '../../../../../../services';
 })
 
 export class DetalleEventoConfiguracion implements OnInit {
-
     public loading: Boolean;
     public itemsCategorias: Array<Categoria>;
     public itemsPersona: Array<Persona>;
     public itemsTipoEvento: Array<TipoEvento>;
 
-    public fechaInicio:Date;
-    public fechaFin:Date;
+    public fechaInicio: Date;
+    public fechaFin: Date;
 
     //Evento de Padre
     @Input('item-evento')
-    public item:Evento; 
-
-    constructor( private service: CategoriaService, private servicePersonas: PersonaService,
+    public item: Evento;
+    constructor(private authService: AeventAuthService,
+        private localeService: BsLocaleService,
+        private service: CategoriaService,
+        private servicePersonas: PersonaService,
+        private serviceEvento: EventoService,
         private serviceTipoEvento: TipoEventoServices) {
         //this.item = new Evento();
         this.itemsCategorias = new Array<Categoria>();
+        defineLocale('es', esLocale);
+        this.localeService.use('es');
     };
     @ViewChild('autoShownModal') autoShownModal: ModalDirective;
     isModalShownPresidente = false;
@@ -43,31 +52,31 @@ export class DetalleEventoConfiguracion implements OnInit {
     public datos: boolean = true;
     public call: boolean = false;
     public fases: boolean = false;
-    public  modalPresidenteCorrecto: boolean = false;
+    public modalPresidenteCorrecto: boolean = false;
 
-    obtenerListaCategorias(){
+    obtenerListaCategorias() {
         this.service.obtenerCategorias().subscribe(
-            (response: Response)=>{
-                this.itemsCategorias=response.resultado;
+            (response: Response) => {
+                this.itemsCategorias = response.resultado;
                 console.log(this.itemsCategorias);
             }
         );
     }
 
-    obtenerUsuarios(){
+    obtenerUsuarios() {
         this.servicePersonas.obtenerPersonas().subscribe(
-            (response: Response)=>{
-                this.itemsPersona=response.resultado;
+            (response: Response) => {
+                this.itemsPersona = response.resultado;
                 console.log(this.itemsPersona);
             }
         );
     }
-    
 
-    obtenerTipoEventos(){
+
+    obtenerTipoEventos() {
         this.serviceTipoEvento.obtenerTipoEventos().subscribe(
-            (response: Response)=>{
-                this.itemsTipoEvento=response.resultado;
+            (response: Response) => {
+                this.itemsTipoEvento = response.resultado;
                 console.log(this.itemsTipoEvento);
             }
         );
@@ -99,29 +108,40 @@ export class DetalleEventoConfiguracion implements OnInit {
     categoriaSeleccionada: Categoria;
     tipoDeEventoSeleccionado: TipoEvento;
     unico: Boolean;
-    agregarCategoria(){
+    agregarCategoria() {
         this.unico = true;
-        for(let cat of this.categoriasSeleccionadas){
-            if (this.categoriaSeleccionada == cat){
+        for (let cat of this.categoriasSeleccionadas) {
+            if (this.categoriaSeleccionada == cat) {
                 this.unico = false;
             }
         }
-        if (this.unico){
+        if (this.unico) {
             this.categoriasSeleccionadas.push(this.categoriaSeleccionada);
         } else {
-            
+
         }
         console.log(this.fechaFin);
         console.log(this.fechaInicio);
     }
-    onEliminarCategoria(index:number){
-        this.categoriasSeleccionadas.splice(index,1)[0];
+    onEliminarCategoria(index: number) {
+        this.categoriasSeleccionadas.splice(index, 1)[0];
     }
-    onGuardar(){
+    onGuardar() {
         this.item.categorias = this.categoriasSeleccionadas;
+        this.item.organizador = this.authService.persona;
         console.log(this.item);
+        this.serviceEvento.guardarEvento(this.item).subscribe(
+            (response: Response)=>{
+                console.log(response.resultado);
+                this.item = response.resultado;
+            }
+        );
+
     }
-    onCancelar(){
-        
+    onCancelar() {
+
+    }
+    DetectChange() {
+
     }
 }

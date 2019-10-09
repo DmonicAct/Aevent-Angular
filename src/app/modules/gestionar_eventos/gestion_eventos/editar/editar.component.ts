@@ -17,6 +17,7 @@ export class EditarGestionarEventoComponent implements OnInit{
     public item: Evento;
     constructor(){
         this.item = new Evento();
+        this.item.idEvento = null;
     }
     ngOnInit(){
         console.log("something");

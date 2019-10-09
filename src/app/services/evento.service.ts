@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import { Observable,throwError } from 'rxjs';
 import {  catchError } from 'rxjs/operators';
+import { Evento } from "../models";
 
 @Injectable({
     providedIn: 'root',
@@ -22,8 +23,17 @@ export class EventoService{
   
     }
     
-    guardarEvento():Observable<any>{
-        return null;
+    guardarEvento(evento: Evento):Observable<any>{
+        return this.http.post(this.apiEndpoint, evento).pipe(
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
+            return throwError(e);
+          }));
     }
     obtenerEventos(pagina:number, registros:number):Observable<any>{
         let params:HttpParams = new HttpParams()

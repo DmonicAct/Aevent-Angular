@@ -14,11 +14,10 @@ export class Evento{
     public tipoEvento:TipoEvento;
     public categorias: Array<Categoria>;
     public lugar: Lugar;
-    public estado:string;
+    public estado:String;
     public formulario: FormularioCFP;
     public fases: Array<Fase>;
     constructor(){
-        this.idEvento=-1;
         this.fases=new Array<Fase>();
         this.categorias = new Array<Categoria>();
     }

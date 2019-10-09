@@ -1,11 +1,12 @@
 
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, LOCALE_ID } from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from "@angular/router";
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ToastrModule } from 'ngx-toastr';
@@ -80,9 +81,9 @@ export function getAuthServiceConfigs() {
     SocialLoginModule,
 
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, Title,
+  providers: [{ provide: LocationStrategy,useClass: HashLocationStrategy }, Title,
   { provide: AuthServiceConfig, useFactory: getAuthServiceConfigs},
-  { provide: LOCALE_ID, useValue: 'es' },
+ /*  { provide: LOCALE_ID, useValue: 'es' }, */
   { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

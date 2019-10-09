@@ -28,13 +28,13 @@
 
         </tab>
 
-        <tab #tabsCallforPapers heading="Call For Papers" [disabled]="item.idEvento==-1">
+        <tab #tabsCallforPapers heading="Call For Papers" [disabled]="item.idEvento==null">
             <div class="mail-box-header">
                 <call-for-paper></call-for-paper>
               </div>
         </tab>
 
-        <tab #tabsFases heading="Fases" [disabled]="item.idEvento==-1">
+        <tab #tabsFases heading="Fases" [disabled]="item.idEvento==null">
             <div class="mail-box-header">
               <fase-evento></fase-evento>
             </div>
