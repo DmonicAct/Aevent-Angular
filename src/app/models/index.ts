@@ -15,13 +15,9 @@ import { Fase } from './fase';
 import { Categoria } from './categoria'
 import { Seccion } from './seccion';
 import { TipoEvento } from './tipoevento';
-<<<<<<< HEAD
-import { Lugar} from './lugar';
-export{
-=======
 import {Lugar} from './lugar'; 
 export {
->>>>>>> origin/master
+
     Persona,
     Usuario,
     Roles,
