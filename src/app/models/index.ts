@@ -17,6 +17,7 @@ import { Seccion } from './seccion';
 import { TipoEvento } from './tipoevento';
 import {Lugar} from './lugar'; 
 export {
+
     Persona,
     Usuario,
     Role,
