@@ -1,5 +1,6 @@
 export class Role{
-    public id_rol: Number;
+    public id: number;
     public nombre: String;
     public codigo_rol: String;
+    public enabled:Boolean;
 }

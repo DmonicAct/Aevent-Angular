@@ -46,8 +46,8 @@
                 <td class="text-center" data-col="nombre">{{item.nombre}}</td>
                 <td class="text-center" data-col="appaterno">{{item.descripcion}}</td>
                 <td class="text-center" data-col="appaterno">{{item.tipoEvento}}</td>
-                <td class="text-center" data-col="apmatenro">{{item.fechaInicio}}</td>
-                <td class="text-center" data-col="usuario">{{item.fechafin}}</td>
+                <td class="text-center" data-col="apmatenro">{{item.fechaInicio | date:'dd/MM/yyyy'}}</td>
+                <td class="text-center" data-col="usuario">{{item.fechafin | date:'dd/MM/yyyy'}}</td>
                 <td class="text-center" data-col="usuario">{{item.estado}}</td>
                 <td class="text-center" data-col="estado" style="padding-left: 0">
                   <span *ngIf="item.enabled==true" class="label"

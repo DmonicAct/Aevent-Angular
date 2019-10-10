@@ -11,6 +11,7 @@ import { defineLocale } from 'ngx-bootstrap/chronos';
 import { EventoService } from "src/app/services/evento.service";
 import { AuthService as AeventAuthService } from '../../../../../../auth/service/auth.service';
 import * as moment from 'moment';
+import { ToastrService } from "ngx-toastr";
 @Component({
     selector: 'detalle-evento',
     templateUrl: 'detalle-evento.template.html',
@@ -30,11 +31,13 @@ export class DetalleEventoConfiguracion implements OnInit {
     @Input('item-evento')
     public item: Evento;
     constructor(private authService: AeventAuthService,
+     //   private _location: Location,  
         private localeService: BsLocaleService,
         private service: CategoriaService,
         private servicePersonas: PersonaService,
         private serviceEvento: EventoService,
-        private serviceTipoEvento: TipoEventoServices) {
+        private serviceTipoEvento: TipoEventoServices,
+        private toastr: ToastrService) {
         //this.item = new Evento();
         this.itemsCategorias = new Array<Categoria>();
         defineLocale('es', esLocale);
@@ -136,12 +139,13 @@ export class DetalleEventoConfiguracion implements OnInit {
                 this.item = response.resultado;
                 this.item.fechaInicio = this.item.fechaInicio = moment(this.item.fechaInicio).toDate();
                 this.item.fechaFin = this.item.fechaFin = moment(this.item.fechaFin).toDate();
+                this.toastr.success(`Se ha guardado con exito`, 'Aviso', {closeButton: true});
             }
         );
 
     }
     onCancelar() {
-        
+        //this._location.back();
     }
     DetectChange() {
 

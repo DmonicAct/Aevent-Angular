@@ -32,7 +32,7 @@
             <form class="form-horizontal">
               <div class="form-group">
                 <label class="col-sm-2">Nombre(*):</label>
-                <div class="col-sm-4"><input required type="text" class="form-control" placement="top" name="nombre"
+                <div class="col-sm-4"><input required type="text" autocomplete="off" class="form-control" placement="top" name="nombre"
                     [(ngModel)]="item.nombre"></div>
                 <label class="col-sm-2">Sexo(*):</label>
                 <div class="col-sm-4">
@@ -44,11 +44,11 @@
               </div>
               <div class="form-group">
                 <label class="col-sm-2">A.Paterno(*):</label>
-                <div class="col-sm-4"><input required type="text" class="form-control" placement="top" name="appaterno"
+                <div class="col-sm-4"><input required type="text" autocomplete="off" class="form-control" placement="top" name="appaterno"
                     [(ngModel)]="item.appaterno"></div>
                 <label class="col-sm-2">Correo(*):</label>
                 <div class="input-group">
-                  <input required type="email" name="email" [(ngModel)]="item.email" class="form-control"
+                  <input required type="email" name="email" autocomplete="off" [(ngModel)]="item.email" class="form-control"
                     placement="top">
                   <span class="input-group-btn">
                     <button *ngIf="!validar_email" class="btn btn-warning col-sm-12" (click)="OnValidarEmail()"><i
@@ -60,12 +60,12 @@
               </div>
               <div class="form-group">
                 <label class="col-sm-2">A.Materno(*):</label>
-                <div class="col-sm-4"><input required type="text" class="form-control" placement="top" name="appmaterno"
+                <div class="col-sm-4"><input required type="text" autocomplete="off" class="form-control" placement="top" name="appmaterno"
                     [(ngModel)]="item.apmaterno"></div>
                 <label class="col-sm-2">Fecha Nacimiento(*):</label>
                 <div class="col-sm-4">
                   <div class="input-group date">
-                    <input bsDatepicker #dp="bsDatepicker" name='fechaDocumento' [(bsValue)]="item.fechaNacimiento"
+                    <input bsDatepicker #dp="bsDatepicker" autocomplete="off" name='fechaDocumento' [(bsValue)]="item.fechaNacimiento"
                       (bsValueChange)="DetectChange()" value="{{ item.fechaNacimiento | date:'dd/MM/yyyy' }}"
                       type="text" class="form-control">
                     <span class="input-group-addon" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen"><i
@@ -99,12 +99,12 @@
             <form class="form-horizontal">
               <div class="form-group">
                 <label class="col-sm-4">Usuario(*):</label>
-                <div class="col-sm-8"><input required type="text" autocomplete="false" name="username" [(ngModel)]="item.username" class="form-control"
+                <div class="col-sm-8"><input required type="text" autocomplete="off" autocomplete="false" name="username" [(ngModel)]="item.username" class="form-control"
                     placement="top"></div>
               </div>
               <div class="form-group">
                 <label class="col-sm-4">Nueva Contraseña(*):</label>
-                <div class="col-sm-8"><input required type="password" autocomplete="false" name="password" [(ngModel)]="password" class="form-control"
+                <div class="col-sm-8"><input required type="password" autocomplete="off" autocomplete="false" name="password" [(ngModel)]="password" class="form-control"
                     placement="top"></div>
               </div>
               <div class="form-group">
@@ -133,6 +133,12 @@
                     <ui-switch [(ngModel)]="this.boolean_flags[i]"></ui-switch>
                   </div>
                 </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-4 text-left">Estado</label>
+                  <div class="col-sm-8 text-left">
+                    <ui-switch [(ngModel)]="this.item.enabled"></ui-switch>
+                  </div>
               </div>
             </div>
           </div>

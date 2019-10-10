@@ -3,6 +3,7 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import { Observable } from 'rxjs';
 import { AuthService } from '../service/auth.service';
 import swal from 'sweetalert2';
+import { Role } from 'src/app/models';
 
 @Injectable({
   providedIn: 'root'
@@ -21,13 +22,14 @@ export class RoleGuard implements CanActivate {
       return false;
     }
 
-    let role = next.data['role'] as string;
+    let role = next.data['role'] as Role;
+    console.log("ROLE : ");
     console.log(role);
     if (this.authService.hasRole(role)) {
       return true;
     }
-    swal('Acceso denegado', `Hola ${this.authService.usuario.username} no tienes acceso a este recurso!`, 'warning');
-    this.router.navigate(['/clientes']);
+    swal('Acceso denegado', `Hola ${this.authService.usuario.username} no tienes acceso a este modulo`, 'warning');
+    this.router.navigate(['/starterview']);
     return false;
   }
 }

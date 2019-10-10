@@ -1,3 +1,5 @@
 .color{
     background-color: #FFF9E6;
 }
+
+::ng-deep.bs-datepicker { top: -350px; }

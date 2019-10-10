@@ -3,7 +3,7 @@ import { Observable, throwError} from 'rxjs';
 import {  catchError } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Usuario, Persona } from '../../models';
+import { Usuario, Persona, Role } from '../../models';
 import {environment} from '../../../environments/environment';
 import { BaseLoginProvider } from 'angular-6-social-login/entities/base-login-provider';
 
@@ -123,7 +123,7 @@ export class AuthService {
     return false;
   }
 
-  hasRole(role: string): boolean {
+  hasRole(role: Role): boolean {
     if (this.usuario.roles.includes(role)) {
       return true;
     }

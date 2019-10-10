@@ -43,51 +43,78 @@ export class EditarUsuarioComponent implements OnInit  {
     this.sub = this.route.params.subscribe(params => {
       this.itemCodigo = +params['id'];
     });
-    console.log(this.itemCodigo);
+    this.ObtenerRoles();
+  }
+  ObtenerRoles(){
     this.roleService.obtenerRoles().subscribe(
       (response: Response)=>{
         this.itemsRoles = response.resultado;
         this.itemsRoles.forEach(e=>{
-          let enable: Boolean= false;
-          this.boolean_flags.push(enable);
+          let enabled = false;
+          this.boolean_flags.push(enabled);
+        });
+        if(this.itemCodigo){
+          this.ObtenerUsuario()
+        }
+      }
+    );
+  }
+  ObtenerUsuario(){
+    this.service.obtenerUsuario(this.itemCodigo).subscribe(
+      (response: Response)=>{
+        this.item = response.resultado;
+        this.item.roles.forEach((e,i)=>{
+          let index = e.id-1;
+          this.boolean_flags[index]=true;
         });
       }
     );
-    if(this.itemCodigo){
-      this.service.obtenerUsuario(this.itemCodigo).subscribe(
-        (response: Response)=>{
-          console.log(response);
-          this.item = response.resultado;
-          console.log(this.item.nombre);
-          console.log(this.item.appaterno);
-          console.log(this.item.apmaterno);
-          console.log("item :");
-          console.log(this.item);
-        }
-      );
-    }
-
   }
   OnRegresar(){
     this._location.back();
   }
   OnGuardar(){
-    console.log(this.item);
-    
-    /* if(this.password != this.password_repeat){
-
-    } */
-    let roles = new Array<Role>();
-    this.boolean_flags.forEach((e,i)=>{
-      if(e==true){
-        let role = this.itemsRoles[i];
-        roles.push(role);
+    if(this.itemCodigo==null){
+      if(!this.password || this.password == "" ){
+        this.toastr.success('Contraseña vacia', 'Aviso', {closeButton: true});
+        return;
       }
-    });
+    }
     
+    if( (this.password != "" || this.password_repeat!="") && this.password != this.password_repeat){
+      this.toastr.success('Contraseñas no coinciden', 'Aviso', {closeButton: true});
+      return;
+    }
+    
+    let roles = new Array<Role>();
+    if(this.itemCodigo){
+      this.boolean_flags.forEach((e1,i1)=>{
+        let isOnArray = false;
+        this.item.roles.forEach((e2,i2)=>{
+          if(e2.id-1==i1 && e1){
+            isOnArray=true;
+            e2.enabled=e1;
+            roles.push(e2);
+            isOnArray = true;
+          }
+        });
+        if(!isOnArray && e1){
+          let rol = this.itemsRoles[i1];
+          rol.enabled=e1;
+          roles.push(rol);
+        }
+      });
+    }else{
+      this.boolean_flags.forEach((e,i)=>{
+        if(e==true){
+          let role = this.itemsRoles[i];
+          roles.push(role);
+        }
+      });
+    }
+    this.item.roles = roles;
     this.service.guardarUsuarioSistema(this.item).subscribe(
       (response:Response)=>{
-        console.log(response);
         this.toastr.success('Se guardo el usuario correctamente', 'Aviso', {closeButton: true});
         this._location.back();
       });
