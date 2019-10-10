@@ -4,6 +4,7 @@ import {GestionCategoriaListaComponent} from './GestionCategorias/lista.componen
 import {EditarCategoriaComponent}from './GestionCategorias/editar/editar.component';
 import {GestionTipoEventoListaComponent} from './GestionTipoEvento/lista.component';
 import {EditarTipoEventoComponent}from './GestionTipoEvento/editar/editar.component';
+import {GestionLugarListaComponent}from './GestionLugar/lista.component';
 
 export const GestionUsuariosRoutes = [  
     {path: '', component: GestionUsuarioListaComponent },
@@ -21,4 +22,8 @@ export const GestionTipoEventoRoutes = [
     {path: '', component: GestionTipoEventoListaComponent },
     {path: 'nuevo', component: EditarTipoEventoComponent },
     {path: 'editar/:id', component: EditarTipoEventoComponent }
+];
+
+export const GestionLugarRoutes = [  
+    {path: '', component: GestionLugarListaComponent },
 ];

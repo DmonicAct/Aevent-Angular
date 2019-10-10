@@ -24,6 +24,7 @@ import { GestionOrganizadorRoutes } from './modules/gestionar_eventos/gestion.ro
 //add
 import { GestionCategoriasRoutes } from './modules/mantenimiento/mantenimiento.routes';
 import { GestionTipoEventoRoutes } from './modules/mantenimiento/mantenimiento.routes';
+import { GestionLugarRoutes } from './modules/mantenimiento/mantenimiento.routes'
 
 import { AuthGuard } from './auth/guards/auth.guard';
 import { RoleGuard } from './auth/guards/role.guard';
@@ -56,6 +57,11 @@ export const ROUTES:Routes = [
       {
         path: 'tipoEvento', component: BlankLayoutComponent,
         children: GestionTipoEventoRoutes,
+        canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } 
+      },
+      {
+        path: 'lugares', component: BlankLayoutComponent,
+        children: GestionLugarRoutes,
         canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } 
       }
     ],
