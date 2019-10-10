@@ -31,4 +31,65 @@ export class LugarService{
             return throwError(e);
         }));
     }
+
+    obtenerLugarPaginado(pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+        return this.http.get(this.apiEndpoint+'/paginacion',{params}).pipe(
+        catchError(e => {
+            if (e.status == 400) {
+            return throwError(e);
+            }
+            if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+            }
+            return throwError(e);
+        }));
+    }
+
+    obtenerLugar():Observable<any> {
+      return this.http.get(this.apiEndpoint).pipe(
+      catchError(e => {
+          if (e.status == 400) {
+          return throwError(e);
+          }
+          if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+          }
+          return throwError(e);
+      }));
+  }
+
+  guardarLugar(lugar: Lugar){
+    let url = `${this.apiEndpoint + '/guardar'}`;
+
+    return this.http.post(url, lugar).pipe(
+      catchError(e => {
+        if (e.status == 400) {
+          return throwError(e);
+        }
+        if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
+        return throwError(e);
+      }));
+  }
+
+  eliminarLugar(lugar: Lugar){
+   let url = `${this.apiEndpoint + '/eliminar'}`;
+    console.log(lugar);
+    console.log(url);
+    return this.http.post(url, lugar).pipe(
+      catchError(e => {
+        if (e.status == 400) {
+          return throwError(e);
+        }
+        if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
+        return throwError(e);
+      }));
+  }
 }

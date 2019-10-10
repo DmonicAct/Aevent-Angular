@@ -18,7 +18,6 @@ export class EditarUsuarioComponent implements OnInit  {
   public itemRol: Role;
   /* Parameters */
   public itemsRoles: Array<Role>;
-  
   public password: string;
   public password_repeat: string;
 
@@ -84,6 +83,8 @@ export class EditarUsuarioComponent implements OnInit  {
     if( (this.password != "" || this.password_repeat!="") && this.password != this.password_repeat){
       this.toastr.success('Contraseñas no coinciden', 'Aviso', {closeButton: true});
       return;
+    }else{
+      this.item.password = this.password;
     }
     
     let roles = new Array<Role>();

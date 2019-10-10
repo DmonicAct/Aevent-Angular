@@ -29,8 +29,7 @@
             <thead>
               <tr>
                 <th class="text-center">Código</th>
-                <th class="text-center">Nombre</th>
-                <th class="text-center">Descripcion</th>
+                <th class="text-left">Título</th>
                 <th class="text-center">Tipo</th>
                 <th class="text-center">Fecha Inicio</th>
                 <th class="text-center">Fecha Fin</th>
@@ -42,13 +41,11 @@
             <tbody>
               <tr *ngFor="let item of items; let i = index" (click)="OnRowClick(i, item)"
                 [class.selected]="i == selectedRow">
-                <td class="text-center" data-col="codigo"><code>{{item.id}}</code></td>
-                <td class="text-center" data-col="nombre">{{item.nombre}}</td>
-                <td class="text-center" data-col="appaterno">{{item.descripcion}}</td>
-                <td class="text-center" data-col="appaterno">{{item.tipoEvento}}</td>
-                <td class="text-center" data-col="apmatenro">{{item.fechaInicio | date:'dd/MM/yyyy'}}</td>
-                <td class="text-center" data-col="usuario">{{item.fechafin | date:'dd/MM/yyyy'}}</td>
-                <td class="text-center" data-col="usuario">{{item.estado}}</td>
+                <td class="text-center" data-col="idEvento"><code>{{item.idEvento}}</code></td>
+                <td class="text-left" data-col="titulo">{{item.titulo}}</td>
+                <td class="text-center" data-col="tipoEvento">{{item.tipoEvento.nombre}}</td>
+                <td class="text-center" data-col="fechaInicio">{{item.fechaInicio | date:'dd/MM/yyyy'}}</td>
+                <td class="text-center" data-col="fechafin">{{item.fechaFin | date:'dd/MM/yyyy'}}</td>
                 <td class="text-center" data-col="estado" style="padding-left: 0">
                   <span *ngIf="item.enabled==true" class="label"
                     [class.label-success]="item.enabled==true">ACTIVO</span>

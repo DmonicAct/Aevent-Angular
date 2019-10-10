@@ -6,6 +6,7 @@ export class Usuario{
     public username : string;
     public email : string;
     public password :string;
+    //public password_transit: string;
     public enabled : Boolean;
     //public roles: string[] = [];
     public roles: Role[] = [];

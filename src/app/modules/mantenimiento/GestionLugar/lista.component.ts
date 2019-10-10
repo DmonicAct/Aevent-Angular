@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Paginacion, Estado, Response, Lugar } from '../../../models';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { LugarServices } from '../../../services/lugar.services';
+import { LugarService } from '../../../services/lugar.service';
 import { Location } from '@angular/common';
 import { ModalDirective } from 'ngx-bootstrap';
 
@@ -10,7 +10,7 @@ import { ModalDirective } from 'ngx-bootstrap';
   selector: 'lugar-lista',
   templateUrl: 'lista.template.html',
   styleUrls: ['lista.template.scss'],
-  providers: [LugarServices] 
+  providers: [LugarService] 
 })
 export class GestionLugarListaComponent implements OnInit  {
 
@@ -34,7 +34,7 @@ export class GestionLugarListaComponent implements OnInit  {
   autoDeleteShownModal: ModalDirective;
   constructor(private toastr: ToastrService, 
               private router: Router,
-              private service: LugarServices,
+              private service: LugarService,
               private _location:Location
               ) {
     this.newItem = new Lugar;    

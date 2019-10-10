@@ -28,7 +28,7 @@
 
         </tab>
 
-        <tab #tabsCallforPapers heading="Call For Papers" [disabled]="item.idEvento">
+        <tab #tabsCallforPapers heading="Call For Papers" [disabled]="item.idEvento==null">
             <div class="mail-box-header">
                 <call-for-paper></call-for-paper>
               </div>

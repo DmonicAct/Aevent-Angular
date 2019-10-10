@@ -120,36 +120,36 @@ export class CallForPaperComponent implements OnInit {
             this.toastr.warning(`Descripcion vacia`, 'Aviso', { closeButton: true });
             return;
         }
-        if(!this.itemFormulario.divisiones)
-            this.itemFormulario.divisiones = new Array<Division>();
+        if(!this.itemFormulario.divisionList)
+            this.itemFormulario.divisionList = new Array<Division>();
         this.itemDivision = new Division();
-        this.itemDivision.indice= this.itemFormulario.divisiones.length+1;
+        this.itemDivision.indice= this.itemFormulario.divisionList.length+1;
         this.itemDivision.descripcion = this.descripcionDivision;
-        this.itemDivision.secciones = new Array<Seccion>();
-        this.itemFormulario.divisiones.push(this.itemDivision);
+        this.itemDivision.seccionList = new Array<Seccion>();
+        this.itemFormulario.divisionList.push(this.itemDivision);
         this.descripcionDivision = null;
     }
     OnEditar(index: number) {
-        this.itemsSeccion = this.itemFormulario.divisiones[index].secciones;
+        this.itemsSeccion = this.itemFormulario.divisionList[index].seccionList;
         this.itemsPreguntas = new Array<Pregunta>();
         this.isModalShown = true;
         this.indexDivision = index;
     }
     OnEliminar(index: number) {
-        this.itemFormulario.divisiones.splice(index, 1)[0];
+        this.itemFormulario.divisionList.splice(index, 1)[0];
     }
     //Secciones
     OnAgregarSeccion() {
         this.itemSeccion = new Seccion();
         this.itemSeccion.descripcion = this.descripcionSeccion;
         this.itemSeccion.tipoSeccion = this.itemTipoSeccion;
-        this.itemSeccion.preguntas = this.itemsPreguntas = new Array<Pregunta>();
+        this.itemSeccion.preguntaList = this.itemsPreguntas = new Array<Pregunta>();
         this.itemSeccion.indice = this.itemsSeccion.length+1;
         let index = this.itemsSeccion.length;
         this.itemsSeccion.push(this.itemSeccion);
         this.indexSeccion= this.itemsSeccion.length-1;
         console.log(this.itemsSeccion);
-        this.itemsPreguntas = this.itemsSeccion[index].preguntas;
+        this.itemsPreguntas = this.itemsSeccion[index].preguntaList;
         this.descripcionSeccion = null;
     }
 
@@ -159,7 +159,7 @@ export class CallForPaperComponent implements OnInit {
     }
     OnEditarSeccion(index: number) {
         this.indexSeccion=index;
-        this.itemsPreguntas = this.itemsSeccion[index].preguntas;
+        this.itemsPreguntas = this.itemsSeccion[index].preguntaList;
     }
     //Preguntas
     OnAgregarPregunta() {

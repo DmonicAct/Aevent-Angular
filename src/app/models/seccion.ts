@@ -6,6 +6,6 @@ export class Seccion{
     public descripcion: string;
     public tipoSeccion: TipoSeccion;
     public cantidadPreguntas: number;
-    public preguntas: Array<Pregunta>;
+    public preguntaList: Array<Pregunta>;
 
 }

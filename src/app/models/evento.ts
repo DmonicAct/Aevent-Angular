@@ -14,7 +14,7 @@ export class Evento{
     public tipoEvento:TipoEvento;
     public categorias: Array<Categoria>;
     public lugar: Lugar;
-    public estado:String;
+    public enabled:Boolean;
     public formulario: FormularioCFP;
     public fases: Array<Fase>;
     constructor(){

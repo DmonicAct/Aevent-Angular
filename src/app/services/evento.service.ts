@@ -52,7 +52,17 @@ export class EventoService{
             }));
     }
     obtenerEvento(idEvento:number):Observable<any>{
-        return null;
+      const url = `${this.apiEndpoint}/${idEvento}`;
+      return this.http.get(url).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
     }
     eliminarEvento():Observable<any>{
         return null
