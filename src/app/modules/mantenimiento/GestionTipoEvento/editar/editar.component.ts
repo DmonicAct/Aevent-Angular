@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuario,Response, Persona, Roles } from '../../../../models'
+import { Usuario,Response, Persona, Role } from '../../../../models'
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -15,9 +15,9 @@ export class EditarTipoEventoComponent implements OnInit  {
 
   
   public item : Persona;
-  public itemRol: Roles;
+  public itemRol: Role;
   /* Parameters */
-  public itemsRoles: Array<Roles>;
+  public itemsRoles: Array<Role>;
 
   private sub: any;
   private itemCodigo: number;
@@ -28,8 +28,8 @@ export class EditarTipoEventoComponent implements OnInit  {
               private service: UsuarioService,
               private roleService: RolesServices) {
     this.item = new Persona();
-    this.itemRol = new Roles();
-    this.itemsRoles = new Array<Roles>();
+    this.itemRol = new Role();
+    this.itemsRoles = new Array<Role>();
   }
 
   ngOnInit():any {

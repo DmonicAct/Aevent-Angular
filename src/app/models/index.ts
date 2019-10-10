@@ -1,6 +1,6 @@
 import { Persona } from './persona';
 import { Usuario } from './usuario';
-import { Roles } from './roles';
+import { Role } from './role';
 import { Paginacion } from './paginacion'
 import { Response } from './response';
 import { Evento } from './evento';
@@ -19,7 +19,7 @@ import {Lugar} from './lugar';
 export {
     Persona,
     Usuario,
-    Roles,
+    Role,
     Estado,
     TipoSeccion,
     Paginacion,

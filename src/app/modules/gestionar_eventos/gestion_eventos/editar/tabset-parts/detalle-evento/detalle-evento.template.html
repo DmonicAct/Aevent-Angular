@@ -18,7 +18,7 @@
                             <label class="col-sm-3 control-label">Nombre </label>
                             <div class="col-sm-9">
                                 <div class="input-group col-sm-9">
-                                    <input type="text" class="form-control" name="nombre" maxlength="30" [(ngModel)]="item.titulo"
+                                    <input type="text" autocomplete="off" class="form-control" name="nombre" maxlength="30" [(ngModel)]="item.titulo"
                                     onkeypress="return /[A-Za-z0-9]/i.test(event.key)">
                                 </div>
                             </div>
@@ -30,6 +30,7 @@
                                     bindLabel= "nombre" 
                                     placeholder="Seleccionar Tipo de Evento"
                                     name ="TipoEvento"
+                                    autocomplete="off"
                                     [clearable]="false" 
                                     [(ngModel)]="item.tipoEvento">
                                 </ng-select>

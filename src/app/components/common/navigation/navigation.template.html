@@ -30,28 +30,7 @@
           <li [ngClass]="{active: activeRoute('eventos-organizador')}"><a [routerLink]="['/gestionOrganizadorEvento/eventos-organizador']">Administrar Evento</a></li>
         </ul>
       </li>
-      <li [ngClass]="{active: activeRoute('mantenimiento')}">
-        <a href="#"><i class="fa fa-calendar"></i> <span class="nav-label">Eventos Académicos</span> <span class="fa arrow"></span> </a>
-        <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('mantenimiento')}">
-            <!-- *ngIf="checkPermission('/mantenimiento')" -->
-          <!-- *ngIf="checkPermission('/mantenimiento/configuracion-usuarios')" -->
-          <li [ngClass]="{active: activeRoute('configuracion-usuarios')}"><a [routerLink]="['/mantenimiento/configuracion-usuarios']">Ver Eventos</a></li>
-          <li [ngClass]="{active: activeRoute('configuracion-usuarios')}"><a [routerLink]="['/mantenimiento/configuracion-usuarios']">Crear Propuestas</a></li>  
-        </ul>
-      </li>
-      <li [ngClass]="{active: activeRoute('mantenimiento')}">
-        <a href="#"><i class="fa fa-calculator"></i> <span class="nav-label">Gestionar Eventos</span> <span class="fa arrow"></span> </a>
-        <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('mantenimiento')}">
-          <li [ngClass]="{active: activeRoute('configuracion-usuarios')}"><a [routerLink]="['/mantenimiento/configuracion-usuarios']">Administrar Usuarios</a></li>
-          <!--
-          <li [ngClass]="{active: activeRoute('configuracion-usuarios')}"><a [routerLink]="['/mantenimiento/configuracion-usuarios']">Administrar Evento</a></li>
-          <li [ngClass]="{active: activeRoute('configuracion-usuarios')}"><a [routerLink]="['/mantenimiento/configuracion-usuarios']">Configurar Evento</a></li>
-          <li [ngClass]="{active: activeRoute('configuracion-usuarios')}"><a [routerLink]="['/mantenimiento/configuracion-usuarios']">Ver Propuestas</a></li>
-          <li [ngClass]="{active: activeRoute('configuracion-usuarios')}"><a [routerLink]="['/mantenimiento/configuracion-usuarios']">Evaluar Propuestas</a></li>
-          -->
-
-        </ul>
-      </li>
+      
       <!-- <li [ngClass]="{active: activeRoute('mantenimiento')}">
         <a href="#"><i class="fa fa-cogs"></i> <span class="nav-label">Mantenimiento</span> <span class="fa arrow"></span> </a>
         <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('mantenimiento')}"> -->

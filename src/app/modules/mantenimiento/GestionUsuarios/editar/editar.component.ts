@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuario,Response, Persona, Roles } from '../../../../models'
+import { Usuario,Response, Persona, Role } from '../../../../models'
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -15,9 +15,9 @@ import { PersonaService } from '../../../../services';
 export class EditarUsuarioComponent implements OnInit  {
 
   public item : Persona;
-  public itemRol: Roles;
+  public itemRol: Role;
   /* Parameters */
-  public itemsRoles: Array<Roles>;
+  public itemsRoles: Array<Role>;
   
   public password: string;
   public password_repeat: string;
@@ -34,8 +34,8 @@ export class EditarUsuarioComponent implements OnInit  {
               private servicePersona: PersonaService,
               private roleService: RolesServices) {
     this.item = new Persona();
-    this.itemRol = new Roles();
-    this.itemsRoles = new Array<Roles>();
+    this.itemRol = new Role();
+    this.itemsRoles = new Array<Role>();
     this.boolean_flags= new Array<Boolean>();
   }
 
@@ -74,10 +74,23 @@ export class EditarUsuarioComponent implements OnInit  {
   OnGuardar(){
     console.log(this.item);
     
-    if(this.password != this.password_repeat){
+    /* if(this.password != this.password_repeat){
 
-    }
-    //this._location.back();
+    } */
+    let roles = new Array<Role>();
+    this.boolean_flags.forEach((e,i)=>{
+      if(e==true){
+        let role = this.itemsRoles[i];
+        roles.push(role);
+      }
+    });
+    
+    this.service.guardarUsuarioSistema(this.item).subscribe(
+      (response:Response)=>{
+        console.log(response);
+        this.toastr.success('Se guardo el usuario correctamente', 'Aviso', {closeButton: true});
+        this._location.back();
+      });
   }
   DetectChange(){
 

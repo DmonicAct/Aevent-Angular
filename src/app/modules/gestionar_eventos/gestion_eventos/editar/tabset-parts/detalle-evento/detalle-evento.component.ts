@@ -134,12 +134,14 @@ export class DetalleEventoConfiguracion implements OnInit {
             (response: Response)=>{
                 console.log(response.resultado);
                 this.item = response.resultado;
+                this.item.fechaInicio = this.item.fechaInicio = moment(this.item.fechaInicio).toDate();
+                this.item.fechaFin = this.item.fechaFin = moment(this.item.fechaFin).toDate();
             }
         );
 
     }
     onCancelar() {
-
+        
     }
     DetectChange() {
 
