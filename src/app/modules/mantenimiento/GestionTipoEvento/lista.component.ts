@@ -26,6 +26,7 @@ export class GestionTipoEventoListaComponent implements OnInit  {
 
   public descripcionModal : String;
   public paginacion: Paginacion;
+  public loading: Boolean = false;
   @ViewChild('autoShownModal') 
   autoShownModal: ModalDirective;
   @ViewChild('autoNewShownModal')
@@ -49,7 +50,6 @@ export class GestionTipoEventoListaComponent implements OnInit  {
   getLista(){
     this.service.obtenerTipoEvento(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response)=>{
-        console.log(response);
         this.items = response.resultado;
         this.paginacion = response.paginacion;
         if(this.isModalShown){
@@ -65,7 +65,6 @@ export class GestionTipoEventoListaComponent implements OnInit  {
       this.newItem.enabled=1;
       this.service.guardarTipoEvento(this.newItem).subscribe(
         (response: Response)=>{
-          console.log(response);
           if(response.estado=="OK"){
             this.toastr.success(`Se ha creado el tipo de evento con exito`, 'Aviso', {closeButton: true});
             this.getLista()
@@ -78,7 +77,6 @@ export class GestionTipoEventoListaComponent implements OnInit  {
       this.item.enabled = this.estado?1:0;
       this.service.guardarTipoEvento(this.item).subscribe(
         (response: Response)=>{
-          console.log(response);
           if(response.estado=="OK"){
             this.toastr.success(`Se ha editado tipo de evento con éxito`, 'Aviso', {closeButton: true});
             this.getLista()
@@ -92,7 +90,6 @@ export class GestionTipoEventoListaComponent implements OnInit  {
   }
 
   OnAgregar(){
-    console.log(this.isNewModalShown)
 
     this.descripcionModal = "";
 
@@ -101,19 +98,16 @@ export class GestionTipoEventoListaComponent implements OnInit  {
   }
   
   OnEditar(index:number){
-    console.log(this.isModalShown)
 
     this.item = this.items[index];
     this.estado = this.item.enabled==1;
     this.descripcionModal = this.item.nombre;
-    console.log(this.descripcionModal)
 
     this.esNuevo = false;
     this.isModalShown=true;
   }
 
   OnEliminar(index: number){
-    console.log(this.isDeleteModalShown)
 
     this.item = this.items[index];
 
@@ -123,7 +117,6 @@ export class GestionTipoEventoListaComponent implements OnInit  {
   OnConfirmar(){
     this.service.eliminarCategoria(this.item).subscribe(
       (response: Response)=>{
-        console.log(response);
         if(response.estado=="OK"){
           this.toastr.success(`Se ha eliminado el tipo de evento con éxito`, 'Aviso', {closeButton: true});
           this.getLista()

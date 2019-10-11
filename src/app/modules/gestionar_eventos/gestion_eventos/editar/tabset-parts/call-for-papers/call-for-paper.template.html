@@ -40,7 +40,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let item of this.itemFormulario.divisiones; let i = index"
+                                                        <tr *ngFor="let item of this.itemFormulario.divisionList; let i = index"
                                                             (click)="OnRowClick(i, item)"
                                                             [class.selected]="i == selectedRow">
                                                             <td class="text-center" style="width:10%;"

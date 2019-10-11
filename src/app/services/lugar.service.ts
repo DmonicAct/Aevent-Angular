@@ -79,8 +79,6 @@ export class LugarService{
 
   eliminarLugar(lugar: Lugar){
    let url = `${this.apiEndpoint + '/eliminar'}`;
-    console.log(lugar);
-    console.log(url);
     return this.http.post(url, lugar).pipe(
       catchError(e => {
         if (e.status == 400) {

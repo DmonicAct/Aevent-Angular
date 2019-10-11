@@ -14,6 +14,7 @@ export class GestionUsuarioListaComponent implements OnInit  {
 
   public items : Array<Persona>;
   public paginacion: Paginacion;
+  public loading: Boolean = false;
   constructor(private toastr: ToastrService, 
               private router: Router,
               private service: UsuarioService,
@@ -30,7 +31,6 @@ export class GestionUsuarioListaComponent implements OnInit  {
   getLista(){
     this.service.obtenerUsuarios(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response)=>{
-        console.log(response);
         this.items = response.resultado;
         this.paginacion = response.paginacion;
       }

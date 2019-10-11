@@ -6,7 +6,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResetComponent implements OnInit {
 
-  
+  waiting:any;
+  error:any;
+  info:any;
+  requested:any;
+  copyright:any;
+  id:any;
+  version:any;
  constructor() {
 
   }

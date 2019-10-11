@@ -11,7 +11,7 @@ export class Dashboard41Component implements OnDestroy, OnInit {
 
   public nav:any;
   public body:any;
-
+  lineChartOptions:any;
   public constructor() {
     this.nav = document.querySelector('nav.navbar');
     this.body = document.querySelector("body");

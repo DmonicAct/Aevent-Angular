@@ -9,7 +9,7 @@ declare var jQuery:any;
 })
 
 export class Dashboard3Component implements OnDestroy, OnInit {
-
+  lineChartOptions:any;
   public nav:any;
   public wrapper:any;
 

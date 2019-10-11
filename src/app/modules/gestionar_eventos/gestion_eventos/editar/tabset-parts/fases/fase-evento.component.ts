@@ -6,6 +6,7 @@ import { OnInit, Component } from "@angular/core";
     styleUrls: ['fase-evento.template.scss']
 })
 export class FaseEventoComponent implements OnInit{
+    public loading: Boolean = false;
     ngOnInit(): void {
     }
 

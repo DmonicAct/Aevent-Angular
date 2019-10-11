@@ -18,8 +18,8 @@ export class LoginCreateComponent /*implements OnInit*/ {
   titulo: string = 'Por favor Sign In!';
   //usuario: Usuario;
   usuario: Persona;
-  
-
+  public loading:Boolean=false;
+  public error:string=null;
   constructor(private authService: AeventAuthService, 
               private toastr: ToastrService,
               private router: Router,
@@ -52,72 +52,65 @@ export class LoginCreateComponent /*implements OnInit*/ {
       this.usuario.fechaNacimiento == null){      
     
       this.toastr.warning('Ingrese los campos requeridos!', 'Error', {closeButton: true});
-      console.log(this.usuario);
       return;
     }
     //VALIDACION USERNAME
     if(usrName.length<4||usrName.length>15){
       this.toastr.warning('Usuario debe ser de 4 a 15 caracteres alfanuméricos', 'Error', {closeButton: true});
-      console.log(this.usuario);
       return;
     }
     //VALIDACION CONTRASEÑA
     if(contrasenha.length<6||contrasenha.length>25 ){
       this.toastr.warning('Contraseña debe ser de 6 a 25 caracteres alfanuméricos, con por lo menos \n - una mayúscula \n - una minúscula y \n - un número ', 'Error', {closeButton: true});
-      console.log(this.usuario);
       return;
     }
     //EMAIL
     if(!this.emailIsValid(this.usuario.email)){
       this.toastr.warning('Ingresar un correo válido', 'Error', {closeButton: true});
-      console.log(this.usuario);
       return;
     }
 
 
 
     if(!this.checkPassword(contrasenha) ){
-      console.log(contrasenha);
-      console.log(this.checkPassword(contrasenha));
+      
+      //console.log(this.checkPassword(contrasenha));
       this.toastr.warning('Contraseña debe ser de 6 a 25 caracteres alfanuméricos, con por lo menos \n - una mayúscula \n - una minúscula y \n - un número ', 'Error', {closeButton: true});
-      console.log(this.usuario);
+      
       return;
     }
     //VALIDACION NOMBRE
     if(nombre.length<1||nombre.length>20 ){
       this.toastr.warning('Nombres deben ser de 1 a 20 caracteres', 'Error', {closeButton: true});
-      console.log(this.usuario);
       return;
     }
     //VALIDACION APELLIDOS
     if(apPaterno.length<1||apPaterno.length>20 ){
       this.toastr.warning('Apellidos deben ser de 1 a 20 caracteres', 'Error', {closeButton: true});
-      console.log(this.usuario);
+      
       return;
     }
     if(apMaterno.length<1||apMaterno.length>20 ){
       this.toastr.warning('Apellidos deben ser de 1 a 20 caracteres', 'Error', {closeButton: true});
-      console.log(this.usuario);
+      
       return;
     }
     //VALIDACION SEXO
     //VALIDACION FECHA DE NACIMIENTO
     if(usrName.length<1||usrName.length>20 ){
       this.toastr.warning('Apellidos deben ser de 1 a 20 caracteres', 'Error', {closeButton: true});
-      console.log(this.usuario);
+      
       return;
     }
     //VALIDACION DIRECCION
     if(usrDireccion.length<1||usrDireccion.length>20 ){
       this.toastr.warning('Apellidos deben ser de 1 a 20 caracteres', 'Error', {closeButton: true});
-      console.log(this.usuario);
       return;
     }
     //VALIDACION DNI
     
     this.service.guardarUsuarioOut(this.usuario).subscribe(
       (response: Response)=>{
-        console.log(response);
    
       }
     );
@@ -140,12 +133,13 @@ export class LoginCreateComponent /*implements OnInit*/ {
     socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
-        console.log(socialPlatform+" sign in data : " , userData);
+        //console.log(socialPlatform+" sign in data : " , userData);
         // Now sign-in with userData
         // ...
             
       }
     );
   }
+  DetectChange(){}
 
 }

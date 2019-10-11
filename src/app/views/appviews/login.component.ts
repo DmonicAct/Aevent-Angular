@@ -14,7 +14,8 @@ import { UsuarioService } from '../../services/usuario.service';
 export class LoginComponent {
   titulo: string = 'Por favor Sign In!';
   usuario: Usuario;
-
+  public loading: Boolean = false;
+  public error: string = null;
   constructor(private authService: AeventAuthService, 
               private toastr: ToastrService,
               private router: Router,
@@ -71,7 +72,6 @@ export class LoginComponent {
     socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
-        console.log(socialPlatform+" sign in data : " , userData);
         this.validarCreacionGoogle(this.obtenerDatosToken(userData.idToken));
         
         // Now sign-in with userData
@@ -85,7 +85,6 @@ export class LoginComponent {
     this.usuario.username = idToken.email;
     usrName = (String) (this.usuario.username);
     usrName = usrName.substr(0,usrName.indexOf("@"));
-    console.log("THIS SHOULD WORK1: ",usrName);
     
     this.usuario.username = usrName.toString();
     this.usuario.password =  idToken.sub;
@@ -95,18 +94,17 @@ export class LoginComponent {
     persona.nombre = idToken.given_name;
     persona.appaterno = idToken.family_name;    
 
-    console.log("THIS SHOULD WORK2: ",this.usuario.username);
     this.service.autenticarUsuarioGoogle(persona).subscribe((response: Response)=>{
-      console.log(response);
     }
     );
-    this.service.guardarUsuarioOut(persona).subscribe((response: Response)=>{console.log("DONE");});
+    this.service.guardarUsuarioOut(persona).subscribe((response: Response)=>{
+      
+    });
     
     
 
     //this.loginSocial();
 
-    console.log("THIS SHOULD WORK3: ",idToken);
 
 
   }

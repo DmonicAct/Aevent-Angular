@@ -52,18 +52,12 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.obtenerUsuarios();
         this.obtenerTipoEventos();
         this.obtenerListaLugar();
-        /* console.log(this.item.idEvento);
-        if(this.item.idEvento!=null){
-            this.categoriasSeleccionadas = this.item.categorias;
-            console.log(this.categoriaSeleccionada);
-            console.log(this.item.presidente);
-        } */
     }
     public datos: boolean = true;
     public call: boolean = false;
     public fases: boolean = false;
     public modalPresidenteCorrecto: boolean = false;
-
+    
     obtenerListaLugar() {
         this.serviceLugar.obtenerLugares().subscribe(
             (response: Response) => {
@@ -141,6 +135,18 @@ export class DetalleEventoConfiguracion implements OnInit {
     }
     onGuardar() {
        // this.item.categorias = this.categoriasSeleccionadas;
+       if(!this.item.fechaFin){
+            this.toastr.warning(`Se debe de seleccionar una fecha para el fin de evento`, 'Aviso', { closeButton: true });
+            return;
+       }
+       if(!this.item.fechaInicio){
+            this.toastr.warning(`Se debe de seleccionar una fecha para el inicio de evento`, 'Aviso', { closeButton: true });
+            return;
+       }
+       if(this.item.fechaFin<this.item.fechaInicio){
+            this.toastr.warning(`La fecha de fin de evento no puede ser menos a la de inicio de evento`, 'Aviso', { closeButton: true });
+            return;
+       }
         this.item.organizador = this.authService.persona;
         this.item.enabled = false;
         this.serviceEvento.guardarEvento(this.item).subscribe(

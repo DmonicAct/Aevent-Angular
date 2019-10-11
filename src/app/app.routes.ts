@@ -16,8 +16,6 @@ import {BootstrapRoutes} from "./modules/bootstrap/bootstrap.routes";
 
 import {BlankLayoutComponent} from "./components/common/layouts/blankLayout.component";
 import {BasicLayoutComponent} from "./components/common/layouts/basicLayout.component";
-import {TopNavigationLayoutComponent} from "./components/common/layouts/topNavigationlayout.component";
-
 
 import { GestionUsuariosRoutes } from './modules/mantenimiento/mantenimiento.routes';
 import { GestionOrganizadorRoutes } from './modules/gestionar_eventos/gestion.routes';
@@ -37,8 +35,7 @@ export const ROUTES:Routes = [
   {
     path: '', component: BasicLayoutComponent,
     children: [
-      { path: 'inicio', component: StarterViewComponent },
-      { path: 'outlook', component: OutlookViewComponent }
+      { path: 'inicio', component: StarterViewComponent }
     ]
   },
   {
@@ -71,8 +68,8 @@ export const ROUTES:Routes = [
     children: [
       {
         path: 'eventos-organizador', component: BlankLayoutComponent,
-        children: GestionOrganizadorRoutes
-        //,canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } 
+        children: GestionOrganizadorRoutes,
+        canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ORGANIZER' } 
       }
     ],
   },
@@ -83,27 +80,6 @@ export const ROUTES:Routes = [
       { path: 'login/reset', component: ResetComponent },
       { path: 'login/create', component: LoginCreateComponent}
     ]
-  },
-  {
-    path: 'dashboards', component: BasicLayoutComponent,
-    children: [
-      {path: 'dashboard1', component: Dashboard1Component},
-      {path: 'dashboard2', component: Dashboard2Component},
-      {path: 'dashboard3', component: Dashboard3Component},
-      {path: 'dashboard4', component: Dashboard4Component},
-      {path: 'dashboard5', component: Dashboard5Component}
-    ]
-  },
-  {
-    path: 'dashboards', component: TopNavigationLayoutComponent,
-    children: [
-      {path: 'dashboard41', component: Dashboard41Component}
-    ]
-  },
-  
-  {
-    path: 'bootstrap', component: BasicLayoutComponent,
-    children: BootstrapRoutes
   },
 
   

@@ -69,7 +69,6 @@ export class AuthService {
     params.set('grant_type', 'password');
     params.set('username', usuario.username);
     params.set('password', usuario.password);
-    console.log(params.toString());
     return this.http.post<any>(urlEndpoint, params.toString(), { headers: httpHeaders }).pipe(
       catchError(e => {
         switch(e.status){
@@ -87,7 +86,6 @@ export class AuthService {
 
   guardarUsuario(accessToken: string): void {
     let payload = this.obtenerDatosToken(accessToken);
-    console.log(payload);
     this._usuario = new Usuario();
     this._persona = new Persona();
     this._persona.username = payload.user_name;
@@ -98,7 +96,6 @@ export class AuthService {
     this._usuario.email = payload.email;
     this._usuario.username = payload.user_name;
     this._usuario.roles = payload.authorities;
-    console.log(this._usuario);
     sessionStorage.setItem('usuario', JSON.stringify(this._usuario));
     sessionStorage.setItem('persona', JSON.stringify(this._persona));
   }

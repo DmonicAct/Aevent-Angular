@@ -26,6 +26,7 @@ export class GestionLugarListaComponent implements OnInit  {
 
   public descripcionModal : String;
   public paginacion: Paginacion;
+  public loading: Boolean = false;
   @ViewChild('autoShownModal') 
   autoShownModal: ModalDirective;
   @ViewChild('autoNewShownModal')
@@ -49,7 +50,6 @@ export class GestionLugarListaComponent implements OnInit  {
   getLista(){
     this.service.obtenerLugarPaginado(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response)=>{
-        console.log(response);
         this.items = response.resultado;
         this.paginacion = response.paginacion;
         if(this.isModalShown){
@@ -65,7 +65,6 @@ export class GestionLugarListaComponent implements OnInit  {
       this.newItem.enabled=1;
       this.service.guardarLugar(this.newItem).subscribe(
         (response: Response)=>{
-          console.log(response);
           if(response.estado=="OK"){
             this.toastr.success(`Se ha creado el lugar con exito`, 'Aviso', {closeButton: true});
             this.getLista()
@@ -78,7 +77,6 @@ export class GestionLugarListaComponent implements OnInit  {
       this.item.enabled = this.estado?1:0;
       this.service.guardarLugar(this.item).subscribe(
         (response: Response)=>{
-          console.log(response);
           if(response.estado=="OK"){
             this.toastr.success(`Se ha editado el lugar con éxito`, 'Aviso', {closeButton: true});
             this.getLista()
@@ -92,7 +90,6 @@ export class GestionLugarListaComponent implements OnInit  {
   }
 
   OnAgregar(){
-    console.log(this.isNewModalShown)
 
     this.descripcionModal = "";
 
@@ -101,19 +98,16 @@ export class GestionLugarListaComponent implements OnInit  {
   }
   
   OnEditar(index:number){
-    console.log(this.isModalShown)
 
     this.item = this.items[index];
     this.estado = this.item.enabled==1;
     this.descripcionModal = this.item.descripcion;
-    console.log(this.descripcionModal)
 
     this.esNuevo = false;
     this.isModalShown=true;
   }
 
   OnEliminar(index: number){
-    console.log(this.isDeleteModalShown)
 
     this.item = this.items[index];
 
@@ -123,7 +117,6 @@ export class GestionLugarListaComponent implements OnInit  {
   OnConfirmar(){
     this.service.eliminarLugar(this.item).subscribe(
       (response: Response)=>{
-        console.log(response);
         if(response.estado=="OK"){
           this.toastr.success(`Se ha eliminado el lugar con éxito`, 'Aviso', {closeButton: true});
           this.getLista()

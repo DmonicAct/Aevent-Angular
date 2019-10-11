@@ -68,8 +68,6 @@ export class TipoEventoServices{
 
   eliminarCategoria(tipoEvento: TipoEvento){
    let url = `${this.apiEndpoint + '/eliminar'}`;
-    console.log(tipoEvento);
-    console.log(url);
     return this.http.post(url, tipoEvento).pipe(
       catchError(e => {
         if (e.status == 400) {

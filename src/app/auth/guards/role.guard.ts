@@ -23,8 +23,6 @@ export class RoleGuard implements CanActivate {
     }
 
     let role = next.data['role'] as Role;
-    console.log("ROLE : ");
-    console.log(role);
     if (this.authService.hasRole(role)) {
       return true;
     }

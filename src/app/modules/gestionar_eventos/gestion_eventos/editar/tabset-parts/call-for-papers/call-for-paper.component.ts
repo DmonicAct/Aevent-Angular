@@ -23,7 +23,7 @@ export class CallForPaperComponent implements OnInit {
     public counterPreguntaMultiple: number = 0;
     public counterPreguntaFormulario: number = 0;
     public counterSeccion: number;
-
+    public loading: Boolean = false;
 
     public itemFormulario: FormularioCFP;
     //Tipos Preguntas
@@ -77,7 +77,6 @@ export class CallForPaperComponent implements OnInit {
         this.itemsTipoSeccion.push(item);
         item = TipoSeccion.PREGUNTA_MULTIPLE;
         this.itemsTipoSeccion.push(item);
-        console.log(this.itemsTipoSeccion);
     }
     ngAfterViewInit() {
         jQuery('.full-height-scroll').slimscroll({
@@ -88,12 +87,12 @@ export class CallForPaperComponent implements OnInit {
 
     }
     OnSeleccionCriterio() {
-        console.log(this.itemParametro);
+
     }
 
 
     OnVerPreliminar() {
-        console.log(this.itemFormulario);
+
      }
 
     //Modal
@@ -106,7 +105,7 @@ export class CallForPaperComponent implements OnInit {
         //this.autoShownModal.hide();
     }
     onNuevo() {
-        console.log(this.itemFormulario);
+
     }
     /**
      * 
@@ -148,7 +147,6 @@ export class CallForPaperComponent implements OnInit {
         let index = this.itemsSeccion.length;
         this.itemsSeccion.push(this.itemSeccion);
         this.indexSeccion= this.itemsSeccion.length-1;
-        console.log(this.itemsSeccion);
         this.itemsPreguntas = this.itemsSeccion[index].preguntaList;
         this.descripcionSeccion = null;
     }
@@ -163,7 +161,6 @@ export class CallForPaperComponent implements OnInit {
     }
     //Preguntas
     OnAgregarPregunta() {
-        console.log(this.itemTipoSeccion);
         if(!this.itemSeccion)
         return;
         this.itemPregunta = new Pregunta();

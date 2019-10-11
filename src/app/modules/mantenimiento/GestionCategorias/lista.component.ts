@@ -23,7 +23,7 @@ export class GestionCategoriaListaComponent implements OnInit  {
   public items : Array<Categoria>;
   public item : Categoria;
   public estado: Boolean;
-
+  public loading: Boolean = false;
   public descripcionModal : String;
   public paginacion: Paginacion;
   @ViewChild('autoShownModal') 
@@ -49,7 +49,6 @@ export class GestionCategoriaListaComponent implements OnInit  {
   getLista(){
     this.service.obtenerCategoriasPaginadas(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response)=>{
-        console.log(response);
         this.items = response.resultado;
         this.paginacion = response.paginacion;
         if(this.isModalShown){
@@ -65,7 +64,6 @@ export class GestionCategoriaListaComponent implements OnInit  {
       this.newItem.enabled=1;
       this.service.guardarCategoria(this.newItem).subscribe(
         (response: Response)=>{
-          console.log(response);
           if(response.estado=="OK"){
             this.toastr.success(`Se ha creado la categoría con exito`, 'Aviso', {closeButton: true});
             this.getLista()
@@ -78,7 +76,6 @@ export class GestionCategoriaListaComponent implements OnInit  {
       this.item.enabled = this.estado?1:0;
       this.service.guardarCategoria(this.item).subscribe(
         (response: Response)=>{
-          console.log(response);
           if(response.estado=="OK"){
             this.toastr.success(`Se ha editado la categoría con éxito`, 'Aviso', {closeButton: true});
             this.getLista()
@@ -92,7 +89,6 @@ export class GestionCategoriaListaComponent implements OnInit  {
   }
 
   OnAgregar(){
-    console.log(this.isNewModalShown)
 
     this.descripcionModal = "";
 
@@ -101,19 +97,16 @@ export class GestionCategoriaListaComponent implements OnInit  {
   }
   
   OnEditar(index:number){
-    console.log(this.isModalShown)
 
     this.item = this.items[index];
     this.estado = this.item.enabled==1;
     this.descripcionModal = this.item.descripcion;
-    console.log(this.descripcionModal)
 
     this.esNuevo = false;
     this.isModalShown=true;
   }
 
   OnEliminar(index: number){
-    console.log(this.isDeleteModalShown)
 
     this.item = this.items[index];
 
@@ -123,7 +116,6 @@ export class GestionCategoriaListaComponent implements OnInit  {
   OnConfirmar(){
     this.service.eliminarCategoria(this.item).subscribe(
       (response: Response)=>{
-        console.log(response);
         if(response.estado=="OK"){
           this.toastr.success(`Se ha eliminado la categoría con éxito`, 'Aviso', {closeButton: true});
           this.getLista()

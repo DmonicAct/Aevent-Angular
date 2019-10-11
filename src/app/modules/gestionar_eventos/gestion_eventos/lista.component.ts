@@ -14,6 +14,7 @@ import { Estado, Response } from '../../../models';
 export class ListaEventosOrganizador implements OnInit {
   public items: Array<Evento>;
   public paginacion: Paginacion;
+  public loading: Boolean = false;
   constructor(private toastr: ToastrService,
     private router: Router,
     private service: EventoService) {
@@ -36,5 +37,15 @@ export class ListaEventosOrganizador implements OnInit {
   }
   OnEditar(item : Evento){
     this.router.navigate([`gestionOrganizadorEvento/eventos-organizador/editar/${item.idEvento}`]);
+  }
+  OnPageChanged(event): void {
+    this.paginacion.pagina = event.page;
+    this.getEventos();
+  }
+
+  OnPageOptionChanged(event): void {
+    this.paginacion.registros = event.rows;
+    this.paginacion.pagina = 1;
+    this.getEventos();
   }
 }
