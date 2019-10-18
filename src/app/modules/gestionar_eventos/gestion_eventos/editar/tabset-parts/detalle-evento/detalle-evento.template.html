@@ -84,19 +84,19 @@
                         <div class="form-group row">
                             <label class="col-sm-2 control-label">Presidente </label>
                             <div class="col-sm-8">
-                                <ng-select [items]="itemsPersona"
-                                    bindLabel= "nombre" 
-                                    bindValue= "idUsuario"
-                                    placeholder="Seleccionar Presidente"
+                                <ng-select [(items)]="itemsPersona"
+                                    bindLabel="fullName"
+                                    bindValue="idUsuario"
                                     name ="Presidente"
+                                    placeholder="Seleccionar Presidente"
                                     [clearable]="false" 
                                     [(ngModel)]="item.presidente">
-                                    <ng-template ng-label-tmp let-item="item">
+                                    <!-- <ng-template ng-label-tmp let-item="item">
                                             <span >{{ item.nombre + ' ' + item.appaterno }}</span>
                                         </ng-template>
                                         <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
-                                              <span >{{ item.nombre + ' ' + item.appaterno }}</span>
-                                        </ng-template>
+                                              <span >{{ item.nombre + ' ' + item.appaterno}}</span>
+                                        </ng-template> -->
                                 </ng-select>
                             </div>
                         </div>
@@ -119,13 +119,13 @@
                         </div>
                         <div class="row col-sm-10 pull-right" 
                                 style="height: 200px; overflow: auto">
-                            <table *ngIf="categoriasSeleccionadas.length>0" class="table">
+                            <table *ngIf="item.categorias.length>0" class="table">
                                 <thead >
                                     <th class="text-left">Codigo</th>
                                     <th class="text-left">Descripción</th>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let data of this.itemsCategorias; let i = index">
+                                    <tr *ngFor="let data of this.item.categorias; let i = index">
                                         <th class="text-left">{{data.codigo}}</th>
                                         <th class="text-left">{{data.descripcion}}</th>
                                         <th>

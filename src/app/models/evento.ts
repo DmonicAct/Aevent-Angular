@@ -1,4 +1,4 @@
-import { FormularioCFP, Persona, Categoria, TipoEvento, Lugar } from ".";
+import { FormularioCFP, Persona, Categoria, TipoEvento, Lugar, Usuario } from ".";
 import { Fase } from ".";
 
 export class Evento{

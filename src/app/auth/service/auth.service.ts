@@ -69,6 +69,7 @@ export class AuthService {
     params.set('grant_type', 'password');
     params.set('username', usuario.username);
     params.set('password', usuario.password);
+    console.log(urlEndpoint);
     return this.http.post<any>(urlEndpoint, params.toString(), { headers: httpHeaders }).pipe(
       catchError(e => {
         switch(e.status){

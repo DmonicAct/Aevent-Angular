@@ -1,3 +1,12 @@
+//const url: string='192.168.1.13:8090/aevent/';
+//const url: string='http://localhost:8090/aevent/';
+const url: string='http://ec2-54-92-163-89.compute-1.amazonaws.com:8080/aevent/'
 export const environment = {
-  production: true
+  production: false,
+  serviceBackEndpoint: url,
+  serviceEndpoint: url + 'api',
+  serviceAuthEndpoint: url + 'oauth/token',
+  //Credenciales
+  APP_CONFIG_NAME: 'angularApp',
+  APP_CONFIG_PASSWORD: 'angularApp'
 };

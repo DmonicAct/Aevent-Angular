@@ -12,7 +12,7 @@
                                     </div>
                                 </div>
                                 <div class="ibox-content">
-                                    <div *ngFor="let seccion of division.secciones">
+                                    <div *ngFor="let seccion of division.seccionList">
                                         <div *ngIf="seccion.tipoSeccion=='PREGUNTA ABIERTA'">
                                             <div class="ibox-content">
                                                 <div class="row">
@@ -36,7 +36,7 @@
                                                     </div>
                                                     <div class="col-lg-9">
                                                         <div class="col-sm-3"
-                                                            *ngFor="let pregunta of seccion.preguntas; let i = index">
+                                                            *ngFor="let pregunta of seccion.preguntaList; let i = index">
                                                             <div class="checkbox checkbox-primary">
                                                                 <input name="pregunta"
                                                                     id="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}"

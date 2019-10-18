@@ -69,7 +69,7 @@ export const ROUTES:Routes = [
       {
         path: 'eventos-organizador', component: BlankLayoutComponent,
         children: GestionOrganizadorRoutes,
-        canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ORGANIZER' } 
+/*         canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ORGANIZER' }  */
       }
     ],
   },

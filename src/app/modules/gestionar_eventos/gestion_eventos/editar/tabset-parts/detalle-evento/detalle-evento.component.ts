@@ -1,5 +1,5 @@
 import { OnInit, Component, ViewChild, Input, Output, EventEmitter } from "@angular/core";
-import { Evento, Persona, TipoEvento, Lugar, Categoria, Response } from '../../../../../../models'
+import { Evento, Persona, TipoEvento, Lugar, Categoria, Response, Usuario } from '../../../../../../models'
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { esLocale } from 'ngx-bootstrap/locale';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
@@ -24,6 +24,8 @@ export class DetalleEventoConfiguracion implements OnInit {
     public fechaInicio: Date;
     public fechaFin: Date;
 
+    @Input('item-presidente')
+    public itemPresidente: Persona;
     //Evento de Padre
     @Input('item-evento')
     public item: Evento;
@@ -77,6 +79,10 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.servicePersonas.obtenerPersonas().subscribe(
             (response: Response) => {
                 this.itemsPersona = response.resultado;
+                this.itemsPersona.map((i) => { 
+                    i.fullName = i.nombre + ' ' + i.appaterno + ' ' + i.apmaterno ; return i; 
+                });
+                console.log(this.itemsPersona);
             }
         );
     }
@@ -121,6 +127,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         for (let cat of this.item.categorias) {
             if (this.categoriaSeleccionada == cat) {
                 this.unico = false;
+                break;
             }
         }
         if (this.unico) {
@@ -147,8 +154,10 @@ export class DetalleEventoConfiguracion implements OnInit {
             this.toastr.warning(`La fecha de fin de evento no puede ser menos a la de inicio de evento`, 'Aviso', { closeButton: true });
             return;
        }
+        this.item.presidente = this.itemPresidente;
         this.item.organizador = this.authService.persona;
         this.item.enabled = false;
+        console.log(this.item);
         this.serviceEvento.guardarEvento(this.item).subscribe(
             (response: Response) => {
                 this.item = response.resultado;

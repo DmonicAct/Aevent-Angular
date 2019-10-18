@@ -36,6 +36,7 @@ export class EditarGestionarEventoComponent implements OnInit{
         this.service.obtenerEvento(this.itemCodigo).subscribe(
             (response: Response)=>{
                 this.item=response.resultado;
+                console.log(this.item);
             }
         );
     }
