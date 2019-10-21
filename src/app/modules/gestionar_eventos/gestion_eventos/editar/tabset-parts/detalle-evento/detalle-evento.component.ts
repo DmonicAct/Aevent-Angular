@@ -23,9 +23,13 @@ export class DetalleEventoConfiguracion implements OnInit {
     public itemsLugar: Array<Lugar>;
     public fechaInicio: Date;
     public fechaFin: Date;
+    
+    public itemPresidente;
+
+    @Output() savedItem = new EventEmitter<any>();
 
     @Input('item-presidente')
-    public itemPresidente: Persona;
+    public itemPresidente_parent;
     //Evento de Padre
     @Input('item-evento')
     public item: Evento;
@@ -42,6 +46,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         //this.item = new Evento();
         this.itemsCategorias = new Array<Categoria>();
         this.itemsLugar = new Array<Lugar>();
+        this.itemPresidente = new Persona();
         defineLocale('es', esLocale);
         this.localeService.use('es');
     };
@@ -76,12 +81,35 @@ export class DetalleEventoConfiguracion implements OnInit {
     }
 
     obtenerUsuarios() {
+        console.log(this.itemPresidente.idUsuario);
         this.servicePersonas.obtenerPersonas().subscribe(
             (response: Response) => {
                 this.itemsPersona = response.resultado;
                 this.itemsPersona.map((i) => { 
                     i.fullName = i.nombre + ' ' + i.appaterno + ' ' + i.apmaterno ; return i; 
                 });
+                if(this.item && this.item.presidente){
+                    for(let i=0;i<this.itemsPersona.length;i++){
+                        if(this.itemsPersona[i].idUsuario==this.item.presidente.idUsuario){
+                            this.item.presidente.fullName = this.itemsPersona[i].nombre + ' ' + this.itemsPersona[i].appaterno + ' ' + this.itemsPersona[i].apmaterno ;
+                            break;
+                        }
+                    }
+                    
+                    console.log(this.item);
+                }
+               /*  if(this.itemPresidente_parent && this.itemPresidente_parent.idUsuario){
+                    this.itemPresidente.idUsuario = this.itemPresidente_parent.idUsuario;
+                } */
+               /*  if(this.itemPresidente_parent && this.itemPresidente_parent.idUsuario){
+                    this.itemsPersona.forEach(e=>{
+                        if(this.itemPresidente.idUsuario == e.idUsuario)
+                        this.itemPresidente = e;
+                    })
+                    console.log("Presidente");
+                    console.log(this.itemPresidente);
+                } */
+                
                 console.log(this.itemsPersona);
             }
         );
@@ -154,16 +182,23 @@ export class DetalleEventoConfiguracion implements OnInit {
             this.toastr.warning(`La fecha de fin de evento no puede ser menos a la de inicio de evento`, 'Aviso', { closeButton: true });
             return;
        }
-        this.item.presidente = this.itemPresidente;
+
+        //this.item.presidente= this.itemPresidente;
         this.item.organizador = this.authService.persona;
         this.item.enabled = false;
-        console.log(this.item);
         this.serviceEvento.guardarEvento(this.item).subscribe(
             (response: Response) => {
                 this.item = response.resultado;
                 this.item.fechaInicio = this.item.fechaInicio = moment(this.item.fechaInicio).toDate();
                 this.item.fechaFin = this.item.fechaFin = moment(this.item.fechaFin).toDate();
                 this.toastr.success(`Se ha guardado con exito`, 'Aviso', { closeButton: true });
+                for(let i=0;i<this.itemsPersona.length;i++){
+                    if(this.itemsPersona[i].idUsuario==this.item.presidente.idUsuario){
+                        this.item.presidente.fullName = this.itemsPersona[i].nombre + ' ' + this.itemsPersona[i].appaterno + ' ' + this.itemsPersona[i].apmaterno ;
+                        break;
+                    }
+                }
+                this.savedItem.emit(false);
             }
         );
 

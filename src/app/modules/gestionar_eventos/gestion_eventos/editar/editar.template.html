@@ -23,12 +23,12 @@
       <tabset #tabsDetalle>
         <tab heading="Detalle">
           <div class="mail-box-header">
-            <detalle-evento [(item-evento)]="item" [item-presidente]="item.item-presidente"></detalle-evento>
+            <detalle-evento [(item-evento)]="item" [item-presidente]="item.presidente" (savedItem)="displayItem($event)" ></detalle-evento>
           </div>
 
         </tab>
 
-        <tab #tabsCallforPapers heading="Call For Papers">
+        <tab #tabsCallforPapers heading="Call For Papers" [disabled]="flagEvento">
             <div class="mail-box-header">
                 <call-for-paper></call-for-paper>
               </div>

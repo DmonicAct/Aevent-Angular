@@ -86,17 +86,11 @@
                             <div class="col-sm-8">
                                 <ng-select [(items)]="itemsPersona"
                                     bindLabel="fullName"
-                                    bindValue="idUsuario"
                                     name ="Presidente"
                                     placeholder="Seleccionar Presidente"
                                     [clearable]="false" 
                                     [(ngModel)]="item.presidente">
-                                    <!-- <ng-template ng-label-tmp let-item="item">
-                                            <span >{{ item.nombre + ' ' + item.appaterno }}</span>
-                                        </ng-template>
-                                        <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
-                                              <span >{{ item.nombre + ' ' + item.appaterno}}</span>
-                                        </ng-template> -->
+                                    
                                 </ng-select>
                             </div>
                         </div>
