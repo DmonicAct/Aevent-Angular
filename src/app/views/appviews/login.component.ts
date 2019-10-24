@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Usuario, Persona } from '../../models/';
+import { Usuario, Persona, Response } from '../../models/';
 import { AuthService as AeventAuthService } from '../../auth/service/auth.service';
 import { AuthService as SocialAuthService, GoogleLoginProvider} from "angular-6-social-login";
 import { UsuarioService } from '../../services/usuario.service';
@@ -85,7 +85,7 @@ export class LoginComponent {
     this.usuario.username = idToken.email;
     usrName = (String) (this.usuario.username);
     usrName = usrName.substr(0,usrName.indexOf("@"));
-    
+    console.log(idToken);
     this.usuario.username = usrName.toString();
     this.usuario.password =  idToken.sub;
     let persona: Persona = new Persona();
@@ -93,13 +93,24 @@ export class LoginComponent {
     persona.password = idToken.sub;
     persona.nombre = idToken.given_name;
     persona.appaterno = idToken.family_name;    
+    persona.email = idToken.email;
 
     this.service.autenticarUsuarioGoogle(persona).subscribe((response: Response)=>{
+      if(response.resultado == true){
+        this.login();
+
+
+      }else{
+        this.service.guardarUsuarioOut(persona).subscribe((response: Response)=>{
+      
+        });
+
+      }
+
+      
     }
     );
-    this.service.guardarUsuarioOut(persona).subscribe((response: Response)=>{
-      
-    });
+    
     
     
 
