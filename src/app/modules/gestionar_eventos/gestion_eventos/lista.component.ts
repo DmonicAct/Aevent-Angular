@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Evento, Paginacion } from '../../../models';
 import { EventoService } from 'src/app/services/evento.service';
 import { Estado, Response } from '../../../models';
+import { AuthService as AeventAuthService } from '../../../auth/service/auth.service';
 
 @Component({
   selector: 'lista-eventos-organizador',
@@ -15,7 +16,8 @@ export class ListaEventosOrganizador implements OnInit {
   public items: Array<Evento>;
   public paginacion: Paginacion;
   public loading: Boolean = false;
-  constructor(private toastr: ToastrService,
+  constructor( private authService: AeventAuthService,
+    private toastr: ToastrService,
     private router: Router,
     private service: EventoService) {
     this.items = new Array<Evento>();
@@ -26,7 +28,8 @@ export class ListaEventosOrganizador implements OnInit {
   }
 
   getEventos() {
-    this.service.obtenerEventos(this.paginacion.pagina, this.paginacion.registros).subscribe(
+    console.log(this.authService.usuario);
+    this.service.obtenerEventos(this.authService.usuario,this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response) => {
         this.items = response.resultado;
       }
