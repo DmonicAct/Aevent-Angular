@@ -1,5 +1,5 @@
-import { OnInit, Component, ViewChild } from "@angular/core";
-import { Parametro, TipoSeccion, FormularioCFP, Division, Pregunta, Seccion } from "../../../../../../models";
+import { OnInit, Component, ViewChild, Input } from "@angular/core";
+import { Parametro, TipoSeccion, FormularioCFP, Division, Pregunta, Seccion, Evento } from "../../../../../../models";
 import { ModalDirective } from "ngx-bootstrap";
 import { ToastRef, ToastrService } from "ngx-toastr";
 declare var jQuery: any;
@@ -10,6 +10,7 @@ declare var jQuery: any;
     styleUrls: ['call-for-paper.template.scss']
 })
 export class CallForPaperComponent implements OnInit {
+    
     public itemsParametro: Array<Parametro>;
     public itemParametro: Parametro;
 
@@ -25,6 +26,9 @@ export class CallForPaperComponent implements OnInit {
     public counterSeccion: number;
     public loading: Boolean = false;
 
+    @Input('item-cfp')
+    public formulario:FormularioCFP;
+    
     public itemFormulario: FormularioCFP;
     //Tipos Preguntas
     public itemsTipoSeccion: Array<TipoSeccion>;
@@ -65,8 +69,10 @@ export class CallForPaperComponent implements OnInit {
         this.itemsPreguntas = new Array<Pregunta>();
         this.itemPregunta = new Pregunta();
         this.itemsTipoSeccion = new Array<TipoSeccion>();
-
-        this.itemFormulario = new FormularioCFP();
+        
+            
+        this.itemFormulario = new FormularioCFP();    
+        
         this.itemsSeccion = new Array<Seccion>();
         this.itemSeccion = new Seccion();
         //

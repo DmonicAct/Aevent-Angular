@@ -54,9 +54,11 @@ export class LoginCreateComponent /*implements OnInit*/ {
       this.toastr.warning('Ingrese los campos requeridos!', 'Error', {closeButton: true});
       return;
     }
+
+  
     //VALIDACION USERNAME
-    if(usrName.length<4||usrName.length>15){
-      this.toastr.warning('Usuario debe ser de 4 a 15 caracteres alfanuméricos', 'Error', {closeButton: true});
+    if(usrName.length<6||usrName.length>15){
+      this.toastr.warning('Usuario debe ser de 6 a 20 caracteres alfanuméricos', 'Error', {closeButton: true});
       return;
     }
     //VALIDACION CONTRASEÑA
@@ -109,9 +111,13 @@ export class LoginCreateComponent /*implements OnInit*/ {
     }
     //VALIDACION DNI
     
+
+   console.log(this.usuario);
+
+
     this.service.guardarUsuarioOut(this.usuario).subscribe(
       (response: Response)=>{
-   
+        
       }
     );
     

@@ -56,10 +56,9 @@ export class DetalleEventoConfiguracion implements OnInit {
     isModalShownCategorias = false;
     ngOnInit(): void {
         this.obtenerListaCategorias();
-        this.obtenerUsuarios();
         this.obtenerTipoEventos();
         this.obtenerListaLugar();
-       
+		this.obtenerUsuarios();
     }
     public datos: boolean = true;
     public call: boolean = false;
@@ -187,6 +186,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         //this.item.presidente= this.itemPresidente;
         this.item.organizador = this.authService.persona;
         this.item.enabled = false;
+        console.log(this.item);
         this.serviceEvento.guardarEvento(this.item).subscribe(
             (response: Response) => {
                 this.item = response.resultado;
