@@ -25,6 +25,7 @@ export class EditarGestionarEventoComponent implements OnInit{
         this.item = new Evento();
         this.item.idEvento = null;
         this.sub = this.route.params.subscribe(params => {
+            debugger
             this.itemCodigo = +params['id'];
             if(this.itemCodigo){
                 this.obtenerEvento();

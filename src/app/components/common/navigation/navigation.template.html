@@ -12,7 +12,7 @@
       <!-- <li [ngClass]="{active: activeRoute('starter')}">
         <a [routerLink]="['/starterview']"><i class="fa fa-th-large"></i> <span class="nav-label">Starter view</span></a>
       </li> -->
-      <li [ngClass]="{active: activeRoute('mantenimiento')}">
+      <li [ngClass]="{active: activeRoute('mantenimiento')}" *ngIf="rolAdmin">
         <a href="#"><i class="fa fa-cogs"></i> <span class="nav-label">Mantenimiento</span> <span class="fa arrow"></span> </a>
         <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('mantenimiento')}">
             <!-- *ngIf="checkPermission('/mantenimiento')" -->
@@ -23,12 +23,20 @@
           <li [ngClass]="{active: activeRoute('lugares')}"><a [routerLink]="['/mantenimiento/lugares']">Lugares</a></li>
         </ul>
       </li>
-      <li [ngClass]="{active: activeRoute('gestionOrganizadorEvento')}">
+      <li [ngClass]="{active: activeRoute('gestionOrganizadorEvento')}" *ngIf="rolOrga">
         <a href="#"><i class="fa fa-calculator"></i> <span class="nav-label">Gestionar Evento</span> <span class="fa arrow"></span> </a>
         <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('gestionOrganizadorEvento')}">
             <!-- *ngIf="checkPermission('/mantenimiento')" -->
           <!-- *ngIf="checkPermission('/mantenimiento/configuracion-usuarios')" -->
           <li [ngClass]="{active: activeRoute('eventos-organizador')}"><a [routerLink]="['/gestionOrganizadorEvento/eventos-organizador']">Administrar Evento</a></li>
+        </ul>
+      </li>
+      <li [ngClass]="{active: activeRoute('gestionPresidenteEvento')}" *ngIf="rolPres">
+        <a href="#"><i class="fa fa-calculator"></i> <span class="nav-label">Visualizar Evento</span> <span class="fa arrow"></span> </a>
+        <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('gestionPresidenteEvento')}">
+            <!-- *ngIf="checkPermission('/mantenimiento')" -->
+          <!-- *ngIf="checkPermission('/mantenimiento/configuracion-usuarios')" -->
+          <li [ngClass]="{active: activeRoute('eventos-presidente')}"><a [routerLink]="['/gestionPresidenteEvento/eventos-presidente']">Visualizar Evento</a></li>
         </ul>
       </li>
       

@@ -17,7 +17,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Título </label>
                             <div class="col-sm-9">
-                                <div class="input-group col-sm-9">
+                                <div class="input-group col-sm-10">
                                     <input type="text" autocomplete="off" class="form-control" name="nombre" maxlength="30" [(ngModel)]="item.titulo"
                                     onkeypress="return /^[a-zA-Z\s]*$/i.test(event.key)">
                                 </div>
@@ -62,8 +62,9 @@
                                     <input bsDatepicker #dp1="bsDatepicker" name='fechaInicio' [(bsValue)]="item.fechaInicio" 
                                         autocomplete="off"
                                         (bsValueChange)="DetectInicio()" value="{{ item.fechaInicio | date:'dd/MM/yyyy' }}"
-                                        type="text" class="form-control">
-                                    <span class="input-group-addon" (click)="dp1.toggle()" [attr.aria-expanded]="dp1.isOpen"><i class="fa fa-calendar"></i></span>
+                                        type="text" class="form-control" >
+                                    <span class="input-group-addon" (click)="dp1.toggle()"
+                                        [attr.aria-expanded]="dp1.isOpen"><i class="fa fa-calendar"></i></span>
                                 </div>
                             </div>
                         </div>
@@ -71,11 +72,12 @@
                             <label class="col-sm-3 control-label">Fecha Fin:</label>
                             <div class="col-sm-8">
                                 <div class="input-group date">
-                                        <input bsDatepicker #dp2="bsDatepicker" name='fechaFin' [(bsValue)]="item.fechaFin"
+                                    <input bsDatepicker #dp2="bsDatepicker" name='fechaFin' [(bsValue)]="item.fechaFin"
                                         autocomplete="off"
                                         (bsValueChange)="DetectFin()" value="{{ item.fechaFin | date:'dd/MM/yyyy' }}"
                                         type="text" class="form-control">
-                                        <span class="input-group-addon" (click)="dp2.toggle()" [attr.aria-expanded]="dp2.isOpen"><i class="fa fa-calendar"></i></span>
+                                    <span class="input-group-addon" (click)="dp2.toggle()"
+                                            [attr.aria-expanded]="dp2.isOpen"><i class="fa fa-calendar"></i></span>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +92,6 @@
                                     placeholder="Seleccionar Presidente"
                                     [clearable]="false" 
                                     [(ngModel)]="item.presidente">
-                                    
                                 </ng-select>
                             </div>
                         </div>
@@ -102,8 +103,7 @@
                                     placeholder="Seleccionar Categorias"
                                     name ="Categorias"
                                     [clearable]="false" 
-                                    [(ngModel)]="categoriaSeleccionada"
-                                    >
+                                    [(ngModel)]="categoriaSeleccionada">
                                 </ng-select>
                             </div>
                             <span class="input-group-btn col-sm-1" >

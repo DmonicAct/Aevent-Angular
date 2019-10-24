@@ -8,12 +8,12 @@ import { AuthService as AeventAuthService } from '../../../auth/service/auth.ser
 
 
 @Component({
-  selector: 'lista-eventos-organizador',
-  templateUrl: 'lista.template.html',
-  styleUrls: ['lista.template.scss']
+  selector: 'lista-eventos-presidente',
+  templateUrl: 'listaPresidente.template.html',
+  styleUrls: ['listaPresidente.template.scss']
 })
 
-export class ListaEventosOrganizador implements OnInit {
+export class ListaEventosPresidente implements OnInit {
   public items: Array<Evento>;
   public paginacion: Paginacion;
   public loading: Boolean = false;
@@ -26,9 +26,10 @@ export class ListaEventosOrganizador implements OnInit {
   }
   flagVer: Boolean;
   ngOnInit(): void {
-      this.getEventosOrgaByUsername();
-  }
+      this.getEventosByUsername();
 
+  }
+  
   getEventos() {
     this.service.obtenerEventos(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response) => {
@@ -37,8 +38,7 @@ export class ListaEventosOrganizador implements OnInit {
     );
   }
   
-  getEventosOrgaByUsername() {
-    //CAMBIAR FUNCION
+  getEventosByUsername() {
     this.service.obtenerEventosByUsername(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response) => {
         this.items = response.resultado;
@@ -53,6 +53,7 @@ export class ListaEventosOrganizador implements OnInit {
     this.router.navigate([`gestionOrganizadorEvento/eventos-organizador/editar/${item.idEvento}`]);
   }
 
+  //cambiar por nueva funcion con paginacion
   OnPageChanged(event): void {
     this.paginacion.pagina = event.page;
     this.getEventos();
