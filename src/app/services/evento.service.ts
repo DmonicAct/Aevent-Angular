@@ -54,13 +54,14 @@ export class EventoService{
               return throwError(e);
             }));
     }
-    obtenerEventosByUsername(user:string, pagina:number, registros:number):Observable<any>{
+
+    consultarAllEventoByOrganizador(user:string, pagina:number, registros:number):Observable<any>{
       let params:HttpParams = new HttpParams()
       .set('username', user)
-      /* .set('pagina', pagina.toString())
-      .set('registros', registros.toString()) */;
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
 
-        return this.http.get(this.apiEndpoint + '/eventos/' + user).pipe(
+        return this.http.get(this.apiEndpoint + '/organizador', {params}).pipe(
           catchError(e => {
             if (e.status == 400) {
               return throwError(e);
@@ -70,7 +71,26 @@ export class EventoService{
             }
             return throwError(e);
           }));
-  }
+    }
+
+    consultarAllEventoByPresidente(user:string, pagina:number, registros:number):Observable<any>{
+      let params:HttpParams = new HttpParams()
+      .set('username', user)
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+        return this.http.get(this.apiEndpoint + '/presidente', {params}).pipe(
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
+            return throwError(e);
+          }));
+    }
+
     obtenerEvento(idEvento:number):Observable<any>{
       const url = `${this.apiEndpoint}/${idEvento}`;
       return this.http.get(url).pipe(

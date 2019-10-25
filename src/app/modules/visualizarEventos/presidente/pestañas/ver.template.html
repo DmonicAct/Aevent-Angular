@@ -1,0 +1,46 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <h2>Gestion de Eventos</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a>Inicio</a>
+      </li>
+      <li>
+        <a>Gestionar de Evento</a>
+      </li>
+      <li>
+        <a>Administrar Evento</a>
+      </li>
+      <li class="active">
+        <strong>Nuevo Evento</strong>
+      </li>
+    </ol>
+  </div>
+</div>
+<article class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <tabset #tabsDetalle>
+        <tab heading="Detalle">
+          <div class="mail-box-header">
+            <detalleEventoPresidente [(item-evento)]="item" [item-presidente]="item.presidente" (savedItem)="displayItem($event)" ></detalleEventoPresidente>
+          </div>
+
+        </tab>
+<!-- 
+        <tab #tabsCallforPapers heading="Call For Papers" [disabled]="flagEvento">
+            <div class="mail-box-header">
+                <call-for-paper [(item-cfp)]="formulario"></call-for-paper>
+              </div>
+        </tab>
+
+        <tab #tabsFases heading="Fases" [disabled]="true">
+            <div class="mail-box-header">
+              <fase-evento></fase-evento>
+            </div>
+        </tab> -->
+      </tabset>
+
+    </div>
+  </div>
+</article>
