@@ -31,7 +31,9 @@ export class ListaEventosPresidente implements OnInit {
   }
   
   getEventos() {
-    this.service.obtenerEventos(this.paginacion.pagina, this.paginacion.registros).subscribe(
+    /**Verificar */
+    let usuario = this.authService.usuario;
+    this.service.obtenerEventos(usuario,this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response) => {
         this.items = response.resultado;
       }
