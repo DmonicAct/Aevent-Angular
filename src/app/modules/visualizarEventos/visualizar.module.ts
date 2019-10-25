@@ -14,6 +14,8 @@ import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 // modules/components
 import { PaginacionModule } from '../../components/common/paginacion/paginacion.module';
 import { ListaEventosPresidente } from './presidente/listaPresidente.component';
+import { DetalleEventoVer } from './presidente/pestañas/detalle-evento/detalleEventoPresidente.component';
+import { VerEventoPresidenteComponent } from './presidente/pestañas/ver.component';
 /* import { ListaEventosOrganizador } from './gestion_eventos/lista.component';
 import { EditarGestionarEventoComponent } from './gestion_eventos/editar/editar.component';
 import { DetalleEventoConfiguracion } from './gestion_eventos/editar/tabset-parts/detalle-evento/detalle-evento.component';
@@ -24,6 +26,8 @@ import { FaseEventoComponent } from './gestion_eventos/editar/tabset-parts/fases
 @NgModule({
   declarations: [
     ListaEventosPresidente,
+    DetalleEventoVer,
+    VerEventoPresidenteComponent,
     /* 
     EditarGestionarEventoComponent,
     DetalleEventoConfiguracion,

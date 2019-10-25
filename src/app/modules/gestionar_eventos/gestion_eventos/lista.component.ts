@@ -25,42 +25,33 @@ export class ListaEventosOrganizador implements OnInit {
   }
   flagVer: Boolean;
   ngOnInit(): void {
-      this.getEventosOrgaByUsername();
+      this.getEventosOrganizador();
   }
-
-  getEventos() {
-    console.log(this.authService.usuario);
-    this.service.obtenerEventos(this.authService.usuario,this.paginacion.pagina, this.paginacion.registros).subscribe(
+ 
+  getEventosOrganizador() {
+    this.service.consultarAllEventoByOrganizador(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response) => {
         this.items = response.resultado;
       }
     );
   }
   
-  getEventosOrgaByUsername() {
-    //CAMBIAR FUNCION
-    this.service.obtenerEventosByUsername(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
-      (response: Response) => {
-        this.items = response.resultado;
-      }
-    );
-  }
- 
   OnNuevo() {
     this.router.navigate([`gestionOrganizadorEvento/eventos-organizador/nuevo`]);
   }
+ 
   OnEditar(item : Evento){
     this.router.navigate([`gestionOrganizadorEvento/eventos-organizador/editar/${item.idEvento}`]);
   }
 
   OnPageChanged(event): void {
     this.paginacion.pagina = event.page;
-    this.getEventos();
+    this.getEventosOrganizador();
   }
 
   OnPageOptionChanged(event): void {
     this.paginacion.registros = event.rows;
     this.paginacion.pagina = 1;
-    this.getEventos();
+    this.getEventosOrganizador();
   }
 }

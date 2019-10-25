@@ -26,44 +26,31 @@ export class ListaEventosPresidente implements OnInit {
   }
   flagVer: Boolean;
   ngOnInit(): void {
-      this.getEventosByUsername();
+      this.getEventosPresidente();
 
   }
   
-  getEventos() {
-    /**Verificar */
-    let usuario = this.authService.usuario;
-    this.service.obtenerEventos(usuario,this.paginacion.pagina, this.paginacion.registros).subscribe(
-      (response: Response) => {
-        this.items = response.resultado;
-      }
-    );
-  }
-  
-  getEventosByUsername() {
-    this.service.obtenerEventosByUsername(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
-      (response: Response) => {
-        this.items = response.resultado;
-      }
-    );
-  }
  
-  OnNuevo() {
-    this.router.navigate([`gestionOrganizadorEvento/eventos-organizador/nuevo`]);
+  getEventosPresidente() {
+    this.service.consultarAllEventoByPresidente(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
+      (response: Response) => {
+        this.items = response.resultado;
+      }
+    );
   }
   OnEditar(item : Evento){
-    this.router.navigate([`gestionOrganizadorEvento/eventos-organizador/editar/${item.idEvento}`]);
+    this.router.navigate([`gestionPresidenteEvento/eventos-presidente/ver/${item.idEvento}`]);
   }
 
   //cambiar por nueva funcion con paginacion
   OnPageChanged(event): void {
     this.paginacion.pagina = event.page;
-    this.getEventos();
+    this.getEventosPresidente();
   }
 
   OnPageOptionChanged(event): void {
     this.paginacion.registros = event.rows;
     this.paginacion.pagina = 1;
-    this.getEventos();
+    this.getEventosPresidente();
   }
 }
