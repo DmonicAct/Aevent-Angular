@@ -71,13 +71,18 @@ export class AuthService {
     params.set('password', usuario.password);
     console.log(urlEndpoint);
     return this.http.post<any>(urlEndpoint, params.toString(), { headers: httpHeaders }).pipe(
+      
       catchError(e => {
         switch(e.status){
+           case 400:
+              //this.toastr.warning('Usuario o clave incorrectas!', 'Aviso', {closeButton: true});
+              console.error(e.error.mensaje);
+              return throwError(e);
           case 401:
               this.toastr.warning('No se pudo ingresar, el usuario ' + usuario.username + ' ha sido deshabilitado, contactar con Administracion', 'Aviso', {closeButton: true});
               console.error(e.error.mensaje);
               return throwError(e);
-          default:
+          case 0:
               this.toastr.warning('No se pudo realizar conexión con el servidor, contactar con Administracion', 'Aviso', {closeButton: true});
               console.error(e.error.mensaje);
               return throwError(e);

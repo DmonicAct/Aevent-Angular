@@ -47,16 +47,17 @@
                 <div class="col-sm-4"><input required type="text" autocomplete="off" class="form-control" placement="top" name="appaterno"
                     [(ngModel)]="item.appaterno"></div>
                 <label class="col-sm-2">Correo(*):</label>
-                <div class="input-group">
-                  <input required type="email" name="email" autocomplete="off" [(ngModel)]="item.email" class="form-control"
+                <div class="col-sm-4">
+                  <div class="input-group date">
+                    <input required type="email" name="email" autocomplete="off" [(ngModel)]="item.email" class="form-control"
                     placement="top">
-                  <span class="input-group-btn">
-                    <button *ngIf="!validar_email" class="btn btn-warning col-sm-12" (click)="OnValidarEmail()"><i
-                        class="fa fa-square-o"></i> Validar</button>
-                    <button *ngIf="validar_email" class="btn btn-primary col-sm-12" (click)="OnValidarEmail()"><i
-                        class="fa fa-check-square-o"></i> Validar</button>
-                  </span>
-                </div>
+                    <span *ngIf="!validar_email" class="input-group-addon"><i
+                        class="fa fa-check"></i></span>
+                    <span *ngIf="validar_email" class="input-group-addon"><i
+                      class="fa fa-check"></i></span>
+                  </div>
+
+              </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2">A.Materno(*):</label>

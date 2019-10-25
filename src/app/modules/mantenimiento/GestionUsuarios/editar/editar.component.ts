@@ -87,6 +87,9 @@ export class EditarUsuarioComponent implements OnInit  {
       this.item.password = this.password;
     }
     
+    if(this.password==""){
+      this.item.password = null;
+    }
     let roles = new Array<Role>();
     if(this.itemCodigo){
       this.boolean_flags.forEach((e1,i1)=>{
@@ -114,6 +117,7 @@ export class EditarUsuarioComponent implements OnInit  {
       });
     }
     this.item.roles = roles;
+    console.log(this.item);
     this.service.guardarUsuarioSistema(this.item).subscribe(
       (response:Response)=>{
         this.toastr.success('Se guardo el usuario correctamente', 'Aviso', {closeButton: true});
