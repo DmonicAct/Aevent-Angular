@@ -1,5 +1,5 @@
 import { OnInit, Component, ViewChild, Input, Output, EventEmitter } from "@angular/core";
-import { Evento, Persona, TipoEvento, Lugar, Categoria, Response, Usuario } from '../../../../../../models'
+import { Evento, Persona, TipoEvento, Lugar, Categoria, Response, Usuario, FormularioCFP } from '../../../../../../models'
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { esLocale } from 'ngx-bootstrap/locale';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
@@ -187,6 +187,10 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.item.organizador = this.authService.persona;
         this.item.enabled = false;
         console.log(this.item);
+        let flag = this.item.idEvento == null;
+        if(this.item.idEvento == null){
+            this.item.formulario = null;
+        }
         this.serviceEvento.guardarEvento(this.item).subscribe(
             (response: Response) => {
                 this.item = response.resultado;
@@ -199,6 +203,10 @@ export class DetalleEventoConfiguracion implements OnInit {
                         break;
                     }
                 }
+                if(flag){
+                    this.item.formulario = new FormularioCFP();
+                }
+                console.log(this.item);
                 this.savedItem.emit(false);
             }
         );

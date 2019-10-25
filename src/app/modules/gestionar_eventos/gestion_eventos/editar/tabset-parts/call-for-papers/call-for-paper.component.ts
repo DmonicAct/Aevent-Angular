@@ -1,6 +1,8 @@
 import { OnInit, Component, ViewChild, Input } from "@angular/core";
-import { Parametro, TipoSeccion, FormularioCFP, Division, Pregunta, Seccion, Evento } from "../../../../../../models";
+import { Response, Parametro, TipoSeccion, FormularioCFP, Division, Pregunta, Seccion, Evento } from "../../../../../../models";
 import { ModalDirective } from "ngx-bootstrap";
+import { Location } from '@angular/common';
+import { EventoService } from '../../../../../../services/evento.service';
 import { ToastRef, ToastrService } from "ngx-toastr";
 declare var jQuery: any;
 
@@ -26,9 +28,13 @@ export class CallForPaperComponent implements OnInit {
     public counterSeccion: number;
     public loading: Boolean = false;
 
+    //@Input('item-cfp')
+    //public formulario:FormularioCFP;
+
+    @Input('item-evento')
+    public item: Evento;
+
     @Input('item-cfp')
-    public formulario:FormularioCFP;
-    
     public itemFormulario: FormularioCFP;
     //Tipos Preguntas
     public itemsTipoSeccion: Array<TipoSeccion>;
@@ -60,7 +66,9 @@ export class CallForPaperComponent implements OnInit {
     selectedRowSeccion: number;
     selectedRowPregunta: number;
     constructor(
-        private toastr: ToastrService
+        private serviceEvento: EventoService,
+        private toastr: ToastrService,
+        private _location: Location
     ) {
         this.itemsParametro = new Array<Parametro>();
         this.itemParametro = new Parametro;
@@ -197,6 +205,22 @@ export class CallForPaperComponent implements OnInit {
             this.descripcionSeccion = null;
         }
     }
+
+    onGuardar() {
+        // this.item.categorias = this.categoriasSeleccionadas;
+        console.log(this.item);
+        this.serviceEvento.guardarEvento(this.item).subscribe(
+            (response:Response)=>{
+                console.log(response);
+                if(response.estado=='OK'){
+                    this.toastr.success(`Se ha guardado con exito`, 'Aviso', { closeButton: true });
+                }
+            }
+        );
+     }
+     onCancelar(){
+        this._location.back();
+     }
     OnEditarPregunta() {
         this.editarPregunta = true;
     }

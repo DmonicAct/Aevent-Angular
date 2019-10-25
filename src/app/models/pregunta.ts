@@ -5,5 +5,6 @@ export class Pregunta{
     public descripcion: string;
     //public subDescipcion: string; //cambiar en spring
     public tipoSeccion: TipoSeccion;
+    public tipoPregunta: string;
     public cantidadLetras: number;
 }

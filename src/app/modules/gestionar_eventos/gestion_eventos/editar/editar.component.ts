@@ -24,8 +24,8 @@ export class EditarGestionarEventoComponent implements OnInit{
     constructor(private route: ActivatedRoute,
         private service: EventoService){
         this.item = new Evento();
+        this.item.formulario = new FormularioCFP();
         this.item.idEvento = null;
-        this.formulario = new FormularioCFP();
         this.sub = this.route.params.subscribe(params => {
             this.itemCodigo = +params['id'];
             if(this.itemCodigo){
@@ -44,6 +44,9 @@ export class EditarGestionarEventoComponent implements OnInit{
             (response: Response)=>{
                 this.item=response.resultado;
                 this.flagEvento = false;
+                if(!this.item.formulario)
+                    this.item.formulario = new FormularioCFP();
+                console.log(this.item);
             }
         );
     }

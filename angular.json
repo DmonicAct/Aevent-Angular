@@ -35,6 +35,7 @@
               "node_modules/ngx-toastr/toastr.css",
               "vendor/icheck/icheck.css",
               "vendor/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css",
+              "vendor/jasny/jasny-bootstrap.min.css",
               "src/styles.scss"
             ],
             "scripts": [
@@ -42,7 +43,8 @@
               "node_modules/metismenu/dist/metisMenu.js",
               "node_modules/jquery-sparkline/jquery.sparkline.js",
               "vendor/pace/pace.min.js",
-              "vendor/icheck/icheck.min.js"
+              "vendor/icheck/icheck.min.js",
+              "vendor/jasny/jasny-bootstrap.min.js"
             ]
           },
           "configurations": {
