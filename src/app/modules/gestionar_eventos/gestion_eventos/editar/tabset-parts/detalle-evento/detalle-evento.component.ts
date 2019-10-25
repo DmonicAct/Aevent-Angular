@@ -49,16 +49,16 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.itemPresidente = new Persona();
         defineLocale('es', esLocale);
         this.localeService.use('es');
+        //console.log();
     };
     @ViewChild('autoShownModal') autoShownModal: ModalDirective;
     isModalShownPresidente = false;
     isModalShownCategorias = false;
-
     ngOnInit(): void {
         this.obtenerListaCategorias();
         this.obtenerTipoEventos();
         this.obtenerListaLugar();
-        this.obtenerUsuarios();
+		this.obtenerUsuarios();
     }
     public datos: boolean = true;
     public call: boolean = false;
@@ -81,7 +81,7 @@ export class DetalleEventoConfiguracion implements OnInit {
     }
 
     obtenerUsuarios() {
-        console.log(this.itemPresidente.idUsuario);
+        //console.log(this.itemPresidente.idUsuario);
         this.servicePersonas.obtenerPersonas().subscribe(
             (response: Response) => {
                 this.itemsPersona = response.resultado;
@@ -96,7 +96,7 @@ export class DetalleEventoConfiguracion implements OnInit {
                         }
                     }
                     
-                    console.log(this.item);
+                    //console.log(this.item);
                 }
                /*  if(this.itemPresidente_parent && this.itemPresidente_parent.idUsuario){
                     this.itemPresidente.idUsuario = this.itemPresidente_parent.idUsuario;

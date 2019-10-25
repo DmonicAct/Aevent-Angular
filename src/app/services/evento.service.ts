@@ -35,6 +35,7 @@ export class EventoService{
             return throwError(e);
           }));
     }
+
     obtenerEventos(usuario: Usuario, pagina:number, registros:number):Observable<any>{
       console.log(usuario);
         let params:HttpParams = new HttpParams()
@@ -53,6 +54,23 @@ export class EventoService{
               return throwError(e);
             }));
     }
+    obtenerEventosByUsername(user:string, pagina:number, registros:number):Observable<any>{
+      let params:HttpParams = new HttpParams()
+      .set('username', user)
+      /* .set('pagina', pagina.toString())
+      .set('registros', registros.toString()) */;
+
+        return this.http.get(this.apiEndpoint + '/eventos/' + user).pipe(
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
+            return throwError(e);
+          }));
+  }
     obtenerEvento(idEvento:number):Observable<any>{
       const url = `${this.apiEndpoint}/${idEvento}`;
       return this.http.get(url).pipe(

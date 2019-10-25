@@ -32,6 +32,7 @@ import { TokenInterceptor } from './auth/interceptors/token.interceptor';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider } from "angular-6-social-login";
 import { LoginCreateComponent } from './views/appviews/login-create/loginCreate.component';
+import { ModelosPresidenteModule } from './modules/visualizarEventos/visualizar.module';
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
@@ -54,6 +55,7 @@ export function getAuthServiceConfigs() {
     //AEvent Moddules
     MantenimientoModule,
     GestionOrganizadorModule,
+    ModelosPresidenteModule,
     PaginacionModule,
 
     BrowserModule,
