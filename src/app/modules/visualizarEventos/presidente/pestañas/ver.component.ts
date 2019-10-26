@@ -4,6 +4,7 @@ import { Evento, Response, Persona, FormularioCFP } from '../../../../models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventoService } from '../../../../services';
 import { DetalleEventoVer } from './detalle-evento/detalleEventoPresidente.component';
+import { ComiteEventoVer } from './comite-evento/comiteEventoPresidente.component';
 
 @Component({
     selector:'ver-eventos',
@@ -12,8 +13,9 @@ import { DetalleEventoVer } from './detalle-evento/detalleEventoPresidente.compo
 })
 
 export class VerEventoPresidenteComponent implements OnInit{
-  @ViewChild('tabsDetalle') tabsDetalle: DetalleEventoVer;/* 
-  @ViewChild('tabsFases') tabsFases: TabsetComponent;
+  @ViewChild('tabsDetalle') tabsDetalle: DetalleEventoVer;
+  @ViewChild('tabsComite') tabsComite: ComiteEventoVer;
+  /*
   @ViewChild('tabsCallforPapers') tabsCallforPapers: TabsetComponent; */
 
     private sub: any;
@@ -23,12 +25,12 @@ export class VerEventoPresidenteComponent implements OnInit{
     public formulario: FormularioCFP;
     constructor(private route: ActivatedRoute,
         private service: EventoService){
-        debugger
+        //debugger
         this.item = new Evento();
         this.item.idEvento = null;
         this.formulario = new FormularioCFP();
         this.sub = this.route.params.subscribe(params => {
-            debugger
+            //debugger
             this.itemCodigo = +params['id'];
             if(this.itemCodigo){
                 this.obtenerEvento();

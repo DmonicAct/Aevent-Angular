@@ -33,6 +33,7 @@ import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider } from "angular-6-social-login";
 import { LoginCreateComponent } from './views/appviews/login-create/loginCreate.component';
 import { ModelosPresidenteModule } from './modules/visualizarEventos/visualizar.module';
+//import { ComiteEventoVer } from './modules/visualizarEventos/presidente/pestañas/comite-evento/comiteEventoPresidente.component';
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
@@ -49,7 +50,8 @@ export function getAuthServiceConfigs() {
 @NgModule({
   declarations: [
     AppComponent,
-    LoginCreateComponent
+    LoginCreateComponent,
+    //ComiteEventoVer
   ],
   imports: [
     //AEvent Moddules

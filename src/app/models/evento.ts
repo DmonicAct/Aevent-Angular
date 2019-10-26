@@ -10,7 +10,7 @@ export class Evento{
     public capacidad?: number;
     public organizador?: Persona;
     public presidente?: Persona;
-    public comite?: Array<Persona>;
+    public comite?: Array<Usuario>;
     public tipoEvento?:TipoEvento;
     public categorias?: Array<Categoria>;
     public lugar?: Lugar;
