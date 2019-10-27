@@ -17,11 +17,56 @@ import { ToastrService } from "ngx-toastr";
   styleUrls: ['./comiteEventoPresidente.component.scss']
 })
 export class ComiteEventoVer implements OnInit {
+  public itemEvento: Evento;
+  public itemComite: Array<Usuario>;
+
   @Output() savedItem = new EventEmitter<any>();
 
-  constructor() { }
+  @Input('item-presidente')
+  public itemPresidente_parent;
+  //Evento de Padre
+  @Input('item-evento')
+  public itemEventoParent: Evento;
+  
+  constructor(
+    private servicePersonas: PersonaService,
+    private serviceEvento: EventoService,) { 
 
+    this.itemEvento = new Evento();
+    this.itemComite = new Array<Usuario>()
+    //this.itemComite = this.itemEventoParent.comite;
+    }
+
+  @ViewChild('autoShownModal') autoShownModal: ModalDirective;
+  
   ngOnInit() {
+    
+  }
+  onAgregarEvaluador(){
+
+
   }
 
+  onAgregar(){
+    /*this.serviceEvento.obtenerEvento(this.item.idEvento).subscribe(
+      (response: Response) => {
+          this.itemEvento = response.resultado;
+          this.itemComite = this.itemEvento.comite;
+          this.itemComite.map((i) => { 
+              i.fullName = i.nombre + ' ' + i.appaterno + ' ' + i.apmaterno ; return i; 
+          });
+          if(this.item && this.item.presidente){
+              for(let i=0;i<this.itemsPersona.length;i++){
+                  if(this.itemsPersona[i].idUsuario==this.item.presidente.idUsuario){
+                      this.item.presidente.fullName = this.itemsPersona[i].nombre + ' ' + this.itemsPersona[i].appaterno + ' ' + this.itemsPersona[i].apmaterno ;
+                      break;
+                  }
+              }
+          }
+          
+      }
+  );*/
+  }
+  
+  onQuitar(){}
 }

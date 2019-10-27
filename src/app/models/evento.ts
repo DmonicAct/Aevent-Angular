@@ -21,5 +21,6 @@ export class Evento{
         this.idEvento = null;
         this.fases=new Array<Fase>();
         this.categorias = new Array<Categoria>();
+        this.comite = new Array<Usuario>();
     }
 }
