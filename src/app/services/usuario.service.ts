@@ -108,6 +108,23 @@ export class UsuarioService{
           return throwError(e);
         }));
     }
+
+    validarUsuario(username: string):Observable<any> {
+      const url = `${this.apiEndpoint}/out/username/${username}`;
+      return this.http.get(url).pipe(
+        
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
+
+
     guardarUsuarioOut(usuario: Persona){
       const url = `${this.apiEndpoint}/out`;
       return this.http.post(url, usuario).pipe(
