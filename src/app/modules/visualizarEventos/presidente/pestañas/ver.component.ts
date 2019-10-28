@@ -1,9 +1,10 @@
 import {Component, OnInit,ViewChild} from '@angular/core'
 import { TabsetComponent } from 'ngx-bootstrap';
-import { Evento, Response, Persona, FormularioCFP } from '../../../../models';
+import { Evento, Response, Persona, FormularioCFP, Division } from '../../../../models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventoService } from '../../../../services';
 import { DetalleEventoVer } from './detalle-evento/detalleEventoPresidente.component';
+import { VerFormatoPresidente} from './call-for-papers-view/verFormato.component';
 
 @Component({
     selector:'ver-eventos',
@@ -12,8 +13,8 @@ import { DetalleEventoVer } from './detalle-evento/detalleEventoPresidente.compo
 })
 
 export class VerEventoPresidenteComponent implements OnInit{
-  @ViewChild('tabsDetalle') tabsDetalle: DetalleEventoVer;/* 
-  @ViewChild('tabsFases') tabsFases: TabsetComponent;
+  @ViewChild('tabsDetalle') tabsDetalle: DetalleEventoVer; 
+  @ViewChild('tabsFases') tabsFases: VerFormatoPresidente;/*
   @ViewChild('tabsCallforPapers') tabsCallforPapers: TabsetComponent; */
 
     private sub: any;
@@ -21,14 +22,13 @@ export class VerEventoPresidenteComponent implements OnInit{
     public itemCodigo: number = null;
     public flagEvento:Boolean;
     public formulario: FormularioCFP;
+    public divisiones: Array<Division>
     constructor(private route: ActivatedRoute,
         private service: EventoService){
-        debugger
         this.item = new Evento();
         this.item.idEvento = null;
         this.formulario = new FormularioCFP();
         this.sub = this.route.params.subscribe(params => {
-            debugger
             this.itemCodigo = +params['id'];
             if(this.itemCodigo){
                 this.obtenerEvento();
@@ -46,6 +46,7 @@ export class VerEventoPresidenteComponent implements OnInit{
             (response: Response)=>{
                 this.item=response.resultado;
                 this.flagEvento = false;
+                this.divisiones = this.item.formulario.divisionList;
             }
         );
     }

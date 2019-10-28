@@ -42,7 +42,6 @@ export class ListaEventosPresidente implements OnInit {
     this.router.navigate([`gestionPresidenteEvento/eventos-presidente/ver/${item.idEvento}`]);
   }
 
-  //cambiar por nueva funcion con paginacion
   OnPageChanged(event): void {
     this.paginacion.pagina = event.page;
     this.getEventosPresidente();
