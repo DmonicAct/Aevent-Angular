@@ -28,8 +28,6 @@ export class DetalleEventoConfiguracion implements OnInit {
 
     @Output() savedItem = new EventEmitter<any>();
 
-    @Input('item-presidente')
-    public itemPresidente_parent;
     //Evento de Padre
     @Input('item-evento')
     public item: Evento;
@@ -49,7 +47,6 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.itemPresidente = new Persona();
         defineLocale('es', esLocale);
         this.localeService.use('es');
-        //console.log();
     };
     @ViewChild('autoShownModal') autoShownModal: ModalDirective;
     isModalShownPresidente = false;
@@ -81,7 +78,6 @@ export class DetalleEventoConfiguracion implements OnInit {
     }
 
     obtenerUsuarios() {
-        //console.log(this.itemPresidente.idUsuario);
         this.servicePersonas.obtenerPersonas().subscribe(
             (response: Response) => {
                 this.itemsPersona = response.resultado;
@@ -96,21 +92,8 @@ export class DetalleEventoConfiguracion implements OnInit {
                         }
                     }
                     
-                    //console.log(this.item);
                 }
-               /*  if(this.itemPresidente_parent && this.itemPresidente_parent.idUsuario){
-                    this.itemPresidente.idUsuario = this.itemPresidente_parent.idUsuario;
-                } */
-               /*  if(this.itemPresidente_parent && this.itemPresidente_parent.idUsuario){
-                    this.itemsPersona.forEach(e=>{
-                        if(this.itemPresidente.idUsuario == e.idUsuario)
-                        this.itemPresidente = e;
-                    })
-                    console.log("Presidente");
-                    console.log(this.itemPresidente);
-                } */
                 
-                console.log(this.itemsPersona);
             }
         );
     }
@@ -186,14 +169,19 @@ export class DetalleEventoConfiguracion implements OnInit {
         //this.item.presidente= this.itemPresidente;
         this.item.organizador = this.authService.persona;
         this.item.enabled = false;
-        console.log(this.item);
         let flag = this.item.idEvento == null;
-        if(this.item.idEvento == null){
-            this.item.formulario = null;
+        let evento = this.item;
+        if(flag){
+            //this.item.formulario = null;
+            this.item.formulario = new FormularioCFP();
+            evento.formulario = null;
         }
-        this.serviceEvento.guardarEvento(this.item).subscribe(
+        
+        this.serviceEvento.guardarEvento(evento).subscribe(
             (response: Response) => {
-                this.item = response.resultado;
+                this.item.idEvento = response.resultado.idEvento;
+                this.item.fechaInicio = response.resultado.fechaInicio;
+                this.item.fechaFin = response.resultado.fechaFin;
                 this.item.fechaInicio = this.item.fechaInicio = moment(this.item.fechaInicio).toDate();
                 this.item.fechaFin = this.item.fechaFin = moment(this.item.fechaFin).toDate();
                 this.toastr.success(`Se ha guardado con exito`, 'Aviso', { closeButton: true });
@@ -203,10 +191,6 @@ export class DetalleEventoConfiguracion implements OnInit {
                         break;
                     }
                 }
-                if(flag){
-                    this.item.formulario = new FormularioCFP();
-                }
-                console.log(this.item);
                 this.savedItem.emit(false);
             }
         );

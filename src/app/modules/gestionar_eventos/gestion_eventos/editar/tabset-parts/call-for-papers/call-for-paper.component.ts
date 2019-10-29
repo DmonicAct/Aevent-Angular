@@ -207,11 +207,8 @@ export class CallForPaperComponent implements OnInit {
     }
 
     onGuardar() {
-        // this.item.categorias = this.categoriasSeleccionadas;
-        console.log(this.item);
         this.serviceEvento.guardarEvento(this.item).subscribe(
             (response:Response)=>{
-                console.log(response);
                 if(response.estado=='OK'){
                     this.toastr.success(`Se ha guardado con exito`, 'Aviso', { closeButton: true });
                 }
