@@ -17,7 +17,7 @@ import { ListaEventosPresidente } from './presidente/listaPresidente.component';
 import { DetalleEventoVer } from './presidente/pestañas/detalle-evento/detalleEventoPresidente.component';
 import { ComiteEventoVer } from './presidente/pestañas/comite-evento/comiteEventoPresidente.component';
 import { VerEventoPresidenteComponent } from './presidente/pestañas/ver.component';
-
+import {VerFormatoPresidente} from './presidente/pestañas/call-for-papers-view/verFormato.component'
 /* import { ListaEventosOrganizador } from './gestion_eventos/lista.component';
 import { EditarGestionarEventoComponent } from './gestion_eventos/editar/editar.component';
 import { DetalleEventoConfiguracion } from './gestion_eventos/editar/tabset-parts/detalle-evento/detalle-evento.component';
@@ -31,6 +31,7 @@ import { FaseEventoComponent } from './gestion_eventos/editar/tabset-parts/fases
     DetalleEventoVer,
     ComiteEventoVer,
     VerEventoPresidenteComponent,
+    VerFormatoPresidente,
     /* 
     EditarGestionarEventoComponent,
     DetalleEventoConfiguracion,

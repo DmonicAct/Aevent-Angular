@@ -28,6 +28,7 @@
 
         </tab>
 
+
         <tab #tabsComite heading="Comite" >
             <div class="mail-box-header">
                 <comiteEventoPresidente [(item-evento)]="item" [item-presidente]="item.presidente" (savedItem)="displayItem($event)" ></comiteEventoPresidente>
@@ -35,6 +36,18 @@
         </tab>
 
         
+
+        <tab #tabsCallforPapers heading="Formato Call for Papers">
+            <div class="mail-box-header">
+                <verFormato [(items)]="divisiones"></verFormato>
+              </div>
+        </tab>
+<!-- 
+        <tab #tabsFases heading="Fases" [disabled]="true">
+            <div class="mail-box-header">
+              <fase-evento></fase-evento>
+            </div>
+        </tab> -->
       </tabset>
 
     </div>
