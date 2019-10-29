@@ -25,6 +25,7 @@ import { AppComponentsModule } from "./views/appcomponents/appcomponents.module"
 import { BootstrapModule } from "./modules/bootstrap/bootstrap.module";
 import { MantenimientoModule } from "./modules/mantenimiento/mantenimiento.module";
 import { GestionOrganizadorModule } from './modules/gestionar_eventos/gestion.module';
+import { ConvocatoriaModules } from './modules/eventos/eventos.module';
 import { PaginacionModule } from './components/common/paginacion/paginacion.module';
 import { UiSwitchModule } from 'ngx-ui-switch';
 
@@ -33,6 +34,7 @@ import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider } from "angular-6-social-login";
 import { LoginCreateComponent } from './views/appviews/login-create/loginCreate.component';
 import { ModelosPresidenteModule } from './modules/visualizarEventos/visualizar.module';
+
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
@@ -57,6 +59,7 @@ export function getAuthServiceConfigs() {
     GestionOrganizadorModule,
     ModelosPresidenteModule,
     PaginacionModule,
+    ConvocatoriaModules,
 
     BrowserModule,
     UiSwitchModule,

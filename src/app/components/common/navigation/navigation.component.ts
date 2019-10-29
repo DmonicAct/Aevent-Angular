@@ -17,13 +17,18 @@ export class NavigationComponent {
   rolOrga: Boolean;
   rolAdmin: Boolean;
   rolPres: Boolean;
+  rolPonente: Boolean;
   ngOnInit(){
     this.rolOrga = false;
     this.rolAdmin = false;
     this.rolPres = false;
+    this.rolPonente = true;
     this.authService.usuario.roles.forEach(element => {
       var aux = '' + element;
-      if (aux == 'ROLE_ADMIN') this.rolAdmin = true;
+      if (aux == 'ROLE_ADMIN') {
+        this.rolAdmin = true;
+        this.rolPonente = false;
+      }
       if (aux == 'ROLE_ORGANIZER') this.rolOrga = true;
       if (aux == 'ROLE_PRESIDENT') this.rolPres = true;
     });
