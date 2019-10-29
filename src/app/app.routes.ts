@@ -27,7 +27,7 @@ import { GestionLugarRoutes } from './modules/mantenimiento/mantenimiento.routes
 import { AuthGuard } from './auth/guards/auth.guard';
 import { RoleGuard } from './auth/guards/role.guard';
 import { GestionPresidenteRoutes } from "./modules/visualizarEventos/visualizar.routes";
-import { EventosPonentesRoutes } from "./modules/eventos/eventos.routes";
+import { EventosPonentesRoutes } from "./modules/convocatoria/eventos.routes";
 
 export const ROUTES:Routes = [
   // Main redirect

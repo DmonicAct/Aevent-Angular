@@ -14,22 +14,11 @@ import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 // modules/components
 import { PaginacionModule } from '../../components/common/paginacion/paginacion.module';
 import {ListaEventos } from './listaEventos/listaEventos.component';
-/* import { ListaEventosOrganizador } from './gestion_eventos/lista.component';
-import { EditarGestionarEventoComponent } from './gestion_eventos/editar/editar.component';
-import { DetalleEventoConfiguracion } from './gestion_eventos/editar/tabset-parts/detalle-evento/detalle-evento.component';
-import { CallForPaperComponent } from './gestion_eventos/editar/tabset-parts/call-for-papers/call-for-paper.component';
-import { CallForPaperView } from './gestion_eventos/editar/tabset-parts/call-for-papers/call-for-papers-view/call-for-paper-view.component';
-import { FaseEventoComponent } from './gestion_eventos/editar/tabset-parts/fases/fase-evento.component'; */
-
+import {PostularEvento} from './postular/postular.component';
 @NgModule({
   declarations: [
     ListaEventos,
-    /* 
-    EditarGestionarEventoComponent,
-    DetalleEventoConfiguracion,
-    CallForPaperComponent,
-    FaseEventoComponent,
-    CallForPaperView */
+    PostularEvento,
   ],
   imports: [
     CommonModule,
