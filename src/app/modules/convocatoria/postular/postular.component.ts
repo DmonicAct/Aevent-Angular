@@ -21,7 +21,6 @@ export class PostularEvento implements OnInit {
     constructor(private route: ActivatedRoute,
         private service: EventoService){
         this.item = new Evento();
-        this.item.formulario = new FormularioCFP();
         this.item.idEvento = null;
         this.sub = this.route.params.subscribe(params => {
             this.itemCodigo = +params['id'];

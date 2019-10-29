@@ -4,7 +4,11 @@ import { Evento, Response, Persona, FormularioCFP, Division } from '../../../../
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventoService } from '../../../../services';
 import { DetalleEventoVer } from './detalle-evento/detalleEventoPresidente.component';
+
+import { ComiteEventoVer } from './comite-evento/comiteEventoPresidente.component';
+
 import { VerFormatoPresidente} from './call-for-papers-view/verFormato.component';
+
 
 @Component({
     selector:'ver-eventos',
@@ -13,8 +17,14 @@ import { VerFormatoPresidente} from './call-for-papers-view/verFormato.component
 })
 
 export class VerEventoPresidenteComponent implements OnInit{
+
+  @ViewChild('tabsDetalle') tabsDetalle: DetalleEventoVer;
+  @ViewChild('tabsComite') tabsComite: ComiteEventoVer;
+  /*
+
   @ViewChild('tabsDetalle') tabsDetalle: DetalleEventoVer; 
   @ViewChild('tabsFases') tabsFases: VerFormatoPresidente;/*
+
   @ViewChild('tabsCallforPapers') tabsCallforPapers: TabsetComponent; */
 
     private sub: any;
@@ -25,10 +35,18 @@ export class VerEventoPresidenteComponent implements OnInit{
     public divisiones: Array<Division>
     constructor(private route: ActivatedRoute,
         private service: EventoService){
+
+        //debugger
+
+
         this.item = new Evento();
         this.item.idEvento = null;
         this.formulario = new FormularioCFP();
         this.sub = this.route.params.subscribe(params => {
+
+            //debugger
+
+
             this.itemCodigo = +params['id'];
             if(this.itemCodigo){
                 this.obtenerEvento();

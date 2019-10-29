@@ -28,6 +28,15 @@
 
         </tab>
 
+
+        <tab #tabsComite heading="Comite" >
+            <div class="mail-box-header">
+                <comiteEventoPresidente [(item-evento)]="item" [item-presidente]="item.presidente" (savedItem)="displayItem($event)" ></comiteEventoPresidente>
+              </div>
+        </tab>
+
+        
+
         <tab #tabsCallforPapers heading="Formato Call for Papers">
             <div class="mail-box-header">
                 <verFormato [(items)]="divisiones"></verFormato>

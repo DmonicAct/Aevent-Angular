@@ -35,6 +35,8 @@ export class ListaEventosPresidente implements OnInit {
     this.service.consultarAllEventoByPresidente(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response) => {
         this.items = response.resultado;
+        console.log(response);
+        console.log("HEY GUYS IM THE PRESIDENT");
       }
     );
   }

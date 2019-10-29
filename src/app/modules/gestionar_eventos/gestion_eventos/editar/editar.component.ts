@@ -17,13 +17,12 @@ export class EditarGestionarEventoComponent implements OnInit{
   @ViewChild('tabsCallforPapers') tabsCallforPapers: TabsetComponent;
 
     private sub: any;
-    public item: Evento;
+    public item: Evento = new Evento();
     public itemCodigo: number = null;
     public flagEvento:Boolean;
-    public formulario: FormularioCFP;
     constructor(private route: ActivatedRoute,
         private service: EventoService){
-        this.item = new Evento();
+        //this.item = new Evento();
         this.item.formulario = new FormularioCFP();
         this.item.idEvento = null;
         this.sub = this.route.params.subscribe(params => {
@@ -33,7 +32,6 @@ export class EditarGestionarEventoComponent implements OnInit{
             }else{
                 this.flagEvento=true;
             }
-            console.log("in ngoninit");
         });
     }
     ngOnInit(){
@@ -46,11 +44,13 @@ export class EditarGestionarEventoComponent implements OnInit{
                 this.flagEvento = false;
                 if(!this.item.formulario)
                     this.item.formulario = new FormularioCFP();
-                console.log(this.item);
             }
         );
     }
     displayItem(flag: Boolean){
+        if(!this.item.formulario){
+            this.item.formulario = new FormularioCFP();
+        }
         this.flagEvento = flag;
     }
 }

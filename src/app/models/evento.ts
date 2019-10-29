@@ -10,7 +10,7 @@ export class Evento{
     public capacidad?: number;
     public organizador?: Persona;
     public presidente?: Persona;
-    public comite?: Array<Persona>;
+    public comite?: Array<Usuario>;
     public tipoEvento?:TipoEvento;
     public categorias?: Array<Categoria>;
     public lugar?: Lugar;
@@ -21,5 +21,6 @@ export class Evento{
         this.idEvento = null;
         this.fases=new Array<Fase>();
         this.categorias = new Array<Categoria>();
+        this.comite = new Array<Usuario>();
     }
 }

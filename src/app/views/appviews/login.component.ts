@@ -94,6 +94,7 @@ export class LoginComponent {
     persona.nombre = idToken.given_name;
     persona.appaterno = idToken.family_name;    
     persona.email = idToken.email;
+    persona.enabled=true;
 
     this.service.autenticarUsuarioGoogle(persona).subscribe((response: Response)=>{
       if(response.resultado == true){
@@ -104,6 +105,7 @@ export class LoginComponent {
         this.service.guardarUsuarioOut(persona).subscribe((response: Response)=>{
       
         });
+        this.login();
 
       }
 

@@ -15,6 +15,7 @@ import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 import { PaginacionModule } from '../../components/common/paginacion/paginacion.module';
 import { ListaEventosPresidente } from './presidente/listaPresidente.component';
 import { DetalleEventoVer } from './presidente/pestañas/detalle-evento/detalleEventoPresidente.component';
+import { ComiteEventoVer } from './presidente/pestañas/comite-evento/comiteEventoPresidente.component';
 import { VerEventoPresidenteComponent } from './presidente/pestañas/ver.component';
 import {VerFormatoPresidente} from './presidente/pestañas/call-for-papers-view/verFormato.component'
 
@@ -22,6 +23,7 @@ import {VerFormatoPresidente} from './presidente/pestañas/call-for-papers-view/
   declarations: [
     ListaEventosPresidente,
     DetalleEventoVer,
+    ComiteEventoVer,
     VerEventoPresidenteComponent,
     VerFormatoPresidente,
   ],
