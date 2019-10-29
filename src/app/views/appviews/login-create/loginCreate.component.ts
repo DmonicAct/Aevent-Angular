@@ -49,6 +49,7 @@ export class LoginCreateComponent /*implements OnInit*/ {
     let usrDireccion: String = this.usuario.direccion;
     let dni: String = this.usuario.dni;
     let valido: boolean = true;
+    this.usuario.enabled=true;
     if(this.usuario.username == null || this.usuario.password == null ||
       this.usuario.username == "" || this.usuario.password ==""||
       this.usuario.email == null || this.usuario.appaterno == null ||
@@ -68,14 +69,7 @@ export class LoginCreateComponent /*implements OnInit*/ {
 
 
     console.log(this.usuario.username)
-    this.service.validarUsuario(this.usuario.username).subscribe(
-      (response: Response) => {        
-        console.log(response);
-        if(response.resultado==true){
-        this.toastr.warning('El nombre de usuario ya está en uso, escoga uno diferente', 'Error', {closeButton: true});
-        valido=false;        
-      }
-      });
+ 
       console.log(valido);
     if(!valido){
     return;
@@ -91,25 +85,10 @@ export class LoginCreateComponent /*implements OnInit*/ {
       this.toastr.warning('Ingresar un correo válido', 'Error', {closeButton: true});
       return;
     }
-
-    this.service.validarEmail(this.usuario.email).subscribe(
-      (response: Response) => {        
-        console.log(response);
-        if(response.resultado==true){
-          this.toastr.warning('El correo ya está en uso, escoga uno diferente', 'Error', {closeButton: true});
-        valido=false;        
-      }
-      });
-
-      if(!valido)
-    return;
-
-
-    if(!this.checkPassword(contrasenha ) ){
-      
+    
+    if(!this.checkPassword(contrasenha ) ){     
       //console.log(this.checkPassword(contrasenha));
-      this.toastr.warning('Contraseña debe ser de 6 a 25 caracteres alfanuméricos, con por lo menos \n - una mayúscula \n - una minúscula y \n - un número ', 'Error', {closeButton: true});
-      
+      this.toastr.warning('Contraseña debe ser de 6 a 25 caracteres alfanuméricos, con por lo menos \n - una mayúscula \n - una minúscula y \n - un número ', 'Error', {closeButton: true});      
       return;
     }
     //VALIDACION NOMBRE
@@ -123,11 +102,13 @@ export class LoginCreateComponent /*implements OnInit*/ {
       
       return;
     }
-    if(apMaterno.length<1||apMaterno.length>20 ){
-      this.toastr.warning('Apellidos deben ser de 1 a 20 caracteres', 'Error', {closeButton: true});
-      
-      return;
-    }
+    if(apMaterno!=null){
+      if(apMaterno.length<1||apMaterno.length>20 ){
+        this.toastr.warning('Apellidos deben ser de 1 a 20 caracteres', 'Error', {closeButton: true});
+        
+        return;
+      }
+    }    
     //VALIDACION SEXO
     if(this.usuario.sexo != 'MASCULINO' && this.usuario.sexo != 'FEMENINO'){
       this.toastr.warning('Ingrese su sexo', 'Error', {closeButton: true});
@@ -136,63 +117,70 @@ export class LoginCreateComponent /*implements OnInit*/ {
 
     }
 
-
-
-    //VALIDACION FECHA DE NACIMIENTO
-
-    
-
-    let tiempoActual: number = new Date().getTime();
-    let tiempoFechaNac: number = this.usuario.fechaNacimiento.getTime();
-    console.log(tiempoActual-tiempoFechaNac);
-
-    let constAnho: number = 3.154*10000000000*13;    
-    console.log(tiempoActual-tiempoFechaNac);
-    console.log(tiempoActual-tiempoFechaNac>constAnho)
-
-    if(tiempoActual-tiempoFechaNac<constAnho ){
-      this.toastr.warning('Debes ser mayor a 13 años para poder registrarte al sistema', 'Error', {closeButton: true});
-      
-      return;
-    }    
-
-
-   
-   
-
-
-    //VALIDACION DIRECCION
-    if(usrDireccion.length<1||usrDireccion.length>20 ){
+     //VALIDACION DIRECCION
+     if(usrDireccion.length<1||usrDireccion.length>20 ){
       this.toastr.warning('Apellidos deben ser de 1 a 20 caracteres', 'Error', {closeButton: true});
       return;
     }
+
+    //VALIDACION FECHA DE NACIMIENTO
+    let tiempoActual: number = new Date().getTime();
+    let tiempoFechaNac: number = this.usuario.fechaNacimiento.getTime();
+    let constAnho: number = 3.154*10000000000*13;    
+    
     //VALIDACION DNI
     if(this.usuario.dni.length!=8){
       this.toastr.warning('Ingrese un DNI válido', 'Error', {closeButton: true});
       return;
-    }
+    }    
 
-   console.log(this.usuario);
-
-
-    this.service.guardarUsuarioOut(this.usuario).subscribe(
-      (response: Response)=>{
+    if(tiempoActual-tiempoFechaNac<constAnho ){
+      this.toastr.warning('Debes ser mayor a 13 años para poder registrarte al sistema', 'Error', {closeButton: true});      
+      return;
+    }    
+    this.service.validarUsuario(this.usuario.username).subscribe(
+      (response: Response) => {        
         
-      },err =>{
-        if(err.status == 500){
-          this.toastr.warning('Hubo un problema con el sistema consulte a su administrador.', 'Error', {closeButton: true});
-
+        if(response.resultado==true){
+          this.toastr.warning('El nombre de usuario ya está en uso, escoga uno diferente', 'Error', {closeButton: true});
         }else{
-          this.login();
-        }
-      }
-    );
-    
+          this.service.validarEmail(this.usuario.email).subscribe(
+            (response: Response) => {        
+              console.log(response);
+              if(response.resultado==true){
+                this.toastr.warning('El correo ya está en uso, escoga uno diferente', 'Error', {closeButton: true});
+              valido=false;        
+            }else{
+              //VALIDACION DNI
+              this.service.validarDni(this.usuario.dni).subscribe(
+                  (response: Response) => {        
+                  console.log(response);
+                  if(response.resultado==true){
+                    this.toastr.warning('El DNI ya está en uso, escoga uno diferente', 'Error', {closeButton: true});        
+                  }else{
+                    this.service.guardarUsuarioOut(this.usuario).subscribe(
+                      (response: Response)=>{
+                        this.login();
+                      },err =>{
+                        if(err.status == 500){
+                          this.toastr.warning('Hubo un problema con el sistema consulte a su administrador.', 'Error', {closeButton: true});
+                
+                        }
+                      }
+                    );
+                  }      
+                });      
+              }
+            });           
+      }      
+    });     
   }
  
 
 
   login(): void {
+    console.log("USUARIO LOGIN")
+    console.log(this.usuario);
     if (this.usuario.username == null || this.usuario.password == null ||
       this.usuario.username == "" || this.usuario.password =="") {
       this.toastr.warning('Username o password vacías!', 'Error', {closeButton: true});
