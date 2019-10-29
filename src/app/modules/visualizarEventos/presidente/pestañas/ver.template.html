@@ -31,7 +31,7 @@
 
         <tab #tabsComite heading="Comite" >
             <div class="mail-box-header">
-                <comiteEventoPresidente [(item-evento)]="item" [item-presidente]="item.presidente" (savedItem)="displayItem($event)" ></comiteEventoPresidente>
+                <comiteEventoPresidente [(item-evento)]="item" [item-presidente]="item.presidente" [(item-comite)]="item.comite"  (savedItem)="displayItem($event)" ></comiteEventoPresidente>
               </div>
         </tab>
 
