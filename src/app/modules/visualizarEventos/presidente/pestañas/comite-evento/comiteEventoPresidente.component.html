@@ -18,19 +18,31 @@
                     <table class="table table-striped table-hover issue-tracker">
                       <thead>
                         <tr>
-                          <th class="text-center">Username</th>
+                          <th class="text-left">Username</th>
+                          <th class="text-left">Nombre</th>
                           <th class="text-left">Correo</th>
-                          <th>Eliminar</th>
+                          <th class="text-center">Eliminar</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let item of itemComiteaaa; let i = index" (click)="OnRowClick(i, item)"
+<!--
+                          <div class="form-group">
+                              <label class="col-sm-3 control-label">Descripcion </label>
+                              <div class="col-sm-8">
+                                  <textarea oninput="this.value = this.value.toUpperCase()" class="form-control"
+                                      name="descripcion" [(ngModel)]="item.descripcion" rows="4" readonly></textarea>
+                              </div>
+                          </div>
+
+                        -->
+                        <tr *ngFor="let item of itemEventoParent.comite; let i = index" (click)="OnRowClick(i, item)"
                           [class.selected]="i == selectedRow">
-                          <td class="text-center" data-col="username"><code>{{item.username}}</code></td>
+                          <td class="text-left" data-col="username"><code>{{item.username}}</code></td>
+                          <td class="text-left" data-col="email">{{item.nombre + " "+ item.appaterno + " " + item.apmaterno}}</td>                          
                           <td class="text-left" data-col="email">{{item.email}}</td>
 
-                          <td class="text-center" data-col="Quitar" (click)="OnQuitar(item)"><button class="btn btn-success"><i
-                                class="fa fa-edit"></i></button></td>
+                          <td class="text-center" data-col="Quitar" (click)="OnQuitar(item)"><button class="btn btn-danger"><i
+                                class="fa fa-trash"></i></button></td>
                         </tr>
                       </tbody>
                     </table>

@@ -33,7 +33,8 @@ export class ComiteEventoVer implements OnInit {
     private serviceEvento: EventoService,) { 
 
     this.itemEvento = new Evento();
-    this.itemComite = new Array<Usuario>()
+    this.itemComite = new Array<Usuario>();
+    console.log(this.itemEventoParent);
     //this.itemComite = this.itemEventoParent.comite;
     }
 

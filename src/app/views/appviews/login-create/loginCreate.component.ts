@@ -138,6 +138,14 @@ export class LoginCreateComponent /*implements OnInit*/ {
       this.toastr.warning('Debes ser mayor a 13 años para poder registrarte al sistema', 'Error', {closeButton: true});      
       return;
     }    
+
+    if(this.stringIsNumber(this.usuario.dni)){
+      this.toastr.warning('Debes ser mayor a 13 años para poder registrarte al sistema', 'Error', {closeButton: true});      
+      return;
+    }
+
+
+
     this.service.validarUsuario(this.usuario.username).subscribe(
       (response: Response) => {        
         
@@ -214,6 +222,11 @@ export class LoginCreateComponent /*implements OnInit*/ {
   {
     var re = /(?=.*\d)/;
     return re.test(str);
+  }
+
+  public stringIsNumber(s) {
+    var x = +s; // made cast obvious for demonstration
+    return x.toString() === s;
   }
 
   
