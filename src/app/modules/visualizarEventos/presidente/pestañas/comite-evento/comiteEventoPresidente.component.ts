@@ -32,6 +32,9 @@ export class ComiteEventoVer implements OnInit {
   @Input('item-comite')
   public  comiteElegido: Array<Usuario>;
 
+  @Input('listaEvAgregar')
+  public listaEvAgregar:Array<Persona>;
+
   public evaluadoresDisponibles:Array<Persona>;
 
 
