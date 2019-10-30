@@ -9,8 +9,9 @@
                             <label class="col-sm-3 control-label">Código </label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input [ngModel]="item.idEvento"  type="text" class="form-control" name="id"
-                                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" readonly>  
+                                    <input [ngModel]="item.idEvento" type="text" class="form-control" name="id"
+                                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"
+                                        readonly>
                                 </div>
                             </div>
                         </div>
@@ -18,21 +19,18 @@
                             <label class="col-sm-3 control-label">Título </label>
                             <div class="col-sm-9">
                                 <div class="input-group col-sm-10">
-                                    <input type="text" autocomplete="off" class="form-control" name="nombre" maxlength="30" [(ngModel)]="item.titulo"
-                                    onkeypress="return /^[a-zA-Z\s]*$/i.test(event.key)">
+                                    <input type="text" autocomplete="off" class="form-control" name="nombre"
+                                        maxlength="30" [(ngModel)]="item.titulo"
+                                        onkeypress="return /^[a-zA-Z\s]*$/i.test(event.key)">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group col-sm-12">
                             <label class="col-sm-3 control-label">Tipo</label>
                             <div class="col-sm-8">
-                                <ng-select [items]="itemsTipoEvento"
-                                    bindLabel= "nombre" 
-                                    placeholder="Seleccionar Tipo de Evento"
-                                    name ="TipoEvento"
-                                    autocomplete="off"
-                                    [clearable]="false" 
-                                    [(ngModel)]="item.tipoEvento">
+                                <ng-select [items]="itemsTipoEvento" bindLabel="nombre"
+                                    placeholder="Seleccionar Tipo de Evento" name="TipoEvento" autocomplete="off"
+                                    [clearable]="false" [(ngModel)]="item.tipoEvento">
                                 </ng-select>
                             </div>
                         </div>
@@ -46,12 +44,8 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Lugar </label>
                             <div class="col-sm-8">
-                                <ng-select [items]="itemsLugar"
-                                    bindLabel= "descripcion" 
-                                    placeholder="Seleccionar Lugar"
-                                    name ="Lugar"
-                                    [clearable]="false" 
-                                    [(ngModel)]="item.lugar">
+                                <ng-select [items]="itemsLugar" bindLabel="descripcion" placeholder="Seleccionar Lugar"
+                                    name="Lugar" [clearable]="false" [(ngModel)]="item.lugar">
                                 </ng-select>
                             </div>
                         </div>
@@ -59,10 +53,11 @@
                             <label class="col-sm-3 control-label">Fecha Inicio:</label>
                             <div class="col-sm-8">
                                 <div class="input-group date">
-                                    <input bsDatepicker #dp1="bsDatepicker" name='fechaInicio' [(bsValue)]="item.fechaInicio" 
-                                        autocomplete="off"
-                                        (bsValueChange)="DetectInicio()" value="{{ item.fechaInicio | date:'dd/MM/yyyy' }}"
-                                        type="text" class="form-control" >
+                                    <input bsDatepicker #dp1="bsDatepicker" name='fechaInicio'
+                                        [(bsValue)]="item.fechaInicio" autocomplete="off"
+                                        (bsValueChange)="DetectInicio()"
+                                        value="{{ item.fechaInicio | date:'dd/MM/yyyy' }}" type="text"
+                                        class="form-control">
                                     <span class="input-group-addon" (click)="dp1.toggle()"
                                         [attr.aria-expanded]="dp1.isOpen"><i class="fa fa-calendar"></i></span>
                                 </div>
@@ -73,11 +68,11 @@
                             <div class="col-sm-8">
                                 <div class="input-group date">
                                     <input bsDatepicker #dp2="bsDatepicker" name='fechaFin' [(bsValue)]="item.fechaFin"
-                                        autocomplete="off"
-                                        (bsValueChange)="DetectFin()" value="{{ item.fechaFin | date:'dd/MM/yyyy' }}"
-                                        type="text" class="form-control">
+                                        autocomplete="off" (bsValueChange)="DetectFin()"
+                                        value="{{ item.fechaFin | date:'dd/MM/yyyy' }}" type="text"
+                                        class="form-control">
                                     <span class="input-group-addon" (click)="dp2.toggle()"
-                                            [attr.aria-expanded]="dp2.isOpen"><i class="fa fa-calendar"></i></span>
+                                        [attr.aria-expanded]="dp2.isOpen"><i class="fa fa-calendar"></i></span>
                                 </div>
                             </div>
                         </div>
@@ -86,35 +81,36 @@
                         <div class="form-group row">
                             <label class="col-sm-2 control-label">Presidente </label>
                             <div class="col-sm-8">
-                                <ng-select [(items)]="itemsPersona"
-                                    bindLabel="fullName"
-                                    name ="Presidente"
-                                    placeholder="Seleccionar Presidente"
-                                    [clearable]="false" 
+                                <input type="text" autocomplete="off" class="form-control" name="nombrePresidente"
+                                    [(ngModel)]="nombrePresidente" readonly>
+                                <!-- <ng-select [(items)]="itemsPersona" bindLabel="fullName" name="Presidente"
+                                    placeholder="Seleccionar Presidente" [clearable]="false"
                                     [(ngModel)]="item.presidente">
-                                </ng-select>
+                                </ng-select> -->
+                            </div>
+                            
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-success m-r" (click)="OnAgregarPresidente()"><i
+                                    class="fa fa-user"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="form-group"> 
+                        <div class="form-group">
                             <label class="col-sm-2 control-label">Categorias </label>
                             <div class="col-sm-8">
-                                <ng-select [items]="itemsCategorias"
-                                    bindLabel= "descripcion"
-                                    placeholder="Seleccionar Categorias"
-                                    name ="Categorias"
-                                    [clearable]="false" 
+                                <ng-select [items]="itemsCategorias" bindLabel="descripcion"
+                                    placeholder="Seleccionar Categorias" name="Categorias" [clearable]="false"
                                     [(ngModel)]="categoriaSeleccionada">
                                 </ng-select>
                             </div>
-                            <span class="input-group-btn col-sm-1" >
+                            <span class="input-group-btn col-sm-1">
                                 <button class="btn btn-info" (click)="agregarCategoria()"><i
-                                    class="fa fa-plus"></i></button>
+                                        class="fa fa-plus"></i></button>
                             </span>
                         </div>
-                        <div class="row col-sm-10 pull-right" 
-                                style="height: 200px; overflow: auto">
+                        <div class="row col-sm-10 pull-right" style="height: 200px; overflow: auto">
                             <table *ngIf="item.categorias.length>0" class="table">
-                                <thead >
+                                <thead>
                                     <th class="text-left">Codigo</th>
                                     <th class="text-left">Descripción</th>
                                 </thead>
@@ -134,9 +130,11 @@
                     </div>
                     <div class="row">
                         <div class="text-center">
-                            <button type="button" class="btn btn-success m-r" (click)="onGuardar()"><i class="fa fa-save"></i>
+                            <button type="button" class="btn btn-success m-r" (click)="onGuardar()"><i
+                                    class="fa fa-save"></i>
                                 Guardar</button>
-                            <button type="button" class="btn btn-danger" (click)="onCancelar()"><i class="fa fa-arrow"></i>
+                            <button type="button" class="btn btn-danger" (click)="onCancelar()"><i
+                                    class="fa fa-arrow"></i>
                                 Cancelar</button>
                         </div>
                     </div>
@@ -145,9 +143,48 @@
 
         </div>
     </div>
-<script>
-    function alphaOnly(event) {
-        var key = event.keyCode;
-        return ((key >= 65 && key <= 90) || key == 8);
-    }
-</script>
+    <script>
+        function alphaOnly(event) {
+            var key = event.keyCode;
+            return ((key >= 65 && key <= 90) || key == 8);
+        }
+    </script>
+
+
+    <div *ngIf="isModalShownPresidente" [config]="{ show: true }" (onHidden)="OnHiddenPresidente()" bsModal
+        #autoShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+        <div class="modal-dialog modal-sm" style="width: 400px;">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <h3 id="dialog-auto-name" class="modal-title pull-left">Filtro usuarios</h3>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hideModalPresidente()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="row">&nbsp;</div>
+                    <br>
+                    <div class="row col-sm-8">
+                        <div class="col-sm-4 pull-left">Nombre</div>
+                        <div class="col-sm-8"><input type="text" [(ngModel)]="nombreUsuario" name="nombreUsuario"
+                            (input)="buscarUsuario()"></div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row col-sm-12" style="height: 500px; overflow: scroll;">
+                        <div class="list-group">
+                            <button type="button" class="list-group-item list-group-item-action"
+                                *ngFor="let data of maestroUsuariosFilter" (click)="ElegirPresidente(data)">
+                                {{data.fullName}}
+                            </button>  
+                        </div>
+                                              
+                    </div>                    
+                    <div class="row">
+                        <div class="col-sm-12 text-center m-t-sm">
+                            <button (click)='OnAceptarPresidente()' class="btn btn-primary container-button"><i
+                                    class="fa fa-check"></i> Aceptar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

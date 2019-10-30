@@ -23,8 +23,9 @@ export class DetalleEventoConfiguracion implements OnInit {
     public itemsLugar: Array<Lugar>;
     public fechaInicio: Date;
     public fechaFin: Date;
-    
+    public check:Array<Boolean>;
     public itemPresidente;
+    nombrePresidente: String;
 
     @Output() savedItem = new EventEmitter<any>();
 
@@ -47,6 +48,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.itemPresidente = new Persona();
         defineLocale('es', esLocale);
         this.localeService.use('es');
+        this.nombrePresidente = "";
     };
     @ViewChild('autoShownModal') autoShownModal: ModalDirective;
     isModalShownPresidente = false;
@@ -84,15 +86,24 @@ export class DetalleEventoConfiguracion implements OnInit {
                 this.itemsPersona.map((i) => { 
                     i.fullName = i.nombre + ' ' + i.appaterno + ' ' + i.apmaterno ; return i; 
                 });
+                this.maestroUsuariosFilter = this.itemsPersona;
+                this.check = Array<Boolean>(this.itemsPersona.length);
+                this.check.forEach(element => {
+                    element = false;
+                });
                 if(this.item && this.item.presidente){
                     for(let i=0;i<this.itemsPersona.length;i++){
                         if(this.itemsPersona[i].idUsuario==this.item.presidente.idUsuario){
                             this.item.presidente.fullName = this.itemsPersona[i].nombre + ' ' + this.itemsPersona[i].appaterno + ' ' + this.itemsPersona[i].apmaterno ;
+                            this.check[i] = true;
+                            this.nombrePresidente = this.item.presidente.fullName;
                             break;
                         }
                     }
-                    
+                } else {
+                    this.item.presidente = new Persona;
                 }
+
                 
             }
         );
@@ -233,4 +244,38 @@ export class DetalleEventoConfiguracion implements OnInit {
                 }
             } */
     }
+
+    hideModalPresidente(){
+        this.autoShownModal.hide();
+    }
+
+    OnAgregarPresidente(){
+        this.isModalShownPresidente = true;
+    }
+
+    OnHiddenPresidente(): void {
+        this.isModalShownPresidente = false;
+    }
+
+    ElegirPresidente(data){
+        this.item.presidente = data;
+        this.nombrePresidente = this.item.presidente.fullName;
+    }
+
+    OnAceptarPresidente() {
+        this.isModalShownPresidente = false;
+    }
+    nombreUsuario: String;
+    maestroUsuariosFilter: Array<Persona>;
+    buscarUsuario(){
+        if (this.nombreUsuario.length > 0){
+            this.maestroUsuariosFilter = this.itemsPersona.filter(
+                item => item.fullName.toLowerCase().indexOf(this.nombreUsuario.toLowerCase()) > -1
+             )
+        } else {
+            this.maestroUsuariosFilter = this.itemsPersona;
+        }
+        
+    }
+
 }
