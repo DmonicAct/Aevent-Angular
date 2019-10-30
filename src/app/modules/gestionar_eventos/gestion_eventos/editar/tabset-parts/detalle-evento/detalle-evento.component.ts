@@ -135,6 +135,9 @@ export class DetalleEventoConfiguracion implements OnInit {
     unico: Boolean;
     agregarCategoria() {
         this.unico = true;
+        if(!this.categoriaSeleccionada || this.categoriaSeleccionada.codigo==null) {
+            return;
+        }
         for (let cat of this.item.categorias) {
             if (this.categoriaSeleccionada == cat) {
                 this.unico = false;
@@ -152,6 +155,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.categoriasSeleccionadas.splice(index, 1)[0];
     }
     onGuardar() {
+       
        // this.item.categorias = this.categoriasSeleccionadas;
        if(!this.item.fechaFin){
             this.toastr.warning(`Se debe de seleccionar una fecha para el fin de evento`, 'Aviso', { closeButton: true });
@@ -166,17 +170,18 @@ export class DetalleEventoConfiguracion implements OnInit {
             return;
        }
 
-        //this.item.presidente= this.itemPresidente;
         this.item.organizador = this.authService.persona;
-        this.item.enabled = false;
-        let flag = this.item.idEvento == null;
-        let evento = this.item;
+        this.item.enabled = true;
+        let flag =  this.item.idEvento == null || 
+                    this.item.formulario==null ||
+                    this.item.formulario.idFormularioFCP == null;
+        let evento = JSON.parse(JSON.stringify( this.item));
+        
         if(flag){
             //this.item.formulario = null;
-            this.item.formulario = new FormularioCFP();
+           // this.item.formulario = new FormularioCFP();
             evento.formulario = null;
         }
-        
         this.serviceEvento.guardarEvento(evento).subscribe(
             (response: Response) => {
                 this.item.idEvento = response.resultado.idEvento;

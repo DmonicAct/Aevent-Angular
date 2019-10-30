@@ -4,6 +4,7 @@ import {DetalleEventoConfiguracion} from './tabset-parts/detalle-evento/detalle-
 import { Evento, Response, Persona, FormularioCFP } from '../../../../models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventoService } from '../../../../services';
+import { UtilFormulario } from 'src/app/util/util_formulario';
 
 @Component({
     selector:'editar-gestion-eventos',
@@ -20,10 +21,14 @@ export class EditarGestionarEventoComponent implements OnInit{
     public item: Evento = new Evento();
     public itemCodigo: number = null;
     public flagEvento:Boolean;
+    private utilForm: UtilFormulario;
     constructor(private route: ActivatedRoute,
         private service: EventoService){
+        this.utilForm = new UtilFormulario();
         //this.item = new Evento();
         this.item.formulario = new FormularioCFP();
+        this.item.formulario.divisionList = this.utilForm.inicializarFormulario();
+
         this.item.idEvento = null;
         this.sub = this.route.params.subscribe(params => {
             this.itemCodigo = +params['id'];
@@ -42,8 +47,11 @@ export class EditarGestionarEventoComponent implements OnInit{
             (response: Response)=>{
                 this.item=response.resultado;
                 this.flagEvento = false;
-                if(!this.item.formulario)
+                if(!this.item.formulario){
                     this.item.formulario = new FormularioCFP();
+                    this.item.formulario.divisionList = this.utilForm.inicializarFormulario();
+                }
+                    
             }
         );
     }

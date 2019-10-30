@@ -4,6 +4,7 @@ import { ModalDirective } from "ngx-bootstrap";
 import { Location } from '@angular/common';
 import { EventoService } from '../../../../../../services/evento.service';
 import { ToastRef, ToastrService } from "ngx-toastr";
+import { UtilFormulario } from "src/app/util/util_formulario";
 declare var jQuery: any;
 
 @Component({
@@ -12,7 +13,8 @@ declare var jQuery: any;
     styleUrls: ['call-for-paper.template.scss']
 })
 export class CallForPaperComponent implements OnInit {
-    
+    private utilForm: UtilFormulario;
+        
     public itemsParametro: Array<Parametro>;
     public itemParametro: Parametro;
 
@@ -70,6 +72,8 @@ export class CallForPaperComponent implements OnInit {
         private toastr: ToastrService,
         private _location: Location
     ) {
+        this.utilForm = new UtilFormulario();
+
         this.itemsParametro = new Array<Parametro>();
         this.itemParametro = new Parametro;
         this.itemsDivision = Array<Division>();
@@ -80,7 +84,7 @@ export class CallForPaperComponent implements OnInit {
         
             
         this.itemFormulario = new FormularioCFP();    
-        
+
         this.itemsSeccion = new Array<Seccion>();
         this.itemSeccion = new Seccion();
         //
