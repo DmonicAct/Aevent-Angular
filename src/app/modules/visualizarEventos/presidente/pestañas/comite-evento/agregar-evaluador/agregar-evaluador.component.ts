@@ -35,7 +35,7 @@ declare var jQuery: any;
       }
   
     @ViewChild('autoShownModal') autoShownModal: ModalDirective;
-    
+
     ngOnInit() {
       this.tam = this.items.length;
       //console.log(this.tam);
