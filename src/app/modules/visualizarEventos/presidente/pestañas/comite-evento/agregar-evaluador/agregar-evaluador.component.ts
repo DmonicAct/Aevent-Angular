@@ -21,11 +21,14 @@ declare var jQuery: any;
   export class AgregarEvaluador implements OnInit {
   
     @Output() valueChange = new EventEmitter();
+    @Output() nuevoComiteDisp = new EventEmitter();
     
     public listaEvParaAgregar: Array<Persona>;
 
     @Input('items')
     public items: Array<Persona>;
+
+    public listaNuevoComiteDisp:Array<Persona>;
     
     public tam: number;
     public checks: Array<Boolean>;
@@ -35,7 +38,7 @@ declare var jQuery: any;
       }
   
     @ViewChild('autoShownModal') autoShownModal: ModalDirective;
-    
+
     ngOnInit() {
       this.tam = this.items.length;
       //console.log(this.tam);
@@ -63,12 +66,17 @@ declare var jQuery: any;
 
     OnAgregarEv(){
       this.listaEvParaAgregar=new Array<Persona>();
+      this.listaNuevoComiteDisp=new Array<Persona>();
       for (var i = 0; i < this.tam; i++) {
         if(this.checks[i]){
             this.listaEvParaAgregar.push(this.items[i]);
         }
+        else{
+          this.listaNuevoComiteDisp.push(this.items[i])
+        }
       }
       this.valueChange.emit(this.listaEvParaAgregar);
+      this.nuevoComiteDisp.emit(this.listaNuevoComiteDisp);
     }
 
   

@@ -163,7 +163,9 @@ export class DetalleEventoConfiguracion implements OnInit {
         }
     }
     onEliminarCategoria(index: number) {
-        this.categoriasSeleccionadas.splice(index, 1)[0];
+        console.log(index);
+        //this.categoriasSeleccionadas.splice(index, 1)[0];
+        this.item.categorias.splice(index,1)[0];
     }
     onGuardar() {
        

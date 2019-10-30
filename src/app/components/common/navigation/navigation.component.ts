@@ -16,23 +16,16 @@ export class NavigationComponent {
     private authService: AeventAuthService,) {}
   rolOrga: Boolean;
   rolAdmin: Boolean;
-  rolPres: Boolean;
-  rolPonente: Boolean;
-  rolEval: Boolean;
+  rolDefault: Boolean;
   ngOnInit(){
     this.rolOrga = false;
     this.rolAdmin = false;
-    this.rolPres = false;
-    this.rolPonente = false; //se queda en falso hasta que tengamos los servicios de eventos listos.
+    this.rolDefault = false;
     this.authService.usuario.roles.forEach(element => {
       var aux = '' + element;
-      if (aux == 'ROLE_ADMIN') {
-        this.rolAdmin = true;
-        this.rolPonente = false;
-      }
+      if (aux == 'ROLE_ADMIN') this.rolAdmin = true;
       if (aux == 'ROLE_ORGANIZER') this.rolOrga = true;
-      if (aux == 'ROLE_PRESIDENT') this.rolPres = true;
-      if (aux == 'ROLE_EVALUATOR') this.rolEval = true;
+      if (aux == 'ROLE_DEFAULT') this.rolDefault = true;
     });
   }
 

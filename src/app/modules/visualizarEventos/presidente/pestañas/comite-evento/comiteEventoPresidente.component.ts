@@ -10,7 +10,7 @@ import { defineLocale } from 'ngx-bootstrap/chronos';
 import { AuthService as AeventAuthService } from '../../../../../auth/service/auth.service';
 import * as moment from 'moment';
 import { ToastrService } from "ngx-toastr";
-
+import { SwalComponent } from '@toverux/ngx-sweetalert2';
 @Component({
   selector: 'comiteEventoPresidente',
   templateUrl: './comiteEventoPresidente.component.html',
@@ -57,6 +57,8 @@ export class ComiteEventoVer implements OnInit {
 
   @ViewChild('autoShownModal') autoShownModal: ModalDirective;
   
+  @ViewChild(`visorAgregarEvaluador`) private swalComponent: SwalComponent;
+
   ngOnInit() {
     this.servicePersonas.obtenerPersonas().subscribe(
       (response: Response) => {
@@ -84,6 +86,20 @@ export class ComiteEventoVer implements OnInit {
 
   getList(items){
     console.log("Items:", items);
+    var lista = <Array<Persona>> items;
+    this.swalComponent.nativeSwal.close();
+    //Agregamos los evaluadores escogidos
+    for(var p=0; p<lista.length;p++){
+
+      this.comiteElegido.push(lista[p]);
+    }
+    console.log(this.comiteElegido,"ss");
+
+
+
+    //Se vuelve a guardar los disponibles
+    
+    
   }
 
   onAgregar(){
@@ -110,5 +126,11 @@ export class ComiteEventoVer implements OnInit {
   onQuitar(index:number){ 
     this.comiteElegido.splice(index, 1)[0];
 
+  }
+
+  onNuevoComiteDisp(nuevoComiteDisp){
+    console.log(nuevoComiteDisp);
+    this.evaluadoresDisponibles=<Array<Persona>>nuevoComiteDisp;  
+    console.log(this.evaluadoresDisponibles,"evaluadores disponibles");
   }
 }
