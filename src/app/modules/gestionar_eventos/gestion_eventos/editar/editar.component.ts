@@ -56,6 +56,9 @@ export class EditarGestionarEventoComponent implements OnInit{
         );
     }
     displayItem(flag: Boolean){
+        if(!this.item.formulario){
+            this.item.formulario = new FormularioCFP();
+        }
         this.flagEvento = flag;
     }
 }

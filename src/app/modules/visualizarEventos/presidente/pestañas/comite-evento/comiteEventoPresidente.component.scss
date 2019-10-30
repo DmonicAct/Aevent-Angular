@@ -1,0 +1,27 @@
+h2 {
+    text-align: center;
+  }
+  
+  .p {
+    text-align: center;
+    padding-top: 130px;
+  }h2 {
+  text-align: center;
+}
+
+.p {
+  text-align: center;
+  padding-top: 130px;
+}
+
+@media (max-width: 1000px) {
+  .welcome-message {
+    display: none;
+  }
+}
+
+
+.visor-call-for-paper{
+  width: 1000px !important;
+  height: 800x !important;
+}

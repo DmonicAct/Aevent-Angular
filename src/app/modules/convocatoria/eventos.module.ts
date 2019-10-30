@@ -13,27 +13,12 @@ import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 // views
 // modules/components
 import { PaginacionModule } from '../../components/common/paginacion/paginacion.module';
-import { ListaEventosPresidente } from './presidente/listaPresidente.component';
-import { DetalleEventoVer } from './presidente/pestañas/detalle-evento/detalleEventoPresidente.component';
-import { AgregarEvaluador } from './presidente/pestañas/comite-evento/agregar-evaluador/agregar-evaluador.component';
-import { ComiteEventoVer } from './presidente/pestañas/comite-evento/comiteEventoPresidente.component';
-import { VerEventoPresidenteComponent } from './presidente/pestañas/ver.component';
-import {VerFormatoPresidente} from './presidente/pestañas/call-for-papers-view/verFormato.component'
-
+import {ListaEventos } from './listaEventos/listaEventos.component';
+import {PostularEvento} from './postular/postular.component';
 @NgModule({
   declarations: [
-    ListaEventosPresidente,
-    DetalleEventoVer,
-    ComiteEventoVer,
-    VerEventoPresidenteComponent,
-    VerFormatoPresidente,
-    AgregarEvaluador,
-    /* 
-    EditarGestionarEventoComponent,
-    DetalleEventoConfiguracion,
-    CallForPaperComponent,
-    FaseEventoComponent,
-    CallForPaperView */
+    ListaEventos,
+    PostularEvento,
   ],
   imports: [
     CommonModule,
@@ -50,4 +35,4 @@ import {VerFormatoPresidente} from './presidente/pestañas/call-for-papers-view/
     SweetAlert2Module
   ]
 })
-export class ModelosPresidenteModule { }
+export class ConvocatoriaModules { }

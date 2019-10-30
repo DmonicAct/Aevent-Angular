@@ -39,6 +39,14 @@
           <li [ngClass]="{active: activeRoute('eventos-presidente')}"><a [routerLink]="['/gestionPresidenteEvento/eventos-presidente']">Visualizar Evento</a></li>
         </ul>
       </li>
+      <li [ngClass]="{active: activeRoute('convocatoria')}" *ngIf="rolPonente">
+        <a href="#"><i class="fa fa-file"></i> <span class="nav-label">Convocatorias</span> <span class="fa arrow"></span> </a>
+        <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('convocatoria')}">
+            <!-- *ngIf="checkPermission('/mantenimiento')" -->
+          <!-- *ngIf="checkPermission('/mantenimiento/configuracion-usuarios')" -->
+          <li [ngClass]="{active: activeRoute('lista-eventos')}"><a [routerLink]="['/convocatoria/lista-eventos']">Ver Convocatorias</a></li>
+        </ul>
+      </li>
       
       <li [ngClass]="{active: activeRoute('gestionEvaluacionEvento')}" *ngIf="rolDefault || rolOrga">
         <a href="#"><i class="fa fa-calculator"></i> <span class="nav-label">Visualizar Evento</span> <span class="fa arrow"></span> </a>

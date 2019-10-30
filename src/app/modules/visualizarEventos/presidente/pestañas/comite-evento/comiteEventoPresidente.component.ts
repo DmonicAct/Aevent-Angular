@@ -10,7 +10,7 @@ import { defineLocale } from 'ngx-bootstrap/chronos';
 import { AuthService as AeventAuthService } from '../../../../../auth/service/auth.service';
 import * as moment from 'moment';
 import { ToastrService } from "ngx-toastr";
-
+import { SwalComponent } from '@toverux/ngx-sweetalert2';
 @Component({
   selector: 'comiteEventoPresidente',
   templateUrl: './comiteEventoPresidente.component.html',
@@ -27,24 +27,79 @@ export class ComiteEventoVer implements OnInit {
   //Evento de Padre
   @Input('item-evento')
   public itemEventoParent: Evento;
+
+
+  @Input('item-comite')
+  public  comiteElegido: Array<Usuario>;
+
+  @Input('listaEvAgregar')
+  public listaEvAgregar:Array<Persona>;
+
+  public evaluadoresDisponibles:Array<Persona>;
+
+
+
+  
+  
   
   constructor(
     private servicePersonas: PersonaService,
-    private serviceEvento: EventoService,) { 
+    private authService: AeventAuthService,
+    private serviceEvento: EventoService,) {
+    this.comiteElegido = new Array<Usuario>();
+    
 
     this.itemEvento = new Evento();
-    this.itemComite = new Array<Usuario>()
+    this.itemComite = new Array<Usuario>();
+    console.log(this.itemEventoParent);
     //this.itemComite = this.itemEventoParent.comite;
     }
 
   @ViewChild('autoShownModal') autoShownModal: ModalDirective;
   
+  @ViewChild(`visorAgregarEvaluador`) private swalComponent: SwalComponent;
+
   ngOnInit() {
+    this.servicePersonas.obtenerPersonas().subscribe(
+      (response: Response) => {
+        this.evaluadoresDisponibles = response.resultado;
+        console.log(response);
+        console.log("EvaluadoresDisponibles");
+      }
+    );
+
+    
     
   }
+
+  ngOnLoad(){
+    this.comiteElegido = this.itemEventoParent.comite;
+  }
   onAgregarEvaluador(){
+    console.log(this.listaEvAgregar);
+  }
 
 
+  onGuardarCambiosEvento(){
+    console.log(this.listaEvAgregar);
+  }
+
+  getList(items){
+    console.log("Items:", items);
+    var lista = <Array<Persona>> items;
+    this.swalComponent.nativeSwal.close();
+    //Agregamos los evaluadores escogidos
+    for(var p=0; p<lista.length;p++){
+
+      this.comiteElegido.push(lista[p]);
+    }
+    console.log(this.comiteElegido,"ss");
+
+
+
+    //Se vuelve a guardar los disponibles
+    
+    
   }
 
   onAgregar(){
@@ -68,5 +123,14 @@ export class ComiteEventoVer implements OnInit {
   );*/
   }
   
-  onQuitar(){}
+  onQuitar(index:number){ 
+    this.comiteElegido.splice(index, 1)[0];
+
+  }
+
+  onNuevoComiteDisp(nuevoComiteDisp){
+    console.log(nuevoComiteDisp);
+    this.evaluadoresDisponibles=<Array<Persona>>nuevoComiteDisp;  
+    console.log(this.evaluadoresDisponibles,"evaluadores disponibles");
+  }
 }
