@@ -32,7 +32,7 @@ export class ComiteEventoVer implements OnInit {
   @Input('item-comite')
   public  comiteElegido: Array<Usuario>;
 
-
+  public evaluadoresDisponibles:Array<Persona>;
 
 
 
@@ -41,6 +41,7 @@ export class ComiteEventoVer implements OnInit {
   
   constructor(
     private servicePersonas: PersonaService,
+    private authService: AeventAuthService,
     private serviceEvento: EventoService,) {
     this.comiteElegido = new Array<Usuario>();
     
@@ -54,6 +55,13 @@ export class ComiteEventoVer implements OnInit {
   @ViewChild('autoShownModal') autoShownModal: ModalDirective;
   
   ngOnInit() {
+    this.servicePersonas.obtenerPersonas().subscribe(
+      (response: Response) => {
+        this.evaluadoresDisponibles = response.resultado;
+        console.log(response);
+        console.log("EvaluadoresDisponibles");
+      }
+    );
 
     
     
@@ -63,7 +71,6 @@ export class ComiteEventoVer implements OnInit {
     this.comiteElegido = this.itemEventoParent.comite;
   }
   onAgregarEvaluador(){
-
 
   }
 

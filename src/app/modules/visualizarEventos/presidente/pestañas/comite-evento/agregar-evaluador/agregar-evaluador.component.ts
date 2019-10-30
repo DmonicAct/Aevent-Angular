@@ -23,6 +23,8 @@ declare var jQuery: any;
     @Input('items')
     public items: Array<Persona>;
     
+    public tam: number;
+    public checks: Array<Boolean>;
     constructor() {
       //this.itemComite = this.itemEventoParent.comite;
       }
@@ -30,7 +32,9 @@ declare var jQuery: any;
     @ViewChild('autoShownModal') autoShownModal: ModalDirective;
     
     ngOnInit() {
-  
+      this.tam = this.items.length;
+      //console.log(this.tam);
+      //this.checks=
     }
 
     ngAfterViewInit() {
@@ -38,6 +42,18 @@ declare var jQuery: any;
           height: '100%'
       });
   }
+
+    OnSelectAll(){
+
+    }
+
+    OnDeselectAll(){
+
+    }
+
+    OnAgregarEv(){
+
+    }
 
   
 }
