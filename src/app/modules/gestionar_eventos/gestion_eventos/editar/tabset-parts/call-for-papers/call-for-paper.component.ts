@@ -211,6 +211,16 @@ export class CallForPaperComponent implements OnInit {
     }
 
     onGuardar() {
+        this.item.formulario.divisionList.forEach(e=>{
+            e.idDivision=null;
+            e.seccionList.forEach(k=>{
+                k.idSeccion=null;
+                k.preguntaList.forEach(m=>{
+                    m.idPregunta=null;
+                })
+            })
+        })
+        
         this.serviceEvento.guardarEvento(this.item).subscribe(
             (response:Response)=>{
                 if(response.estado=='OK'){

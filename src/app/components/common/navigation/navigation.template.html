@@ -31,7 +31,7 @@
           <li [ngClass]="{active: activeRoute('eventos-organizador')}"><a [routerLink]="['/gestionOrganizadorEvento/eventos-organizador']">Administrar Evento</a></li>
         </ul>
       </li>
-      <li [ngClass]="{active: activeRoute('gestionPresidenteEvento')}" *ngIf="rolPres">
+      <li [ngClass]="{active: activeRoute('gestionPresidenteEvento')}" *ngIf="rolDefault || rolOrga">
         <a href="#"><i class="fa fa-calculator"></i> <span class="nav-label">Visualizar Evento</span> <span class="fa arrow"></span> </a>
         <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('gestionPresidenteEvento')}">
             <!-- *ngIf="checkPermission('/mantenimiento')" -->
@@ -40,7 +40,7 @@
         </ul>
       </li>
       
-      <li [ngClass]="{active: activeRoute('gestionEvaluacionEvento')}" *ngIf="rolEval">
+      <li [ngClass]="{active: activeRoute('gestionEvaluacionEvento')}" *ngIf="rolDefault || rolOrga">
         <a href="#"><i class="fa fa-calculator"></i> <span class="nav-label">Visualizar Evento</span> <span class="fa arrow"></span> </a>
         <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('gestionPresidenteEvento')}">
             <!-- *ngIf="checkPermission('/mantenimiento')" -->
