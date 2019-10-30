@@ -27,10 +27,23 @@ export class ComiteEventoVer implements OnInit {
   //Evento de Padre
   @Input('item-evento')
   public itemEventoParent: Evento;
+
+
+  @Input('item-comite')
+  public  comiteElegido: Array<Usuario>;
+
+
+
+
+
+  
+  
   
   constructor(
     private servicePersonas: PersonaService,
-    private serviceEvento: EventoService,) { 
+    private serviceEvento: EventoService,) {
+    this.comiteElegido = new Array<Usuario>();
+    
 
     this.itemEvento = new Evento();
     this.itemComite = new Array<Usuario>();
@@ -41,10 +54,21 @@ export class ComiteEventoVer implements OnInit {
   @ViewChild('autoShownModal') autoShownModal: ModalDirective;
   
   ngOnInit() {
+
     
+    
+  }
+
+  ngOnLoad(){
+    this.comiteElegido = this.itemEventoParent.comite;
   }
   onAgregarEvaluador(){
 
+
+  }
+
+
+  onGuardarCambiosEvento(){
 
   }
 
@@ -69,5 +93,8 @@ export class ComiteEventoVer implements OnInit {
   );*/
   }
   
-  onQuitar(){}
+  onQuitar(index:number){ 
+    this.comiteElegido.splice(index, 1)[0];
+
+  }
 }

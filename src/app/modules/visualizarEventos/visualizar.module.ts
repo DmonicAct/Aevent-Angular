@@ -15,6 +15,7 @@ import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 import { PaginacionModule } from '../../components/common/paginacion/paginacion.module';
 import { ListaEventosPresidente } from './presidente/listaPresidente.component';
 import { DetalleEventoVer } from './presidente/pestañas/detalle-evento/detalleEventoPresidente.component';
+import { AgregarEvaluador } from './presidente/pestañas/comite-evento/agregar-evaluador/agregar-evaluador.component';
 import { ComiteEventoVer } from './presidente/pestañas/comite-evento/comiteEventoPresidente.component';
 import { VerEventoPresidenteComponent } from './presidente/pestañas/ver.component';
 import {VerFormatoPresidente} from './presidente/pestañas/call-for-papers-view/verFormato.component'
@@ -32,6 +33,7 @@ import { FaseEventoComponent } from './gestion_eventos/editar/tabset-parts/fases
     ComiteEventoVer,
     VerEventoPresidenteComponent,
     VerFormatoPresidente,
+    AgregarEvaluador,
     /* 
     EditarGestionarEventoComponent,
     DetalleEventoConfiguracion,

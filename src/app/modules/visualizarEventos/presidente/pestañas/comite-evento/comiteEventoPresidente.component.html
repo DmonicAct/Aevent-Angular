@@ -3,35 +3,13 @@
 
   <sk-three-bounce></sk-three-bounce>
    
-    
 
     
 <div class="text-center">
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-  Agregar Evaluador
-</button>
+<button class="btn btn-primary" (click)="OnAgregarEvaluador" [swal]="visorAgregarEvaluador"><i class="fa fa-eye"></i>
+  Agregar evaluador</button>
 </div>
 
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 
     <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
@@ -48,7 +26,7 @@
                           <th class="text-center">Eliminar</th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody >
 <!--
                           <div class="form-group">
                               <label class="col-sm-3 control-label">Descripcion </label>
@@ -59,17 +37,48 @@
                           </div>
 
                         -->
-                        <tr *ngFor="let item of itemEventoParent.comite; let i = index" (click)="OnRowClick(i, item)"
+                        <tr *ngFor="let item of comiteElegido; let i = index" (click)="OnRowClick(i, item)"
                           [class.selected]="i == selectedRow">
                           <td class="text-left" data-col="username"><code>{{item.username}}</code></td>
                           <td class="text-left" data-col="email">{{item.nombre + " "+ item.appaterno + " " + item.apmaterno}}</td>                          
                           <td class="text-left" data-col="email">{{item.email}}</td>
 
-                          <td class="text-center" data-col="Quitar" (click)="OnQuitar(item)"><button class="btn btn-danger"><i
+                          <td class="text-center" data-col="Quitar" (click)="onQuitar(item)"><button class="btn btn-danger"><i
                                 class="fa fa-trash"></i></button></td>
+                                <!--
+                                  <tbody>
+                                    <tr *ngFor="let item of this.itemFormulario.divisionList; let i = index"
+                                        (click)="OnRowClick(i, item)"
+                                        [class.selected]="i == selectedRow">
+                                        <td class="text-center" style="width:10%;"
+                                            data-col="idDivision"><code>{{i+1}}</code></td>
+                                        <td class="text-left" style="width:80%;"
+                                            data-col="descripcion">{{item.descripcion}}</td>
+                                        <td class="text-center" style="width:5%;" data-col="editar"
+                                            (click)="OnEditar(i)"><button class="btn btn-success"><i
+                                                    class="fa fa-edit"></i></button></td>
+                                        <td class="text-center" style="width:5%;"
+                                            data-col="eliminar" (click)="OnEliminar(i)"><button
+                                                class="btn btn-danger"><i
+                                                    class="fa fa-trash"></i></button></td>
+                                    </tr>
+                                </tbody>
+
+
+
+
+                                -->
+
+
+
                         </tr>
                       </tbody>
                     </table>
+                  </div>
+
+                  <div class="text-left">
+                      <button type="button" class="btn btn-success m-r" (click)="onGuardarCambiosEvento()"><i class="fa fa-save"></i>
+                          Guardar Cambios</button>
                   </div>
                   
                 </div>
@@ -86,3 +95,17 @@
       return ((key >= 65 && key <= 90) || key == 8);
   }
 </script>
+
+<swal
+  #visorAgregarEvaluador
+  title="Template"
+  customClass="agregar-evaluador"
+  [showCancelButton]="false"
+  [focusConfirm]="true"
+  [allowOutsideClick]="true"
+  confirmButtonText="Aceptar"
+  >
+  <div *swalPartial>
+    <agregar-evaluador [items]="evaluadoresDisponibles"></agregar-evaluador>
+  </div>
+</swal>
