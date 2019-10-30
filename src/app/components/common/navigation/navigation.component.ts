@@ -22,7 +22,7 @@ export class NavigationComponent {
     this.rolOrga = false;
     this.rolAdmin = false;
     this.rolPres = false;
-    this.rolPonente = true;
+    this.rolPonente = false; //se queda en falso hasta que tengamos los servicios de eventos listos.
     this.authService.usuario.roles.forEach(element => {
       var aux = '' + element;
       if (aux == 'ROLE_ADMIN') {
