@@ -74,12 +74,16 @@ export class ComiteEventoVer implements OnInit {
     this.comiteElegido = this.itemEventoParent.comite;
   }
   onAgregarEvaluador(){
-
+    console.log(this.listaEvAgregar);
   }
 
 
   onGuardarCambiosEvento(){
+    console.log(this.listaEvAgregar);
+  }
 
+  getList(items){
+    console.log("Items:", items);
   }
 
   onAgregar(){

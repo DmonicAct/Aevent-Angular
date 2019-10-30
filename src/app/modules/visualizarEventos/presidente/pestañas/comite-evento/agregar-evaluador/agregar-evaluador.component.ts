@@ -20,7 +20,8 @@ declare var jQuery: any;
   })
   export class AgregarEvaluador implements OnInit {
   
-    @Output('listaEvAgregar')
+    @Output() valueChange = new EventEmitter();
+    
     public listaEvParaAgregar: Array<Persona>;
 
     @Input('items')
@@ -58,12 +59,16 @@ declare var jQuery: any;
 
     }
 
+
+
     OnAgregarEv(){
+      this.listaEvParaAgregar=new Array<Persona>();
       for (var i = 0; i < this.tam; i++) {
         if(this.checks[i]){
             this.listaEvParaAgregar.push(this.items[i]);
         }
       }
+      this.valueChange.emit(this.listaEvParaAgregar);
     }
 
   

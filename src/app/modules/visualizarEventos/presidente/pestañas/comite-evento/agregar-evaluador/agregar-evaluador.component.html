@@ -21,8 +21,7 @@
                                             </tr>
                                           </thead>
                                           <tbody >
-                                            <tr *ngFor="let item of items; let i = index" (click)="OnRowClick(i, item)"
-                                              [class.selected]="i == selectedRow">
+                                            <tr *ngFor="let item of items; let i = index" [class.selected]="i == selectedRow">
                                               <td class="text-left" data-col="name"><code>{{item.nombre}}</code></td>
                                               <td class="text-left" data-col="email">{{item.appaterno + " " + item.apmaterno + " " + i}}</td> 
                     
@@ -33,12 +32,10 @@
                                                       <label class="custom-control-label" for="tableDefaultCheck2"></label>
                                                     </div>
                                                   </th>
-                    
-                    
-                    
                                             </tr>
                                           </tbody>
                                         </table>
+                                          <button class="button" (click)="OnAgregarEv()">Agregar</button>
                                       </div>
                         </div>
                     </div>

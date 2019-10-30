@@ -103,9 +103,8 @@
   [showCancelButton]="false"
   [focusConfirm]="true"
   [allowOutsideClick]="true"
-  confirmButtonText="Aceptar"
   >
   <div *swalPartial>
-    <agregar-evaluador [items]="evaluadoresDisponibles" ></agregar-evaluador>
+    <agregar-evaluador [items]="evaluadoresDisponibles" (valueChange)='getList($event)'></agregar-evaluador>
   </div>
 </swal>
