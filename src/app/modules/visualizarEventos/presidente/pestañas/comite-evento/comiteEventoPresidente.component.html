@@ -106,6 +106,6 @@
   [showConfirmButton]= "false"
   >
   <div *swalPartial>
-    <agregar-evaluador [items]="evaluadoresDisponibles" (valueChange)='getList($event)'></agregar-evaluador>
+    <agregar-evaluador [items]="evaluadoresDisponibles" (nuevoComiteDisp)='onNuevoComiteDisp($event)' (valueChange)='getList($event)'></agregar-evaluador>
   </div>
 </swal>

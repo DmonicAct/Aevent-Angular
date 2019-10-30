@@ -95,23 +95,11 @@ export class ComiteEventoVer implements OnInit {
     }
     console.log(this.comiteElegido,"ss");
 
-    //Actualizamos el div
-    
-    var container = document.getElementById('tableEvaluador');
-    var content = container.innerHTML;
-    container.innerHTML= content; 
-    console.log("Refreshed");
 
 
     //Se vuelve a guardar los disponibles
     
-    this.servicePersonas.obtenerPersonas().subscribe(
-      (response: Response) => {
-        this.evaluadoresDisponibles = response.resultado;
-        console.log(response);
-        console.log("EvaluadoresDisponibles");
-      }
-    );
+    
   }
 
   onAgregar(){
@@ -138,5 +126,11 @@ export class ComiteEventoVer implements OnInit {
   onQuitar(index:number){ 
     this.comiteElegido.splice(index, 1)[0];
 
+  }
+
+  onNuevoComiteDisp(nuevoComiteDisp){
+    console.log(nuevoComiteDisp);
+    this.evaluadoresDisponibles=<Array<Persona>>nuevoComiteDisp;  
+    console.log(this.evaluadoresDisponibles,"evaluadores disponibles");
   }
 }
