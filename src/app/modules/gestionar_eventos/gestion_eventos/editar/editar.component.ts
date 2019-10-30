@@ -5,6 +5,7 @@ import { Evento, Response, Persona, FormularioCFP } from '../../../../models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventoService } from '../../../../services';
 import { UtilFormulario } from 'src/app/util/util_formulario';
+import { FaseEventoComponent } from './tabset-parts/fases/fase-evento.component';
 
 @Component({
     selector:'editar-gestion-eventos',
@@ -14,7 +15,7 @@ import { UtilFormulario } from 'src/app/util/util_formulario';
 
 export class EditarGestionarEventoComponent implements OnInit{
   @ViewChild('tabsDetalle') tabsDetalle: DetalleEventoConfiguracion;
-  @ViewChild('tabsFases') tabsFases: TabsetComponent;
+  @ViewChild(FaseEventoComponent) tabsFases: FaseEventoComponent;
   @ViewChild('tabsCallforPapers') tabsCallforPapers: TabsetComponent;
 
     private sub: any;
@@ -42,11 +43,13 @@ export class EditarGestionarEventoComponent implements OnInit{
     ngOnInit(){
         
     }
+    
     obtenerEvento(){
         this.service.obtenerEvento(this.itemCodigo).subscribe(
             (response: Response)=>{
                 this.item=response.resultado;
                 this.flagEvento = false;
+                this.tabsFases.setEvento(this.item);
                 if(!this.item.formulario){
                     this.item.formulario = new FormularioCFP();
                     this.item.formulario.divisionList = this.utilForm.inicializarFormulario();
