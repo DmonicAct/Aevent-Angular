@@ -27,23 +27,58 @@ export class ComiteEventoVer implements OnInit {
   //Evento de Padre
   @Input('item-evento')
   public itemEventoParent: Evento;
+
+
+  @Input('item-comite')
+  public  comiteElegido: Array<Usuario>;
+
+  @Input('listaEvAgregar')
+  public listaEvAgregar:Array<Persona>;
+
+  public evaluadoresDisponibles:Array<Persona>;
+
+
+
+  
+  
   
   constructor(
     private servicePersonas: PersonaService,
-    private serviceEvento: EventoService,) { 
+    private authService: AeventAuthService,
+    private serviceEvento: EventoService,) {
+    this.comiteElegido = new Array<Usuario>();
+    
 
     this.itemEvento = new Evento();
-    this.itemComite = new Array<Usuario>()
+    this.itemComite = new Array<Usuario>();
+    console.log(this.itemEventoParent);
     //this.itemComite = this.itemEventoParent.comite;
     }
 
   @ViewChild('autoShownModal') autoShownModal: ModalDirective;
   
   ngOnInit() {
+    this.servicePersonas.obtenerPersonas().subscribe(
+      (response: Response) => {
+        this.evaluadoresDisponibles = response.resultado;
+        console.log(response);
+        console.log("EvaluadoresDisponibles");
+      }
+    );
+
     
+    
+  }
+
+  ngOnLoad(){
+    this.comiteElegido = this.itemEventoParent.comite;
   }
   onAgregarEvaluador(){
 
+  }
+
+
+  onGuardarCambiosEvento(){
 
   }
 
@@ -68,5 +103,8 @@ export class ComiteEventoVer implements OnInit {
   );*/
   }
   
-  onQuitar(){}
+  onQuitar(index:number){ 
+    this.comiteElegido.splice(index, 1)[0];
+
+  }
 }

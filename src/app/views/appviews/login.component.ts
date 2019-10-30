@@ -103,9 +103,10 @@ export class LoginComponent {
 
       }else{
         this.service.guardarUsuarioOut(persona).subscribe((response: Response)=>{
+          this.login();          
       
         });
-        this.login();
+        
 
       }
 
