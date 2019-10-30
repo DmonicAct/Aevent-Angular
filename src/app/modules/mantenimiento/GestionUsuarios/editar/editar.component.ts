@@ -117,7 +117,6 @@ export class EditarUsuarioComponent implements OnInit  {
       });
     }
     this.item.roles = roles;
-    console.log(this.item);
     this.service.guardarUsuarioSistema(this.item).subscribe(
       (response:Response)=>{
         this.toastr.success('Se guardo el usuario correctamente', 'Aviso', {closeButton: true});

@@ -17,6 +17,7 @@ export class NavigationComponent {
   rolOrga: Boolean;
   rolAdmin: Boolean;
   rolPres: Boolean;
+  rolEval: Boolean;
   ngOnInit(){
     this.rolOrga = false;
     this.rolAdmin = false;
@@ -26,6 +27,7 @@ export class NavigationComponent {
       if (aux == 'ROLE_ADMIN') this.rolAdmin = true;
       if (aux == 'ROLE_ORGANIZER') this.rolOrga = true;
       if (aux == 'ROLE_PRESIDENT') this.rolPres = true;
+      if (aux == 'ROLE_EVALUATOR') this.rolEval = true;
     });
   }
 
