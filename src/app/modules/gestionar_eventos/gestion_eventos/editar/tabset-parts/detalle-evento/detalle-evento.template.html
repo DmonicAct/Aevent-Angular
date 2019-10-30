@@ -168,15 +168,14 @@
                             (input)="buscarUsuario()"></div>
                     </div>
                 </div>
-                <div class="modal-body">
-                    <div class="row col-sm-12" style="height: 500px; overflow: scroll;">
+                <div class="modal-body" style="overflow: hidden;">
+                    <div class="row col-sm-12" style="height: 500px; overflow-y: scroll;overflow: auto;">
                         <div class="list-group">
                             <button type="button" class="list-group-item list-group-item-action"
                                 *ngFor="let data of maestroUsuariosFilter" (click)="ElegirPresidente(data)">
                                 {{data.fullName}}
-                            </button>  
-                        </div>
-                                              
+                            </button>
+                        </div>                 
                     </div>                    
                     <div class="row">
                         <div class="col-sm-12 text-center m-t-sm">
