@@ -39,7 +39,7 @@
           <li [ngClass]="{active: activeRoute('eventos-presidente')}"><a [routerLink]="['/gestionPresidenteEvento/eventos-presidente']">Visualizar Evento</a></li>
         </ul>
       </li>
-      <li [ngClass]="{active: activeRoute('convocatoria')}" *ngIf="rolPonente">
+      <li [ngClass]="{active: activeRoute('convocatoria')}" *ngIf="rolDefault || rolOrga">
         <a href="#"><i class="fa fa-file"></i> <span class="nav-label">Convocatorias</span> <span class="fa arrow"></span> </a>
         <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('convocatoria')}">
             <!-- *ngIf="checkPermission('/mantenimiento')" -->
