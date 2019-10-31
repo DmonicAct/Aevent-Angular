@@ -4,8 +4,8 @@ import {UsuarioService} from './usuario.service';
 import {PersonaService} from './persona.service';
 import {TipoEventoServices} from './tipoEvento.service';
 import {LugarService} from './lugar.service';
-import { EventoService } from './evento.service';
-
+import {EventoService } from './evento.service';
+import {FaseService} from './fase.service';
 export{
     CategoriaService,
     RolesServices,
@@ -13,5 +13,6 @@ export{
     PersonaService,
     TipoEventoServices,
     LugarService,
-    EventoService
+    EventoService,
+    FaseService
 }

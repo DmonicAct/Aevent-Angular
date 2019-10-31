@@ -8,7 +8,7 @@
       <li>
         <a>Gestionar de Evento</a>
       </li>
-      <li>
+      <li>  
         <a>Administrar Evento</a>
       </li>
       <li class="active">
@@ -34,9 +34,9 @@
               </div>
         </tab>
 
-        <tab #tabsFases heading="Fases" [disabled]="true">
+        <tab #tabsFases heading="Fases" [disabled]="false">
             <div class="mail-box-header">
-              <fase-evento></fase-evento>
+              <fase-evento [(item-evento)]="item"></fase-evento>
             </div>
         </tab>
       </tabset>

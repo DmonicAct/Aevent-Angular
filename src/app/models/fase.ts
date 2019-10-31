@@ -1,10 +1,10 @@
-import { Criterio } from ".";
-
+import { Criterio, Evento } from ".";
 
 export class Fase{
     public idFase: number;
-    public descipcion: string;
+    public descripcion: String;
     public fechaInicial: Date;
     public fechaFin: Date;
     public criterios: Array<Criterio>;
+    public evento: Evento;
 }
