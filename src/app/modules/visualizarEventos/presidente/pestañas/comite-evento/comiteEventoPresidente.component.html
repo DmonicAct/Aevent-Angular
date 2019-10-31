@@ -37,13 +37,13 @@
                           </div>
 
                         -->
-                        <tr *ngFor="let item of comiteElegido; let i = index" (click)="OnRowClick(i, item)"
+                        <tr *ngFor="let item of comiteElegido; let i = index" 
                           [class.selected]="i == selectedRow">
                           <td class="text-left" data-col="username"><code>{{item.username}}</code></td>
                           <td class="text-left" data-col="email">{{item.nombre + " "+ item.appaterno + " " + item.apmaterno}}</td>                          
                           <td class="text-left" data-col="email">{{item.email}}</td>
 
-                          <td class="text-center" data-col="Quitar" (click)="onQuitar(item)"><button class="btn btn-danger"><i
+                          <td class="text-center" data-col="Quitar" (click)="onQuitar(item,i)"><button class="btn btn-danger"><i
                                 class="fa fa-trash"></i></button></td>
                                 <!--
                                   <tbody>

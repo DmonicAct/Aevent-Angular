@@ -19,7 +19,7 @@ declare var jQuery: any;
     styleUrls: ['./agregar-evaluador.component.scss']
   })
   export class AgregarEvaluador implements OnInit {
-  
+    public cb: Boolean;
     @Output() valueChange = new EventEmitter();
     @Output() nuevoComiteDisp = new EventEmitter();
     
