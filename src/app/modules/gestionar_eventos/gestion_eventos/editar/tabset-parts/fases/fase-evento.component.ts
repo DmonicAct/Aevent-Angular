@@ -17,7 +17,8 @@ export class FaseEventoComponent implements OnInit{
   public isNewModalShown: Boolean;
   public descripcionModal : String;
   public esNuevo: Boolean;
-
+  public isDeleteModalShown: Boolean;
+  public isModalShown: Boolean;
   public newItem : Fase; //para la nueva categoria
   public items : Array<Fase>;
   //public item : Fase;
@@ -26,19 +27,19 @@ export class FaseEventoComponent implements OnInit{
   public idEvento : number;
 
   public loading: Boolean = false;
-  //@ViewChild('autoShownModal') 
-  //autoShownModal: ModalDirective;
+  @ViewChild('autoShownModal') 
+  autoShownModal: ModalDirective;
   @ViewChild('autoNewShownModal')
   autoNewShownModal: ModalDirective;
-  //@ViewChild('autoDeleteShownModal') 
-  //autoDeleteShownModal: ModalDirective;
+  @ViewChild('autoDeleteShownModal') 
+  autoDeleteShownModal: ModalDirective;
   //Evento de Padre
   @Input('item-evento')
   public item: Evento;
   public evento: Evento;
   public criterio: Criterio;
   public criterios: Array<Criterio>;
-
+  public fase: Fase;
   public fases: Array<Fase>;
   constructor(private toastr: ToastrService, 
               private router: Router,
@@ -50,24 +51,28 @@ export class FaseEventoComponent implements OnInit{
 
     this.criterio = new Criterio;
     this.criterios = new Array<Criterio>();
+    this.fases = new Array<Fase>();
+    this.fase = new Fase;
   }
 
     ngOnInit(): void {
+    
     }
     
     getFasesPorEvento() {
-        /*
-      console.log(this.item.idEvento);
-      this.service.obtenerFases(this.item).subscribe(
+        /*console.log(this.item.idEvento);
+      
+      this.faseService.obtenerFases(this.item).subscribe(
         (response: Response) => {
-          console.log(response);
+          console.log(response);  
         }
-      );*/
+      );*/ 
+      
     }
 
     setEvento(eventoPadre: Evento) {
         this.evento = eventoPadre;
-        console.log(this.evento);
+        //console.log(this.evento);
         this.fases = this.evento.fases;
         this.getFasesPorEvento();
     }
@@ -83,17 +88,19 @@ export class FaseEventoComponent implements OnInit{
     }
 
     onHidden(): void {
-        this.isNewModalShown = false;
-      }
+      this.isModalShown = false;
+      this.isNewModalShown = false;
+      this.isDeleteModalShown = false;
+    }
 
     hideModal(): void {
         if(this.isNewModalShown){
           this.autoNewShownModal.hide();
-        }/*else if(this.isModalShown){
+        }else if(this.isModalShown){
           this.autoShownModal.hide();
         }else{
           this.autoDeleteShownModal.hide();
-        }*/
+        }
       }
     
     OnNuevo(){
@@ -130,6 +137,43 @@ export class FaseEventoComponent implements OnInit{
     
         this.esNuevo = true;
         this.isNewModalShown=true;
+    }
+    OnGestionarFases(){
+        this.descripcionModal = "";
+    
+        this.esNuevo = true;
+        this.isNewModalShown=true;
+    }
+    OnAgregarFase(){
+      if(this.esNuevo){ //Creando lugar
+        let faseNueva = new Fase();
+        faseNueva.descripcion = this.descripcionModal;
+        faseNueva.evento = this.evento;
+        console.log(faseNueva);
+        this.faseService.guardarFase(faseNueva).subscribe(
+          (response: Response)=>{
+            this.toastr.success(`Se ha guardado la fase con exito`, 'Aviso', {closeButton: true});
+            this.onHidden();
+          }
+        )
+      }
+    }
+    OnEliminar(fase: Fase){
+      this.fase = fase;
+      this.fase.evento = this.evento;
+      this.isDeleteModalShown=true;
+    }
+    OnConfirmar(){
+
+      this.faseService.eliminarFase(this.fase).subscribe(
+        (response: Response)=>{ 
+          console.log(response);  
+          if(response.estado=="OK"){
+            this.toastr.success(`Se ha eliminado la categoría con éxito`, 'Aviso', {closeButton: true});
+            this.onHidden();      
+          }
+        }
+      );
     }
 
 }

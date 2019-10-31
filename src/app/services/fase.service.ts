@@ -52,6 +52,22 @@ export class FaseService{
               return throwError(e);
             }));
     }
+
+    eliminarFase(fase:Fase){
+      let url = this.apiEndpoint + `/eliminar/${fase.idFase}`;
+      
+        console.log(url);
+        return this.http.delete(url).pipe(
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
+            return throwError(e);
+          }));
+      }
 /*
     consultarAllEventoByOrganizador(user:string, pagina:number, registros:number):Observable<any>{
       let params:HttpParams = new HttpParams()
