@@ -96,9 +96,6 @@ export class ComiteEventoVer implements OnInit {
     console.log(this.comiteElegido,"ss");
 
 
-
-    //Se vuelve a guardar los disponibles
-    
     
   }
 
@@ -123,13 +120,20 @@ export class ComiteEventoVer implements OnInit {
   );*/
   }
   
-  onQuitar(index:number){ 
+  onQuitar(index,i){ 
+    debugger
+    console.log(index);
+    console.log(i);
+    console.log(this.evaluadoresDisponibles);
+    console.log(this.comiteElegido[index]);
+    var usr = <Usuario>index;
+    this.evaluadoresDisponibles.push(<Persona>(this.comiteElegido[i]));
+    console.log(this.evaluadoresDisponibles);
     this.comiteElegido.splice(index, 1)[0];
 
   }
 
   onNuevoComiteDisp(nuevoComiteDisp){
-    console.log(nuevoComiteDisp);
     this.evaluadoresDisponibles=<Array<Persona>>nuevoComiteDisp;  
     console.log(this.evaluadoresDisponibles,"evaluadores disponibles");
   }
