@@ -6,7 +6,7 @@
 
     
 <div class="text-center">
-<button class="btn btn-primary" (click)="onAgregarEvaluador" [swal]="visorAgregarEvaluador"><i class="fa fa-eye"></i>
+<button class="btn btn-primary" (click)="onAgregarEvaluador()" [swal]="visorAgregarEvaluador"><i class="fa fa-eye"></i>
   Agregar evaluador</button>
 </div>
 
@@ -98,9 +98,9 @@
 
 <swal
   #visorAgregarEvaluador
-  title="Template"
+  title="Agregar Evaluador"
   customClass="agregar-evaluador"
-  [showCancelButton]="false"
+  [showCancelButton]="fasle"
   [focusConfirm]="true"
   [allowOutsideClick]="true"
   [showConfirmButton]= "false"

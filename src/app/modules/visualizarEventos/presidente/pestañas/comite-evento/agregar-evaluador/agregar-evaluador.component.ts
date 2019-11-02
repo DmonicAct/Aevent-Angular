@@ -55,10 +55,26 @@ declare var jQuery: any;
   }
 
     OnSelectAll(){
+      if(!this.cb){
+        for (var i = 0; i < this.tam; i++) {
+          this.checks[i] = true;
+        }
+
+      }else{
+        for (var i = 0; i < this.tam; i++) {
+          this.checks[i] = false;
+        }
+
+      }
 
     }
 
     OnDeselectAll(){
+
+    }
+    OnCancel(){
+      this.valueChange.emit(this.listaEvParaAgregar);
+      this.nuevoComiteDisp.emit(this.listaNuevoComiteDisp);
 
     }
 

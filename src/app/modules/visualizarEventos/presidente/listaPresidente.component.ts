@@ -29,7 +29,9 @@ export class ListaEventosPresidente implements OnInit {
       this.getEventosPresidente();
 
   }
-  
+  OnRowClick(i, item){
+    
+  }
  
   getEventosPresidente() {
     this.service.consultarAllEventoByPresidente(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
