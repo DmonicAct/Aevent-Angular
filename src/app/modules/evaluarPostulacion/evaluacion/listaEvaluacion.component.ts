@@ -27,4 +27,14 @@ export class ListaEvaluacionComponent implements OnInit{
     public getEventos(){
         
     }
+    OnPageChanged(event): void {
+        this.paginacion.pagina = event.page;
+        //this.getLista();
+      }
+    
+      OnPageOptionChanged(event): void {
+        this.paginacion.registros = event.rows;
+        this.paginacion.pagina = 1;
+        //this.getLista();
+      }
 }

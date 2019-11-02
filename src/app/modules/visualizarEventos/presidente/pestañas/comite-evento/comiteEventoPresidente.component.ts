@@ -37,7 +37,7 @@ export class ComiteEventoVer implements OnInit {
 
   public evaluadoresDisponibles:Array<Persona>;
 
-
+  public loading:boolean;
 
   
   

@@ -48,5 +48,14 @@ export class ListaEventos implements OnInit {
     OnPostular(item: Evento) {
         this.router.navigate([`convocatoria/lista-eventos/postular/${item.idEvento}`]);
     }
-
+    OnPageChanged(event): void {
+        this.paginacion.pagina = event.page;
+        //this.getLista();
+      }
+    
+      OnPageOptionChanged(event): void {
+        this.paginacion.registros = event.rows;
+        this.paginacion.pagina = 1;
+        //this.getLista();
+      }
 }

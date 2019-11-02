@@ -40,7 +40,7 @@ export class GestionUsuarioListaComponent implements OnInit  {
     this.router.navigate([`mantenimiento/configuracion-usuarios/nuevo`]);
   }
   OnRowClick(i:number, item:Persona){
-
+    
   }
   OnEditar(item:Persona){
     this.router.navigate([`mantenimiento/configuracion-usuarios/editar/${item.idUsuario}`]);
