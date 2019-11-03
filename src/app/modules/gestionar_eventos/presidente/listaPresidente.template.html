@@ -24,11 +24,8 @@
                 maxlength="30" [(ngModel)]="filtro" (input)="buscarEvento()"
                 onkeypress="return /^[a-zA-Z1-9\s]*$/i.test(event.key)">
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
 
-        </div>
-        <div class="col-md-2">
-            <button class="btn btn-primary" (click)="OnNuevo()"><i class="fa fa-plus"></i> Nuevo Evento</button>
         </div>
     </div>
   <div class="row">
@@ -42,11 +39,11 @@
                 <th class="text-center">Código</th>
                 <th class="text-left">Título</th>
                 <th class="text-center">Tipo</th>
+                <th class="text-center">Organizador</th>
                 <th class="text-center">Fecha Inicio</th>
                 <th class="text-center">Fecha Fin</th>
-                <th class="text-center"> Estado</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
+                <th class="text-center">Estado</th>
+                <th class="text-center">Editar</th>
               </tr>
             </thead>
             <tbody>
@@ -55,6 +52,7 @@
                 <td class="text-center" data-col="idEvento"><code>{{item.idEvento}}</code></td>
                 <td class="text-left" data-col="titulo">{{item.titulo}}</td>
                 <td class="text-center" data-col="tipoEvento">{{item.tipoEvento.nombre}}</td>
+                <td class="text-center" data-col="tipoEvento">{{item.organizador.fullname}}</td>
                 <td class="text-center" data-col="fechaInicio">{{item.fechaInicio | date:'dd/MM/yyyy'}}</td>
                 <td class="text-center" data-col="fechafin">{{item.fechaFin | date:'dd/MM/yyyy'}}</td>
                 <td class="text-center" data-col="estado" style="padding-left: 0">
@@ -65,8 +63,6 @@
                 </td>
                 <td class="text-center" data-col="editar" (click)="OnEditar(item)"><button class="btn btn-success"><i
                       class="fa fa-edit"></i></button></td>
-                <td class="text-center" data-col="eliminar" (click)="OnDeshabilitar(item)"><button
-                    class="btn btn-danger" disabled><i class="fa fa-trash"></i></button></td>
               </tr>
             </tbody>
           </table>
