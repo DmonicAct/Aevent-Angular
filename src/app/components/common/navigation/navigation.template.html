@@ -28,7 +28,8 @@
         <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('Eventos')}">
             <!-- *ngIf="checkPermission('/mantenimiento')" -->
           <!-- *ngIf="checkPermission('/mantenimiento/configuracion-usuarios')" -->
-          <li [ngClass]="{active: activeRoute('MisEventos')}"><a [routerLink]="['/Eventos/MisEventos/organizador']">Mis Eventos</a></li>
+          <li [ngClass]="{active: activeRoute('MisEventos')}" *ngIf="rolOrga"><a [routerLink]="['/Eventos/MisEventos/organizador']">Mis Eventos</a></li>
+          <li [ngClass]="{active: activeRoute('MisEventos')}" *ngIf="!rolOrga"><a [routerLink]="['/Eventos/MisEventos/presidente']">Mis Eventos</a></li>
         </ul>
       </li>
       <li [ngClass]="{active: activeRoute('convocatoria')}" *ngIf="rolDefault || rolOrga">
