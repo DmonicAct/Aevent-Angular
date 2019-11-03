@@ -24,7 +24,9 @@ export class CriterioService{
     }
     
     guardarCriterio(criterio: Criterio):Observable<any>{
+      
         return this.http.post(this.apiEndpoint, criterio).pipe(
+          
           catchError(e => {
             if (e.status == 400) {
               return throwError(e);
@@ -33,7 +35,8 @@ export class CriterioService{
               console.error(e.error.mensaje);
             }
             return throwError(e);
-          }));
+          })
+          );
     }
 
     obtenerCriterios(fase: Fase):Observable<any>{
