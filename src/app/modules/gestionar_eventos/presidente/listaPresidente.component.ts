@@ -29,16 +29,24 @@ export class ListaEventosPresidente implements OnInit {
       this.getEventosPresidente();
 
   }
+
+  OnRowClick(i, item){
+    
+  }
+ 
+
   
   OnOrganizador(){
     this.router.navigate([`Eventos/MisEventos/organizador`]);
   }
+
 
   getEventosPresidente() {
     this.service.consultarAllEventoByPresidente(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response) => {
         this.items = response.resultado;
         this.maestroEventoFilter = this.items;
+        console.log(this.maestroEventoFilter);
       }
     );
   }

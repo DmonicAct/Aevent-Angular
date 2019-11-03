@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
 import { PersonaService, CategoriaService, LugarService, EventoService, TipoEventoServices } from '../../../../../services';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { AuthService as AeventAuthService } from '../../../../../auth/service/auth.service';
+
 import * as moment from 'moment';
 import { ToastrService } from "ngx-toastr";
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
@@ -69,19 +70,65 @@ export class ComiteEventoVer implements OnInit {
     );
 
     
+
+    
     
   }
 
   ngOnLoad(){
+    debugger
     this.comiteElegido = this.itemEventoParent.comite;
+    console.log("before",this.evaluadoresDisponibles);
+
+    let aux:Array<Persona> = new Array<Persona>();
+    console.log("before: comite Elegido",this.comiteElegido);
+    for(var i=0;i<this.comiteElegido.length;i++){
+      var longEvDisponibles = this.evaluadoresDisponibles.length;
+      for(var j=0;j<longEvDisponibles; j++){
+        console.log(j);
+        if((<Persona> this.evaluadoresDisponibles[j]).idUsuario == (<Persona>this.comiteElegido[i]).idUsuario){
+          this.evaluadoresDisponibles.splice(j, 1)[0];
+          break;
+          //aux.push()
+        }
+      }      
+    }
+    console.log("after",this.evaluadoresDisponibles);
   }
   onAgregarEvaluador(){
-    console.log(this.listaEvAgregar);
+    console.log(this.listaEvAgregar); 
+    //debugger
+    this.comiteElegido = this.itemEventoParent.comite;
+    console.log("before",this.evaluadoresDisponibles);
+    console.log("before: comite Elegido",this.comiteElegido);
+    if(this.comiteElegido!=undefined){
+    for(var i=0;i<this.comiteElegido.length;i++){
+        var longEvDisponibles = this.evaluadoresDisponibles.length;
+        for(var j=0;j<longEvDisponibles; j++){
+          if(this.evaluadoresDisponibles[j].idUsuario == this.comiteElegido[i].idUsuario){
+            this.evaluadoresDisponibles.splice(j, 1)[0];
+            break;
+          }
+        }      
+      }
+    }
+
+
   }
 
 
-  onGuardarCambiosEvento(){
-    console.log(this.listaEvAgregar);
+  onGuardarCambiosEvento(){    
+    this.itemEventoParent.comite=this.listaEvAgregar;
+    console.log(this.itemEventoParent);
+    this.serviceEvento.guardarEvento(this.itemEventoParent).subscribe(
+      (response: Response) => {        
+        console.log(response);
+        console.log("EVENTO SAVED");
+      }
+    );
+
+
+
   }
 
   getList(items){
@@ -93,8 +140,9 @@ export class ComiteEventoVer implements OnInit {
 
       this.comiteElegido.push(lista[p]);
     }
+    
     console.log(this.comiteElegido,"ss");
-
+    this.listaEvAgregar = <Array<Persona>> this.comiteElegido;
 
     
   }
@@ -121,7 +169,7 @@ export class ComiteEventoVer implements OnInit {
   }
   
   onQuitar(index,i){ 
-    debugger
+    
     console.log(index);
     console.log(i);
     console.log(this.evaluadoresDisponibles);
@@ -129,12 +177,14 @@ export class ComiteEventoVer implements OnInit {
     var usr = <Usuario>index;
     this.evaluadoresDisponibles.push(<Persona>(this.comiteElegido[i]));
     console.log(this.evaluadoresDisponibles);
-    this.comiteElegido.splice(index, 1)[0];
+    this.comiteElegido.splice(i, 1)[0];
 
   }
 
   onNuevoComiteDisp(nuevoComiteDisp){
-    this.evaluadoresDisponibles=<Array<Persona>>nuevoComiteDisp;  
-    console.log(this.evaluadoresDisponibles,"evaluadores disponibles");
+    if(nuevoComiteDisp!=undefined){
+      this.evaluadoresDisponibles=<Array<Persona>>nuevoComiteDisp;  
+      console.log(this.evaluadoresDisponibles,"evaluadores disponibles");
+    }
   }
 }

@@ -59,6 +59,10 @@ export class VerEventoPresidenteComponent implements OnInit{
     ngOnInit(){
         
     }
+
+    OnRowClick(i, item){
+        
+    }
     obtenerEvento(){
         this.service.obtenerEvento(this.itemCodigo).subscribe(
             (response: Response)=>{
