@@ -19,6 +19,12 @@ import { DetalleEventoConfiguracion } from './gestion_eventos/editar/tabset-part
 import { CallForPaperComponent } from './gestion_eventos/editar/tabset-parts/call-for-papers/call-for-paper.component';
 import { CallForPaperView } from './gestion_eventos/editar/tabset-parts/call-for-papers/call-for-papers-view/call-for-paper-view.component';
 import { FaseEventoComponent } from './gestion_eventos/editar/tabset-parts/fases/fase-evento.component';
+import { ListaEventosPresidente } from '../gestionar_eventos/presidente/listaPresidente.component';
+import { DetalleEventoVer } from '../gestionar_eventos/presidente/pestañas/detalle-evento/detalleEventoPresidente.component';
+import { AgregarEvaluador } from '../gestionar_eventos/presidente/pestañas/comite-evento/agregar-evaluador/agregar-evaluador.component';
+import { ComiteEventoVer } from '../gestionar_eventos/presidente/pestañas/comite-evento/comiteEventoPresidente.component';
+import { VerEventoPresidenteComponent } from '../gestionar_eventos/presidente/pestañas/ver.component';
+import {VerFormatoPresidente} from '../gestionar_eventos/presidente/pestañas/call-for-papers-view/verFormato.component'
 
 @NgModule({
   declarations: [
@@ -27,7 +33,13 @@ import { FaseEventoComponent } from './gestion_eventos/editar/tabset-parts/fases
     DetalleEventoConfiguracion,
     CallForPaperComponent,
     FaseEventoComponent,
-    CallForPaperView
+    CallForPaperView,
+    ListaEventosPresidente,
+    DetalleEventoVer,
+    ComiteEventoVer,
+    VerEventoPresidenteComponent,
+    VerFormatoPresidente,
+    AgregarEvaluador,
   ],
   imports: [
     CommonModule,
