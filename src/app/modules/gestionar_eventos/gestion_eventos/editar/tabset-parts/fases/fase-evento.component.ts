@@ -19,7 +19,8 @@ export class FaseEventoComponent implements OnInit{
   public isDeleteModalShown: Boolean;
   public isDeleteCriterioModalShown: Boolean;
   public isModalShown: Boolean;
-  
+  public isNewFormModalShown: Boolean;
+
   public descripcionModal : String;
   public esNuevo: Boolean;
   public newItem : Fase; //para la nueva fase
@@ -31,7 +32,9 @@ export class FaseEventoComponent implements OnInit{
 
   @ViewChild('autoShownModal') 
   autoShownModal: ModalDirective;
-  @ViewChild('autoNewShownModal')
+  @ViewChild('autoNewFormShownModal') 
+  autoNewFormShownModal: ModalDirective;
+  @ViewChild('autoNewShownModautoNewFormShownModalal')
   autoNewShownModal: ModalDirective;
   @ViewChild('autoDeleteCriterioShownModal') 
   autoDeleteCriterioShownModal: ModalDirective;
@@ -102,6 +105,7 @@ export class FaseEventoComponent implements OnInit{
       this.isDeleteModalShown = false;
       this.isNewCriterioModalShown = false;
       this.isDeleteCriterioModalShown = false;
+      this.isNewFormModalShown = false;
     }
 
     hideModal(): void {
@@ -113,6 +117,8 @@ export class FaseEventoComponent implements OnInit{
           this.autoDeleteShownModal.hide();
         }else if(this.isDeleteCriterioModalShown){
           this.autoDeleteCriterioShownModal.hide();
+        }else if (this.isNewFormModalShown){
+          this.autoNewFormShownModal.hide();
         }else{
           this.autoNewCriterioShownModal.hide();
         }
@@ -251,5 +257,9 @@ export class FaseEventoComponent implements OnInit{
                   return;
               }
           } */
+  }
+
+  OnCrearFormulario(){
+
   }
 }
