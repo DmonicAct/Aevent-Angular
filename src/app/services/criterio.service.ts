@@ -54,6 +54,22 @@ export class CriterioService{
               return throwError(e);
             }));
     }
+
+    eliminarCriterio(criterio:Criterio){
+      let url = this.apiEndpoint + `/eliminar/${criterio.idCriterio}`;
+      
+        console.log(url);
+        return this.http.delete(url).pipe(
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
+            return throwError(e);
+          }));
+      }
 /*
     consultarAllEventoByOrganizador(user:string, pagina:number, registros:number):Observable<any>{
       let params:HttpParams = new HttpParams()
