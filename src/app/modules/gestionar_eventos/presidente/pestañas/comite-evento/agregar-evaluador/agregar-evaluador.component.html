@@ -10,11 +10,11 @@
                                           <thead>
                                             <tr>
                                               <th class="text-left">Nombre</th>
-                                              <th class="text-left">Apellidos</th>
+                                              <!--<th class="text-left">Apellidos</th>-->
                                               <th>
                                                     <!-- Default unchecked -->
                                                     <div class="custom-control custom-checkbox">
-                                                      <input type="checkbox" class="custom-control-input" id="tableDefaultCheck1"[(ngModel)]="cb" > 
+                                                      <input type="checkbox" style="float:left;" class="custom-control-input" id="tableDefaultCheck1"[(ngModel)]="cb" (click)="OnSelectAll()" > 
                                                       <label class="custom-control-label" for="tableDefaultCheck1" >Agregar</label>
                                                     </div>
                                                   </th>
@@ -22,8 +22,8 @@
                                           </thead>
                                           <tbody >
                                             <tr *ngFor="let item of items; let i = index" [class.selected]="i == selectedRow">
-                                              <td class="text-left" data-col="name"><code>{{item.nombre}}</code></td>
-                                              <td class="text-left" data-col="email">{{item.appaterno + " " + item.apmaterno }}</td> 
+                                              <td class="text-left" data-col="name"><code>{{item.nombre+ " " + item.appaterno + " " + item.apmaterno }}</code></td>
+                                              <!--<td class="text-left" data-col="email">{{item.appaterno + " " + item.apmaterno }}</td> -->
                     
                                               <th scope="row">
                                                     <!-- Default unchecked -->
@@ -40,13 +40,20 @@
                         </div>
                     </div>
                 </div>
-                <button class="button" (click)="OnAgregarEv()">Agregar</button>
+                <!--<button class="button" (click)="OnAgregarEv()">Agregar</button>-->
             </div>
         </div>
 
-        <div class="text-center">
-        <button class="btn btn-primary" (click)="OnAgregarEv()" ><i class="fa fa-eye"></i>
-          Agregar</button>
+        <div class="text-left">
+        <button style="float:left;" class="btn btn-danger" (click)="OnCancel()" ><i class="fa fa-trash"></i>
+          Cancelar</button>
+
+          
+            <button style="float:right;" class="btn btn-success" (click)="OnAgregarEv()" ><i class="fa fa-plus"></i>
+              Aceptar</button>
+          
+      </div>
         </div>
-    </div>
+
+        
 </div>
