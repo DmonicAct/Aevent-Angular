@@ -16,6 +16,7 @@ export class ListaEventosOrganizador implements OnInit {
     public items: Array<Evento>;
     public paginacion: Paginacion;
     public loading: Boolean = false;
+    public rolOrga: Boolean;
     constructor(private authService: AeventAuthService,
         private toastr: ToastrService,
         private router: Router,
@@ -26,6 +27,11 @@ export class ListaEventosOrganizador implements OnInit {
     flagVer: Boolean;
     ngOnInit(): void {
         this.getEventosOrganizador();
+        this.rolOrga = false;
+        this.authService.usuario.roles.forEach(element => {
+            var aux = '' + element;
+            if (aux == 'ROLE_ORGANIZER') this.rolOrga = true;
+        });
     }
 
     getEventosOrganizador() {

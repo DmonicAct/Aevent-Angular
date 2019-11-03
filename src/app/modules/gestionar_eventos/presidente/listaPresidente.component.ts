@@ -38,13 +38,12 @@ export class ListaEventosPresidente implements OnInit {
     this.service.consultarAllEventoByPresidente(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response) => {
         this.items = response.resultado;
-        console.log(response);
-        console.log("HEY GUYS IM THE PRESIDENT");
+        this.maestroEventoFilter = this.items;
       }
     );
   }
   OnEditar(item : Evento){
-    this.router.navigate([`gestionPresidenteEvento/eventos-presidente/ver/${item.idEvento}`]);
+    this.router.navigate([`Eventos/MisEventos/presidente/ver/${item.idEvento}`]);
   }
 
   OnPageChanged(event): void {
@@ -57,4 +56,39 @@ export class ListaEventosPresidente implements OnInit {
     this.paginacion.pagina = 1;
     this.getEventosPresidente();
   }
+    filtro: String;
+    tipo: String;
+    numeroTipo: number;
+    eventoFiltro: Evento;
+    maestroEventoFilter: Array<Evento>;
+
+    cambioFiltro(){
+        if (this.tipo == "Título"){
+            this.numeroTipo = 1;
+        }
+        if (this.tipo == "Tipo"){
+            this.numeroTipo = 2;
+        }
+    }
+
+    public itemsFiltro = ["Título","Tipo"];
+
+    buscarEvento() {
+        this.cambioFiltro();
+        if (this.filtro.length > 0) {
+            if (this.numeroTipo == 1){
+                this.maestroEventoFilter = this.items.filter(
+                    item => item.descripcion.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+                )
+            }
+            if (this.numeroTipo == 2){
+                this.maestroEventoFilter = this.items.filter(
+                    item => item.tipoEvento.nombre.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+                )
+            }
+            
+        } else {
+            this.maestroEventoFilter = this.items;
+        }
+    }
 }
