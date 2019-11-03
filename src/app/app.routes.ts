@@ -83,6 +83,11 @@ export const ROUTES:Routes = [
         path: 'eventos-postulante', component: BlankLayoutComponent,
         children: GestionEvaluacionRoutes,
 /*         canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ORGANIZER' }  */
+      },
+      {
+        path: 'preferencias-evaluacion', component: BlankLayoutComponent,
+        children: GestionEvaluacionRoutes,
+/*         canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ORGANIZER' }  */
       }
     ],
   },
