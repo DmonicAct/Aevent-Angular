@@ -6,5 +6,5 @@ export class Fase{
     public fechaInicial: Date;
     public fechaFin: Date;
     public criterios: Array<Criterio>;
-    public idEvento: Evento;
+    public idEvento: number;
 }

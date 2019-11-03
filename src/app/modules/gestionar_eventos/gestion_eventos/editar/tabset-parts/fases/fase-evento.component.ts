@@ -182,8 +182,7 @@ export class FaseEventoComponent implements OnInit{
       if(this.esNuevo){ //Creando lugar
         let faseNueva = new Fase();
         faseNueva.descripcion = this.descripcionModal;
-        faseNueva.idEvento = this.evento;
-        console.log(faseNueva, faseNueva.idEvento.idEvento);
+        faseNueva.idEvento = this.evento.idEvento;
         this.faseService.guardarFase(faseNueva).subscribe(
           (response: Response)=>{
             this.toastr.success(`Se ha guardado la fase con exito`, 'Aviso', {closeButton: true});
@@ -194,7 +193,7 @@ export class FaseEventoComponent implements OnInit{
     }
     OnEliminar(fase: Fase){
       this.fase = fase;
-      this.fase.idEvento = this.evento;
+      this.fase.idEvento = this.evento.idEvento;
       this.isDeleteModalShown=true;
     }
     OnConfirmar(){
