@@ -26,7 +26,6 @@ import { GestionLugarRoutes } from './modules/mantenimiento/mantenimiento.routes
 
 import { AuthGuard } from './auth/guards/auth.guard';
 import { RoleGuard } from './auth/guards/role.guard';
-import { GestionPresidenteRoutes } from "./modules/visualizarEventos/visualizar.routes";
 
 import { EventosPonentesRoutes } from "./modules/convocatoria/eventos.routes";
 import { GestionEvaluacionRoutes } from "./modules/evaluarPostulacion/evaluacion.routes";
@@ -68,21 +67,11 @@ export const ROUTES:Routes = [
     ],
   },
   {
-    path: 'gestionOrganizadorEvento', component: BasicLayoutComponent,
+    path: 'Eventos', component: BasicLayoutComponent,
     children: [
       {
-        path: 'eventos-organizador', component: BlankLayoutComponent,
+        path: 'MisEventos', component: BlankLayoutComponent,
         children: GestionOrganizadorRoutes,
-/*         canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ORGANIZER' }  */
-      }
-    ],
-  },
-  {
-    path: 'gestionPresidenteEvento', component: BasicLayoutComponent,
-    children: [
-      {
-        path: 'eventos-presidente', component: BlankLayoutComponent,
-        children: GestionPresidenteRoutes,
 /*         canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ORGANIZER' }  */
       }
     ],
@@ -92,6 +81,11 @@ export const ROUTES:Routes = [
     children: [
       {
         path: 'eventos-postulante', component: BlankLayoutComponent,
+        children: GestionEvaluacionRoutes,
+/*         canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ORGANIZER' }  */
+      },
+      {
+        path: 'preferencias-evaluacion', component: BlankLayoutComponent,
         children: GestionEvaluacionRoutes,
 /*         canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ORGANIZER' }  */
       }
