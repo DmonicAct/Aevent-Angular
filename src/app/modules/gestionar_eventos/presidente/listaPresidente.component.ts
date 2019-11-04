@@ -38,7 +38,10 @@ export class ListaEventosPresidente implements OnInit {
   OnOrganizador(){
     this.router.navigate([`Eventos/MisEventos/organizador`]);
   }
-
+   OnRowClick(i, item){
+    
+  }
+ 
   getEventosPresidente() {
     this.service.consultarAllEventoByPresidente(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response) => {

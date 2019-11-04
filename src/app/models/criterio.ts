@@ -1,8 +1,9 @@
 import { Fase } from ".";
-
+import {TipoCriterio} from '.';
 export class Criterio{
     public idCriterio: number;
     public descripcion: String;
-    public fase: Fase;
+    public idFase: Fase;
+    public tipoCriterio: TipoCriterio;
 
 }
