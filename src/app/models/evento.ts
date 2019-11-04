@@ -15,7 +15,6 @@ export class Evento{
     public categorias?: Array<Categoria>;
     public lugar?: Lugar;
     public enabled?:Boolean;
-    public formulario?: FormularioCFP;
     public fases?: Array<Fase>;
     constructor(){
         this.idEvento = null;

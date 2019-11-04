@@ -68,7 +68,8 @@ export class VerEventoPresidenteComponent implements OnInit{
             (response: Response)=>{
                 this.item=response.resultado;
                 this.flagEvento = false;
-                this.divisiones = this.item.formulario.divisionList;
+                //Ahora hay un formulario por cada fase!
+                //this.divisiones = this.item.formulario.divisionList;
             }
         );
     }
