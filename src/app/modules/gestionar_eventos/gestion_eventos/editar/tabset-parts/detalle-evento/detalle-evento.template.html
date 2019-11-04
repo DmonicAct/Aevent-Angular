@@ -21,7 +21,7 @@
                                 <div class="input-group col-sm-10">
                                     <input type="text" autocomplete="off" class="form-control" name="nombre"
                                         maxlength="30" [(ngModel)]="item.titulo"
-                                        onkeypress="return /^[a-zA-Z1-9\s]*$/i.test(event.key)">
+                                        onkeypress="return /^[a-zA-Z0-9\s]*$/i.test(event.key)">
                                 </div>
                             </div>
                         </div>

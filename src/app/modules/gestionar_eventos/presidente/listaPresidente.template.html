@@ -22,7 +22,7 @@
         <div class="col-md-4">
             <input type="text" autocomplete="off" class="form-control" name="filtro"
                 maxlength="30" [(ngModel)]="filtro" (input)="buscarEvento()"
-                onkeypress="return /^[a-zA-Z1-9\s]*$/i.test(event.key)">
+                onkeypress="return /^[a-zA-Z0-9\s]*$/i.test(event.key)">
         </div>
         <div class="col-md-6">
 

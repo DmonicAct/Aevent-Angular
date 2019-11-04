@@ -73,23 +73,39 @@ export class EditarUsuarioComponent implements OnInit  {
     this._location.back();
   }
   OnGuardar(){
-    if(this.itemCodigo==null){
-      if(!this.password || this.password == "" ){
-        this.toastr.success('Contraseña vacia', 'Aviso', {closeButton: true});
+    //debugger
+    if(!this.itemCodigo){
+      if(!this.item.nombre || this.item.nombre == "" ){
+        this.toastr.warning('Debe colocar su nombre', 'Aviso', {closeButton: true});
         return;
       }
+      if(!this.item.appaterno || this.item.appaterno == "" ){
+        this.toastr.warning('Debe colocar su apellido', 'Aviso', {closeButton: true});
+        return;
+      }
+      if(!this.item.email || this.item.email == "" ){
+        this.toastr.warning('Debe colocar su email', 'Aviso', {closeButton: true});
+        return;
+      }
+      if(!this.item.fechaNacimiento){
+        this.toastr.warning('Debe colocar su Fecha de Nacimiento', 'Aviso', {closeButton: true});
+        return;
+      }
+      if(!this.item.username || this.item.username == ""){
+        this.toastr.warning('Debe colocar un Usuario', 'Aviso', {closeButton: true});
+        return;
+      }
+      if(!this.password || this.password == "" ){
+        this.toastr.warning('Debe asignar una contraseña', 'Aviso', {closeButton: true});
+        return;
+      }
+      if( (this.password != "" || this.password_repeat!="") && this.password != this.password_repeat){
+        this.toastr.warning('Contraseñas no coinciden', 'Aviso', {closeButton: true});
+        return;
+      }
+      
     }
     
-    if( (this.password != "" || this.password_repeat!="") && this.password != this.password_repeat){
-      this.toastr.success('Contraseñas no coinciden', 'Aviso', {closeButton: true});
-      return;
-    }else{
-      this.item.password = this.password;
-    }
-    
-    if(this.password==""){
-      this.item.password = null;
-    }
     let roles = new Array<Role>();
     if(this.itemCodigo){
       this.boolean_flags.forEach((e1,i1)=>{
