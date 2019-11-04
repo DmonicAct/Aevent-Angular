@@ -81,9 +81,12 @@ export class GestionUsuarioListaComponent implements OnInit  {
       if (this.tipo == "Usuario"){
           this.numeroTipo = 2;
       }
+      if (this.tipo == "Email"){
+        this.numeroTipo = 3;
+    }
   }
 
-  public itemsFiltro = ["Nombre","Usuario"];
+  public itemsFiltro = ["Nombre","Usuario","Email"];
 
   buscarUsuario() {
       this.cambioFiltro();
@@ -100,6 +103,11 @@ export class GestionUsuarioListaComponent implements OnInit  {
                   item => item.username.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
               )
           }
+          if (this.numeroTipo == 3){
+            this.usuariosFiltrados = this.items.filter(
+                item => item.email.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+            )
+        }
           
       } else {
           this.usuariosFiltrados = this.items;
