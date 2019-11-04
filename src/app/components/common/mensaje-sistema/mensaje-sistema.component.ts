@@ -13,7 +13,7 @@ export class MensajeSistemaComponent implements OnInit {
 
   constructor() {
     this.mensaje = `Estimados usuarios: el sistema AEvent se encuentra en fase de desarrollo, si encuentra
-    dificultades o problemas que desee reportar, por favor escrbirlas al correo de cualquiera de 
+    dificultades o problemas que desee reportar, por favor escribirlas al correo de cualquiera de 
     nuestros colaboradores`;
   }
 
