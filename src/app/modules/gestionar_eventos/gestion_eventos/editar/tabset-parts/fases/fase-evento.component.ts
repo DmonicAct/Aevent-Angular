@@ -1,11 +1,12 @@
 import { OnInit, Component, Input,ViewChild} from "@angular/core";
-import { Fase, Evento, Criterio, Response, TipoCriterio,} from "../../../../../../models";
+import { Fase, Evento, Criterio, Response, TipoCriterio, FormularioCFP,} from "../../../../../../models";
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { FaseService } from '../../../../../../services/fase.service';
 import { CriterioService } from '../../../../../../services/criterio.service';
 import { EventoService } from '../../../../../../services/evento.service';
 import { ModalDirective } from 'ngx-bootstrap';
+import { UtilFormulario } from 'src/app/util/util_formulario';
 
 @Component({
     selector:'fase-evento',
@@ -34,7 +35,7 @@ export class FaseEventoComponent implements OnInit{
   autoShownModal: ModalDirective;
   @ViewChild('autoNewFormShownModal') 
   autoNewFormShownModal: ModalDirective;
-  @ViewChild('autoNewShownModautoNewFormShownModalal')
+  @ViewChild('autoNewShownModal')
   autoNewShownModal: ModalDirective;
   @ViewChild('autoDeleteCriterioShownModal') 
   autoDeleteCriterioShownModal: ModalDirective;
@@ -52,6 +53,8 @@ export class FaseEventoComponent implements OnInit{
   public criterios: Array<Criterio>;
   public fase: Fase;
   public fases: Array<Fase>;
+  private utilForm: UtilFormulario;
+  public formulario: FormularioCFP;
   constructor(private toastr: ToastrService, 
               private router: Router,
               private faseService: FaseService,
@@ -64,6 +67,10 @@ export class FaseEventoComponent implements OnInit{
     this.criterios = new Array<Criterio>();
     this.fase = new Fase;
     this.fases = new Array<Fase>();
+    
+    this.utilForm = new UtilFormulario();
+    this.newItem.formulario = new FormularioCFP();
+    this.newItem.formulario.divisionList = this.utilForm.inicializarFormulario();
   }
 
     ngOnInit(): void {
@@ -90,7 +97,12 @@ export class FaseEventoComponent implements OnInit{
 
     onSelect(fase: Fase){
         this.newItem = fase;
-        
+
+        if(!this.newItem.formulario){
+          this.newItem.formulario = new FormularioCFP();
+          this.newItem.formulario.divisionList = this.utilForm.inicializarFormulario();
+        }
+
         this.criterioService.obtenerCriterios(fase).subscribe(
             (response: Response) => {
                 this.criterios = response.resultado;
@@ -117,9 +129,9 @@ export class FaseEventoComponent implements OnInit{
           this.autoDeleteShownModal.hide();
         }else if(this.isDeleteCriterioModalShown){
           this.autoDeleteCriterioShownModal.hide();
-        }else if (this.isNewFormModalShown){
+        }else if(this.isNewFormModalShown){
           this.autoNewFormShownModal.hide();
-        }else{
+        }else if(this.isNewCriterioModalShown){
           this.autoNewCriterioShownModal.hide();
         }
       }
@@ -179,7 +191,7 @@ export class FaseEventoComponent implements OnInit{
         this.isNewModalShown=true;
     }
     OnAgregarFase(){
-      if(this.esNuevo){ //Creando lugar
+      if(this.esNuevo){ 
         let faseNueva = new Fase();
         faseNueva.descripcion = this.descripcionModal;
         faseNueva.idEvento = this.evento.idEvento;
@@ -197,7 +209,6 @@ export class FaseEventoComponent implements OnInit{
       this.isDeleteModalShown=true;
     }
     OnConfirmar(){
-
       this.faseService.eliminarFase(this.fase).subscribe(
         (response: Response)=>{ 
           console.log(response);  
@@ -259,6 +270,15 @@ export class FaseEventoComponent implements OnInit{
   }
 
   OnCrearFormulario(){
+    this.formulario = this.newItem.formulario;
 
+    console.log(this.formulario);
+
+    if(!this.formulario){
+      this.formulario = new FormularioCFP();
+      this.formulario.divisionList = this.utilForm.inicializarFormulario();
+    }
+
+    this.isNewFormModalShown =true;
   }
 }

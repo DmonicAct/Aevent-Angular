@@ -1,4 +1,4 @@
-import { Criterio, Evento } from ".";
+import { Criterio, Evento, FormularioCFP } from ".";
 
 export class Fase{
     public idFase: number;
@@ -7,4 +7,5 @@ export class Fase{
     public fechaFin: Date;
     public criterios: Array<Criterio>;
     public idEvento: number;
+    public formulario: FormularioCFP;
 }
