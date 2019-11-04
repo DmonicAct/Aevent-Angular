@@ -124,4 +124,23 @@ export class EventoService{
     eliminarEvento():Observable<any>{
         return null
     }
+
+    consultarAllEventos(user: string, pagina:number, registros:number){
+        let params:HttpParams = new HttpParams()
+        .set('pagina', pagina.toString())
+        .set('registros', registros.toString())
+        .set('username', user);
+        
+          return this.http.get(environment.serviceEndpoint + '/eventos', {params}).pipe(
+            catchError(e => {
+              if (e.status == 400) {
+                return throwError(e);
+              }
+              if (e.error.mensaje) {
+                console.error(e.error.mensaje);
+              }
+              return throwError(e);
+            }));
+    }
+
 }
