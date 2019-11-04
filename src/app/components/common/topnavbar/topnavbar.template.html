@@ -27,13 +27,11 @@
               <img alt="image" class="img-circle" src="assets/images/profile_small.jpg" />
               <span class="clear">
                 <span class="block m-t-xs">
-                  <strong class="font-bold">David Williams</strong>
+                  <strong class="font-bold">{{persona.nombre}} {{persona.appaterno}}</strong>
                 </span>
-                <span class="text-muted text-xs block">Administrador</span>
               </span>
             </div>
           </li>
-          <li><a routerLink="opciones"><i class="fa fa-arrows-alt"></i> Pantalla completa</a></li>
           <li><a routerLink="opciones"><i class="fa fa-gear"></i> Configuración</a></li>
           <li></li>
           <li><a (click)="OnLogout()"><i class="fa fa-sign-out"></i> Cerrar sesión</a></li>
