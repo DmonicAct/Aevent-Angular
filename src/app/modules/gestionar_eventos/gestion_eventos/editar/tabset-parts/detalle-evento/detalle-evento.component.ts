@@ -167,21 +167,49 @@ export class DetalleEventoConfiguracion implements OnInit {
         //this.categoriasSeleccionadas.splice(index, 1)[0];
         this.item.categorias.splice(index,1)[0];
     }
+    fechaHoy: Date;
     onGuardar() {
-       
-       // this.item.categorias = this.categoriasSeleccionadas;
-       if(!this.item.fechaFin){
+        this.fechaHoy = new Date();
+        if(!this.item.titulo){
+            this.toastr.warning(`Se necesita colocar un Título`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if(!this.item.tipoEvento){
+            this.toastr.warning(`Se necesita colocar un Tipo de Evento`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if(!this.item.descripcion){
+            this.toastr.warning(`Se necesita colocar una Descripcion`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if(!this.item.lugar){
+            this.toastr.warning(`Se necesita colocar un Lugar`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if(!this.item.fechaFin){
             this.toastr.warning(`Se debe de seleccionar una fecha para el fin de evento`, 'Aviso', { closeButton: true });
             return;
-       }
-       if(!this.item.fechaInicio){
+        }
+        if(!this.item.fechaInicio){
             this.toastr.warning(`Se debe de seleccionar una fecha para el inicio de evento`, 'Aviso', { closeButton: true });
             return;
-       }
-       if(this.item.fechaFin<this.item.fechaInicio){
+        }
+        if(this.item.fechaFin<this.item.fechaInicio){
             this.toastr.warning(`La fecha de fin de evento no puede ser menos a la de inicio de evento`, 'Aviso', { closeButton: true });
             return;
-       }
+        }
+        if(this.item.fechaInicio<this.fechaHoy ||this.item.fechaFin<this.fechaHoy ){
+            this.toastr.warning(`Ninguna fecha puede ser menor al día de hoy`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if(!this.item.presidente){
+            this.toastr.warning(`Se necesita seleccionr un Presidente`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if(this.item.categorias.length == 0){
+            this.toastr.warning(`Se necesita colocar al menos una Categoría`, 'Aviso', { closeButton: true });
+            return;
+        }
 
         this.item.organizador = this.authService.persona;
         this.item.enabled = true;
@@ -222,29 +250,14 @@ export class DetalleEventoConfiguracion implements OnInit {
             this.item.fechaFin = new Date();
             this.toastr.warning('Fecha ingresada no valida', 'Advertencia', { closeButton: true });
             return;
-        } /* else {
-            if (this.item.fechaFin && this.item.fechaInicio) {
-                if (this.item.fechaInicio > this.item.fechaFin) {
-                    this.item.fechaFin = new Date();
-                    this.toastr.warning('Fecha ingresada no valida', 'Advertencia', { closeButton: true });
-                    return;
-                }
-            }
-        } */
+        }
     }
     DetectInicio() {
         if (this.item.fechaInicio && (this.item.fechaInicio.toString() == 'Invalid Date' || this.item.fechaInicio.toString() == '')) {
             this.item.fechaInicio = new Date();
             this.toastr.warning('Fecha ingresada no valida', 'Advertencia', { closeButton: true });
             return;
-        } /* else
-            if (this.item.fechaFin && this.item.fechaInicio) {
-                if (this.item.fechaInicio > this.item.fechaInicio) {
-                    this.item.fechaInicio = new Date();
-                    this.toastr.warning('Fecha ingresada no valida', 'Advertencia', { closeButton: true });
-                    return;
-                }
-            } */
+        }
     }
 
     hideModalPresidente(){

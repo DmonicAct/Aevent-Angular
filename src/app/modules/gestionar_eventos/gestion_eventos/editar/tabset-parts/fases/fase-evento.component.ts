@@ -1,5 +1,5 @@
 import { OnInit, Component, Input,ViewChild} from "@angular/core";
-import { Fase, Evento, Criterio, Response,} from "../../../../../../models";
+import { Fase, Evento, Criterio, Response, TipoCriterio,} from "../../../../../../models";
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { FaseService } from '../../../../../../services/fase.service';
@@ -15,6 +15,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 export class FaseEventoComponent implements OnInit{
 
   public isNewModalShown: Boolean;
+  public isNewCriterioModalShown: Boolean;
   public descripcionModal : String;
   public esNuevo: Boolean;
   public isDeleteModalShown: Boolean;
@@ -33,6 +34,8 @@ export class FaseEventoComponent implements OnInit{
   autoNewShownModal: ModalDirective;
   @ViewChild('autoDeleteShownModal') 
   autoDeleteShownModal: ModalDirective;
+  @ViewChild('autoNewCriterioShownModal') 
+  autoNewCriterioShownModa: ModalDirective;
   //Evento de Padre
   @Input('item-evento')
   public item: Evento;
@@ -91,6 +94,7 @@ export class FaseEventoComponent implements OnInit{
       this.isModalShown = false;
       this.isNewModalShown = false;
       this.isDeleteModalShown = false;
+      this.isNewCriterioModalShown = false;
     }
 
     hideModal(): void {
@@ -98,27 +102,33 @@ export class FaseEventoComponent implements OnInit{
           this.autoNewShownModal.hide();
         }else if(this.isModalShown){
           this.autoShownModal.hide();
-        }else{
+        }else if(this.isDeleteModalShown){
           this.autoDeleteShownModal.hide();
+        }else{
+          this.autoNewCriterioShownModa.hide();
         }
       }
     
     OnNuevo(){
-        if(this.esNuevo){ //Creando lugar
+        if(this.esNuevo){ //Creando criterio
           this.criterio.descripcion = this.descripcionModal;
-          this.criterio.fase = this.newItem;
-        
+          this.criterio.idFase = this.newItem;
+          let tipoCrit = new TipoCriterio ();
+          tipoCrit.idTipoCriterio = 1;
+          this.criterio.tipoCriterio = tipoCrit;
+
           this.criterioService.guardarCriterio(this.criterio).subscribe(
             (response: Response)=>{
               if(response.estado=="OK"){
+                console.log(this.criterio.idFase);
                 this.toastr.success(`Se ha guardado el criterio con exito`, 'Aviso', {closeButton: true});
                 this.onHidden()
               }
             }
           );
-        }else{ //editando lugar
+        }else{ //editando criterio
           this.criterio.descripcion=this.descripcionModal;
-          this.criterio.fase = this.newItem;
+          this.criterio.idFase = this.newItem;
 
           this.criterioService.guardarCriterio(this.criterio).subscribe(
             (response: Response)=>{
@@ -136,7 +146,7 @@ export class FaseEventoComponent implements OnInit{
         this.descripcionModal = "";
     
         this.esNuevo = true;
-        this.isNewModalShown=true;
+        this.isNewCriterioModalShown=true;
     }
     OnGestionarFases(){
         this.descripcionModal = "";
@@ -148,8 +158,8 @@ export class FaseEventoComponent implements OnInit{
       if(this.esNuevo){ //Creando lugar
         let faseNueva = new Fase();
         faseNueva.descripcion = this.descripcionModal;
-        faseNueva.evento = this.evento;
-        console.log(faseNueva);
+        faseNueva.idEvento = this.evento;
+        console.log(faseNueva, faseNueva.idEvento.idEvento);
         this.faseService.guardarFase(faseNueva).subscribe(
           (response: Response)=>{
             this.toastr.success(`Se ha guardado la fase con exito`, 'Aviso', {closeButton: true});
@@ -160,7 +170,7 @@ export class FaseEventoComponent implements OnInit{
     }
     OnEliminar(fase: Fase){
       this.fase = fase;
-      this.fase.evento = this.evento;
+      this.fase.idEvento = this.evento;
       this.isDeleteModalShown=true;
     }
     OnConfirmar(){

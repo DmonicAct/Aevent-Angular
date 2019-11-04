@@ -25,28 +25,30 @@ export class ListaEventosPresidente implements OnInit {
     this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
   }
   flagVer: Boolean;
+  rolOrga: Boolean;
   ngOnInit(): void {
       this.getEventosPresidente();
-
+      this.rolOrga = false;
+        this.authService.usuario.roles.forEach(element => {
+            var aux = '' + element;
+            if (aux == 'ROLE_ORGANIZER') this.rolOrga = true;
+        });
   }
-
-  OnRowClick(i, item){
-    
-  }
- 
-
   
   OnOrganizador(){
     this.router.navigate([`Eventos/MisEventos/organizador`]);
   }
 
+   OnRowClick(i, item){
+    
+  }
+ 
 
   getEventosPresidente() {
     this.service.consultarAllEventoByPresidente(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response) => {
         this.items = response.resultado;
         this.maestroEventoFilter = this.items;
-        console.log(this.maestroEventoFilter);
       }
     );
   }
@@ -77,9 +79,12 @@ export class ListaEventosPresidente implements OnInit {
         if (this.tipo == "Tipo"){
             this.numeroTipo = 2;
         }
+        if (this.tipo == "Organizador"){
+          this.numeroTipo = 3;
+      }
     }
 
-    public itemsFiltro = ["Título","Tipo"];
+    public itemsFiltro = ["Título","Tipo","Organizador"];
 
     buscarEvento() {
         this.cambioFiltro();
@@ -94,7 +99,12 @@ export class ListaEventosPresidente implements OnInit {
                     item => item.tipoEvento.nombre.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
                 )
             }
-            
+            if (this.numeroTipo == 3){
+              this.maestroEventoFilter = this.items.filter(
+                  item => item.organizador.nombre.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1 ||
+                  item.organizador.appaterno.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+              )
+            }
         } else {
             this.maestroEventoFilter = this.items;
         }

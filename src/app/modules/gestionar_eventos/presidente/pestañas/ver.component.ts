@@ -8,6 +8,8 @@ import { DetalleEventoVer } from './detalle-evento/detalleEventoPresidente.compo
 import { ComiteEventoVer } from './comite-evento/comiteEventoPresidente.component';
 
 import { VerFormatoPresidente} from './call-for-papers-view/verFormato.component';
+import { AsignarPropuestasVer } from './asignar-propuestas/asignar-propuestas.component';
+import { Propuesta } from 'src/app/models/propuesta';
 
 
 @Component({
@@ -20,6 +22,7 @@ export class VerEventoPresidenteComponent implements OnInit{
 
   @ViewChild('tabsDetalle') tabsDetalle: DetalleEventoVer;
   @ViewChild('tabsComite') tabsComite: ComiteEventoVer;
+  @ViewChild('tabsPropuestas') tabsPropuestas: AsignarPropuestasVer;
   /*
 
   @ViewChild('tabsDetalle') tabsDetalle: DetalleEventoVer; 
@@ -31,12 +34,16 @@ export class VerEventoPresidenteComponent implements OnInit{
     public item: Evento;
     public itemCodigo: number = null;
     public flagEvento:Boolean;
+    public propuestas:Propuesta;
     public formulario: FormularioCFP;
     public divisiones: Array<Division>
+    //public serviceEvento: EventoService;
     constructor(private route: ActivatedRoute,
         private service: EventoService){
 
         //debugger
+
+        
 
 
         this.item = new Evento();
@@ -71,6 +78,19 @@ export class VerEventoPresidenteComponent implements OnInit{
                 this.divisiones = this.item.formulario.divisionList;
             }
         );
+        console.log("ITEM",this.item);
+        console.log("ITEM CODIGO",this.itemCodigo)
+        console.log("id eventooo",this.item.idEvento);
+        this.service.obtenerPropuestas(this.itemCodigo).subscribe(
+            (response: Response) => {
+              this.propuestas = response.resultado;
+              console.log(response);
+              console.log("EvaluadoresDisponibles");
+            }
+          );
+
+          console.log("PROPUESTAAAS",this.propuestas);
+          
     }
     displayItem(flag: Boolean){
         this.flagEvento = flag;

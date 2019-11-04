@@ -29,6 +29,11 @@
               </div>
         </tab>
 
+        <tab #tabsPropuestas heading="Asignar Propuestas">
+          <div class="mail-box-header">
+              <asignar-propuestas [(item-comite)]="item.comite" [(item-evento)]="item" [(item-propuestas)]="propuestas"></asignar-propuestas>
+            </div>
+      </tab>
         
 
         <tab #tabsCallforPapers heading="Formato Call for Papers">
@@ -36,6 +41,8 @@
                 <verFormato [(items)]="divisiones"></verFormato>
               </div>
         </tab>
+
+
 <!-- 
         <tab #tabsFases heading="Fases" [disabled]="true">
             <div class="mail-box-header">

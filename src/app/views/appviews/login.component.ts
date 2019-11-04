@@ -23,10 +23,20 @@ export class LoginComponent {
               private service: UsuarioService) {
     this.usuario = new Usuario();
   }
-
+  rolOrga: Boolean;
+  rolAdmin: Boolean;
   ngOnInit() {
     if (this.authService.isAuthenticated()) {
-      this.router.navigate(['inicio']);
+      this.rolOrga = false;
+      this.rolAdmin = false;
+      this.authService.usuario.roles.forEach(element => {
+        var aux = '' + element;
+        if (aux == 'ROLE_ORGANIZER') this.rolOrga = true;
+        if (aux == 'ROLE_ADMIN') this.rolAdmin = true;
+      });
+      if (this.rolAdmin) this.router.navigate(['mantenimiento/configuracion-usuarios']);
+      else if (this.rolOrga) this.router.navigate(['Eventos/MisEventos/organizador']);
+      else this.router.navigate(['Eventos/MisEventos/presidente']);
     }
   }
 
@@ -42,7 +52,16 @@ export class LoginComponent {
       this.authService.guardarToken(response.access_token);
       let usuario = this.authService.usuario;
       let persona = this.authService.persona;
-      this.router.navigate(['inicio']);
+      this.rolOrga = false;
+      this.rolAdmin = false;
+      this.authService.usuario.roles.forEach(element => {
+        var aux = '' + element;
+        if (aux == 'ROLE_ORGANIZER') this.rolOrga = true;
+        if (aux == 'ROLE_ADMIN') this.rolAdmin = true;
+      });
+      if (this.rolAdmin) this.router.navigate(['mantenimiento/configuracion-usuarios']);
+      else if (this.rolOrga) this.router.navigate(['Eventos/MisEventos/organizador']);
+      else this.router.navigate(['Eventos/MisEventos/presidente']);
       this.toastr.success(`Hola ${persona.nombre}, has iniciado sesión con éxito!`, 'Aviso', {closeButton: true});
     }, err => {
       if (err.status == 400) {

@@ -18,7 +18,7 @@
             <!-- *ngIf="checkPermission('/mantenimiento')" -->
           <!-- *ngIf="checkPermission('/mantenimiento/configuracion-usuarios')" -->
           <li [ngClass]="{active: activeRoute('configuracion-usuarios')}"><a [routerLink]="['/mantenimiento/configuracion-usuarios']">Usuarios</a></li>
-          <li [ngClass]="{active: activeRoute('categorias')}"><a [routerLink]="['/mantenimiento/categorias']">Categorias</a></li>
+          <li [ngClass]="{active: activeRoute('categorias')}"><a [routerLink]="['/mantenimiento/categorias']">Categorías</a></li>
           <li [ngClass]="{active: activeRoute('tipoEvento')}"><a [routerLink]="['/mantenimiento/tipoEvento']">Tipo Evento</a></li>
           <li [ngClass]="{active: activeRoute('lugares')}"><a [routerLink]="['/mantenimiento/lugares']">Lugares</a></li>
         </ul>
@@ -33,7 +33,7 @@
         </ul>
       </li>
       <li [ngClass]="{active: activeRoute('convocatoria')}" *ngIf="rolDefault || rolOrga">
-        <a href="#"><i class="fa fa-file"></i> <span class="nav-label">Convocatorias</span> <span class="fa arrow"></span> </a>
+        <a href="#"><i class="fa fa-calendar"></i> <span class="nav-label">Convocatorias</span> <span class="fa arrow"></span> </a>
         <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('convocatoria')}">
             <!-- *ngIf="checkPermission('/mantenimiento')" -->
           <!-- *ngIf="checkPermission('/mantenimiento/configuracion-usuarios')" -->
@@ -42,7 +42,7 @@
       </li>
       
       <li [ngClass]="{active: activeRoute('gestionEvaluacionEvento')}" *ngIf="rolDefault || rolOrga">
-        <a href="#"><i class="fa fa-calculator"></i> <span class="nav-label">Visualizar Evento</span> <span class="fa arrow"></span> </a>
+        <a href="#"><i class="fa fa-file"></i> <span class="nav-label">Evaluaciones</span> <span class="fa arrow"></span> </a>
         <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('gestionPresidenteEvento')}">
             <!-- *ngIf="checkPermission('/mantenimiento')" -->
           <!-- *ngIf="checkPermission('/mantenimiento/configuracion-usuarios')" -->
