@@ -6,6 +6,7 @@ import { Usuario, Persona, Response } from '../../models/';
 import { AuthService as AeventAuthService } from '../../auth/service/auth.service';
 import { AuthService as SocialAuthService, GoogleLoginProvider} from "angular-6-social-login";
 import { UsuarioService } from '../../services/usuario.service';
+import { parseWebDriverCommand } from 'blocking-proxy/built/lib/webdriver_commands';
 @Component({
   selector: 'login',
   templateUrl: 'login.template.html',
@@ -114,6 +115,9 @@ export class LoginComponent {
     persona.appaterno = idToken.family_name;    
     persona.email = idToken.email;
     persona.enabled=true;
+    persona.modoInicioSesion=1;
+    persona.fechaCreacion=new Date();
+    
 
     this.service.autenticarUsuarioGoogle(persona).subscribe((response: Response)=>{
       if(response.resultado == true){
@@ -121,6 +125,7 @@ export class LoginComponent {
 
 
       }else{
+        persona.fechaCreacion=new Date();
         this.service.guardarUsuarioOut(persona).subscribe((response: Response)=>{
           this.login();          
       
