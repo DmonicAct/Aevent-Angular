@@ -51,7 +51,7 @@
                 <td class="text-center" data-col="idEvento"><code>{{item.idEvento}}</code></td>
                 <td class="text-left" data-col="titulo">{{item.titulo}}</td>
                 <td class="text-center" data-col="tipoEvento">{{item.tipoEvento.nombre}}</td>
-                <td class="text-center" data-col="tipoEvento">{{item.organizador.nombre}} {{item.organizador.appaterno}}</td>
+                <td class="text-center" data-col="tipoEvento">{{item.organizador.nombreCompleto}}</td>
                 <td class="text-center" data-col="fechaInicio">{{item.fechaInicio | date:'dd/MM/yyyy'}}</td>
                 <td class="text-center" data-col="fechafin">{{item.fechaFin | date:'dd/MM/yyyy'}}</td>
                 <td class="text-center" data-col="editar" (click)="OnEditar(item)"><button class="btn btn-success"><i
