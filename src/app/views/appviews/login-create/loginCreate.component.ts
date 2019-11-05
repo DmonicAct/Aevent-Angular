@@ -46,6 +46,7 @@ export class LoginCreateComponent /*implements OnInit*/ {
     let apMaterno: String = this.usuario.apmaterno;
     let correo: string = this.usuario.email;
     let sex: String = this.usuario.sexo;
+    let fechaActual:Date = new Date();
     let usrDireccion: String = this.usuario.direccion;
     let dni: String = this.usuario.dni;
     let valido: boolean = true;
@@ -166,6 +167,8 @@ export class LoginCreateComponent /*implements OnInit*/ {
                   if(response.resultado==true){
                     this.toastr.warning('El DNI ya está en uso, escoga uno diferente', 'Error', {closeButton: true});        
                   }else{
+                    this.usuario.fechaCreacion = fechaActual;
+                    this.usuario.modoInicioSesion=0;
                     this.service.guardarUsuarioOut(this.usuario).subscribe(
                       (response: Response)=>{
                         this.login();

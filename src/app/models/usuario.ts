@@ -12,4 +12,5 @@ export class Usuario{
     public roles: Role[] = [];
     public fechaCreacion: Date;
     public fechaModificacion: Date;
+    public modoInicioSesion: number;
 }
