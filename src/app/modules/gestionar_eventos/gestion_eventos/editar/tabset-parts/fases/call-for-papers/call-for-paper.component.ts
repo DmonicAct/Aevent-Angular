@@ -1,8 +1,8 @@
 import { OnInit, Component, ViewChild, Input } from "@angular/core";
-import { Response, Parametro, TipoSeccion, FormularioCFP, Division, Pregunta, Seccion, Evento } from "../../../../../../../models";
+import { Response, Parametro, TipoSeccion, FormularioCFP, Division, Pregunta, Seccion, Evento, Fase } from "../../../../../../../models";
 import { ModalDirective } from "ngx-bootstrap";
 import { Location } from '@angular/common';
-import { EventoService } from '../../../../../../../services/evento.service';
+import { FaseService } from '../../../../../../../services/fase.service';
 import { ToastRef, ToastrService } from "ngx-toastr";
 import { UtilFormulario } from "src/app/util/util_formulario";
 declare var jQuery: any;
@@ -33,8 +33,8 @@ export class CallForPaperComponent implements OnInit {
     //@Input('item-cfp')
     //public formulario:FormularioCFP;
 
-    @Input('item-evento')
-    public item: Evento;
+    @Input('item-fase')
+    public item: Fase;
 
     @Input('item-cfp')
     public itemFormulario: FormularioCFP;
@@ -68,7 +68,7 @@ export class CallForPaperComponent implements OnInit {
     selectedRowSeccion: number;
     selectedRowPregunta: number;
     constructor(
-        private serviceEvento: EventoService,
+        private serviceFase: FaseService,
         private toastr: ToastrService,
         private _location: Location
     ) {
@@ -211,7 +211,6 @@ export class CallForPaperComponent implements OnInit {
     }
 
     onGuardar() {
-        
         this.itemFormulario.divisionList.forEach(e=>{
             e.idDivision=null;
             e.seccionList.forEach(k=>{
@@ -221,8 +220,10 @@ export class CallForPaperComponent implements OnInit {
                 })
             })
         })
+        this.item.formulario = this.itemFormulario;
+        console.log(this.item);
         
-        this.serviceEvento.guardarEvento(this.item).subscribe(
+        this.serviceFase.guardarFase(this.item).subscribe(
             (response:Response)=>{
                 if(response.estado=='OK'){
                     this.toastr.success(`Se ha guardado con exito`, 'Aviso', { closeButton: true });

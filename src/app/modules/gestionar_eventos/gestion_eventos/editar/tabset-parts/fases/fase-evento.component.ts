@@ -7,6 +7,8 @@ import { CriterioService } from '../../../../../../services/criterio.service';
 import { EventoService } from '../../../../../../services/evento.service';
 import { ModalDirective } from 'ngx-bootstrap';
 import { UtilFormulario } from 'src/app/util/util_formulario';
+import * as moment from 'moment';
+import { a } from "@angular/core/src/render3";
 
 @Component({
     selector:'fase-evento',
@@ -24,12 +26,6 @@ export class FaseEventoComponent implements OnInit{
 
   public descripcionModal : String;
   public esNuevo: Boolean;
-  public newItem : Fase; //para la nueva fase
-  public items : Array<Fase>;
-  //public item : Fase;
-  public estado: Boolean;
-  public idEvento : number;
-  public loading: Boolean = false;
 
   @ViewChild('autoShownModal') 
   autoShownModal: ModalDirective;
@@ -43,72 +39,39 @@ export class FaseEventoComponent implements OnInit{
   autoDeleteShownModal: ModalDirective;
   @ViewChild('autoNewCriterioShownModal') 
   autoNewCriterioShownModal: ModalDirective;
+  
   //Evento de Padre
-
   @Input('item-evento')
   public item: Evento;
 
-  public evento: Evento;
   public criterio: Criterio;
-  public criterios: Array<Criterio>;
   public fase: Fase;
-  public fases: Array<Fase>;
   private utilForm: UtilFormulario;
   public formulario: FormularioCFP;
   constructor(private toastr: ToastrService, 
               private router: Router,
               private faseService: FaseService,
               private criterioService: CriterioService,
+              private eventoService : EventoService,
               ) {
-    this.newItem = new Fase;    
-    this.items = new Array<Fase>();
 
     this.criterio = new Criterio;
-    this.criterios = new Array<Criterio>();
-    this.fase = new Fase;
-    this.fases = new Array<Fase>();
+    this.fase = new Fase; 
     
     this.utilForm = new UtilFormulario();
-    this.newItem.formulario = new FormularioCFP();
-    this.newItem.formulario.divisionList = this.utilForm.inicializarFormulario();
+    this.fase.formulario = new FormularioCFP();
+    this.fase.formulario.divisionList = this.utilForm.inicializarFormulario();
   }
 
     ngOnInit(): void {
-    
     }
     
-    getFasesPorEvento() {
-        /*console.log(this.item.idEvento);
-      
-      this.faseService.obtenerFases(this.item).subscribe(
-        (response: Response) => {
-          console.log(response);  
+    getEventoActualizado() {      
+      this.eventoService.obtenerEvento(this.item.idEvento).subscribe(
+        (response: Response)=>{
+            this.item=response.resultado;
         }
-      );*/ 
-      
-    }
-
-    setEvento(eventoPadre: Evento) {
-        this.evento = eventoPadre;
-        //console.log(this.evento);
-        this.fases = this.evento.fases;
-        this.getFasesPorEvento();
-    }
-
-    onSelect(fase: Fase){
-        this.newItem = fase;
-
-        if(!this.newItem.formulario){
-          this.newItem.formulario = new FormularioCFP();
-          this.newItem.formulario.divisionList = this.utilForm.inicializarFormulario();
-        }
-
-        this.criterioService.obtenerCriterios(fase).subscribe(
-            (response: Response) => {
-                this.criterios = response.resultado;
-                console.log(this.criterios);
-            }
-        );
+      ); 
     }
 
     onHidden(): void {
@@ -121,63 +84,78 @@ export class FaseEventoComponent implements OnInit{
     }
 
     hideModal(): void {
-        if(this.isNewModalShown){
-          this.autoNewShownModal.hide();
-        }else if(this.isModalShown){
-          this.autoShownModal.hide();
-        }else if(this.isDeleteModalShown){
-          this.autoDeleteShownModal.hide();
-        }else if(this.isDeleteCriterioModalShown){
-          this.autoDeleteCriterioShownModal.hide();
-        }else if(this.isNewFormModalShown){
-          this.autoNewFormShownModal.hide();
-        }else if(this.isNewCriterioModalShown){
-          this.autoNewCriterioShownModal.hide();
-        }
+      if(this.isNewModalShown){
+        this.autoNewShownModal.hide();
+      }else if(this.isModalShown){
+        this.autoShownModal.hide();
+      }else if(this.isDeleteModalShown){
+        this.autoDeleteShownModal.hide();
+      }else if(this.isDeleteCriterioModalShown){
+        this.autoDeleteCriterioShownModal.hide();
+      }else if(this.isNewFormModalShown){
+        this.autoNewFormShownModal.hide();
+      }else if(this.isNewCriterioModalShown){
+        this.autoNewCriterioShownModal.hide();
       }
+    }
     
     OnNuevo(){
-        if(this.esNuevo){ //Creando criterio
-          this.criterio.descripcion = this.descripcionModal;
-          this.criterio.idFase = this.newItem;
-          let tipoCrit = new TipoCriterio ();
-          tipoCrit.idTipoCriterio = 1;
-          this.criterio.tipoCriterio = tipoCrit;
+      if(this.esNuevo){ //Creando criterio
+        this.criterio.descripcion = this.descripcionModal;
+        this.criterio.idFase = this.fase;
+        
+        let tipoCrit = new TipoCriterio ();
+        tipoCrit.idTipoCriterio = 1;
+        this.criterio.tipoCriterio = tipoCrit;
 
-          this.criterioService.guardarCriterio(this.criterio).subscribe(
-            (response: Response)=>{
-              if(response.estado=="OK"){
-                console.log(this.criterio.idFase);
-                this.toastr.success(`Se ha guardado el criterio con exito`, 'Aviso', {closeButton: true});
-                this.onHidden()
-              }
-            }
-          );
-        }else{ //editando criterio
-          this.criterio.descripcion=this.descripcionModal;
-          this.criterio.idFase = this.newItem;
+        console.log('CREANDO CRITERIO');
+        console.log(this.criterio.idFase);
 
-          this.criterioService.guardarCriterio(this.criterio).subscribe(
-            (response: Response)=>{
-              if(response.estado=="OK"){
-                this.toastr.success(`Se ha editado el criterio con éxito`, 'Aviso', {closeButton: true});
-                this.onHidden()
-              }
+        this.criterioService.guardarCriterio(this.criterio).subscribe(
+          (response: Response)=>{
+            if(response.estado=="OK"){
+              this.toastr.success(`Se ha guardado el criterio con exito`, 'Aviso', {closeButton: true});
+              this.getEventoActualizado();
+              this.onHidden()
             }
-          );
-        }
+          }
+        );
+      }else{ //editando criterio
+        this.criterio.descripcion=this.descripcionModal;
+        this.criterio.idFase = this.fase;
+
+        let tipoCrit = new TipoCriterio ();
+        tipoCrit.idTipoCriterio = 1;
+        this.criterio.tipoCriterio = tipoCrit;
+
+        console.log('EDITANDO CRITERIO');
+        console.log(this.criterio.idFase);
+        
+        this.criterioService.guardarCriterio(this.criterio).subscribe(
+          (response: Response)=>{
+            if(response.estado=="OK"){
+              console.log(this.criterio.idFase);
+              this.toastr.success(`Se ha editado el criterio con éxito`, 'Aviso', {closeButton: true});
+              this.getEventoActualizado();
+              this.onHidden()
+            }
+          }
+        );
+      }
     }
 
-    OnAgregarCriterio(){
+    OnAgregarCriterio(fase:Fase){
 
-        this.descripcionModal = "";
-    
-        this.esNuevo = true;
-        this.isNewCriterioModalShown=true;
+      this.fase = fase;
+      this.descripcionModal = "";
+  
+      this.esNuevo = true;
+      this.isNewCriterioModalShown=true;
     }
 
-    OnEditarCriterio(item:Criterio){
-      this.criterio = item;
+    OnEditarCriterio(criterio:Criterio,fase:Fase){
+      this.fase = fase;
+      this.criterio = criterio;
       this.descripcionModal = this.criterio.descripcion;
   
       this.esNuevo = false;
@@ -190,49 +168,65 @@ export class FaseEventoComponent implements OnInit{
         this.esNuevo = true;
         this.isNewModalShown=true;
     }
-    OnAgregarFase(){
+
+    OnGuardarFase(fase: Fase){
+        console.log(fase);
+        this.faseService.guardarFase(fase).subscribe(
+          (response: Response)=>{
+            this.toastr.success(`Se ha guardado la fase con exito`, 'Aviso', {closeButton: true});
+            this.getEventoActualizado();
+            this.onHidden();
+          }
+        )
+    }
+
+    OnAgregarFase(evento: Evento){
       if(this.esNuevo){ 
         let faseNueva = new Fase();
         faseNueva.descripcion = this.descripcionModal;
-        faseNueva.idEvento = this.evento.idEvento;
+        faseNueva.idEvento = evento.idEvento;
         this.faseService.guardarFase(faseNueva).subscribe(
           (response: Response)=>{
             this.toastr.success(`Se ha guardado la fase con exito`, 'Aviso', {closeButton: true});
-            this.onHidden();
+            this.getEventoActualizado();
           }
         )
       }
     }
-    OnEliminar(fase: Fase){
+
+    OnEliminar(fase: Fase,evento: Evento){
       this.fase = fase;
-      this.fase.idEvento = this.evento.idEvento;
+      this.fase.idEvento = evento.idEvento;
       this.isDeleteModalShown=true;
     }
+
     OnConfirmar(){
       this.faseService.eliminarFase(this.fase).subscribe(
         (response: Response)=>{ 
           console.log(response);  
           if(response.estado=="OK"){
             this.toastr.success(`Se ha eliminado la fase con éxito`, 'Aviso', {closeButton: true});
-            this.onHidden();      
+            this.getEventoActualizado();
+            this.isDeleteModalShown = false;
           }
         }
       );
     }
 
-    OnEliminarCriterio(criterio: Criterio){
+    OnEliminarCriterio(criterio: Criterio,fase: Fase){
       this.criterio = criterio;
-      this.criterio.idFase = this.newItem;
+      this.criterio.idFase = fase;
+
       this.isDeleteCriterioModalShown =true;
     }
 
     OnConfirmarCriterio(){
-
       this.criterioService.eliminarCriterio(this.criterio).subscribe(
         (response: Response)=>{ 
           console.log(response);  
           if(response.estado=="OK"){
             this.toastr.success(`Se ha eliminado el criterio con éxito`, 'Aviso', {closeButton: true});
+            this.getEventoActualizado();
             this.onHidden();      
           }
         }
@@ -253,8 +247,9 @@ export class FaseEventoComponent implements OnInit{
               }
           }
       } */
-  }
-  DetectInicio() {
+    }
+
+    DetectInicio() {
       if (this.item.fechaInicio && (this.item.fechaInicio.toString() == 'Invalid Date' || this.item.fechaInicio.toString() == '')) {
           this.item.fechaInicio = new Date();
           this.toastr.warning('Fecha ingresada no valida', 'Advertencia', { closeButton: true });
@@ -267,18 +262,19 @@ export class FaseEventoComponent implements OnInit{
                   return;
               }
           } */
-  }
-
-  OnCrearFormulario(){
-    this.formulario = this.newItem.formulario;
-
-    console.log(this.formulario);
-
-    if(!this.formulario){
-      this.formulario = new FormularioCFP();
-      this.formulario.divisionList = this.utilForm.inicializarFormulario();
     }
 
-    this.isNewFormModalShown =true;
-  }
+    OnCrearFormulario(fase: Fase){
+      this.fase = fase;
+      this.formulario = fase.formulario;
+
+      console.log(this.formulario);
+
+      if(!this.formulario){
+        this.formulario = new FormularioCFP();
+        this.formulario.divisionList = this.utilForm.inicializarFormulario();
+      }
+
+      this.isNewFormModalShown =true;
+    }
 }
