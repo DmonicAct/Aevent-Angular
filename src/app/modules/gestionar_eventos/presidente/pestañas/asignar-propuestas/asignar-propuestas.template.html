@@ -20,9 +20,9 @@
                     <table class="table table-striped table-hover issue-tracker">
                       <thead>
                         <tr>
-                          <th class="text-left">Username</th>
-                          <th class="text-left">Nombre</th>
-                          <th class="text-left">Correo</th>
+                          <th class="text-left">Código Propuesta</th>
+                          <th class="text-left">Postulante</th>
+                          <th class="text-left">Fecha Postulación</th>
                           <th class="text-center">Eliminar</th>
                         </tr>
                       </thead>
@@ -39,12 +39,27 @@
                         
                         <tr *ngFor="let item of propuestasEvento; let i = index" 
                           [class.selected]="i == selectedRow">
-                          <td class="text-left" data-col="username"><code>{{item.id}}</code></td>
+                          <td class="text-left" data-col="idPropuesta"><code>{{item.idPropuesta}}</code></td>
+                          <td class="text-left" data-col="nombrePostulante"><code>{{item.postulante.nombre + " " + item.postulante.appaterno + " "+ item.postulante.apmaterno}}</code></td>
+                          <td class="text-left" data-col="fechaPostulación"><code>{{item.fecha_postulacion}}</code></td>
                        
                           <td class="text-center" data-col="Quitar" (click)="onQuitar(item,i)"><button class="btn btn-danger"><i
-                                class="fa fa-trash"></i></button></td>         
+                                class="fa fa-trash"></i></button></td>    
+                                <!--
+                                  <tr *ngFor="let item of propuestasEvento; let i = index" 
+                                    [class.selected]="i == selectedRow">
+                                    <td class="text-left" data-col="idPropuesta"><code>{{item.idPropuesta}}</code></td>
+                                    <td class="text-left" data-col="nombrePostulante"><code>{{item.postulante.nombre + " " + item.postulante.appaterno + " "+ item.postulante.apmaterno}}</code></td>
+                                    <td class="text-left" data-col="fechaPostulación"><code>{{item.fecha_postulacion}}</code></td>
+                                
+                                    <td class="text-center" data-col="Quitar" (click)="onQuitar(item,i)"><button class="btn btn-danger"><i
+                                          class="fa fa-trash"></i></button></td>         
+          
+        
+        
+                                  </tr>
 
-
+                                -->
 
                         </tr>
                       </tbody>

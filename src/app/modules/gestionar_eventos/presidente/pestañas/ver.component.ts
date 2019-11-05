@@ -1,6 +1,6 @@
 import {Component, OnInit,ViewChild} from '@angular/core'
 import { TabsetComponent } from 'ngx-bootstrap';
-import { Evento, Response, Persona, FormularioCFP, Division } from '../../../../models';
+import { Evento, Response, Persona, FormularioCFP, Division, Paginacion } from '../../../../models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventoService } from '../../../../services';
 import { DetalleEventoVer } from './detalle-evento/detalleEventoPresidente.component';
@@ -36,12 +36,14 @@ export class VerEventoPresidenteComponent implements OnInit{
     public flagEvento:Boolean;
     public propuestas:Propuesta;
     public formulario: FormularioCFP;
+    public paginacion: Paginacion;
     public divisiones: Array<Division>
     //public serviceEvento: EventoService;
     constructor(private route: ActivatedRoute,
         private service: EventoService){
 
         //debugger
+        this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
 
         
 
@@ -82,7 +84,7 @@ export class VerEventoPresidenteComponent implements OnInit{
         console.log("ITEM",this.item);
         console.log("ITEM CODIGO",this.itemCodigo)
         console.log("id eventooo",this.item.idEvento);
-        this.service.obtenerPropuestas(this.itemCodigo).subscribe(
+        this.service.obtenerPropuestas(this.itemCodigo, this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
               this.propuestas = response.resultado;
               console.log(response);

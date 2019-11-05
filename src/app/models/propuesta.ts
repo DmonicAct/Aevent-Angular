@@ -1,7 +1,10 @@
+import { Persona } from ".";
+
 export class Propuesta{
-    public id: Number;
+    public idPropuesta: Number;
     public idEvento: Number;
     public idPostulante: Number;
-    public fecPostulacion: Date;
+    public fecha_postulacion: Date;
     public documentos: Array<Document>;    
+    public postulante: Persona;
 }

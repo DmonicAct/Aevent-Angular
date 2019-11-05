@@ -1,6 +1,6 @@
 import {Component, OnInit,ViewChild,EventEmitter,Input,Output} from '@angular/core'
 import { TabsetComponent } from 'ngx-bootstrap';
-import { Evento, Response, Persona, FormularioCFP, Division, Usuario } from '../../../../../models';
+import { Evento, Response, Persona, FormularioCFP, Division, Usuario, Paginacion } from '../../../../../models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PersonaService, CategoriaService, LugarService, EventoService, TipoEventoServices } from '../../../../../services';
 import { DetalleEventoVer } from '.././detalle-evento/detalleEventoPresidente.component';
@@ -52,7 +52,7 @@ export class AsignarPropuestasVer implements OnInit{
     public evaluadoresDisponibles:Array<Persona>;
   
     public loading:boolean;
-  
+    public paginacion: Paginacion;
     
     
     
@@ -61,6 +61,7 @@ export class AsignarPropuestasVer implements OnInit{
       private authService: AeventAuthService,
       private serviceEvento: EventoService,) {
       this.comiteElegido = new Array<Usuario>();
+      this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
   
   
       this.itemEvento = new Evento();

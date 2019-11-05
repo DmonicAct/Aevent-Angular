@@ -122,9 +122,15 @@ export class EventoService{
         }));
     }
 
-    obtenerPropuestas(idEvento:number):Observable<any>{
-      const url = `${this.apiEndpoint}/propuestas/${idEvento}`;
-      return this.http.get(url).pipe(
+    obtenerPropuestas(idEvento:number, pagina:number, registros:number):Observable<any>{
+      //const url = `${this.apiEndpoint}/propuestas/${idEvento}`;
+      let params:HttpParams = new HttpParams()
+//      .set('id', idEvento.toString())
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+
+      return this.http.get(this.apiEndpoint + `/propuestas/${idEvento}`, {params}).pipe(
         catchError(e => {
           if (e.status == 400) {
             return throwError(e);
