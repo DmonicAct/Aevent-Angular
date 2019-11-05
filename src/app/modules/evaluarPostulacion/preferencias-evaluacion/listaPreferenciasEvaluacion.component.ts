@@ -12,9 +12,23 @@ import { Router } from "@angular/router";
 })
 
 export class ListaPreferenciasComponent implements OnInit{
+    public paginacion: Paginacion;
     constructor() {
+        this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
     }
 
     ngOnInit(){
     }
+    
+    OnPageChanged(event): void {
+        this.paginacion.pagina = event.page;
+ 
+    }
+
+    OnPageOptionChanged(event): void {
+        this.paginacion.registros = event.rows;
+        this.paginacion.pagina = 1;
+ 
+    }
+ 
 }
