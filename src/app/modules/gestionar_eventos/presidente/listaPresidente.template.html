@@ -22,7 +22,7 @@
         <div class="col-md-4">
             <input type="text" autocomplete="off" class="form-control" name="filtro"
                 maxlength="30" [(ngModel)]="filtro" (input)="buscarEvento()"
-                onkeypress="return /^[a-zA-Z1-9\s]*$/i.test(event.key)">
+                onkeypress="return /^[a-zA-Z0-9\s]*$/i.test(event.key)">
         </div>
         <div class="col-md-6">
 
@@ -42,7 +42,6 @@
                 <th class="text-center">Organizador</th>
                 <th class="text-center">Fecha Inicio</th>
                 <th class="text-center">Fecha Fin</th>
-                <th class="text-center">Estado</th>
                 <th class="text-center">Editar</th>
               </tr>
             </thead>
@@ -52,15 +51,9 @@
                 <td class="text-center" data-col="idEvento"><code>{{item.idEvento}}</code></td>
                 <td class="text-left" data-col="titulo">{{item.titulo}}</td>
                 <td class="text-center" data-col="tipoEvento">{{item.tipoEvento.nombre}}</td>
-                <td class="text-center" data-col="tipoEvento">{{item.organizador.fullname}}</td>
+                <td class="text-center" data-col="tipoEvento">{{item.organizador.nombre}} {{item.organizador.appaterno}}</td>
                 <td class="text-center" data-col="fechaInicio">{{item.fechaInicio | date:'dd/MM/yyyy'}}</td>
                 <td class="text-center" data-col="fechafin">{{item.fechaFin | date:'dd/MM/yyyy'}}</td>
-                <td class="text-center" data-col="estado" style="padding-left: 0">
-                  <span *ngIf="item.enabled==true" class="label"
-                    [class.label-success]="item.enabled==true">ACTIVO</span>
-                  <span *ngIf="item.enabled==false" class="label"
-                    [class.label-default]="item.enabled==false">INACTIVO</span>
-                </td>
                 <td class="text-center" data-col="editar" (click)="OnEditar(item)"><button class="btn btn-success"><i
                       class="fa fa-edit"></i></button></td>
               </tr>

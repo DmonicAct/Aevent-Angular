@@ -16,6 +16,7 @@ import { Categoria } from './categoria'
 import { Seccion } from './seccion';
 import { TipoEvento } from './tipoevento';
 import {Lugar} from './lugar'; 
+import {TipoCriterio} from './tipocriterio'
 export {
 
     Persona,
@@ -35,5 +36,6 @@ export {
     Seccion,
     Categoria,
     TipoEvento,
-    Lugar
+    Lugar,
+    TipoCriterio
 }

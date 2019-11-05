@@ -1,0 +1,101 @@
+
+<div class="ibox-content" style="border-top: 0;" [class.sk-loading]="loading" id='tableEvaluador'>
+
+  <sk-three-bounce></sk-three-bounce>
+   
+
+    
+<div class="text-center">
+<button class="btn btn-primary" (click)="onAgregarEvaluador()" [swal]="visorAgregarEvaluador"><i class="fa fa-eye"></i>
+  Agregar evaluador</button>
+</div>
+
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="ibox-content" [ngClass]="{'sk-loading': loading}">
+                  <sk-three-bounce></sk-three-bounce>
+                  <div class="table-responsive" >
+                    <table class="table table-striped table-hover issue-tracker">
+                      <thead>
+                        <tr>
+                          <th class="text-left">Código Propuesta</th>
+                          <th class="text-left">Postulante</th>
+                          <th class="text-left">Fecha Postulación</th>
+                          <th class="text-center">Eliminar</th>
+                        </tr>
+                      </thead>
+                      <tbody >
+<!--
+                          <div class="form-group">
+                              <label class="col-sm-3 control-label">Descripcion </label>
+                              <div class="col-sm-8">
+                                  <textarea oninput="this.value = this.value.toUpperCase()" class="form-control"
+                                      name="descripcion" [(ngModel)]="item.descripcion" rows="4" readonly></textarea>
+                              </div>
+                          </div>
+                        -->
+                        
+                        <tr *ngFor="let item of propuestasEvento; let i = index" 
+                          [class.selected]="i == selectedRow">
+                          <td class="text-left" data-col="idPropuesta"><code>{{item.idPropuesta}}</code></td>
+                          <td class="text-left" data-col="nombrePostulante"><code>{{item.postulante.nombre + " " + item.postulante.appaterno + " "+ item.postulante.apmaterno}}</code></td>
+                          <td class="text-left" data-col="fechaPostulación"><code>{{item.fecha_postulacion}}</code></td>
+                       
+                          <td class="text-center" data-col="Quitar" (click)="onQuitar(item,i)"><button class="btn btn-danger"><i
+                                class="fa fa-trash"></i></button></td>    
+                                <!--
+                                  <tr *ngFor="let item of propuestasEvento; let i = index" 
+                                    [class.selected]="i == selectedRow">
+                                    <td class="text-left" data-col="idPropuesta"><code>{{item.idPropuesta}}</code></td>
+                                    <td class="text-left" data-col="nombrePostulante"><code>{{item.postulante.nombre + " " + item.postulante.appaterno + " "+ item.postulante.apmaterno}}</code></td>
+                                    <td class="text-left" data-col="fechaPostulación"><code>{{item.fecha_postulacion}}</code></td>
+                                
+                                    <td class="text-center" data-col="Quitar" (click)="onQuitar(item,i)"><button class="btn btn-danger"><i
+                                          class="fa fa-trash"></i></button></td>         
+          
+        
+        
+                                  </tr>
+
+                                -->
+
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="text-left">
+                      <button type="button" class="btn btn-success m-r" (click)="onGuardarCambiosEvento()"><i class="fa fa-save"></i>
+                          Guardar Cambios</button>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+</div>  
+
+<script>
+  function alphaOnly(event) {
+      var key = event.keyCode;
+      return ((key >= 65 && key <= 90) || key == 8);
+  }
+</script>
+
+<swal
+  #visorAgregarEvaluador
+  title="Agregar Evaluador"
+  customClass="agregar-evaluador"
+  [showCancelButton]="fasle"
+  [focusConfirm]="true"
+  [allowOutsideClick]="true"
+  [showConfirmButton]= "false"
+  >
+  <div *swalPartial>
+    <agregar-evaluador [items]="evaluadoresDisponibles" (nuevoComiteDisp)='onNuevoComiteDisp($event)' (valueChange)='getList($event)'></agregar-evaluador>
+  </div>
+</swal>

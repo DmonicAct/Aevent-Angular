@@ -16,8 +16,8 @@ import { PaginacionModule } from '../../components/common/paginacion/paginacion.
 import { ListaEventosOrganizador } from './gestion_eventos/lista.component';
 import { EditarGestionarEventoComponent } from './gestion_eventos/editar/editar.component';
 import { DetalleEventoConfiguracion } from './gestion_eventos/editar/tabset-parts/detalle-evento/detalle-evento.component';
-import { CallForPaperComponent } from './gestion_eventos/editar/tabset-parts/call-for-papers/call-for-paper.component';
-import { CallForPaperView } from './gestion_eventos/editar/tabset-parts/call-for-papers/call-for-papers-view/call-for-paper-view.component';
+import { CallForPaperComponent } from './gestion_eventos/editar/tabset-parts/fases/call-for-papers/call-for-paper.component';
+import { CallForPaperView } from './gestion_eventos/editar/tabset-parts/fases/call-for-papers/call-for-papers-view/call-for-paper-view.component';
 import { FaseEventoComponent } from './gestion_eventos/editar/tabset-parts/fases/fase-evento.component';
 import { ListaEventosPresidente } from '../gestionar_eventos/presidente/listaPresidente.component';
 import { DetalleEventoVer } from '../gestionar_eventos/presidente/pestañas/detalle-evento/detalleEventoPresidente.component';
@@ -25,6 +25,7 @@ import { AgregarEvaluador } from '../gestionar_eventos/presidente/pestañas/comi
 import { ComiteEventoVer } from '../gestionar_eventos/presidente/pestañas/comite-evento/comiteEventoPresidente.component';
 import { VerEventoPresidenteComponent } from '../gestionar_eventos/presidente/pestañas/ver.component';
 import {VerFormatoPresidente} from '../gestionar_eventos/presidente/pestañas/call-for-papers-view/verFormato.component'
+import { AsignarPropuestasVer } from './presidente/pestañas/asignar-propuestas/asignar-propuestas.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import {VerFormatoPresidente} from '../gestionar_eventos/presidente/pestañas/ca
     ListaEventosPresidente,
     DetalleEventoVer,
     ComiteEventoVer,
+    AsignarPropuestasVer,
     VerEventoPresidenteComponent,
     VerFormatoPresidente,
     AgregarEvaluador,

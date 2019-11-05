@@ -16,7 +16,6 @@ import { FaseEventoComponent } from './tabset-parts/fases/fase-evento.component'
 export class EditarGestionarEventoComponent implements OnInit{
   @ViewChild('tabsDetalle') tabsDetalle: DetalleEventoConfiguracion;
   @ViewChild(FaseEventoComponent) tabsFases: FaseEventoComponent;
-  @ViewChild('tabsCallforPapers') tabsCallforPapers: TabsetComponent;
 
     private sub: any;
     public item: Evento = new Evento();
@@ -26,9 +25,10 @@ export class EditarGestionarEventoComponent implements OnInit{
     constructor(private route: ActivatedRoute,
         private service: EventoService){
         this.utilForm = new UtilFormulario();
-        //this.item = new Evento();
-        this.item.formulario = new FormularioCFP();
-        this.item.formulario.divisionList = this.utilForm.inicializarFormulario();
+
+        //YA NO NECESITO INICIALIZAR FORMULARIO AQUI 
+        //this.item.formulario = new FormularioCFP();
+        //this.item.formulario.divisionList = this.utilForm.inicializarFormulario();
 
         this.item.idEvento = null;
         this.sub = this.route.params.subscribe(params => {
@@ -50,18 +50,20 @@ export class EditarGestionarEventoComponent implements OnInit{
                 this.item=response.resultado;
                 this.flagEvento = false;
                 this.tabsFases.setEvento(this.item);
+                /*
                 if(!this.item.formulario){
                     this.item.formulario = new FormularioCFP();
                     this.item.formulario.divisionList = this.utilForm.inicializarFormulario();
                 }
-                    
+                */  
             }
         );
     }
+    /*
     displayItem(flag: Boolean){
         if(!this.item.formulario){
             this.item.formulario = new FormularioCFP();
         }
         this.flagEvento = flag;
-    }
+    }*/
 }

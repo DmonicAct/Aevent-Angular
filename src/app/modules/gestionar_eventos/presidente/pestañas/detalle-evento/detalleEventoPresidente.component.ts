@@ -157,24 +157,54 @@ export class DetalleEventoVer implements OnInit {
     }
 
     onRetroceder(){
-        this.router.navigate([`gestionPresidenteEvento/eventos-presidente`]);
+        this.router.navigate([`Eventos/MisEventos/presidente`]);
     }
+    fechaHoy: Date;
+
+
 
     onGuardar() {
-       // this.item.categorias = this.categoriasSeleccionadas;
-       if(!this.item.fechaFin){
+        this.fechaHoy = new Date();
+        if(!this.item.titulo){
+            this.toastr.warning(`Se necesita colocar un Título`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if(!this.item.tipoEvento){
+            this.toastr.warning(`Se necesita colocar un Tipo de Evento`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if(!this.item.descripcion){
+            this.toastr.warning(`Se necesita colocar una Descripcion`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if(!this.item.lugar){
+            this.toastr.warning(`Se necesita colocar un Lugar`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if(!this.item.fechaFin){
             this.toastr.warning(`Se debe de seleccionar una fecha para el fin de evento`, 'Aviso', { closeButton: true });
             return;
-       }
-       if(!this.item.fechaInicio){
+        }
+        if(!this.item.fechaInicio){
             this.toastr.warning(`Se debe de seleccionar una fecha para el inicio de evento`, 'Aviso', { closeButton: true });
             return;
-       }
-       if(this.item.fechaFin<this.item.fechaInicio){
+        }
+        if(this.item.fechaFin<this.item.fechaInicio){
             this.toastr.warning(`La fecha de fin de evento no puede ser menos a la de inicio de evento`, 'Aviso', { closeButton: true });
             return;
-       }
-
+        }
+        if(this.item.fechaInicio<this.fechaHoy ||this.item.fechaFin<this.fechaHoy ){
+            this.toastr.warning(`Ninguna fecha puede ser menor al día de hoy`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if(!this.item.presidente){
+            this.toastr.warning(`Se necesita seleccionr un Presidente`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if(this.item.categorias.length == 0){
+            this.toastr.warning(`Se necesita colocar al menos una Categoría`, 'Aviso', { closeButton: true });
+            return;
+        }
         //this.item.presidente= this.itemPresidente;
         this.item.organizador = this.authService.persona;
         this.item.enabled = false;

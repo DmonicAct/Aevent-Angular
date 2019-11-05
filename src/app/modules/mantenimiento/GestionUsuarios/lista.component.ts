@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Persona,Paginacion, Estado, Response } from '../../../models';
+import { Persona,Paginacion, Estado, Response, Usuario } from '../../../models';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UsuarioService } from '../../../services/usuario.service';
@@ -33,6 +33,8 @@ export class GestionUsuarioListaComponent implements OnInit  {
       (response: Response)=>{
         this.items = response.resultado;
         this.paginacion = response.paginacion;
+        this.usuariosFiltrados = this.items;
+        console.log(this.items);
       }
     );
   }
@@ -65,6 +67,51 @@ export class GestionUsuarioListaComponent implements OnInit  {
         }
       }
     );
+  }
+
+  filtro: String;
+  tipo: String;
+  numeroTipo: number;
+  usuariosFiltrados: Array<Usuario>;
+
+  cambioFiltro(){
+      if (this.tipo == "Nombre"){
+          this.numeroTipo = 1;
+      }
+      if (this.tipo == "Usuario"){
+          this.numeroTipo = 2;
+      }
+      if (this.tipo == "Email"){
+        this.numeroTipo = 3;
+    }
+  }
+
+  public itemsFiltro = ["Nombre","Usuario","Email"];
+
+  buscarUsuario() {
+      this.cambioFiltro();
+      if (this.filtro.length > 0) {
+          if (this.numeroTipo == 1){
+              this.usuariosFiltrados = this.items.filter(
+                  item => item.nombre.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1 ||
+                  item.appaterno.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1 ||
+                  item.apmaterno.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+              )
+          }
+          if (this.numeroTipo == 2){
+              this.usuariosFiltrados = this.items.filter(
+                  item => item.username.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+              )
+          }
+          if (this.numeroTipo == 3){
+            this.usuariosFiltrados = this.items.filter(
+                item => item.email.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+            )
+        }
+          
+      } else {
+          this.usuariosFiltrados = this.items;
+      }
   }
 
 }

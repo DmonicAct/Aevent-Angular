@@ -12,11 +12,9 @@ export class MensajeSistemaComponent implements OnInit {
   mensaje:string;
 
   constructor() {
-    this.mensaje = `Estimados usuarios : la  version 7.3 del sistema se ha implementado 
-    tres nuevos servidores que atenderan las peticiones en forma balaceada, 
-    con dicho cambio mejoraremos los tiempos de respuesta del sistema. 
-    Para reportar problemas y nuevas configuraciones en el sistema se debe generar 
-    un ticket de atencion por mesa de ayuda al anexo 3710.`;
+    this.mensaje = `Estimados usuarios: el sistema AEvent se encuentra en fase de desarrollo, si encuentra
+    dificultades o problemas que desee reportar, por favor escribirlas al correo de cualquiera de 
+    nuestros colaboradores`;
   }
 
   ngOnInit() {
