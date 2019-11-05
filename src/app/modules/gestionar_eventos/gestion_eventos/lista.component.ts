@@ -14,6 +14,7 @@ import { AuthService as AeventAuthService } from '../../../auth/service/auth.ser
 
 export class ListaEventosOrganizador implements OnInit {
     public items: Array<Evento>;
+    public itemsPropios: Array<Evento>;
     public paginacion: Paginacion;
     public loading: Boolean = false;
     public rolOrga: Boolean;
@@ -25,7 +26,10 @@ export class ListaEventosOrganizador implements OnInit {
         this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
     }
     flagVer: Boolean;
+    eventosPropios: Array<Boolean>;
+
     ngOnInit(): void {
+        //this.getAllEventos();
         this.getEventosOrganizador();
         this.rolOrga = false;
         this.authService.usuario.roles.forEach(element => {
@@ -34,12 +38,32 @@ export class ListaEventosOrganizador implements OnInit {
         });
     }
 
+    getAllEventos(){
+        this.service.consultarAllEventos(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
+            (response: Response) => {
+                this.items = response.resultado;
+                this.maestroEventoFilter = this.items;
+                //this.eventosPropios = new Array<Boolean>(this.items.length);
+                for (var i = 0; i < this.items.length; i++) {
+                    this.eventosPropios.push(false);
+                }
+            }
+        );
+    }
+
     getEventosOrganizador() {
         this.service.consultarAllEventoByOrganizador(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
                 this.items = response.resultado;
                 this.maestroEventoFilter = this.items;
                 console.log(this.items);
+                /* this.itemsPropios = response.resultado;
+                this.items.forEach(function (element,index) {
+                    if (this.itemsPropios.includes(element)){
+                        this.eventosPropios[index] = true;
+                    }
+                });
+                console.log("Eventos propios: ",this.eventosPropios); */
             }
         );
     }
@@ -53,6 +77,10 @@ export class ListaEventosOrganizador implements OnInit {
     }
 
     OnEditar(item: Evento) {
+        this.router.navigate([`Eventos/MisEventos/organizador/editar/${item.idEvento}`]);
+    }
+
+    OnVer(item: Evento){
         this.router.navigate([`Eventos/MisEventos/organizador/editar/${item.idEvento}`]);
     }
 
