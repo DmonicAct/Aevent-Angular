@@ -26,12 +26,23 @@ export class ListaEventosOrganizador implements OnInit {
     }
     flagVer: Boolean;
     ngOnInit(): void {
-        this.getEventosOrganizador();
+        //this.getEventosOrganizador();
+        this.getAllEventos();
         this.rolOrga = false;
         this.authService.usuario.roles.forEach(element => {
             var aux = '' + element;
             if (aux == 'ROLE_ORGANIZER') this.rolOrga = true;
         });
+    }
+
+    getAllEventos(){
+        this.service.consultarAllEventos(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
+            (response: Response) => {
+                this.items = response.resultado;
+                this.maestroEventoFilter = this.items;
+                console.log(this.items);
+            }
+        );
     }
 
     getEventosOrganizador() {

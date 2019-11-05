@@ -1,8 +1,8 @@
 import { OnInit, Component, ViewChild, Input } from "@angular/core";
-import { Response, Parametro, TipoSeccion, FormularioCFP, Division, Pregunta, Seccion, Evento } from "../../../../../../models";
+import { Response, Parametro, TipoSeccion, FormularioCFP, Division, Pregunta, Seccion, Evento } from "../../../../../../../models";
 import { ModalDirective } from "ngx-bootstrap";
 import { Location } from '@angular/common';
-import { EventoService } from '../../../../../../services/evento.service';
+import { EventoService } from '../../../../../../../services/evento.service';
 import { ToastRef, ToastrService } from "ngx-toastr";
 import { UtilFormulario } from "src/app/util/util_formulario";
 declare var jQuery: any;
@@ -211,7 +211,8 @@ export class CallForPaperComponent implements OnInit {
     }
 
     onGuardar() {
-        this.item.formulario.divisionList.forEach(e=>{
+        
+        this.itemFormulario.divisionList.forEach(e=>{
             e.idDivision=null;
             e.seccionList.forEach(k=>{
                 k.idSeccion=null;

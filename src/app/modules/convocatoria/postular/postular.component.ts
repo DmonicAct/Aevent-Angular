@@ -38,7 +38,7 @@ export class PostularEvento implements OnInit {
         this.service.obtenerEvento(this.itemCodigo).subscribe(
             (response: Response)=>{
                 this.item=response.resultado;
-                this.items = this.item.formulario.divisionList;
+                //this.items = this.item.formulario.divisionList;
                 console.log(this.items);
             }
         );

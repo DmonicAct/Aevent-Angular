@@ -213,9 +213,9 @@ export class DetalleEventoConfiguracion implements OnInit {
 
         this.item.organizador = this.authService.persona;
         this.item.enabled = true;
-        let flag =  this.item.idEvento == null || 
-                    this.item.formulario==null ||
-                    this.item.formulario.idFormularioFCP == null;
+        let flag =  this.item.idEvento == null; 
+                    //this.item.formulario==null ||
+                    //this.item.formulario.idFormularioFCP == null;
         let evento = JSON.parse(JSON.stringify( this.item));
         
         if(flag){
