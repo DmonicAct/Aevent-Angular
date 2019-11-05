@@ -25,6 +25,7 @@ import { AgregarEvaluador } from '../gestionar_eventos/presidente/pestañas/comi
 import { ComiteEventoVer } from '../gestionar_eventos/presidente/pestañas/comite-evento/comiteEventoPresidente.component';
 import { VerEventoPresidenteComponent } from '../gestionar_eventos/presidente/pestañas/ver.component';
 import {VerFormatoPresidente} from '../gestionar_eventos/presidente/pestañas/call-for-papers-view/verFormato.component'
+import { AsignarPropuestasVer } from './presidente/pestañas/asignar-propuestas/asignar-propuestas.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import {VerFormatoPresidente} from '../gestionar_eventos/presidente/pestañas/ca
     ListaEventosPresidente,
     DetalleEventoVer,
     ComiteEventoVer,
+    AsignarPropuestasVer,
     VerEventoPresidenteComponent,
     VerFormatoPresidente,
     AgregarEvaluador,

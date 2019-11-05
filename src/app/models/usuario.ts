@@ -13,4 +13,5 @@ export class Usuario{
     public fechaCreacion: Date;
     public fechaModificacion: Date;
     public nombreCompleto: string;
+    public modoInicioSesion: number;
 }

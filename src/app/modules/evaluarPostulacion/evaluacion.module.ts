@@ -16,12 +16,13 @@ import { PaginacionModule } from '../../components/common/paginacion/paginacion.
 
 import {ListaEvaluacionComponent} from './evaluacion/listaEvaluacion.component'
 import {EditarEvaluacionComponent} from './evaluacion/editar/editarEvaluacion.component'
-
+import {ListaPreferenciasComponent} from './preferencias-evaluacion/listaPreferenciasEvaluacion.component'
 
 @NgModule({
   declarations: [
     ListaEvaluacionComponent,
-    EditarEvaluacionComponent
+    EditarEvaluacionComponent,
+    ListaPreferenciasComponent
   ],
   imports: [
     CommonModule,

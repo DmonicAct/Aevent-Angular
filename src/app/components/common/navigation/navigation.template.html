@@ -47,6 +47,7 @@
             <!-- *ngIf="checkPermission('/mantenimiento')" -->
           <!-- *ngIf="checkPermission('/mantenimiento/configuracion-usuarios')" -->
           <li [ngClass]="{active: activeRoute('eventos-postulante')}"><a [routerLink]="['/gestionEvaluacionEvento/eventos-postulante']">Evaluar Ponencias</a></li>
+          <li [ngClass]="{active: activeRoute('preferencias-evaluacion')}"><a [routerLink]="['/gestionEvaluacionEvento/preferencias-evaluacion/preferencias']">Preferencias</a></li>
         </ul>
       </li>
      
