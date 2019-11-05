@@ -116,6 +116,7 @@ export class LoginComponent {
     persona.email = idToken.email;
     persona.enabled=true;
     persona.modoInicioSesion=1;
+    persona.fechaCreacion=new Date();
     
 
     this.service.autenticarUsuarioGoogle(persona).subscribe((response: Response)=>{
