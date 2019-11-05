@@ -141,6 +141,25 @@ export class EventoService{
           return throwError(e);
         }));
     }
+    obtenerPropuestasPorEvaluador(idEvaluador:number, pagina:number, registros:number):Observable<any>{
+      //const url = `${this.apiEndpoint}/propuestas/${idEvento}`;
+      let params:HttpParams = new HttpParams()
+//      .set('id', idEvento.toString())
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+
+      return this.http.get(this.apiEndpoint + `/evaluaciones/evaluador/${idEvaluador}`, {params}).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
 
     eliminarEvento():Observable<any>{
         return null
