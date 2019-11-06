@@ -43,5 +43,9 @@ export class ListaPreferenciasComponent implements OnInit{
         this.paginacion.pagina = 1;
  
     }
+
+    OnGuardar(){
+        
+    }
  
 }
