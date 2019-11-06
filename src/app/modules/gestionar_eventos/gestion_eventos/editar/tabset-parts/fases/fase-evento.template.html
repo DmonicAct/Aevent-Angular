@@ -114,23 +114,17 @@
 <!-- PARA LA CREACION DE UN FORMULARIO -->
 <div *ngIf="isNewFormModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoNewFormShownModal="bs-modal"
   class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
-  <div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4 id="dialog-auto-name" class="modal-title pull-left">Crear Formulario</h4>
-            <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="row m-b-sm">
-                <call-for-paper [(item-cfp)]="formulario" [(item-fase)]="fase"></call-for-paper>
+    <div class="modal-dialog" style="width: 1000px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-auto-name" class="modal-title pull-left">Crear Formulario</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            </div>
-            <div class="form-group">
-                <div class="text-center">
-                    <button (click)='OnNuevo()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
-                        Guardar</button>
+            <div class="modal-body">
+                <div class="row m-b-sm">
+                    <call-for-paper [(item-cfp)]="formulario" [(item-fase)]="fase"></call-for-paper>
                 </div>
             </div>
         </div>
