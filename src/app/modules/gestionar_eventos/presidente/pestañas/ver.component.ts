@@ -117,7 +117,7 @@ export class VerEventoPresidenteComponent implements OnInit{
     }
 
     refreshComite(){
-debugger
+//debugger
         //this.comite1=this.item.comite;
         //this.comite2=this.comite1;
 

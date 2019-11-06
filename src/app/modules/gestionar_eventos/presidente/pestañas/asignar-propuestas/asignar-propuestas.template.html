@@ -35,9 +35,9 @@
                         <tr *ngFor="let item of propuestasEvento; let i = index" 
                           [class.selected]="i == selectedRow">
                           <td class="text-left" data-col="idPropuesta"><code>{{item.idPropuesta}}</code></td>
-                          <td class="text-left" data-col="nombrePostulante"><code>{{item.postulante.nombre + " " + item.postulante.appaterno + " "+ item.postulante.apmaterno}}</code></td>
+                          <td class="text-left" data-col="nombrePostulante"><code>{{item.postulante.nombreCompleto}}</code></td>
                           <td class="text-left" data-col="fechaPostulación"><code>{{item.fecha_postulacion}}</code></td>
-                          <td class="text-left" data-col="fechaPostulación"><pre *ngFor = "let eval of item.evaluadoresAsignados; let j = index"><code>{{eval.nombre + " " + eval.appaterno + " " +eval.apmaterno + "\n"}}</code></pre></td>
+                          <td class="text-left" data-col="fechaPostulación"><pre *ngFor = "let eval of item.evaluadoresAsignados; let j = index"><code>{{eval.nombreCompleto + "\n"}}</code></pre></td>
                        
                           <td class="text-center" data-col="Configurar" [swal]="visorAgregarEvaluador" (click)="onConfigurar(item,i)"><button class="btn btn-primary"><i
                                 class="fa fa-cog"></i></button></td>    
@@ -63,7 +63,7 @@
                   </div>
 
                   <div class="text-left">
-                      <button type="button" class="btn btn-success m-r" (click)="onGuardarCambiosEvento()"><i class="fa fa-save"></i>
+                      <button type="button" class="btn btn-success m-r" (click)="onGuardarCambiosPropuestas()"><i class="fa fa-save"></i>
                           Guardar Cambios</button>
                   </div>
                   
@@ -92,6 +92,6 @@
   [showConfirmButton]= "false"
   >
   <div *swalPartial>
-    <agregar-evaluador-propuestas [items]="evaluadoresDisponibles" (nuevoComiteDisp)='onNuevoComiteDisp($event)' (valueChange)='getList($event)'></agregar-evaluador-propuestas>
+    <agregar-evaluador-propuestas  [i]="posTabla" [items]="evaluadoresDisponibles" (nuevoComiteDisp)='onNuevoComiteDisp($event)' (valueChange)='getList($event)'></agregar-evaluador-propuestas>
   </div>
 </swal>

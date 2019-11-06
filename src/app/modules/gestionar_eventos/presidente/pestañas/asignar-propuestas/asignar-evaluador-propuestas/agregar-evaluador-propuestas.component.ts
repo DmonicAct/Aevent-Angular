@@ -28,6 +28,9 @@ declare var jQuery: any;
     @Input('items')
     public items: Array<Persona>;
 
+    @Input('i')
+    public posTabla: Number;
+
     public listaNuevoComiteDisp:Array<Persona>;
     
     public tam: number;
@@ -75,6 +78,7 @@ declare var jQuery: any;
 
     }
     OnCancel(){
+      console.log("Valor de i ", this.posTabla);
       this.valueChange.emit(this.listaEvParaAgregar);
       this.nuevoComiteDisp.emit(this.listaNuevoComiteDisp);
 
@@ -83,6 +87,7 @@ declare var jQuery: any;
 
 
     OnAgregarEv(){
+      console.log("Valor de i ", this.posTabla);
       this.listaEvParaAgregar=new Array<Persona>();
       this.listaNuevoComiteDisp=new Array<Persona>();
       for (var i = 0; i < this.tam; i++) {
@@ -94,7 +99,7 @@ declare var jQuery: any;
         }
       }
       this.valueChange.emit(this.listaEvParaAgregar);
-      this.nuevoComiteDisp.emit(this.listaNuevoComiteDisp);
+      this.nuevoComiteDisp.emit(this.listaEvParaAgregar);
     }
 
   
