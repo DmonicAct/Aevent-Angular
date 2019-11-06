@@ -25,7 +25,6 @@ import { AgregarEvaluador } from '../gestionar_eventos/presidente/pestañas/comi
 import { AgregarEvaluadorPropuesta } from '../gestionar_eventos/presidente/pestañas/asignar-propuestas/asignar-evaluador-propuestas/agregar-evaluador-propuestas.component';
 import { ComiteEventoVer } from '../gestionar_eventos/presidente/pestañas/comite-evento/comiteEventoPresidente.component';
 import { VerEventoPresidenteComponent } from '../gestionar_eventos/presidente/pestañas/ver.component';
-import {VerFormatoPresidente} from '../gestionar_eventos/presidente/pestañas/call-for-papers-view/verFormato.component'
 import { AsignarPropuestasVer } from './presidente/pestañas/asignar-propuestas/asignar-propuestas.component';
 
 @NgModule({
@@ -41,7 +40,6 @@ import { AsignarPropuestasVer } from './presidente/pestañas/asignar-propuestas/
     ComiteEventoVer,
     AsignarPropuestasVer,
     VerEventoPresidenteComponent,
-    VerFormatoPresidente,
     AgregarEvaluador,
     AgregarEvaluadorPropuesta,
   ],
