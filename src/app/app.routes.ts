@@ -27,7 +27,7 @@ import { GestionLugarRoutes } from './modules/mantenimiento/mantenimiento.routes
 import { AuthGuard } from './auth/guards/auth.guard';
 import { RoleGuard } from './auth/guards/role.guard';
 
-import { EventosPonentesRoutes } from "./modules/convocatoria/eventos.routes";
+import { EventosPonentesRoutes, EventosEdicionPonentes } from "./modules/convocatoria/eventos.routes";
 import { GestionEvaluacionRoutes } from "./modules/evaluarPostulacion/evaluacion.routes";
 
 export const ROUTES:Routes = [
@@ -105,6 +105,10 @@ export const ROUTES:Routes = [
       {
         path: 'lista-eventos', component: BlankLayoutComponent,
         children: EventosPonentesRoutes,
+      },
+      {
+        path: 'lista-ponencia', component: BlankLayoutComponent,
+        children: EventosEdicionPonentes,
       }
     ],
   },

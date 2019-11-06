@@ -15,10 +15,16 @@ import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 import { PaginacionModule } from '../../components/common/paginacion/paginacion.module';
 import {ListaEventos } from './listaEventos/listaEventos.component';
 import {PostularEvento} from './postular/postular.component';
+import {EdicionPonenciaComponent} from './postular/edicionPonencia.component';
+import {ListaPonenciaComponent} from './listaEventos/listaPonencia.component';
+import {CallForPaperResponse} from './call-for-paper-llenado/callForPaper.component'
 @NgModule({
   declarations: [
     ListaEventos,
     PostularEvento,
+    CallForPaperResponse,
+    EdicionPonenciaComponent,
+    ListaPonenciaComponent
   ],
   imports: [
     CommonModule,

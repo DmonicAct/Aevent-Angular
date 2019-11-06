@@ -142,6 +142,24 @@ export class EventoService{
         }));
     }
 
+    consultarAllEventoEnabled(pagina:number, registros:number):Observable<any>{
+      let url = this.apiEndpoint + '/all';
+      let params:HttpParams = new HttpParams()
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+      console.log(url);
+        return this.http.get(url, {params}).pipe(
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
+            return throwError(e);
+          }));
+    }
+
     eliminarEvento():Observable<any>{
         return null
     }
