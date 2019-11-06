@@ -181,9 +181,12 @@ export class FaseEventoComponent implements OnInit{
     fechaHoy: Date;
     
     OnGuardarFase(fase: Fase){//en el formulario grande de fase, donde va CFP ya esta validado el nombre de la fase
-        
+        let fechaFin = new Date(fase.fechaFin);
+        let fechaInicial = new Date(fase.fechaInicial)
+        fase.fechaFin = fechaFin;
+        fase.fechaInicial = fechaInicial;
         this.fechaHoy = new Date();
-        
+  
         
         if(!fase.fechaFin){
           this.toastr.warning(`Se debe de seleccionar una fecha para el fin de evento`, 'Aviso', { closeButton: true });
@@ -197,10 +200,14 @@ export class FaseEventoComponent implements OnInit{
           this.toastr.warning(`La fecha de fin de evento no puede ser menos a la de inicio de evento`, 'Aviso', { closeButton: true });
           return;
       }
-      if(fase.fechaInicial<this.fechaHoy ||fase.fechaFin<this.fechaHoy ){
-          this.toastr.warning(`Ninguna fecha puede ser menor al día de hoy`, 'Aviso', { closeButton: true });
+      if(fase.fechaInicial<this.fechaHoy  ){
+          this.toastr.warning(`La fecha inicial no puede ser menor al día de hoy`, 'Aviso', { closeButton: true });
           return;
       }
+      if(fase.fechaFin<this.fechaHoy ){
+        this.toastr.warning(`La fecha final no puede ser menor al día de hoy`, 'Aviso', { closeButton: true });
+        return;
+    }
       if (!fase.formulario){
         this.toastr.warning(`Se necesita agregar un informe Call for Paper`, 'Aviso', { closeButton: true });
           return;
@@ -294,7 +301,7 @@ export class FaseEventoComponent implements OnInit{
     OnCrearFormulario(fase: Fase){
       this.fase = fase;
       this.formulario = fase.formulario;
-
+        
       console.log(this.formulario);
 
       if(!this.formulario){
