@@ -21,13 +21,30 @@
               <thead>
                 <tr>
                   <th class="text-center">Código</th>
-                  <th class="text-left">Título</th>
-                  <th class="text-center">Tipo</th>
-                  <th class="text-center">Fecha Inicio</th>
-                  <th class="text-center">Fecha Fin</th>
+                  <!--<th class="text-left">Postulante</th>-->
+                  <th class="text-center">Fecha Postulacion</th>
                   <th class="text-center">Interes</th>
                 </tr>
               </thead>
+
+              <tr *ngFor="let item of preferencias; let i = index" 
+              [class.selected]="i == selectedRow">
+              <td class="text-center" data-col="idCodigo"><code>{{i+1}}</code></td>
+              <!--<td class="text-left" data-col="nombrePostulante"><code>{{item.propuesta.postulante.nombre}}</code></td>
+              --><td class="text-center" data-col="fechaPostulación"><code>{{item.propuesta.fecha_postulacion}}</code></td>
+           
+              <td class="text-center" data-col="interes" (click)="OnEditar(item)">
+                
+                  <div class="form-group">
+                      <select class="combobox form-control" name="inline" placeholder="Interes">
+                          <option value="" selected="selected">---</option>
+                            <option value="Quiero Evaluar">Quiero Evaluar</option>
+                            <option value="Podria Evaluar">Podria Evaluar</option> 
+                            <option value="No quiero evaluar">No quiero evaluar</option>    
+                            <option value="Conflicto de interes">Conflicto de interes</option>                                
+                          </select>
+                  </div> 
+              </td>  
               <!-- <tbody>
                 <tr *ngFor="let item of items; let i = index" (click)="OnRowClick(i, item)"
                   [class.selected]="i == selectedRow">

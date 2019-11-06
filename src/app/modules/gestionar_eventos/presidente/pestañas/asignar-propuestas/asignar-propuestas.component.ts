@@ -14,6 +14,8 @@ import * as moment from 'moment';
 import { ToastrService } from "ngx-toastr";
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
 import { Propuesta } from 'src/app/models/propuesta';
+import { Evaluacion } from 'src/app/models/evaluacion';
+import { e } from '@angular/core/src/render3';
 
 
 @Component({
@@ -25,6 +27,14 @@ import { Propuesta } from 'src/app/models/propuesta';
 export class AsignarPropuestasVer implements OnInit{
     public itemEvento: Evento;
     public itemComite: Array<Usuario>;
+
+    public posTabla: number;
+
+    public maestraAgregar: Array<Evaluacion>;
+    public maestraQuitar: Array<Evaluacion>;
+
+
+    public evaluadoresDisponibles: Array<Usuario>;
   
     @Output() savedItem = new EventEmitter<any>();
   /*
@@ -37,8 +47,8 @@ export class AsignarPropuestasVer implements OnInit{
     public itemEventoParent: Evento;
   
   
-    @Input('item-comite')
-    public  comiteElegido: Array<Usuario>;
+    @Input('item-comite-propuesta')
+    private  comiteElegido: Array<Usuario>;
 
 
     @Input('item-propuestas')
@@ -49,7 +59,7 @@ export class AsignarPropuestasVer implements OnInit{
   */
 
     public propuestasEvento2: Array<Propuesta>;
-    public evaluadoresDisponibles:Array<Persona>;
+    //public evaluadoresDisponibles:Array<Persona>;
   
     public loading:boolean;
     public paginacion: Paginacion;
@@ -62,7 +72,8 @@ export class AsignarPropuestasVer implements OnInit{
       private serviceEvento: EventoService,) {
       this.comiteElegido = new Array<Usuario>();
       this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
-  
+      this.evaluadoresDisponibles = new Array<Usuario>();
+  this.maestraAgregar= new Array<Evaluacion>();
   
       this.itemEvento = new Evento();
       this.itemComite = new Array<Usuario>();
@@ -75,12 +86,97 @@ export class AsignarPropuestasVer implements OnInit{
     @ViewChild(`visorAgregarEvaluador`) private swalComponent: SwalComponent;
   
     ngOnInit() {
+
+      
       
   
       
   
       
       
+    }
+
+
+
+    getList(valueChange){
+      var lista = <Array<Persona>> valueChange;
+      this.swalComponent.nativeSwal.close();
+      if(valueChange!=undefined){
+        //Agregamos los evaluadores escogidos
+        for(var p=0; p<lista.length;p++){
+    
+          this.propuestasEvento[this.posTabla].evaluadoresAsignados.push(lista[p]);
+        }
+
+      }
+    }
+    onGuardarCambiosPropuestas(){
+      //this.itemEventoParent.comite=this.listaEvAgregar;
+      //console.log(this.itemEventoParent);
+      this.serviceEvento.guardarEvaluaciones(this.maestraAgregar).subscribe(
+        (response: Response) => {        
+          console.log(response);
+          console.log("EVALUACIONES GUARDADAS");
+        }
+      );
+  
+
+
+    }
+
+    onNuevoComiteDisp(nuevoComiteDisp){
+      if(nuevoComiteDisp!=undefined){
+        console.log("onNuevoComiteDisp",nuevoComiteDisp);
+        for(var i=0;i<nuevoComiteDisp.length;i++){
+          var ver=false;
+
+          if(this.maestraAgregar!=undefined){
+            for(var j=0;j<this.maestraAgregar.length;j++){
+              if(this.maestraAgregar[j].idEvaluacion==nuevoComiteDisp[i].idEvaluacion && this.maestraAgregar[j].idPropuesta==nuevoComiteDisp[i].idEvaluacion)
+              ver=true;
+            }
+            if(!ver){
+              let  e1:Evaluacion = new Evaluacion();
+              e1.idEvaluador=nuevoComiteDisp[i].idUsuario;
+              e1.idPropuesta=this.propuestasEvento[this.posTabla].idPropuesta;
+              e1.abierto=false;
+              e1.evaluado=false;
+              e1.idFase=1;
+              //e1.
+              //e1.idEvaluacion=
+              this.maestraAgregar.push(e1);
+              console.log("Evaluacion Agregada", e1);
+            }
+          }
+          
+
+
+        }
+        console.log("Evaluaciones Finales luego de SWAL", this.maestraAgregar);
+    }
+    }
+
+    onConfigurar(item,posTablaLocal){
+      let localEvaluadores: Array<Persona> = item.evaluadoresAsignados;
+      this.posTabla = posTablaLocal;
+      //this.comiteElegido = this.itemEventoParent.comite;
+      console.log("onConfigurar - COMITE ELEGIDO",this.comiteElegido);
+      console.log("onConfigurar - LOCAL",localEvaluadores);
+      this.evaluadoresDisponibles=new Array<Usuario>();
+      this.evaluadoresDisponibles=Object.assign([],this.comiteElegido);
+      //this.evaluadoresDisponibles:Array<Persona> = <Array<Persona>>(this.comiteElegido);
+      if(item.evaluadoresAsignados!=undefined){
+        for(var i=0;i<localEvaluadores.length;i++){
+          var longEvDisponibles = this.evaluadoresDisponibles.length;
+          for(var j=0;j<longEvDisponibles; j++){
+            if(localEvaluadores[i].idUsuario == this.evaluadoresDisponibles[j].idUsuario){
+              this.evaluadoresDisponibles.splice(j, 1)[0];
+              break;
+            }
+          }      
+        }
+      }
+      console.log("onConfigurar - FINAL",this.evaluadoresDisponibles);
     }
   
 }

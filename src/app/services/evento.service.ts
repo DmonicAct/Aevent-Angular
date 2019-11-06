@@ -4,6 +4,7 @@ import {environment} from '../../environments/environment';
 import { Observable,throwError } from 'rxjs';
 import {  catchError } from 'rxjs/operators';
 import { Evento, Persona, Usuario } from "../models";
+import { Evaluacion } from "../models/evaluacion";
 
 @Injectable({
     providedIn: 'root',
@@ -35,6 +36,28 @@ export class EventoService{
             return throwError(e);
           }));
     }
+
+    guardarEvaluaciones(evaluaciones: Array<Evaluacion>):Observable<any>{
+
+      for(var i=0;i<evaluaciones.length;i++){
+        let params:HttpParams = new HttpParams()
+        .set('idPropuesta', evaluaciones[i].idPropuesta.toString())
+        .set('idEvaluador', evaluaciones[i].idEvaluador.toString())
+        .set('idFase', evaluaciones[i].idFase.toString());
+        let url=environment.serviceEndpoint+`/evaluacion/${evaluaciones[i].idEvaluador}`+`/${evaluaciones[i].idPropuesta}`+`/${evaluaciones[i].idFase}`;
+        return this.http.post(url, {params}).pipe(
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
+            return throwError(e);
+          }));
+      }
+      //console.log("EVALUACIONES SAVED");
+  }
 
     obtenerEventosConvocatoria(pagina:number, registros:number):Observable<any>{
         let params:HttpParams = new HttpParams()
@@ -131,6 +154,25 @@ export class EventoService{
 
 
       return this.http.get(this.apiEndpoint + `/propuestas/${idEvento}`, {params}).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
+    obtenerPropuestasPorEvaluador(idEvaluador:number, pagina:number, registros:number):Observable<any>{
+      //const url = `${this.apiEndpoint}/propuestas/${idEvento}`;
+      let params:HttpParams = new HttpParams()
+//      .set('id', idEvento.toString())
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+
+      return this.http.get(this.apiEndpoint + `/evaluaciones/evaluador/${idEvaluador}`, {params}).pipe(
         catchError(e => {
           if (e.status == 400) {
             return throwError(e);

@@ -4,12 +4,6 @@
   <sk-three-bounce></sk-three-bounce>
    
 
-    
-<div class="text-center">
-<button class="btn btn-primary" (click)="onAgregarEvaluador()" [swal]="visorAgregarEvaluador"><i class="fa fa-eye"></i>
-  Agregar evaluador</button>
-</div>
-
 
     <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
@@ -23,7 +17,8 @@
                           <th class="text-left">Código Propuesta</th>
                           <th class="text-left">Postulante</th>
                           <th class="text-left">Fecha Postulación</th>
-                          <th class="text-center">Eliminar</th>
+                          <th class="text-left">Evaluadores Asignados</th>
+                          <th class="text-center">Configurar</th>
                         </tr>
                       </thead>
                       <tbody >
@@ -40,11 +35,12 @@
                         <tr *ngFor="let item of propuestasEvento; let i = index" 
                           [class.selected]="i == selectedRow">
                           <td class="text-left" data-col="idPropuesta"><code>{{item.idPropuesta}}</code></td>
-                          <td class="text-left" data-col="nombrePostulante"><code>{{item.postulante.nombre + " " + item.postulante.appaterno + " "+ item.postulante.apmaterno}}</code></td>
+                          <td class="text-left" data-col="nombrePostulante"><code>{{item.postulante.nombreCompleto}}</code></td>
                           <td class="text-left" data-col="fechaPostulación"><code>{{item.fecha_postulacion}}</code></td>
+                          <td class="text-left" data-col="fechaPostulación"><pre *ngFor = "let eval of item.evaluadoresAsignados; let j = index"><code>{{eval.nombreCompleto + "\n"}}</code></pre></td>
                        
-                          <td class="text-center" data-col="Quitar" (click)="onQuitar(item,i)"><button class="btn btn-danger"><i
-                                class="fa fa-trash"></i></button></td>    
+                          <td class="text-center" data-col="Configurar" [swal]="visorAgregarEvaluador" (click)="onConfigurar(item,i)"><button class="btn btn-primary"><i
+                                class="fa fa-cog"></i></button></td>    
                                 <!--
                                   <tr *ngFor="let item of propuestasEvento; let i = index" 
                                     [class.selected]="i == selectedRow">
@@ -67,7 +63,7 @@
                   </div>
 
                   <div class="text-left">
-                      <button type="button" class="btn btn-success m-r" (click)="onGuardarCambiosEvento()"><i class="fa fa-save"></i>
+                      <button type="button" class="btn btn-success m-r" (click)="onGuardarCambiosPropuestas()"><i class="fa fa-save"></i>
                           Guardar Cambios</button>
                   </div>
                   
@@ -89,13 +85,13 @@
 <swal
   #visorAgregarEvaluador
   title="Agregar Evaluador"
-  customClass="agregar-evaluador"
+  customClass="agregar-evaluador-propuesta"
   [showCancelButton]="fasle"
   [focusConfirm]="true"
   [allowOutsideClick]="true"
   [showConfirmButton]= "false"
   >
   <div *swalPartial>
-    <agregar-evaluador [items]="evaluadoresDisponibles" (nuevoComiteDisp)='onNuevoComiteDisp($event)' (valueChange)='getList($event)'></agregar-evaluador>
+    <agregar-evaluador-propuestas  [i]="posTabla" [items]="evaluadoresDisponibles" (nuevoComiteDisp)='onNuevoComiteDisp($event)' (valueChange)='getList($event)'></agregar-evaluador-propuestas>
   </div>
 </swal>

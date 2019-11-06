@@ -4,6 +4,9 @@ import {AuthService as AeventAuthService} from  '../../../auth/service/auth.serv
 import { EventoService } from  '../../../services'
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
+import { Estado, Response } from '../../../models';
+import { Preferencia } from "src/app/models/Preferencia";
+import { PreferenciaService } from "src/app/services/preferencia.service";
 
 @Component({
     selector:'listaPreferenciasEvaluacion',
@@ -12,12 +15,22 @@ import { Router } from "@angular/router";
 })
 
 export class ListaPreferenciasComponent implements OnInit{
+    private authService: AeventAuthService;
     public paginacion: Paginacion;
-    constructor() {
+    public preferencias:  Array<Preferencia>;
+    constructor(
+        private service: PreferenciaService
+        ) {
         this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
     }
 
-    ngOnInit(){
+    ngOnInit(){        
+        this.service.obtenerPreferencias(4).subscribe(
+            (response: Response) => {
+                this.preferencias = response.resultado;
+                console.log(response);
+              }
+        )
     }
     
     OnPageChanged(event): void {

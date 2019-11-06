@@ -4,6 +4,8 @@ import {AuthService as AeventAuthService} from  '../../../auth/service/auth.serv
 import { EventoService } from  '../../../services'
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
+import { Estado, Response } from '../../../models';
+import { Propuesta } from "src/app/models/propuesta";
 @Component({
     selector:'lista-evaluacion',
     templateUrl:'listaEvaluacion.template.html',
@@ -13,6 +15,7 @@ import { Router } from "@angular/router";
 export class ListaEvaluacionComponent implements OnInit{
     public items: Array<Evento>;
     public paginacion: Paginacion;
+    public propuestas: Array<Propuesta>;
     public loading: Boolean = false;
     constructor(private toastr: ToastrService,
         private authService: AeventAuthService,
@@ -23,6 +26,12 @@ export class ListaEvaluacionComponent implements OnInit{
     }
     ngOnInit(){
         this.getEventos();
+        this.service.obtenerPropuestasPorEvaluador(1, this.paginacion.pagina, this.paginacion.registros).subscribe(
+            (response: Response) => {
+                this.propuestas = response.resultado;
+                console.log(response);
+              }
+        )
     }
     public getEventos(){
         
@@ -37,4 +46,6 @@ export class ListaEvaluacionComponent implements OnInit{
         this.paginacion.pagina = 1;
         //this.getLista();
       }
+
+      
 }
