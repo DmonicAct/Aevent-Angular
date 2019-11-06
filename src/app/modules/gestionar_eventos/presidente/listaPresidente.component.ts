@@ -101,8 +101,7 @@ export class ListaEventosPresidente implements OnInit {
             }
             if (this.numeroTipo == 3){
               this.maestroEventoFilter = this.items.filter(
-                  item => item.organizador.nombre.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1 ||
-                  item.organizador.appaterno.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+                  item => item.organizador.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
               )
             }
         } else {

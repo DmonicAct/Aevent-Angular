@@ -99,11 +99,13 @@
 <swal
   #visorAgregarEvaluador
   title="Agregar Evaluador"
+  width= '600px'
   customClass="agregar-evaluador"
   [showCancelButton]="fasle"
   [focusConfirm]="true"
   [allowOutsideClick]="true"
   [showConfirmButton]= "false"
+  
   >
   <div *swalPartial>
     <agregar-evaluador [items]="evaluadoresDisponibles" (nuevoComiteDisp)='onNuevoComiteDisp($event)' (valueChange)='getList($event)'></agregar-evaluador>
