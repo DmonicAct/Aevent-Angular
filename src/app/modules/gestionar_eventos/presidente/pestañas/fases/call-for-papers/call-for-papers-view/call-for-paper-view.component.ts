@@ -1,19 +1,17 @@
 import { OnInit, Component, Input } from "@angular/core";
-import { Division, Evento } from "../../../../../models";
+import { Division } from "../../../../../../../models";
 declare var jQuery: any;
 @Component({
-    selector:'verFormato',
-    templateUrl:'verFormato.template.html',
-    styleUrls:['verFormato.template.scss']
+    selector:'call-for-paper-view',
+    templateUrl:'call-for-paper-view.template.html',
+    styleUrls:['call-for-paper-view.template.scss']
 })
-export class VerFormatoPresidente implements OnInit{
-
+export class CallForPaperViewPresidente implements OnInit{
     @Input('items')
     public items: Array<Division>;
-
     seleccionados: any[];
     ngOnInit(){
-        
+
     }
     ngAfterViewInit() {
         jQuery('.full-height-scroll').slimscroll({
