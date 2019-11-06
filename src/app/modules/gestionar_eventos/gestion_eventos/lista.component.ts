@@ -131,8 +131,7 @@ export class ListaEventosOrganizador implements OnInit {
             }
             if (this.numeroTipo == 3){
                 this.maestroEventoFilter = this.items.filter(
-                    item => item.presidente.nombre.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1 ||
-                    item.presidente.appaterno.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+                    item => item.presidente.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
                 )
             }
             

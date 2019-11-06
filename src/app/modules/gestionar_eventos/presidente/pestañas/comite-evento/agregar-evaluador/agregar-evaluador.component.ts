@@ -46,6 +46,7 @@ declare var jQuery: any;
       for (var i = 0; i < this.tam; i++) {
         this.checks[i] = false;
       }
+      this.maestroFiltro = this.items;
     }
 
     ngAfterViewInit() {
@@ -95,5 +96,19 @@ declare var jQuery: any;
       this.nuevoComiteDisp.emit(this.listaNuevoComiteDisp);
     }
 
+
+    filtro: String;
+    filtroPersona: Evento;
+    maestroFiltro: Array<Persona>;
+
+    buscarUsuario() {
+        if (this.filtro.length > 0) {
+          this.maestroFiltro = this.items.filter(
+            item => item.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+        )
+        } else {
+            this.maestroFiltro = this.items;
+        }
+    }
   
 }
