@@ -7,4 +7,5 @@ export class Propuesta{
     public fecha_postulacion: Date;
     public documentos: Array<Document>;    
     public postulante: Persona;
+    public evaluadoresAsignados: Array<Persona>;    
 }

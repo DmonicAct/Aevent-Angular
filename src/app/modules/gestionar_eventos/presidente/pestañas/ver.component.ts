@@ -1,6 +1,6 @@
 import {Component, OnInit,ViewChild} from '@angular/core'
 import { TabsetComponent } from 'ngx-bootstrap';
-import { Evento, Response, Persona, FormularioCFP, Division, Paginacion } from '../../../../models';
+import { Evento, Response, Persona, FormularioCFP, Division, Paginacion, Usuario } from '../../../../models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventoService } from '../../../../services';
 import { DetalleEventoVer } from './detalle-evento/detalleEventoPresidente.component';
@@ -10,6 +10,7 @@ import { ComiteEventoVer } from './comite-evento/comiteEventoPresidente.componen
 import { VerFormatoPresidente} from './call-for-papers-view/verFormato.component';
 import { AsignarPropuestasVer } from './asignar-propuestas/asignar-propuestas.component';
 import { Propuesta } from 'src/app/models/propuesta';
+import { forEach } from '@angular/router/src/utils/collection';
 
 
 @Component({
@@ -32,6 +33,8 @@ export class VerEventoPresidenteComponent implements OnInit{
 
     private sub: any;
     public item: Evento;
+    public comite1:Array<Usuario>;
+    public comite2:Array<Usuario>;
     public itemCodigo: number = null;
     public flagEvento:Boolean;
     public propuestas:Propuesta;
@@ -45,7 +48,8 @@ export class VerEventoPresidenteComponent implements OnInit{
         //debugger
         this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
 
-        
+        this.comite1=new Array<Usuario>();
+        this.comite2=new Array<Usuario>();
 
 
         this.item = new Evento();
@@ -77,16 +81,29 @@ export class VerEventoPresidenteComponent implements OnInit{
             (response: Response)=>{
                 this.item=response.resultado;
                 this.flagEvento = false;
+                
                 //Ahora hay un formulario por cada fase!
                 //this.divisiones = this.item.formulario.divisionList;
             }
         );
+
+       
         console.log("ITEM",this.item);
         console.log("ITEM CODIGO",this.itemCodigo)
         console.log("id eventooo",this.item.idEvento);
         this.service.obtenerPropuestas(this.itemCodigo, this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
               this.propuestas = response.resultado;
+              this.comite1=new Array<Usuario>();
+              this.comite2=new Array<Usuario>();
+                this.comite1=Object.assign([],this.item.comite);
+                this.comite2=Object.assign([],this.item.comite);
+                
+              /*
+              for(var i=0;i<this.item.comite.length;i++){
+                  this.comite1.push(this.item.comite[i]);
+                  this.comite2.push(this.item.comite[i]);
+              }*/
               console.log(response);
               console.log("EvaluadoresDisponibles");
             }
@@ -97,5 +114,12 @@ export class VerEventoPresidenteComponent implements OnInit{
     }
     displayItem(flag: Boolean){
         this.flagEvento = flag;
+    }
+
+    refreshComite(){
+debugger
+        //this.comite1=this.item.comite;
+        //this.comite2=this.comite1;
+
     }
 }

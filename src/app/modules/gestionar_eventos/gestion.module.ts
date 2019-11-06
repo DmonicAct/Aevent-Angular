@@ -22,6 +22,7 @@ import { FaseEventoComponent } from './gestion_eventos/editar/tabset-parts/fases
 import { ListaEventosPresidente } from '../gestionar_eventos/presidente/listaPresidente.component';
 import { DetalleEventoVer } from '../gestionar_eventos/presidente/pestañas/detalle-evento/detalleEventoPresidente.component';
 import { AgregarEvaluador } from '../gestionar_eventos/presidente/pestañas/comite-evento/agregar-evaluador/agregar-evaluador.component';
+import { AgregarEvaluadorPropuesta } from '../gestionar_eventos/presidente/pestañas/asignar-propuestas/asignar-evaluador-propuestas/agregar-evaluador-propuestas.component';
 import { ComiteEventoVer } from '../gestionar_eventos/presidente/pestañas/comite-evento/comiteEventoPresidente.component';
 import { VerEventoPresidenteComponent } from '../gestionar_eventos/presidente/pestañas/ver.component';
 import {VerFormatoPresidente} from '../gestionar_eventos/presidente/pestañas/call-for-papers-view/verFormato.component'
@@ -42,6 +43,7 @@ import { AsignarPropuestasVer } from './presidente/pestañas/asignar-propuestas/
     VerEventoPresidenteComponent,
     VerFormatoPresidente,
     AgregarEvaluador,
+    AgregarEvaluadorPropuesta,
   ],
   imports: [
     CommonModule,

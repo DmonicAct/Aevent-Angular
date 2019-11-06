@@ -76,24 +76,7 @@ export class ComiteEventoVer implements OnInit {
   }
 
   ngOnLoad(){
-    debugger
-    this.comiteElegido = this.itemEventoParent.comite;
-    console.log("before",this.evaluadoresDisponibles);
 
-    let aux:Array<Persona> = new Array<Persona>();
-    console.log("before: comite Elegido",this.comiteElegido);
-    for(var i=0;i<this.comiteElegido.length;i++){
-      var longEvDisponibles = this.evaluadoresDisponibles.length;
-      for(var j=0;j<longEvDisponibles; j++){
-        console.log(j);
-        if((<Persona> this.evaluadoresDisponibles[j]).idUsuario == (<Persona>this.comiteElegido[i]).idUsuario){
-          this.evaluadoresDisponibles.splice(j, 1)[0];
-          break;
-          //aux.push()
-        }
-      }      
-    }
-    console.log("after",this.evaluadoresDisponibles);
   }
   onAgregarEvaluador(){
     console.log(this.listaEvAgregar); 
