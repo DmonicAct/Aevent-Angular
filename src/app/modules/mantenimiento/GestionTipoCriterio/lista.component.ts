@@ -1,27 +1,27 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Paginacion, Estado, Response, Categoria } from '../../../models';
+import { Paginacion, Estado, Response, TipoCriterio } from '../../../models';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { CategoriaService } from '../../../services/categoria.service';
+import { TipoCriterioService } from '../../../services/tipoCriterio.service';
 import { Location } from '@angular/common';
 import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
-  selector: 'categorias-lista',
+  selector: 'tipoCriterio-lista',
   templateUrl: 'lista.template.html',
   styleUrls: ['lista.template.scss'],
-  providers: [CategoriaService] 
+  providers: [TipoCriterioService] 
 })
-export class GestionCategoriaListaComponent implements OnInit  {
+export class GestionTipoCriterioListaComponent implements OnInit  {
 
   public isModalShown: Boolean;
   public isNewModalShown: Boolean;
   public isDeleteModalShown: Boolean;
   public esNuevo: Boolean;
 
-  public newItem : Categoria; 
-  public items : Array<Categoria>;
-  public item : Categoria;
+  public newItem : TipoCriterio; 
+  public items : Array<TipoCriterio>;
+  public item : TipoCriterio;
   public estado: Boolean;
   public loading: Boolean = false;
   public descripcionModal : String;
@@ -30,15 +30,14 @@ export class GestionCategoriaListaComponent implements OnInit  {
   autoShownModal: ModalDirective;
   @ViewChild('autoNewShownModal')
   autoNewShownModal: ModalDirective;
-  @ViewChild('autoDeleteShownModal') 
-  autoDeleteShownModal: ModalDirective;
+
   constructor(private toastr: ToastrService, 
               private router: Router,
-              private service: CategoriaService,
+              private service: TipoCriterioService,
               private _location:Location
               ) {
-    this.newItem = new Categoria;    
-    this.items = new Array<Categoria>();
+    this.newItem = new TipoCriterio;    
+    this.items = new Array<TipoCriterio>();
     this.paginacion = new Paginacion({pagina:0,registros: 10});
   }
 
@@ -47,7 +46,7 @@ export class GestionCategoriaListaComponent implements OnInit  {
   };
 
   getLista(){
-    this.service.obtenerCategoriasPaginadas(this.paginacion.pagina, this.paginacion.registros).subscribe(
+    this.service.obtenerTipoCriterio(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response)=>{
         this.items = response.resultado;
         this.paginacion = response.paginacion;
@@ -59,33 +58,30 @@ export class GestionCategoriaListaComponent implements OnInit  {
     );
   }
   OnNuevo(){
-    if(this.esNuevo){ //Creando lugar
+    if(this.esNuevo){ //Creando tipoCriterio
       this.newItem.descripcion = this.descripcionModal;
       this.newItem.enabled=1;
-      this.service.guardarCategoria(this.newItem).subscribe(
+      this.service.guardarTipoCriterio(this.newItem).subscribe(
         (response: Response)=>{
           if(response.estado=="OK"){
-            this.toastr.success(`Se ha creado la categoría con exito`, 'Aviso', {closeButton: true});
+            this.toastr.success(`Se ha creado el tipo de criterio con exito`, 'Aviso', {closeButton: true});
             this.getLista()
             this.onHidden()
           }
         }
       );
-    }else{ //editando lugar
+    }else{ //editando tipoCriterio
       this.item.descripcion=this.descripcionModal;
       this.item.enabled = this.estado?1:0;
-      this.service.guardarCategoria(this.item).subscribe(
+      this.service.guardarTipoCriterio(this.item).subscribe(
         (response: Response)=>{
           if(response.estado=="OK"){
-            this.toastr.success(`Se ha editado la categoría con éxito`, 'Aviso', {closeButton: true});
+            this.toastr.success(`Se ha editado el tipo de criterio con éxito`, 'Aviso', {closeButton: true});
             this.getLista()
           }
         }
       );
     }
-  }
-  OnRowClick(i:number, item:Categoria){
-
   }
 
   OnAgregar(){
@@ -106,25 +102,6 @@ export class GestionCategoriaListaComponent implements OnInit  {
     this.isModalShown=true;
   }
 
-  OnEliminar(index: number){
-
-    this.item = this.items[index];
-
-    this.isDeleteModalShown=true;
-  }
-
-  OnConfirmar(){
-    this.service.eliminarCategoria(this.item).subscribe(
-      (response: Response)=>{
-        if(response.estado=="OK"){
-          this.toastr.success(`Se ha eliminado la categoría con éxito`, 'Aviso', {closeButton: true});
-          this.getLista()
-          this.onHidden()
-        }
-      }
-    );
-  }
-
   onHidden(): void {
     this.isModalShown = false;
     this.isNewModalShown = false;
@@ -136,8 +113,6 @@ export class GestionCategoriaListaComponent implements OnInit  {
       this.autoNewShownModal.hide();
     }else if(this.isModalShown){
       this.autoShownModal.hide();
-    }else{
-      this.autoDeleteShownModal.hide();
     }
   }
 
@@ -151,17 +126,6 @@ export class GestionCategoriaListaComponent implements OnInit  {
     this.paginacion.registros = event.rows;
     this.paginacion.pagina = 1;
     this.getLista();
-  }
-
-  OnDeshabilitar(item: Categoria){
-    /* this.service.eliminarUsuario(item.idUsuario).subscribe(
-      (response: Response) =>{
-        if(response.estado=="OK"){
-          this.toastr.success(`Se ha deshabilitado con exito`, 'Aviso', {closeButton: true});
-          this.getLista()
-        }
-      }
-    ); */
   }
 
 }

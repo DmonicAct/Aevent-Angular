@@ -22,13 +22,15 @@ import { GestionOrganizadorRoutes } from './modules/gestionar_eventos/gestion.ro
 //add
 import { GestionCategoriasRoutes } from './modules/mantenimiento/mantenimiento.routes';
 import { GestionTipoEventoRoutes } from './modules/mantenimiento/mantenimiento.routes';
-import { GestionLugarRoutes } from './modules/mantenimiento/mantenimiento.routes'
+import { GestionLugarRoutes } from './modules/mantenimiento/mantenimiento.routes';
+import { GestionTipoCriterioRoutes } from './modules/mantenimiento/mantenimiento.routes'
 
 import { AuthGuard } from './auth/guards/auth.guard';
 import { RoleGuard } from './auth/guards/role.guard';
 
 import { EventosPonentesRoutes } from "./modules/convocatoria/eventos.routes";
 import { GestionEvaluacionRoutes } from "./modules/evaluarPostulacion/evaluacion.routes";
+import { from } from "rxjs";
 
 export const ROUTES:Routes = [
   // Main redirect
@@ -62,6 +64,11 @@ export const ROUTES:Routes = [
       {
         path: 'lugares', component: BlankLayoutComponent,
         children: GestionLugarRoutes,
+        canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } 
+      },
+      {
+        path: 'tipoCriterio', component: BlankLayoutComponent,
+        children: GestionTipoCriterioRoutes,
         canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } 
       }
     ],
