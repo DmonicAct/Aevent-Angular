@@ -22,34 +22,39 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <div class="ibox-content" [ngClass]="{'sk-loading': loading}">
-                                                    <sk-three-bounce></sk-three-bounce>
-                                                    <thead>
-                                                            <tr>
-                                                                <th class="text-center" style="width: 10%;">Criterio</th>
-                                                                <th class="text-center" style="width: 80%;">Descripción</th>
-                                                                <th style="width: 15%;">Editar</th>
-                                                                <th style="width: 15%;">Eliminar</th>
-                                                            </tr>
-                                                        </thead>
-                                                    <div class="table-responsive" style="height: 300px; width: 100%; overflow: auto">
-                                                        <table class="table table-striped table-hover issue-tracker">                                 
-                                                            <tbody>
-                                                                <tr *ngFor="let criterio of fase.criterios; let i = index">
-                                                                    <td class="text-center" style="width:10%;"
-                                                                        data-col="idDivision"><code>{{i+1}}</code></td>
-                                                                    <td class="text-center" style="width:80%;"
-                                                                        data-col="descripcion">{{criterio.descripcion}}</td>
-                                                                    <td class="text-center" style="width:5%;" data-col="editar"
-                                                                        (click)="OnEditarCriterio(criterio,fase)"><button class="btn btn-success"><i
-                                                                                class="fa fa-edit"></i></button></td>
-                                                                    <td class="text-center" style="width:5%;"
-                                                                        data-col="eliminar" (click)="OnEliminarCriterio(criterio,fase)"><button
-                                                                            class="btn btn-danger"><i
-                                                                                class="fa fa-trash"></i></button></td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
+                                                <div class="col-lg-12">
+                                                    <div class="ibox-content" [ngClass]="{'sk-loading': loading}">
+                                                        <sk-three-bounce></sk-three-bounce>
+                                                        <div class="table-responsive" style="height: 300px; overflow: auto">
+                                                            <table class="table table-striped table-hover issue-tracker">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="text-center">Código</th>
+                                                                        <th class="text-center">Criterio</th>
+                                                                        <th class="text-center">Tipo de Criterio</th>
+                                                                        <th class="text-center">Editar</th>
+                                                                        <th class="text-center">Eliminar</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr *ngFor="let criterio of fase.criterios; let i = index">
+                                                                        <td class="text-center" style="width:10%;"
+                                                                            data-col="idDivision"><code>{{i+1}}</code></td>
+                                                                        <td class="text-center" style="width:60%;"
+                                                                            data-col="descripcion">{{criterio.descripcion}}</td>
+                                                                        <td class="text-center" style="width:10%;"
+                                                                            data-col="descripcion">{{criterio.tipoCriterio.descripcion}}</td>
+                                                                        <td class="text-center" style="width:10%;" data-col="editar"
+                                                                            (click)="OnEditarCriterio(criterio,fase)"><button class="btn btn-success"><i
+                                                                                    class="fa fa-edit"></i></button></td>
+                                                                        <td class="text-center" style="width:10%;"
+                                                                            data-col="eliminar" (click)="OnEliminarCriterio(criterio,fase)"><button
+                                                                                class="btn btn-danger"><i
+                                                                                    class="fa fa-trash"></i></button></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -65,7 +70,7 @@
                                                     <div class="input-group date">
                                                         <input bsDatepicker #dp3="bsDatepicker" name='fechaInicio'
                                                             [(bsValue)]="fase.fechaInicial" autocomplete="off"
-                                                            (bsValueChange)="DetectInicio()"
+                                                            (bsValueChange)="DetectInicio(fase)"
                                                             value="{{ fase.fechaInicial | date:'dd/MM/yyyy' }}" type="text"
                                                             class="form-control">
                                                         <span class="input-group-addon" (click)="dp3.toggle()"
@@ -78,7 +83,7 @@
                                                 <div class="col-sm-8">
                                                     <div class="input-group date">
                                                         <input bsDatepicker #dp4="bsDatepicker" name='fechaFin' [(bsValue)]="fase.fechaFin"
-                                                            autocomplete="off" (bsValueChange)="DetectFin()"
+                                                            autocomplete="off" (bsValueChange)="DetectFin(fase)"
                                                             value="{{ fase.fechaFin | date:'dd/MM/yyyy' }}" type="text"
                                                             class="form-control">
                                                         <span class="input-group-addon" (click)="dp4.toggle()"
@@ -120,41 +125,6 @@
         <div class="modal-body">
             <div class="row m-b-sm">
                 <call-for-paper [(item-cfp)]="formulario" [(item-fase)]="fase"></call-for-paper>
-            </div>
-            </div>
-            <div class="form-group">
-                <div class="text-center">
-                    <button (click)='OnNuevo()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
-                        Guardar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<!-- PARA LA CREACION DE UNA CRITERIO -->
-<div *ngIf="isNewCriterioModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoNewCriterioShownModal="bs-modal"
-  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
-  <div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4 id="dialog-auto-name" class="modal-title pull-left">Agregar Criterio</h4>
-            <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="row m-b-sm">
-                <div class="row">
-                    <label class="col-sm-2 control-label">Descripción(*):</label>
-                    <div class="col-sm-8">
-                      <input type="text" class="form-control" [(ngModel)]="descripcionModal"
-                      name="subitulo">
-                    </div>
-                    
-                </div>
             </div>
             </div>
             <div class="form-group">
@@ -248,6 +218,80 @@
     </div>
 </div>
 
+<!-- PARA LA CREACION DE UN CRITERIO -->
+<div *ngIf="isNewCriterioModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoNewCriterioShownModal="bs-modal"
+  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="form-group modal-header">
+                <h4 id="dialog-auto-name" class="modal-title pull-left">Agregar Criterio</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="form-group col-sm-12">
+                <label class="col-sm-3 control-label">Tipo de Criterio(*)</label>
+                <div class="col-sm-8">
+                    <ng-select [items]="tipoCriterios" bindLabel="descripcion"
+                        placeholder="Seleccionar Tipo de Criterio" name="TipoCriterio" autocomplete="off"
+                        [clearable]="false" [(ngModel)]="tipoCriterioModal">
+                    </ng-select>
+                </div>
+            </div>
+            <div class="form-group col-sm-12">
+                <label class="col-sm-3 control-label">Descripción(*)</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" [(ngModel)]="descripcionModal"
+                    name="subitulo">             
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="text-center">
+                    <button (click)='OnNuevo()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
+                        Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--PARA LA EDICION DE UN CRITERIO-->
+<div *ngIf="isModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoShownModal="bs-modal"
+    class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="form-group modal-header">
+                <h4 id="dialog-auto-name" class="modal-title pull-left">Edición de Criterio </h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="form-group col-sm-12">
+                <label class="col-sm-3 control-label">Tipo de Criterio(*)</label>
+                <div class="col-sm-8">
+                    <ng-select [items]="tipoCriterios" bindLabel="descripcion"
+                        placeholder="Seleccionar Tipo de Criterio" name="TipoCriterio" autocomplete="off"
+                        [clearable]="false" [(ngModel)]="tipoCriterioModal">
+                    </ng-select>
+                </div>
+            </div>
+            <div class="form-group col-sm-12">
+                <label class="col-sm-3 control-label">Descripción(*)</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" [(ngModel)]="descripcionModal"
+                    name="subitulo">             
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="text-center">
+                    <button (click)='OnNuevo()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
+                        Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--ELIMINAR UN CRITERIO-->
 <div *ngIf="isDeleteCriterioModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoDeleteCriterioShownModal="bs-modal"
   class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
@@ -275,41 +319,6 @@
         </div>
     </div>
 </div>
-
-
-<!--PARA LA EDICION DE UN CRITERIO-->
-<div *ngIf="isModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoShownModal="bs-modal"
-    class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
-    <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h4 id="dialog-auto-name" class="modal-title pull-left">Edición de Criterio </h4>
-              <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <div class="modal-body">
-              <div class="row m-b-sm">
-                  <div class="row">
-                      <label class="col-sm-2 control-label">Nombre(*):</label>
-                      <div class="col-sm-8">
-                        <input type="text" class="form-control" [(ngModel)]="descripcionModal"
-                        name="subitulo">
-                      </div>
-                  </div>
-              </div>
-              </div>
-              <div class="form-group">
-                  <div class="text-center">
-                      <button (click)='OnNuevo()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
-                          Guardar</button>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-
-
 
 
 
