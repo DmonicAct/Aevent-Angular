@@ -178,9 +178,33 @@ export class FaseEventoComponent implements OnInit{
         this.esNuevo = true;
         this.isNewModalShown=true;
     }
-
-    OnGuardarFase(fase: Fase){
-        console.log(fase);
+    fechaHoy: Date;
+    
+    OnGuardarFase(fase: Fase){//en el formulario grande de fase, donde va CFP ya esta validado el nombre de la fase
+        
+        this.fechaHoy = new Date();
+        
+        
+        if(!fase.fechaFin){
+          this.toastr.warning(`Se debe de seleccionar una fecha para el fin de evento`, 'Aviso', { closeButton: true });
+          return;
+      }
+        if(!fase.fechaInicial){
+          this.toastr.warning(`Se debe de seleccionar una fecha para el inicio de evento`, 'Aviso', { closeButton: true });
+          return;
+      }
+      if(fase.fechaFin<fase.fechaInicial){
+          this.toastr.warning(`La fecha de fin de evento no puede ser menos a la de inicio de evento`, 'Aviso', { closeButton: true });
+          return;
+      }
+      if(fase.fechaInicial<this.fechaHoy ||fase.fechaFin<this.fechaHoy ){
+          this.toastr.warning(`Ninguna fecha puede ser menor al día de hoy`, 'Aviso', { closeButton: true });
+          return;
+      }
+      if (!fase.formulario){
+        this.toastr.warning(`Se necesita agregar un informe Call for Paper`, 'Aviso', { closeButton: true });
+          return;
+      }
         this.faseService.guardarFase(fase).subscribe(
           (response: Response)=>{
             this.toastr.success(`Se ha guardado la fase con exito`, 'Aviso', {closeButton: true});
@@ -190,9 +214,17 @@ export class FaseEventoComponent implements OnInit{
         )
     }
 
-    OnAgregarFase(evento: Evento){
+    OnAgregarFase(evento: Evento){ // En el boton de gestiongar fase (solo se guarda el nombre de la fase)
       if(this.esNuevo){ 
         let faseNueva = new Fase();
+        if(!this.descripcionModal){
+          this.toastr.warning(`Se necesita colocar un nombre a la fase`, 'Aviso', { closeButton: true });
+          return;
+        }
+        if(this.descripcionModal.length > 255){
+          this.toastr.warning(`Se necesita ingresar un nombre a la fase menor a 255 caracteres`, 'Aviso', { closeButton: true });
+          return;
+        }
         faseNueva.descripcion = this.descripcionModal;
         faseNueva.idEvento = evento.idEvento;
         this.faseService.guardarFase(faseNueva).subscribe(
