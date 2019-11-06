@@ -2,9 +2,8 @@ import { OnInit, Component, Input,ViewChild} from "@angular/core";
 import { Fase, Evento, Criterio, Response, TipoCriterio, FormularioCFP,} from "../../../../../../models";
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { FaseService } from '../../../../../../services/fase.service';
-import { CriterioService } from '../../../../../../services/criterio.service';
-import { EventoService } from '../../../../../../services/evento.service';
+import { FaseService,CriterioService,EventoService,TipoCriterioService} from '../../../../../../services/index';
+
 import { ModalDirective } from 'ngx-bootstrap';
 import { UtilFormulario } from 'src/app/util/util_formulario';
 import * as moment from 'moment';
@@ -25,6 +24,7 @@ export class FaseEventoComponent implements OnInit{
   public isNewFormModalShown: Boolean;
 
   public descripcionModal : String;
+  public tipoCriterioModal: TipoCriterio;
   public esNuevo: Boolean;
 
   @ViewChild('autoShownModal') 
@@ -46,6 +46,7 @@ export class FaseEventoComponent implements OnInit{
 
   public criterio: Criterio;
   public fase: Fase;
+  public tipoCriterios: Array<TipoCriterio>;
   private utilForm: UtilFormulario;
   public formulario: FormularioCFP;
   constructor(private toastr: ToastrService, 
@@ -53,17 +54,29 @@ export class FaseEventoComponent implements OnInit{
               private faseService: FaseService,
               private criterioService: CriterioService,
               private eventoService : EventoService,
+              private tipoCriterioService: TipoCriterioService,
               ) {
 
     this.criterio = new Criterio;
     this.fase = new Fase; 
-    
+    this.tipoCriterios = new Array<TipoCriterio>();
+
     this.utilForm = new UtilFormulario();
     this.fase.formulario = new FormularioCFP();
     this.fase.formulario.divisionList = this.utilForm.inicializarFormulario();
   }
 
     ngOnInit(): void {
+      this.obtenerTipoCriterio();
+    }
+
+    obtenerTipoCriterio(){
+      this.tipoCriterioService.obtenerTipoCriterios().subscribe(
+        (response: Response) => {
+            this.tipoCriterios = response.resultado;
+            console.log(this.tipoCriterios);
+        }
+      );
     }
     
     getEventoActualizado() {      
@@ -103,10 +116,7 @@ export class FaseEventoComponent implements OnInit{
       if(this.esNuevo){ //Creando criterio
         this.criterio.descripcion = this.descripcionModal;
         this.criterio.idFase = this.fase;
-        
-        let tipoCrit = new TipoCriterio ();
-        tipoCrit.idTipoCriterio = 1;
-        this.criterio.tipoCriterio = tipoCrit;
+        this.criterio.tipoCriterio = this.tipoCriterioModal;
 
         console.log('CREANDO CRITERIO');
         console.log(this.criterio.idFase);
@@ -123,10 +133,7 @@ export class FaseEventoComponent implements OnInit{
       }else{ //editando criterio
         this.criterio.descripcion=this.descripcionModal;
         this.criterio.idFase = this.fase;
-
-        let tipoCrit = new TipoCriterio ();
-        tipoCrit.idTipoCriterio = 1;
-        this.criterio.tipoCriterio = tipoCrit;
+        this.criterio.tipoCriterio = this.tipoCriterioModal;
 
         console.log('EDITANDO CRITERIO');
         console.log(this.criterio.idFase);
@@ -145,9 +152,11 @@ export class FaseEventoComponent implements OnInit{
     }
 
     OnAgregarCriterio(fase:Fase){
-
+      console.log(fase)
+    
       this.fase = fase;
       this.descripcionModal = "";
+      this.tipoCriterioModal = new TipoCriterio();
   
       this.esNuevo = true;
       this.isNewCriterioModalShown=true;
@@ -157,9 +166,10 @@ export class FaseEventoComponent implements OnInit{
       this.fase = fase;
       this.criterio = criterio;
       this.descripcionModal = this.criterio.descripcion;
+      this.tipoCriterioModal = this.criterio.tipoCriterio;
   
       this.esNuevo = false;
-      this.isNewCriterioModalShown=true;
+      this.isModalShown=true;
     }
 
     OnGestionarFases(){
@@ -233,35 +243,20 @@ export class FaseEventoComponent implements OnInit{
       );
     }
     
-    DetectFin() {
-      if (this.item.fechaFin && (this.item.fechaFin.toString() == 'Invalid Date' || this.item.fechaFin.toString() == '')) {
-          this.item.fechaFin = new Date();
+    DetectFin(fase: Fase) {
+      if (fase.fechaFin && (fase.fechaFin.toString() == 'Invalid Date' || fase.fechaFin.toString() == '')) {
+          fase.fechaFin = new Date();
           this.toastr.warning('Fecha ingresada no valida', 'Advertencia', { closeButton: true });
           return;
-      } /* else {
-          if (this.item.fechaFin && this.item.fechaInicio) {
-              if (this.item.fechaInicio > this.item.fechaFin) {
-                  this.item.fechaFin = new Date();
-                  this.toastr.warning('Fecha ingresada no valida', 'Advertencia', { closeButton: true });
-                  return;
-              }
-          }
-      } */
+      }
     }
 
-    DetectInicio() {
-      if (this.item.fechaInicio && (this.item.fechaInicio.toString() == 'Invalid Date' || this.item.fechaInicio.toString() == '')) {
-          this.item.fechaInicio = new Date();
-          this.toastr.warning('Fecha ingresada no valida', 'Advertencia', { closeButton: true });
-          return;
-      } /* else
-          if (this.item.fechaFin && this.item.fechaInicio) {
-              if (this.item.fechaInicio > this.item.fechaInicio) {
-                  this.item.fechaInicio = new Date();
-                  this.toastr.warning('Fecha ingresada no valida', 'Advertencia', { closeButton: true });
-                  return;
-              }
-          } */
+    DetectInicio(fase: Fase) {
+        if (fase.fechaInicial && (fase.fechaInicial.toString() == 'Invalid Date' || fase.fechaInicial.toString() == '')) {
+            fase.fechaInicial = new Date();
+            this.toastr.warning('Fecha ingresada no valida', 'Advertencia', { closeButton: true });
+            return;
+        }
     }
 
     OnCrearFormulario(fase: Fase){

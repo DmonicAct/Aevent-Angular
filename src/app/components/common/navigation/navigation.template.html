@@ -19,6 +19,7 @@
           <li [ngClass]="{active: activeRoute('categorias')}"><a [routerLink]="['/mantenimiento/categorias']">Categorías</a></li>
           <li [ngClass]="{active: activeRoute('tipoEvento')}"><a [routerLink]="['/mantenimiento/tipoEvento']">Tipo Evento</a></li>
           <li [ngClass]="{active: activeRoute('lugares')}"><a [routerLink]="['/mantenimiento/lugares']">Lugares</a></li>
+          <li [ngClass]="{active: activeRoute('tipoCriterio')}"><a [routerLink]="['/mantenimiento/tipoCriterio']">Tipo Criterio</a></li>
         </ul>
       </li>
       <li [ngClass]="{active: activeRoute('Eventos')}" *ngIf="rolDefault || rolOrga">

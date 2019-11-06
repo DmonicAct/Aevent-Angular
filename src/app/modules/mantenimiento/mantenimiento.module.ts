@@ -20,6 +20,8 @@ import {EditarTipoEventoComponent}from './GestionTipoEvento/editar/editar.compon
 
 import {GestionLugarListaComponent} from './GestionLugar/lista.component';
 
+import {GestionTipoCriterioListaComponent} from './GestionTipoCriterio/lista.component'
+
 // modules/components
 import {PaginacionModule} from './../../components/common/paginacion/paginacion.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -33,6 +35,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     GestionTipoEventoListaComponent,
     EditarTipoEventoComponent,
     GestionLugarListaComponent,
+    GestionTipoCriterioListaComponent,
   ],
   imports:[
     CommonModule, 
