@@ -10,11 +10,13 @@ import * as moment from 'moment';
 import { a } from "@angular/core/src/render3";
 
 @Component({
-    selector:'fase-evento',
+    selector:'fase-evento-organizador',
     templateUrl: 'fase-evento.template.html',
     styleUrls: ['fase-evento.template.scss']
 })
 export class FaseEventoComponent implements OnInit{
+
+  public loading:Boolean = false;
 
   public isNewModalShown: Boolean;
   public isNewCriterioModalShown: Boolean;
@@ -250,7 +252,7 @@ export class FaseEventoComponent implements OnInit{
     }
 
     OnConfirmar(){
-      this.faseService.eliminarFase(this.fase).subscribe(
+    this.faseService.eliminarFase(this.fase).subscribe(
         (response: Response)=>{ 
           console.log(response);  
           if(response.estado=="OK"){

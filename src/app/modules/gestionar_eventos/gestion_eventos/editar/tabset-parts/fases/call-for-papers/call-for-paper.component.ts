@@ -8,7 +8,7 @@ import { UtilFormulario } from "src/app/util/util_formulario";
 declare var jQuery: any;
 
 @Component({
-    selector: 'call-for-paper',
+    selector: 'call-for-paper-evento-init',
     templateUrl: 'call-for-paper.template.html',
     styleUrls: ['call-for-paper.template.scss']
 })

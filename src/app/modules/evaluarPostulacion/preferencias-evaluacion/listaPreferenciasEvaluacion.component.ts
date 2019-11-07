@@ -15,6 +15,9 @@ import { PreferenciaService } from "src/app/services/preferencia.service";
 })
 
 export class ListaPreferenciasComponent implements OnInit{
+
+    public loading: Boolean = false;
+
     private authService: AeventAuthService;
     public paginacion: Paginacion;
     public preferencias:  Array<Preferencia>;
