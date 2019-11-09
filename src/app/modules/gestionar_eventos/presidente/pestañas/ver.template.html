@@ -36,11 +36,11 @@
       </tab>
         
 
-        <tab #tabsCallforPapers heading="Formato Call for Papers">
-            <div class="mail-box-header">
-                <verFormato [(items)]="divisiones"></verFormato>
-              </div>
-        </tab>
+      <tab #tabsFases heading="Fases" [disabled]="false">
+          <div class="mail-box-header">
+            <fase-evento-presidente [(item-evento)]="item"></fase-evento-presidente>
+          </div>
+      </tab>
 
 
 <!-- 

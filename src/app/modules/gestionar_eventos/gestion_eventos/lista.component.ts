@@ -121,7 +121,7 @@ export class ListaEventosOrganizador implements OnInit {
         if (this.filtro.length > 0) {
             if (this.numeroTipo == 1){
                 this.maestroEventoFilter = this.items.filter(
-                    item => item.descripcion.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+                    item => item.titulo.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
                 )
             }
             if (this.numeroTipo == 2){
@@ -131,8 +131,7 @@ export class ListaEventosOrganizador implements OnInit {
             }
             if (this.numeroTipo == 3){
                 this.maestroEventoFilter = this.items.filter(
-                    item => item.presidente.nombre.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1 ||
-                    item.presidente.appaterno.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+                    item => item.presidente.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
                 )
             }
             

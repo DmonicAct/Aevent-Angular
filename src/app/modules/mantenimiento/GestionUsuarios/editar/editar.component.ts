@@ -33,14 +33,19 @@ export class EditarUsuarioComponent implements OnInit  {
               private servicePersona: PersonaService,
               private roleService: RolesServices) {
     this.item = new Persona();
+    this.item.modoInicioSesion=0;
     this.itemRol = new Role();
     this.itemsRoles = new Array<Role>();
     this.boolean_flags= new Array<Boolean>();
   }
-
+ 
   ngOnInit():any {
     this.sub = this.route.params.subscribe(params => {
       this.itemCodigo = +params['id'];
+      console.log(this.itemCodigo);
+      if (this.itemCodigo==null){
+        this.item.modoInicioSesion=0;
+      }
     });
     this.ObtenerRoles();
   }
@@ -105,7 +110,7 @@ export class EditarUsuarioComponent implements OnInit  {
       }
       
     }
-    
+    this.item.password = this.password;
     let roles = new Array<Role>();
     if(this.itemCodigo){
       this.boolean_flags.forEach((e1,i1)=>{

@@ -7,7 +7,8 @@ import { DetalleEventoVer } from './detalle-evento/detalleEventoPresidente.compo
 
 import { ComiteEventoVer } from './comite-evento/comiteEventoPresidente.component';
 
-import { VerFormatoPresidente} from './call-for-papers-view/verFormato.component';
+import { FaseEventoPresidente } from './fases/fase-evento.component';
+
 import { AsignarPropuestasVer } from './asignar-propuestas/asignar-propuestas.component';
 import { Propuesta } from 'src/app/models/propuesta';
 import { forEach } from '@angular/router/src/utils/collection';
@@ -24,6 +25,7 @@ export class VerEventoPresidenteComponent implements OnInit{
   @ViewChild('tabsDetalle') tabsDetalle: DetalleEventoVer;
   @ViewChild('tabsComite') tabsComite: ComiteEventoVer;
   @ViewChild('tabsPropuestas') tabsPropuestas: AsignarPropuestasVer;
+  @ViewChild(FaseEventoPresidente) tabsFases: FaseEventoPresidente;
   /*
 
   @ViewChild('tabsDetalle') tabsDetalle: DetalleEventoVer; 

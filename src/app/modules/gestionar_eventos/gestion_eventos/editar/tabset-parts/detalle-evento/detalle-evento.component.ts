@@ -83,9 +83,9 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.servicePersonas.obtenerPersonas().subscribe(
             (response: Response) => {
                 this.itemsPersona = response.resultado;
-                this.itemsPersona.map((i) => { 
+                /* this.itemsPersona.map((i) => { 
                     i.fullName = i.nombre + ' ' + i.appaterno + ' ' + i.apmaterno ; return i; 
-                });
+                }); */
                 this.maestroUsuariosFilter = this.itemsPersona;
                 this.check = Array<Boolean>(this.itemsPersona.length);
                 this.check.forEach(element => {
@@ -94,9 +94,9 @@ export class DetalleEventoConfiguracion implements OnInit {
                 if(this.item && this.item.presidente){
                     for(let i=0;i<this.itemsPersona.length;i++){
                         if(this.itemsPersona[i].idUsuario==this.item.presidente.idUsuario){
-                            this.item.presidente.fullName = this.itemsPersona[i].nombre + ' ' + this.itemsPersona[i].appaterno + ' ' + this.itemsPersona[i].apmaterno ;
-                            this.check[i] = true;
-                            this.nombrePresidente = this.item.presidente.fullName;
+                            /* this.item.presidente.fullName = this.itemsPersona[i].nombre + ' ' + this.itemsPersona[i].appaterno + ' ' + this.itemsPersona[i].apmaterno ;
+                            this.check[i] = true; */
+                            this.nombrePresidente = this.item.presidente.nombreCompleto;
                             break;
                         }
                     }
@@ -274,7 +274,8 @@ export class DetalleEventoConfiguracion implements OnInit {
 
     ElegirPresidente(data){
         this.item.presidente = data;
-        this.nombrePresidente = this.item.presidente.fullName;
+        
+        this.nombrePresidente = this.item.presidente.nombreCompleto;
     }
 
     OnAceptarPresidente() {

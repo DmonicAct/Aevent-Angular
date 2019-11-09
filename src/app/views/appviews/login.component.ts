@@ -113,6 +113,7 @@ export class LoginComponent {
     persona.password = idToken.sub;
     persona.nombre = idToken.given_name;
     persona.appaterno = idToken.family_name;    
+    persona.apmaterno = " ";    
     persona.email = idToken.email;
     persona.enabled=true;
     persona.modoInicioSesion=1;

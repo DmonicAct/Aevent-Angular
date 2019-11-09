@@ -29,6 +29,7 @@ export class LoginCreateComponent /*implements OnInit*/ {
               private service: UsuarioService,
               private socialAuthService: SocialAuthService) {
     this.usuario = new Persona();
+    
   }
 
   ngOnInit() {
@@ -98,14 +99,14 @@ export class LoginCreateComponent /*implements OnInit*/ {
       return;
     }
     //VALIDACION APELLIDOS
-    if(apPaterno.length<1||apPaterno.length>20 ){
-      this.toastr.warning('Apellidos deben ser de 1 a 20 caracteres', 'Error', {closeButton: true});
+    if(apPaterno.length<1||apPaterno.length>40 ){
+      this.toastr.warning('Apellidos deben ser de 1 a 40 caracteres', 'Error', {closeButton: true});
       
       return;
     }
     if(apMaterno!=null){
-      if(apMaterno.length<1||apMaterno.length>20 ){
-        this.toastr.warning('Apellidos deben ser de 1 a 20 caracteres', 'Error', {closeButton: true});
+      if(apMaterno.length<1||apMaterno.length>40 ){
+        this.toastr.warning('Apellidos deben ser de 1 a 40 caracteres', 'Error', {closeButton: true});
         
         return;
       }
@@ -140,8 +141,8 @@ export class LoginCreateComponent /*implements OnInit*/ {
       return;
     }    
 
-    if(this.stringIsNumber(this.usuario.dni)){
-      this.toastr.warning('Debes ser mayor a 13 años para poder registrarte al sistema', 'Error', {closeButton: true});      
+    if(!this.stringIsNumber(this.usuario.dni)){
+      this.toastr.warning('Debe ingresar un DNI válido', 'Error', {closeButton: true});      
       return;
     }
 
@@ -228,8 +229,9 @@ export class LoginCreateComponent /*implements OnInit*/ {
   }
 
   public stringIsNumber(s) {
-    var x = +s; // made cast obvious for demonstration
-    return x.toString() === s;
+    //debugger
+    var isnum = /^\d+$/.test(s);
+    return isnum;
   }
 
   

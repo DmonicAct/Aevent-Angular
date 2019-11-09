@@ -7,7 +7,6 @@ import { DetalleEventoVer } from '.././detalle-evento/detalleEventoPresidente.co
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ComiteEventoVer } from '.././comite-evento/comiteEventoPresidente.component';
 
-import { VerFormatoPresidente} from '.././call-for-papers-view/verFormato.component';
 import { AuthService as AeventAuthService } from '../../../../../auth/service/auth.service';
 
 import * as moment from 'moment';

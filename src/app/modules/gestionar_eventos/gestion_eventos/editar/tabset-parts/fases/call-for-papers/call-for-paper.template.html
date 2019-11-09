@@ -5,13 +5,13 @@
             <form class="form-horizontal">
                 <div class="color ibox-content">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Título de documento: </label>
+                        <label class="col-sm-2 control-label">Título de documento (*) </label>
                         <div class="col-sm-6">
                             <input type="text" class="form-control" name="titulo" [(ngModel)]="itemFormulario.titulo"  maxlength="99">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Nombre de división: </label>
+                        <label class="col-sm-2 control-label">Nombre de división (*)</label>
                         <div class="col-sm-6">
                             <input type="text" class="form-control" autocomplete="off" name="division"
                                 [(ngModel)]="descripcionDivision" maxlength="100">
@@ -262,8 +262,8 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12 text-center m-t-sm">
-                        <button (click)='onNuevo()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
-                            Guardar</button>
+                        <button (click)='onHidden()' class="btn btn-primary container-button"><i ></i>
+                            Aceptar</button>
                     </div>
                 </div>
             </div>
@@ -284,6 +284,6 @@
   confirmButtonText="Aceptar"
   >
   <div *swalPartial>
-    <call-for-paper-view [items]="itemFormulario.divisionList"></call-for-paper-view>
+    <call-for-paper-view-organizador [items]="itemFormulario.divisionList"></call-for-paper-view-organizador>
   </div>
 </swal>

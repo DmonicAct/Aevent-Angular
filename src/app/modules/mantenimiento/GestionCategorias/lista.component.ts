@@ -7,7 +7,7 @@ import { Location } from '@angular/common';
 import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
-  selector: 'lugar-lista',
+  selector: 'categorias-lista',
   templateUrl: 'lista.template.html',
   styleUrls: ['lista.template.scss'],
   providers: [CategoriaService] 

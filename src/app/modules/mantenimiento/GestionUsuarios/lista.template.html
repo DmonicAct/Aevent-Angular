@@ -65,7 +65,7 @@
               <td class="text-center" data-col="apmatenro">{{item.apmaterno}}</td>
               <td class="text-center" data-col="usuario">{{item.username}}</td>
               <td data-col="email">{{item.email}}</td>
-              <td class="text-center" data-col="fechaCreacion">{{item.fechaCreacion}}</td>
+              <td class="text-center" data-col="fechaCreacion">{{item.fechaCreacion  | date:'dd/MM/yyyy HH:mm:ss'}}</td>
               <td class="text-center" data-col="estado" style="padding-left: 0">
                 <span *ngIf="item.enabled==true" class="label" [class.label-success]="item.enabled==true">ACTIVO</span>
                 <span *ngIf="item.enabled==false" class="label" [class.label-default]="item.enabled==false">INACTIVO</span>

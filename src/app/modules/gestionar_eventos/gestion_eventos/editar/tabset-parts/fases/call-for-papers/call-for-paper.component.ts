@@ -5,10 +5,11 @@ import { Location } from '@angular/common';
 import { FaseService } from '../../../../../../../services/fase.service';
 import { ToastRef, ToastrService } from "ngx-toastr";
 import { UtilFormulario } from "src/app/util/util_formulario";
+import { FormularioCFPService } from "src/app/services/formulariocfp.service";
 declare var jQuery: any;
 
 @Component({
-    selector: 'call-for-paper',
+    selector: 'call-for-paper-evento-init',
     templateUrl: 'call-for-paper.template.html',
     styleUrls: ['call-for-paper.template.scss']
 })
@@ -35,7 +36,7 @@ export class CallForPaperComponent implements OnInit {
 
     @Input('item-fase')
     public item: Fase;
-
+    
     @Input('item-cfp')
     public itemFormulario: FormularioCFP;
     //Tipos Preguntas
@@ -69,6 +70,7 @@ export class CallForPaperComponent implements OnInit {
     selectedRowPregunta: number;
     constructor(
         private serviceFase: FaseService,
+        private serviceFormulario: FormularioCFPService,
         private toastr: ToastrService,
         private _location: Location
     ) {
@@ -84,7 +86,7 @@ export class CallForPaperComponent implements OnInit {
         
             
         this.itemFormulario = new FormularioCFP();    
-
+        
         this.itemsSeccion = new Array<Seccion>();
         this.itemSeccion = new Seccion();
         //
@@ -102,15 +104,15 @@ export class CallForPaperComponent implements OnInit {
         });
     }
     ngOnInit(): void {
-
+        console.log(this.item.idEvento, this.item.idFase);
     }
     OnSeleccionCriterio() {
 
     }
-
+    
 
     OnVerPreliminar() {
-
+        
      }
 
     //Modal
@@ -135,6 +137,10 @@ export class CallForPaperComponent implements OnInit {
     OnAgregarDivision() {
         if (this.descripcionDivision == null || this.descripcionDivision.trim() == "") {
             this.toastr.warning(`Descripcion vacia`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if (this.descripcionDivision.length > 255) {
+            this.toastr.warning(`Descripcion mayor a 255 caracteres`, 'Aviso', { closeButton: true });
             return;
         }
         if(!this.itemFormulario.divisionList)
@@ -167,6 +173,23 @@ export class CallForPaperComponent implements OnInit {
         this.indexSeccion= this.itemsSeccion.length-1;
         this.itemsPreguntas = this.itemsSeccion[index].preguntaList;
         this.descripcionSeccion = null;
+        //Validacion de secciones
+        if (!this.itemSeccion.descripcion) {
+            this.toastr.warning(`Descripción vacía`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if (!this.itemSeccion.tipoSeccion) {
+            this.toastr.warning(`Tipo de sección vacía`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if (this.itemSeccion.descripcion.length > 255) {
+            this.toastr.warning(`Descripcion mayor a 255 caracteres`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if (this.itemSeccion.tipoSeccion.length > 255) {
+            this.toastr.warning(`Tipo de sección mayor a 255 caracteres`, 'Aviso', { closeButton: true });
+            return;
+        }
     }
 
     OnEliminarSeccion(index: number) {
@@ -181,10 +204,21 @@ export class CallForPaperComponent implements OnInit {
     OnAgregarPregunta() {
         if(!this.itemSeccion)
         return;
+        //validar datos
+        if (!this.descripcionPregunta) {
+            this.toastr.warning(`Tipo de sección vacía`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if ( this.descripcionPregunta.length > 50) {
+            this.toastr.warning(`Descripcion mayor a 50 caracteres`, 'Aviso', { closeButton: true });
+            return;
+        }
         this.itemPregunta = new Pregunta();
         this.itemPregunta.descripcion = this.descripcionPregunta;
-        this.itemPregunta.tipoSeccion = this.itemTipoSeccion;
+        this.itemPregunta.tipoPregunta = this.itemTipoSeccion.toString();
         this.itemPregunta.indice=this.itemsPreguntas.length+1;
+        
+
         if (this.itemSeccion) {
             switch (this.itemSeccion.tipoSeccion) {
                 case "PREGUNTA ABIERTA": {
@@ -211,22 +245,34 @@ export class CallForPaperComponent implements OnInit {
     }
 
     onGuardar() {
+        
+
+        if(this.itemFormulario.titulo.length > 100){
+            this.toastr.warning(`Se necesita ingresar un titulo a formulario menor a 100 caracteres`, 'Aviso', { closeButton: true });
+            return;
+          }
         this.itemFormulario.divisionList.forEach(e=>{
             e.idDivision=null;
+            
             e.seccionList.forEach(k=>{
                 k.idSeccion=null;
                 k.preguntaList.forEach(m=>{
-                    m.idPregunta=null;
+                    m.idPregunta=null;  
+                    
                 })
             })
         })
         this.item.formulario = this.itemFormulario;
-        console.log(this.item);
+        this.itemFormulario.idFase = this.item.idFase;
+        this.item.formulario.divisionList.forEach(e=>{
+
+        })
+        console.log(this.item.idEvento, this.item.idFase);  
         
         this.serviceFase.guardarFase(this.item).subscribe(
             (response:Response)=>{
                 if(response.estado=='OK'){
-                    this.toastr.success(`Se ha guardado con exito`, 'Aviso', { closeButton: true });
+                    this.toastr.success(`Se ha guardado formulario con exito`, 'Aviso', { closeButton: true });
                 }
             }
         );

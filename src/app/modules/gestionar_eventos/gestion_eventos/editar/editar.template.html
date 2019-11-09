@@ -20,9 +20,9 @@
             <detalle-evento [(item-evento)]="item" (savedItem)="displayItem($event)" ></detalle-evento>
           </div>
         </tab>
-        <tab #tabsFases heading="Fases" [disabled]="false">
+        <tab #tabsFases heading="Fases" [disabled]="flagEvento">
             <div class="mail-box-header">
-              <fase-evento [(item-evento)]="item"></fase-evento>
+              <fase-evento-organizador [(item-evento)]="item"></fase-evento-organizador>
             </div>
         </tab>
       </tabset>
