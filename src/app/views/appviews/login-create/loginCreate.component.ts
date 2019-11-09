@@ -29,6 +29,7 @@ export class LoginCreateComponent /*implements OnInit*/ {
               private service: UsuarioService,
               private socialAuthService: SocialAuthService) {
     this.usuario = new Persona();
+    
   }
 
   ngOnInit() {

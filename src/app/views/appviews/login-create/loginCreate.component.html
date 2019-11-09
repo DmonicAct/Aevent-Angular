@@ -41,8 +41,8 @@
                       
                   </div>                  
                   <div class="form-group">
-                      <select class="combobox form-control" name="inline" placeholder="Sexo*" [(ngModel)]="usuario.sexo">
-                          <option value="" selected="selected">Escoger Sexo*</option>
+                      <select class="combobox form-control" name="inline" [(ngModel)]="usuario.sexo">
+                        <option value="" hidden>Example Placeholder</option>
                             <option value="MASCULINO">MASCULINO</option>
                             <option value="FEMENINO">FEMENINO</option>                             
                           </select>
@@ -78,8 +78,8 @@
             <!-- 
                   <div class="form-group"> -->
                     <input (click)='create()' type="submit" class="btn btn-lg btn-primary btn-block" value="Crear Cuenta">                    
-                    <p class="text-muted text-center"><small>¿Ya tiene cuenta?</small></p>
-                    <button class="btn btn-sm btn-white btn-block" routerLink="/login">Ingrese aquí</button>
+                   
+                    <button class="btn btn-sm btn-white btn-block" routerLink="/login">Cancelar</button>
                     <!--<button class="btn btn-sm  btn-white btn-block"(click)="socialSignIn('google')"><img alt="image" class="img-circle" src="assets/images/google.png" /> Sign with Google</button>   -->
               <!--     </div> -->
                 </form>
