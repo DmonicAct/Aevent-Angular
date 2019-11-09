@@ -215,7 +215,7 @@ export class CallForPaperComponent implements OnInit {
         }
         this.itemPregunta = new Pregunta();
         this.itemPregunta.descripcion = this.descripcionPregunta;
-        this.itemPregunta.tipoSeccion = this.itemTipoSeccion;
+        this.itemPregunta.tipoPregunta = this.itemTipoSeccion.toString();
         this.itemPregunta.indice=this.itemsPreguntas.length+1;
         
 
@@ -257,14 +257,17 @@ export class CallForPaperComponent implements OnInit {
             e.seccionList.forEach(k=>{
                 k.idSeccion=null;
                 k.preguntaList.forEach(m=>{
-                    m.idPregunta=null;
+                    m.idPregunta=null;  
+                    
                 })
             })
         })
         this.item.formulario = this.itemFormulario;
-        console.log(this.item.formulario);
+        this.item.formulario.divisionList.forEach(e=>{
+
+        })
         
-        this.serviceFormulario.guardarFormulario(this.item.formulario).subscribe(
+        this.serviceFase.guardarFase(this.item).subscribe(
             (response:Response)=>{
                 if(response.estado=='OK'){
                     this.toastr.success(`Se ha guardado formulario con exito`, 'Aviso', { closeButton: true });
