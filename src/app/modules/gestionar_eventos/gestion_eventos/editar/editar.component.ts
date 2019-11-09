@@ -1,7 +1,7 @@
 import {Component, OnInit,ViewChild} from '@angular/core'
 import { TabsetComponent } from 'ngx-bootstrap';
 import {DetalleEventoConfiguracion} from './tabset-parts/detalle-evento/detalle-evento.component';
-import { Evento, Response, Persona, FormularioCFP } from '../../../../models';
+import { Evento, Response, Persona, FormularioCFP, Fase } from '../../../../models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventoService } from '../../../../services';
 import { FaseEventoComponent } from './tabset-parts/fases/fase-evento.component';
@@ -50,9 +50,9 @@ export class EditarGestionarEventoComponent implements OnInit{
         /**
          * Evento para habilitar tab de fases
          */
-       /*  if(!this.item.formulario){
-            this.item.formulario = new FormularioCFP();
+         if(!this.item.fases){
+            this.item.fases = new Array<Fase>();
         }
-        this.flagEvento = flag; */
+        this.flagEvento = flag; 
     }
 }

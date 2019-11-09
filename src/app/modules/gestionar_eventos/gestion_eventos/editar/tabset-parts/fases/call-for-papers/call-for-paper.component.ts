@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { FaseService } from '../../../../../../../services/fase.service';
 import { ToastRef, ToastrService } from "ngx-toastr";
 import { UtilFormulario } from "src/app/util/util_formulario";
+import { FormularioCFPService } from "src/app/services/formulariocfp.service";
 declare var jQuery: any;
 
 @Component({
@@ -69,6 +70,7 @@ export class CallForPaperComponent implements OnInit {
     selectedRowPregunta: number;
     constructor(
         private serviceFase: FaseService,
+        private serviceFormulario: FormularioCFPService,
         private toastr: ToastrService,
         private _location: Location
     ) {
@@ -260,12 +262,12 @@ export class CallForPaperComponent implements OnInit {
             })
         })
         this.item.formulario = this.itemFormulario;
-        console.log(this.item);
+        console.log(this.item.formulario);
         
-        this.serviceFase.guardarFase(this.item).subscribe(
+        this.serviceFormulario.guardarFormulario(this.item.formulario).subscribe(
             (response:Response)=>{
                 if(response.estado=='OK'){
-                    this.toastr.success(`Se ha guardado con exito`, 'Aviso', { closeButton: true });
+                    this.toastr.success(`Se ha guardado formulario con exito`, 'Aviso', { closeButton: true });
                 }
             }
         );
