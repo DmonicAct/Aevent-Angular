@@ -36,7 +36,7 @@ export class CallForPaperComponent implements OnInit {
 
     @Input('item-fase')
     public item: Fase;
-
+    
     @Input('item-cfp')
     public itemFormulario: FormularioCFP;
     //Tipos Preguntas
@@ -86,7 +86,7 @@ export class CallForPaperComponent implements OnInit {
         
             
         this.itemFormulario = new FormularioCFP();    
-
+        
         this.itemsSeccion = new Array<Seccion>();
         this.itemSeccion = new Seccion();
         //
@@ -104,12 +104,12 @@ export class CallForPaperComponent implements OnInit {
         });
     }
     ngOnInit(): void {
-
+        console.log(this.item.idEvento, this.item.idFase);
     }
     OnSeleccionCriterio() {
 
     }
-
+    
 
     OnVerPreliminar() {
         
@@ -263,9 +263,11 @@ export class CallForPaperComponent implements OnInit {
             })
         })
         this.item.formulario = this.itemFormulario;
+        this.itemFormulario.idFase = this.item.idFase;
         this.item.formulario.divisionList.forEach(e=>{
 
         })
+        console.log(this.item.idEvento, this.item.idFase);  
         
         this.serviceFase.guardarFase(this.item).subscribe(
             (response:Response)=>{

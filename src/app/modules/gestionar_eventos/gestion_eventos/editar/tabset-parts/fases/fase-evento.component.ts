@@ -302,9 +302,10 @@ export class FaseEventoComponent implements OnInit{
 
     OnCrearFormulario(fase: Fase){
       this.fase = fase;
+      this.fase.idEvento = this.item.idEvento;
       this.formulario = fase.formulario;
         
-      console.log(this.formulario);
+     
 
       if(!this.formulario){
         this.formulario = new FormularioCFP();
