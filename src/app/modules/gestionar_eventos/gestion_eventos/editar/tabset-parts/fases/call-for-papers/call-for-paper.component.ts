@@ -110,7 +110,7 @@ export class CallForPaperComponent implements OnInit {
 
 
     OnVerPreliminar() {
-
+        
      }
 
     //Modal

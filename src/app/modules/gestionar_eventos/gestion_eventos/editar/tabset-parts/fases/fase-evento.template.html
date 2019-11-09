@@ -59,14 +59,14 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-3 control-label">Formulario:   </label>
+                                                <label class="col-sm-3 control-label">Formulario (*)  </label>
                                                 <div class="col-sm-8">
                                                         <button  class="btn btn-primary" (click)="OnCrearFormulario(fase)"><i class="fa fa-plus"></i> Crear Formulario CFP </button>  
                                                 </div>
                                             </div>    
                                             <div class="form-group">
-                                                <label class="col-sm-3 control-label">Fecha Inicio:</label>
-                                                <div class="col-sm-8">
+                                                <label class="col-sm-3 control-label">Fecha Inicio (*)</label>
+                                                <div class="col-sm-3">
                                                     <div class="input-group date">
                                                         <input bsDatepicker #dp3="bsDatepicker" name='fechaInicio'
                                                             [(bsValue)]="fase.fechaInicial" autocomplete="off"
@@ -79,8 +79,8 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-3 control-label">Fecha Fin:</label>
-                                                <div class="col-sm-8">
+                                                <label class="col-sm-3 control-label">Fecha Fin (*)</label>
+                                                <div class="col-sm-3">
                                                     <div class="input-group date">
                                                         <input bsDatepicker #dp4="bsDatepicker" name='fechaFin' [(bsValue)]="fase.fechaFin"
                                                             autocomplete="off" (bsValueChange)="DetectFin(fase)"
