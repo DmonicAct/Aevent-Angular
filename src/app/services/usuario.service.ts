@@ -125,6 +125,20 @@ export class UsuarioService{
         }));;
     }
 
+    habilitarUsuario(id:number):Observable<any>{
+      let params:HttpParams = new HttpParams();
+        return this.http.post(this.apiEndpoint + '/activate/' + id.toString(), {params}).pipe(
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
+            return throwError(e);
+          }));
+    }
+
     autenticarUsuarioGoogle(usuario: Usuario):Observable<any>{
       let email = usuario.username;
       const credenciales = btoa(this.config_name + ':' + this.config_password);

@@ -119,12 +119,25 @@ export class GestionUsuarioListaComponent implements OnInit {
   }
 
   OnDeshabilitar(item: Persona) {
-    debugger
     this.service.eliminarUsuario(item.idUsuario).subscribe(
       (response: Response) => {
-        debugger
         if (response.estado == "OK") {
           this.toastr.success(`Se ha deshabilitado con exito`, 'Aviso', { closeButton: true });
+          if (this.activos){
+            this.getListaActivos();
+          } else {
+            this.getListaInactivos();
+          }
+        }
+      }
+    );
+  }
+
+  OnHabilitar(item: Persona){
+    this.service.habilitarUsuario(item.idUsuario).subscribe(
+      (response: Response) => {
+        if (response.estado == "OK") {
+          this.toastr.success(`Se ha habilitado con exito`, 'Aviso', { closeButton: true });
           if (this.activos){
             this.getListaActivos();
           } else {
