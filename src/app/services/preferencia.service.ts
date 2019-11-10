@@ -4,6 +4,7 @@ import { Usuario } from "../models";
 import { catchError } from "rxjs/operators";
 import { throwError, Observable } from "rxjs";
 import { Injectable } from "@angular/core";
+import { Preferencia } from "../models/Preferencia";
 
 
 @Injectable({
@@ -24,10 +25,13 @@ export class PreferenciaService{
     
       }
 
-    obtenerPreferencias(idUsuario:number):Observable<any>{
+    obtenerPreferencias(idUsuario:number,pagina:number,registros:number):Observable<any>{
         //const url = `${this.apiEndpoint}/${idUsuario}`;
         let params:HttpParams = new HttpParams()
-        .set('idUsuario', idUsuario.toString())        
+        .set('idUsuario', idUsuario.toString())
+        .set('pagina', pagina.toString())
+        .set('registros', registros.toString());
+          
           return this.http.get(this.apiEndpoint + '/propuestas', {params}).pipe(
             catchError(e => {
               if (e.status == 400) {
@@ -39,4 +43,17 @@ export class PreferenciaService{
               return throwError(e);
             }));
     }
+
+    guardarPreferencia(preferencia:Preferencia):Observable<any>{
+      return this.http.post(this.apiEndpoint, preferencia).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+  }
 }

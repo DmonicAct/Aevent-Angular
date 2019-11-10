@@ -21,6 +21,7 @@ export class ListaPreferenciasComponent implements OnInit{
     private authService: AeventAuthService;
     public paginacion: Paginacion;
     public preferencias:  Array<Preferencia>;
+    private toastr: ToastrService;
     constructor(
         private service: PreferenciaService
         ) {
@@ -28,7 +29,7 @@ export class ListaPreferenciasComponent implements OnInit{
     }
 
     ngOnInit(){        
-        this.service.obtenerPreferencias(4).subscribe(
+        this.service.obtenerPreferencias(4,this.paginacion.pagina,this.paginacion.registros).subscribe(
             (response: Response) => {
                 this.preferencias = response.resultado;
                 console.log(response);
@@ -49,6 +50,13 @@ export class ListaPreferenciasComponent implements OnInit{
 
     OnGuardar(){
         
+        for(let pref of this.preferencias){
+            this.service.guardarPreferencia(pref).subscribe(
+                (response: Response) => {
+                    //this.toastr.success(`Se ha guardado con exito`, 'Aviso', { closeButton: true });
+                }
+            );
+        }
     }
  
 }

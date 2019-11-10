@@ -14,4 +14,5 @@ export class Usuario{
     public fechaModificacion: Date;
     public nombreCompleto: string;
     public modoInicioSesion: number;
+    public evaluacionSinLeer: Boolean;
 }
