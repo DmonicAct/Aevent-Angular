@@ -68,10 +68,10 @@ export class ComiteEventoVer implements OnInit {
         console.log("EvaluadoresDisponibles");
       }
     );
-    this.loadComite();    
+    //this.loadComite();    
     
   }
-
+/*
   async loadComite(){
     this.comiteElegido = await  this.waitComite();
 
@@ -87,27 +87,29 @@ export class ComiteEventoVer implements OnInit {
     console.log("ENDED");
     return this.itemEventoParent.comite;
   }
+*/
 
 
+
+//FUNCIONA PERO ESCALAR A FUTURO!
   onAgregarEvaluador(){
+    //Paso reliminar para poder filtrar las personas del comite de los evaluadoresDisponibles
     console.log(this.listaEvAgregar); 
     //debugger
     this.comiteElegido = this.itemEventoParent.comite;
-    console.log("before",this.evaluadoresDisponibles);
+    console.log("before: evaluadoresDisponibles",this.evaluadoresDisponibles);
     console.log("before: comite Elegido",this.comiteElegido);
     if(this.comiteElegido!=undefined){
-    for(var i=0;i<this.comiteElegido.length;i++){
-        var longEvDisponibles = this.evaluadoresDisponibles.length;
-        for(var j=0;j<longEvDisponibles; j++){
-          if(this.evaluadoresDisponibles[j].idUsuario == this.comiteElegido[i].idUsuario){
-            this.evaluadoresDisponibles.splice(j, 1)[0];
-            break;
-          }
-        }      
-      }
+      for(var i=0;i<this.comiteElegido.length;i++){
+          var longEvDisponibles = this.evaluadoresDisponibles.length;
+          for(var j=0;j<longEvDisponibles; j++){
+            if(this.evaluadoresDisponibles[j].idUsuario == this.comiteElegido[i].idUsuario){
+              this.evaluadoresDisponibles.splice(j, 1)[0];
+              break;
+            }
+          }      
+        }
     }
-
-
   }
 
 

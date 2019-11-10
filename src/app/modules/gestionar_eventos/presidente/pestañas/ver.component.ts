@@ -94,9 +94,10 @@ export class VerEventoPresidenteComponent implements OnInit{
         
 
        
-        console.log("ITEM",this.item);
-        console.log("ITEM CODIGO",this.itemCodigo)
-        console.log("id eventooo",this.item.idEvento);
+//        console.log("ITEM",this.item);
+  //      console.log("ITEM CODIGO",this.itemCodigo)
+    //    console.log("id eventooo",this.item.idEvento);
+    console.log(this.paginacion);
         this.service.obtenerPropuestas(this.itemCodigo, this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
               this.propuestas = response.resultado;
@@ -109,18 +110,18 @@ export class VerEventoPresidenteComponent implements OnInit{
                   this.comite2.push(this.item.comite[i]);
               }*/
               console.log(response);
-              console.log("EvaluadoresDisponibles");
+              //console.log("EvaluadoresDisponibles");
             }
           );
 
-          console.log("PROPUESTAAAS",this.propuestas);
+          //console.log("PROPUESTAAAS",this.propuestas);
           
     }
     displayItem(flag: Boolean){
         this.flagEvento = flag;
     }
     tabClick(tab) {
-        console.log("hi");
+        //console.log("hi");
         this.comite1=Object.assign([],this.item.comite);
                 this.comite2=Object.assign([],this.item.comite);
         

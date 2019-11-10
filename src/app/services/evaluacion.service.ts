@@ -24,11 +24,11 @@ import { Injectable } from "@angular/core";
 
     obtenerPropuestas(idEvaluador:number,pagina:number, registros:number):Observable<any>{
       let params:HttpParams = new HttpParams()
-      .set('id', idEvaluador.toString())
+      .set('idUsuario', idEvaluador.toString())
       .set('pagina', pagina.toString())
       .set('registros', registros.toString());
         //const url = `${this.apiEndpoint}/${idEvaluador}`;     
-          return this.http.get(this.apiEndpoint + `/${idEvaluador}`, {params}).pipe(
+          return this.http.get(this.apiEndpoint, {params}).pipe(
             catchError(e => {
               if (e.status == 400) {
                 return throwError(e);
