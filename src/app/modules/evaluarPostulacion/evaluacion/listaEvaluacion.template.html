@@ -1,13 +1,10 @@
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-12">
-      <h2>Gestion de Eventos</h2>
+      <h2>Gestion de Evaluaciones</h2>
       <ol class="breadcrumb">
         <li>
           <a>Inicio</a>
         </li>
-        <!--<li>
-          <a>Gestion de Evento</a>
-        </li>-->
         <li class="active">
           <strong>Evaluar Ponencias</strong>
         </li>
@@ -37,48 +34,25 @@
             <table class="table table-striped table-hover issue-tracker">
               <thead>
                 <tr>
-                  <th class="text-center">Editar</th>
-                  <th class="text-left">Fase</th>
                   <th class="text-left">Código Propuesta</th>
-                  <th class="text-left">Título</th>
-                  <th class="text-left">Postulante</th>
+                  <th class="text-left">Titulo</th>
+                  <th class="text-left">Fase</th> 
                   <th class="text-left">Fecha Postulación</th>
-
+                  <th class="text-center">Editar</th>
                 </tr>
               </thead>
 
-              <tr *ngFor="let item of propuestas; let i = index" 
+              <tr *ngFor="let item of evaluaciones; let i = index" 
                           [class.selected]="i == selectedRow">
+                          <td class="text-left" data-col="idPropuesta"><code>{{item.idPropuesta}}</code></td>
+                          <td class="text-left" data-col="titulo"><code>{{item.propuesta.titulo}}</code></td>
+                          <!--Corregir esto, debe buscar datos de la fase-->
+                          <td class="text-left" data-col="nombrePostulante"><code></code>{{item.idFase}}</td> 
+                          <td class="text-left" data-col="fechaPostulación"><code>{{item.propuesta.fecha_postulacion}}</code></td>
+            
                           <td class="text-center" data-col="editar" (click)="OnEditar(item)"><button class="btn btn-success"><i
                             class="fa fa-edit"></i></button></td>  
-                            <td class="text-left" data-col="fasePostulacion"><code>{{item.idFase}}</code></td>
-                          <td class="text-left" data-col="idPropuesta"><code>{{item.idPropuesta}}</code></td>
-                          <td class="text-left" data-col="tituloPostulación"><code>{{item.propuesta.titulo}}</code></td>
-                          <td class="text-left" data-col="nombrePostulante"><code>GG SW</code></td>
-                          <td class="text-left" data-col="fechaPostulacion"><code>{{item.propuesta.fechaPostulacion}}</code></td>
-                          
-                       
-                  
-              <!-- <tbody>
-                <tr *ngFor="let item of items; let i = index" (click)="OnRowClick(i, item)"
-                  [class.selected]="i == selectedRow">
-                  <td class="text-center" data-col="idEvento"><code>{{item.idEvento}}</code></td>
-                  <td class="text-left" data-col="titulo">{{item.titulo}}</td>
-                  <td class="text-center" data-col="tipoEvento">{{item.tipoEvento.nombre}}</td>
-                  <td class="text-center" data-col="fechaInicio">{{item.fechaInicio | date:'dd/MM/yyyy'}}</td>
-                  <td class="text-center" data-col="fechafin">{{item.fechaFin | date:'dd/MM/yyyy'}}</td>
-                  <td class="text-center" data-col="estado" style="padding-left: 0">
-                    <span *ngIf="item.enabled==true" class="label"
-                      [class.label-success]="item.enabled==true">ACTIVO</span>
-                    <span *ngIf="item.enabled==false" class="label"
-                      [class.label-default]="item.enabled==false">INACTIVO</span>
-                  </td>
-                  <td class="text-center" data-col="editar" (click)="OnEditar(item)"><button class="btn btn-success"><i
-                        class="fa fa-edit"></i></button></td>
-                  <td class="text-center" data-col="eliminar" (click)="OnDeshabilitar(item)"><button
-                      class="btn btn-danger" disabled><i class="fa fa-trash"></i></button></td>
-                </tr>
-              </tbody> -->
+
             </table>
           </div>
           <div class="row">

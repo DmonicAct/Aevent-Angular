@@ -5,6 +5,7 @@
         <li>
           <a>Inicio</a>
         </li>
+        
         <li class="active">
           <strong>Preferencias de evaluacion</strong>
         </li>
@@ -22,7 +23,7 @@
                 <tr>
                   <th class="text-center">Código</th>
                   <!--<th class="text-left">Postulante</th>-->
-                  <th class="text-center">Fecha Postulacion</th>
+                  <th class="text-center">Titulo</th>
                   <th class="text-center">Interes</th>
                 </tr>
               </thead>
@@ -31,13 +32,13 @@
               [class.selected]="i == selectedRow">
               <td class="text-center" data-col="idCodigo"><code>{{i+1}}</code></td>
               <!--<td class="text-left" data-col="nombrePostulante"><code>{{item.propuesta.postulante.nombre}}</code></td>
-              --><td class="text-center" data-col="fechaPostulación"><code>{{item.propuesta.fecha_postulacion}}</code></td>
-           
+              --><td class="text-center" data-col="fechaTitulo"><code>{{item.propuesta.titulo}}</code></td>
+              
               <td class="text-center" data-col="interes" (click)="OnEditar(item)">
                 
                   <div class="form-group">
-                      <select class="combobox form-control" name="inline" placeholder="Interes">
-                          <option value="" selected="selected">---</option>
+                      <select class="combobox form-control" name="inline" placeholder="Interes" [(ngModel)]="item.descripcion">
+                            <option value=""></option>
                             <option value="Quiero Evaluar">Quiero Evaluar</option>
                             <option value="Podria Evaluar">Podria Evaluar</option> 
                             <option value="No quiero evaluar">No quiero evaluar</option>    
@@ -66,6 +67,8 @@
                 </tr>
               </tbody> -->
             </table>
+            <button style="float:right;" class="btn btn-success" (click)="OnGuardar()" ><i class="fa fa-plus"></i>
+              Guardar cambios</button>
           </div>
           <div class="row">
             <div class="col-md-4 col-sm-12 col-xs-12">
