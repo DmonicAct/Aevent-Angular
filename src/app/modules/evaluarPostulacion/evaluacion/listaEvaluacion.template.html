@@ -5,16 +5,30 @@
         <li>
           <a>Inicio</a>
         </li>
-        <li>
+        <!--<li>
           <a>Gestion de Evento</a>
-        </li>
+        </li>-->
         <li class="active">
-          <strong>Administrar Evento</strong>
+          <strong>Evaluar Ponencias</strong>
         </li>
       </ol>
     </div>
   </div>
   <div class="wrapper wrapper-content animated fadeInRight">
+      <div class="row m-b-sm">
+          <div class="col-md-2">
+              <ng-select [items]="itemsFiltro" (input)="cambioFiltro()"
+                  placeholder="Seleccionar Filtro" name="filtroEvento" autocomplete="off"
+                  [clearable]="false" [(ngModel)]="tipo">
+              </ng-select>
+          </div>
+          <div class="col-md-4">
+              <input type="text" autocomplete="off" class="form-control" name="filtro"
+                  maxlength="30" [(ngModel)]="filtro" (input)="buscarEvento()"
+                  onkeypress="return /^[a-zA-Z0-9,.*-\s]*$/i.test(event.key)">
+          </div>
+       
+      </div>
     <div class="row">
       <div class="col-lg-12">
         <div class="ibox-content" [ngClass]="{'sk-loading': loading}">
@@ -23,21 +37,28 @@
             <table class="table table-striped table-hover issue-tracker">
               <thead>
                 <tr>
+                  <th class="text-center">Editar</th>
+                  <th class="text-left">Fase</th>
                   <th class="text-left">Código Propuesta</th>
+                  <th class="text-left">Título</th>
                   <th class="text-left">Postulante</th>
                   <th class="text-left">Fecha Postulación</th>
-                  <th class="text-center">Editar</th>
+
                 </tr>
               </thead>
 
               <tr *ngFor="let item of propuestas; let i = index" 
                           [class.selected]="i == selectedRow">
-                          <td class="text-left" data-col="idPropuesta"><code>{{item.idPropuesta}}</code></td>
-                          <td class="text-left" data-col="nombrePostulante"><code>{{item.postulante.nombre + " " + item.postulante.appaterno + " "+ item.postulante.apmaterno}}</code></td>
-                          <td class="text-left" data-col="fechaPostulación"><code>{{item.fecha_postulacion}}</code></td>
-                       
                           <td class="text-center" data-col="editar" (click)="OnEditar(item)"><button class="btn btn-success"><i
                             class="fa fa-edit"></i></button></td>  
+                            <td class="text-left" data-col="fasePostulacion"><code>{{item.idFase}}</code></td>
+                          <td class="text-left" data-col="idPropuesta"><code>{{item.idPropuesta}}</code></td>
+                          <td class="text-left" data-col="tituloPostulación"><code>{{item.propuesta.titulo}}</code></td>
+                          <td class="text-left" data-col="nombrePostulante"><code>GG SW</code></td>
+                          <td class="text-left" data-col="fechaPostulacion"><code>{{item.propuesta.fechaPostulacion}}</code></td>
+                          
+                       
+                  
               <!-- <tbody>
                 <tr *ngFor="let item of items; let i = index" (click)="OnRowClick(i, item)"
                   [class.selected]="i == selectedRow">

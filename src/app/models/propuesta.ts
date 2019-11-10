@@ -8,4 +8,5 @@ export class Propuesta{
     public documentos: Array<Document>;    
     public postulante: Persona;
     public evaluadoresAsignados: Array<Persona>;    
+    public titulo: String; 
 }

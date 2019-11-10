@@ -68,16 +68,27 @@ export class ComiteEventoVer implements OnInit {
         console.log("EvaluadoresDisponibles");
       }
     );
-
-    
-
-    
+    this.loadComite();    
     
   }
 
-  ngOnLoad(){
+  async loadComite(){
+    this.comiteElegido = await  this.waitComite();
+
+    return this.comiteElegido;
 
   }
+
+  waitComite(){
+    while(1){
+      if(this.itemEventoParent!=undefined && this.comiteElegido!=undefined)break;
+
+    }
+    console.log("ENDED");
+    return this.itemEventoParent.comite;
+  }
+
+
   onAgregarEvaluador(){
     console.log(this.listaEvAgregar); 
     //debugger

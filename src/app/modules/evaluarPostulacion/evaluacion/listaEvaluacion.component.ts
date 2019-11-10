@@ -26,9 +26,10 @@ export class ListaEvaluacionComponent implements OnInit{
     }
     ngOnInit(){
         this.getEventos();
-        this.service.obtenerPropuestasPorEvaluador(1, this.paginacion.pagina, this.paginacion.registros).subscribe(
+        this.service.obtenerPropuestasPorEvaluador(3, this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
                 this.propuestas = response.resultado;
+                console.log("PROPUESTAS!");
                 console.log(response);
               }
         )
@@ -47,5 +48,50 @@ export class ListaEvaluacionComponent implements OnInit{
         //this.getLista();
       }
 
+      filtro: String;
+      tipo: String;
+      numeroTipo: number;
+      eventoFiltro: Evento;
+      maestroEventoFilter: Array<Evento>;
+      cambioFiltro(){
+        if (this.tipo == "Evento"){
+            this.numeroTipo = 1;
+        }
+        if (this.tipo == "Fase"){
+            this.numeroTipo = 2;
+        }
+        if (this.tipo == "Título"){
+            this.numeroTipo = 3;
+        }
+        if (this.tipo == "Postulante"){
+            this.numeroTipo = 4;
+        }
+    }
+
+    public itemsFiltro = ["Evento", "Fase", "Título","Postulante"];
+
+    buscarEvento() {
+        this.cambioFiltro();
+        if (this.filtro.length > 0) {
+            if (this.numeroTipo == 1){
+                this.maestroEventoFilter = this.items.filter(
+                    item => item.titulo.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+                )
+            }
+            if (this.numeroTipo == 2){
+                this.maestroEventoFilter = this.items.filter(
+                    item => item.tipoEvento.nombre.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+                )
+            }
+            if (this.numeroTipo == 3){
+                this.maestroEventoFilter = this.items.filter(
+                    item => item.presidente.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+                )
+            }
+            
+        } else {
+            this.maestroEventoFilter = this.items;
+        }
+    }
       
 }

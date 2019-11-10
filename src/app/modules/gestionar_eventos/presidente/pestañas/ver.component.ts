@@ -83,11 +83,15 @@ export class VerEventoPresidenteComponent implements OnInit{
             (response: Response)=>{
                 this.item=response.resultado;
                 this.flagEvento = false;
-                
+                this.comite1=new Array<Usuario>();
+              this.comite2=new Array<Usuario>();
+                this.comite1=Object.assign([],this.item.comite);
+                this.comite2=Object.assign([],this.item.comite);
                 //Ahora hay un formulario por cada fase!
                 //this.divisiones = this.item.formulario.divisionList;
             }
         );
+        
 
        
         console.log("ITEM",this.item);
@@ -96,10 +100,8 @@ export class VerEventoPresidenteComponent implements OnInit{
         this.service.obtenerPropuestas(this.itemCodigo, this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
               this.propuestas = response.resultado;
-              this.comite1=new Array<Usuario>();
-              this.comite2=new Array<Usuario>();
-                this.comite1=Object.assign([],this.item.comite);
-                this.comite2=Object.assign([],this.item.comite);
+              
+                
                 
               /*
               for(var i=0;i<this.item.comite.length;i++){
@@ -117,8 +119,14 @@ export class VerEventoPresidenteComponent implements OnInit{
     displayItem(flag: Boolean){
         this.flagEvento = flag;
     }
-
+    tabClick(tab) {
+        console.log("hi");
+        this.comite1=Object.assign([],this.item.comite);
+                this.comite2=Object.assign([],this.item.comite);
+        
+      }
     refreshComite(){
+      
 //debugger
         //this.comite1=this.item.comite;
         //this.comite2=this.comite1;
