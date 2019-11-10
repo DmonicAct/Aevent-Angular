@@ -41,10 +41,10 @@ export class EventoService{
 
       for(var i=0;i<evaluaciones.length;i++){
         let params:HttpParams = new HttpParams()
-        .set('idPropuesta', evaluaciones[i].idPropuesta.toString())
-        .set('idEvaluador', evaluaciones[i].idEvaluador.toString())
-        .set('idFase', evaluaciones[i].idFase.toString());
-        let url=environment.serviceEndpoint+`/evaluacion/${evaluaciones[i].idEvaluador}`+`/${evaluaciones[i].idPropuesta}`+`/${evaluaciones[i].idFase}`;
+        .set('idPropuesta', evaluaciones[i].propuesta.idPropuesta.toString())
+        .set('idEvaluador', evaluaciones[i].evaluador.idUsuario.toString())
+        .set('idFase', evaluaciones[i].fase.idFase.toString());
+        let url=environment.serviceEndpoint+`/evaluacion/${evaluaciones[i].evaluador.idUsuario}`+`/${evaluaciones[i].propuesta.idPropuesta}`+`/${evaluaciones[i].fase.idFase}`;
         return this.http.post(url, {params}).pipe(
           catchError(e => {
             if (e.status == 400) {

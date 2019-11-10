@@ -131,16 +131,16 @@ export class AsignarPropuestasVer implements OnInit{
 
           if(this.maestraAgregar!=undefined){
             for(var j=0;j<this.maestraAgregar.length;j++){
-              if(this.maestraAgregar[j].idEvaluacion==nuevoComiteDisp[i].idEvaluacion && this.maestraAgregar[j].idPropuesta==nuevoComiteDisp[i].idEvaluacion)
+              if(this.maestraAgregar[j].idEvaluacion==nuevoComiteDisp[i].idEvaluacion && this.maestraAgregar[j].propuesta.idPropuesta==nuevoComiteDisp[i].idEvaluacion)
               ver=true;
             }
             if(!ver){
               let  e1:Evaluacion = new Evaluacion();
-              e1.idEvaluador=nuevoComiteDisp[i].idUsuario;
-              e1.idPropuesta=this.propuestasEvento[this.posTabla].idPropuesta;
+              e1.evaluador.idUsuario=nuevoComiteDisp[i].idUsuario;
+              e1.propuesta.idPropuesta=this.propuestasEvento[this.posTabla].idPropuesta;
               e1.abierto=false;
               e1.evaluado=false;
-              e1.idFase=1;
+              e1.fase.idFase=1;
               //e1.
               //e1.idEvaluacion=
               this.maestraAgregar.push(e1);
