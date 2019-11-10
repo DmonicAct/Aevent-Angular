@@ -29,6 +29,7 @@ export class LoginCreateComponent /*implements OnInit*/ {
               private service: UsuarioService,
               private socialAuthService: SocialAuthService) {
     this.usuario = new Persona();
+    this.usuario.sexo = "Seleccionar Sexo"
   }
 
   ngOnInit() {
@@ -68,10 +69,6 @@ export class LoginCreateComponent /*implements OnInit*/ {
       return;
     }
 
-
-    console.log(this.usuario.username)
- 
-      console.log(valido);
     if(!valido){
     return;
     }
@@ -103,37 +100,20 @@ export class LoginCreateComponent /*implements OnInit*/ {
       
       return;
     }
-    if(apMaterno!=null){
-      if(apMaterno.length<1||apMaterno.length>20 ){
-        this.toastr.warning('Apellidos deben ser de 1 a 20 caracteres', 'Error', {closeButton: true});
-        
-        return;
-      }
-    }    
+    /* a */
     //VALIDACION SEXO
-    if(this.usuario.sexo != 'MASCULINO' && this.usuario.sexo != 'FEMENINO'){
+    /* if(this.usuario.sexo != 'MASCULINO' && this.usuario.sexo != 'FEMENINO'){
       this.toastr.warning('Ingrese su sexo', 'Error', {closeButton: true});
       
       return;
 
-    }
-
-     //VALIDACION DIRECCION
-     if(usrDireccion.length<1||usrDireccion.length>20 ){
-      this.toastr.warning('Apellidos deben ser de 1 a 20 caracteres', 'Error', {closeButton: true});
-      return;
-    }
+    } */
 
     //VALIDACION FECHA DE NACIMIENTO
     let tiempoActual: number = new Date().getTime();
     let tiempoFechaNac: number = this.usuario.fechaNacimiento.getTime();
     let constAnho: number = 3.154*10000000000*13;    
-    
-    //VALIDACION DNI
-    if(this.usuario.dni.length!=8){
-      this.toastr.warning('Ingrese un DNI válido', 'Error', {closeButton: true});
-      return;
-    }    
+     
 
     if(tiempoActual-tiempoFechaNac<constAnho ){
       this.toastr.warning('Debes ser mayor a 13 años para poder registrarte al sistema', 'Error', {closeButton: true});      
@@ -166,9 +146,10 @@ export class LoginCreateComponent /*implements OnInit*/ {
                   console.log(response);
                   if(response.resultado==true){
                     this.toastr.warning('El DNI ya está en uso, escoga uno diferente', 'Error', {closeButton: true});        
-                  }else{
+                  } else {
                     this.usuario.fechaCreacion = fechaActual;
                     this.usuario.modoInicioSesion=0;
+                    if (this.usuario.sexo == "Seleccionar Sexo") this.usuario.sexo = "";
                     this.service.guardarUsuarioOut(this.usuario).subscribe(
                       (response: Response)=>{
                         this.login();
@@ -179,7 +160,7 @@ export class LoginCreateComponent /*implements OnInit*/ {
                         }
                       }
                     );
-                  }      
+                  }     
                 });      
               }
             });           

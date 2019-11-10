@@ -41,6 +41,62 @@ export class UsuarioService{
             return throwError(e);
           }));
     }
+    obtenerUsuariosActivos(pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+        return this.http.get(this.apiEndpoint + '/active', {params}).pipe(
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
+            return throwError(e);
+          }));
+    }
+    obtenerUsuariosInactivos(pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+        return this.http.get(this.apiEndpoint + '/inactive', {params}).pipe(
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
+            return throwError(e);
+          }));
+    }
+    obtenerTodosUsuariosActivos():Observable<any> {
+        return this.http.get(this.apiEndpoint + '/all/active').pipe(
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
+            return throwError(e);
+          }));
+    }
+    obtenerTodosUsuariosInactivos():Observable<any> {
+      return this.http.get(this.apiEndpoint + '/all/inactive').pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+  }
     obtenerUsuario(id:number):Observable<any>{
       const url = `${this.apiEndpoint}/${id}`;
       return this.http.get(url).pipe(

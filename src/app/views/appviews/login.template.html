@@ -8,24 +8,24 @@
                 <sk-wandering-cubes></sk-wandering-cubes>
                 <div class="alert alert-danger" *ngIf="error">{{error}}.</div>
                 <h3>Bienvenido a AEVENT</h3>
-                <p>Login in. To see it in action.</p>
+                <p>Sistema de Gestión de Eventos Académicos.</p>
               
                 <form method="post">
                     <div class="form-group">
-                      <input [(ngModel)]="usuario.username" autocomplete="off" input type="text" class="form-control" placeholder="Username" required="" name="username"  autofocus required>
+                      <input [(ngModel)]="usuario.username" autocomplete="off" input type="text" class="form-control" placeholder="Usuario" required="" name="username"  autofocus required>
                     </div>
               
                     <div class="form-group">
                       <input [(ngModel)]="usuario.password" type="password" class="form-control"
-                      name="password" id="password" placeholder="Password" required>
+                      name="password" id="password" placeholder="Contraseña" required>
                     </div>
               <!-- 
                     <div class="form-group"> -->
                       <input (click)='login()' type="submit" class="btn btn-lg btn-primary btn-block" value="Login">
                       <!--<a  routerLink="/login/reset"><small>Forgot password?</small></a> (click)="doRecover()"--> 
-                      <p class="text-muted text-center"><small>Do not have an account?</small></p>
-                      <button class="btn btn-sm btn-white btn-block" routerLink="/login/create">Create an account</button>
-                      <button class="btn btn-sm  btn-white btn-block"(click)="socialSignIn('google')"><img alt="image" class="img-circle" src="assets/images/google.png" /> Sign with Google</button>   
+                      <p class="text-muted text-center"><small>¿Aún no estás registrado?</small></p>
+                      <button class="btn btn-sm btn-white btn-block" routerLink="/login/create">Crea una cuenta</button>
+                      <button class="btn btn-sm  btn-white btn-block"(click)="socialSignIn('google')"><img alt="image" class="img-circle" src="assets/images/google.png" /> Ingrese con Google</button>   
                 <!--     </div> -->
                   </form>
                 <p class="m-t"> <small>AEvent &copy; 2019</small> </p>
