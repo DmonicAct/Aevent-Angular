@@ -5,7 +5,7 @@
                     <div class="full-height">
                         <div class="full-height-scroll white-bg">
                             <div class="ibox-content">
-                                <div *ngFor="let division of items">
+                                <div *ngFor="let division of formulario.divisionList">
                                     <div class="form-group">
                                         <div class="text-center">
                                             <h4><strong>{{division.indice}}-{{division.descripcion}}</strong></h4>
@@ -21,7 +21,7 @@
                                                                 {{seccion.preguntaList[0].descripcion}}</label>
                                                         </div>
                                                         <div class="col-lg-9">
-                                                            <textarea type="text" [disabled]="true" rows="3"
+                                                            <textarea name="" type="text" [disabled]="true" rows="3"
                                                                 class="form-control"></textarea>
                                                         </div>
                                                     </div>
@@ -38,10 +38,10 @@
                                                             <div class="col-sm-3"
                                                                 *ngFor="let pregunta of seccion.preguntaList; let i = index">
                                                                 <div class="checkbox checkbox-primary">
-                                                                    <input name="pregunta"
+                                                                    <input name="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}"
                                                                         id="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}"
-                                                                        value="{{pregunta}}" type="checkbox"><label
-                                                                        for="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}">{{pregunta.descripcion}}</label>
+                                                                        value="{{pregunta}}" type="checkbox">
+                                                                        <label for="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}">{{pregunta.descripcion}}</label>
                                                                 </div>
                                                             </div>
                                                         </div>

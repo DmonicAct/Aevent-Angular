@@ -10,11 +10,13 @@ import * as moment from 'moment';
 import { a } from "@angular/core/src/render3";
 
 @Component({
-    selector:'fase-evento',
+    selector:'fase-evento-organizador',
     templateUrl: 'fase-evento.template.html',
     styleUrls: ['fase-evento.template.scss']
 })
 export class FaseEventoComponent implements OnInit{
+
+  public loading:Boolean = false;
 
   public isNewModalShown: Boolean;
   public isNewCriterioModalShown: Boolean;
@@ -178,9 +180,40 @@ export class FaseEventoComponent implements OnInit{
         this.esNuevo = true;
         this.isNewModalShown=true;
     }
-
-    OnGuardarFase(fase: Fase){
-        console.log(fase);
+    fechaHoy: Date;
+    
+    OnGuardarFase(fase: Fase){//en el formulario grande de fase, donde va CFP ya esta validado el nombre de la fase
+        let fechaFin = new Date(fase.fechaFin);
+        let fechaInicial = new Date(fase.fechaInicial)
+        fase.fechaFin = fechaFin;
+        fase.fechaInicial = fechaInicial;
+        this.fechaHoy = new Date();
+  
+        
+        if(!fase.fechaFin){
+          this.toastr.warning(`Se debe de seleccionar una fecha para el fin de evento`, 'Aviso', { closeButton: true });
+          return;
+      }
+        if(!fase.fechaInicial){
+          this.toastr.warning(`Se debe de seleccionar una fecha para el inicio de evento`, 'Aviso', { closeButton: true });
+          return;
+      }
+      if(fase.fechaFin<fase.fechaInicial){
+          this.toastr.warning(`La fecha de fin de evento no puede ser menos a la de inicio de evento`, 'Aviso', { closeButton: true });
+          return;
+      }
+      if(fase.fechaInicial<this.fechaHoy  ){
+          this.toastr.warning(`La fecha inicial no puede ser menor al día de hoy`, 'Aviso', { closeButton: true });
+          return;
+      }
+      if(fase.fechaFin<this.fechaHoy ){
+        this.toastr.warning(`La fecha final no puede ser menor al día de hoy`, 'Aviso', { closeButton: true });
+        return;
+    }
+      if (!fase.formulario){
+        this.toastr.warning(`Se necesita agregar un informe Call for Paper`, 'Aviso', { closeButton: true });
+          return;
+      }
         this.faseService.guardarFase(fase).subscribe(
           (response: Response)=>{
             this.toastr.success(`Se ha guardado la fase con exito`, 'Aviso', {closeButton: true});
@@ -190,9 +223,17 @@ export class FaseEventoComponent implements OnInit{
         )
     }
 
-    OnAgregarFase(evento: Evento){
+    OnAgregarFase(evento: Evento){ // En el boton de gestiongar fase (solo se guarda el nombre de la fase)
       if(this.esNuevo){ 
         let faseNueva = new Fase();
+        if(!this.descripcionModal){
+          this.toastr.warning(`Se necesita colocar un nombre a la fase`, 'Aviso', { closeButton: true });
+          return;
+        }
+        if(this.descripcionModal.length > 255){
+          this.toastr.warning(`Se necesita ingresar un nombre a la fase menor a 255 caracteres`, 'Aviso', { closeButton: true });
+          return;
+        }
         faseNueva.descripcion = this.descripcionModal;
         faseNueva.idEvento = evento.idEvento;
         this.faseService.guardarFase(faseNueva).subscribe(
@@ -211,7 +252,7 @@ export class FaseEventoComponent implements OnInit{
     }
 
     OnConfirmar(){
-      this.faseService.eliminarFase(this.fase).subscribe(
+    this.faseService.eliminarFase(this.fase).subscribe(
         (response: Response)=>{ 
           console.log(response);  
           if(response.estado=="OK"){
@@ -262,7 +303,7 @@ export class FaseEventoComponent implements OnInit{
     OnCrearFormulario(fase: Fase){
       this.fase = fase;
       this.formulario = fase.formulario;
-
+        
       console.log(this.formulario);
 
       if(!this.formulario){

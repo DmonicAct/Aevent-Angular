@@ -10,11 +10,13 @@ import * as moment from 'moment';
 import { a } from "@angular/core/src/render3";
 
 @Component({
-    selector:'fase-evento',
+    selector:'fase-evento-presidente',
     templateUrl: 'fase-evento.template.html',
     styleUrls: ['fase-evento.template.scss']
 })
 export class FaseEventoPresidente implements OnInit{
+
+  public loading: Boolean = false;
 
   public isNewModalShown: Boolean;
   public isNewCriterioModalShown: Boolean;

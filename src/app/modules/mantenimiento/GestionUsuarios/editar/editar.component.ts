@@ -110,7 +110,7 @@ export class EditarUsuarioComponent implements OnInit  {
       }
       
     }
-    
+    this.item.password = this.password;
     let roles = new Array<Role>();
     if(this.itemCodigo){
       this.boolean_flags.forEach((e1,i1)=>{

@@ -2,7 +2,7 @@ import { OnInit, Component, Input } from "@angular/core";
 import { Division } from "../../../../../../../models";
 declare var jQuery: any;
 @Component({
-    selector:'call-for-paper-view',
+    selector:'call-for-paper-view-presidente',
     templateUrl:'call-for-paper-view.template.html',
     styleUrls:['call-for-paper-view.template.scss']
 })

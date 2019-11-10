@@ -45,11 +45,14 @@ export class EditarGestionarEventoComponent implements OnInit{
             }
         );
     }
-    /*
+    
     displayItem(flag: Boolean){
-        if(!this.item.formulario){
+        /**
+         * Evento para habilitar tab de fases
+         */
+       /*  if(!this.item.formulario){
             this.item.formulario = new FormularioCFP();
         }
-        this.flagEvento = flag;
-    }*/
+        this.flagEvento = flag; */
+    }
 }

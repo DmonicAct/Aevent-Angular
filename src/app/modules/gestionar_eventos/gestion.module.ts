@@ -26,6 +26,9 @@ import { AgregarEvaluadorPropuesta } from '../gestionar_eventos/presidente/pesta
 import { ComiteEventoVer } from '../gestionar_eventos/presidente/pestañas/comite-evento/comiteEventoPresidente.component';
 import { VerEventoPresidenteComponent } from '../gestionar_eventos/presidente/pestañas/ver.component';
 import { AsignarPropuestasVer } from './presidente/pestañas/asignar-propuestas/asignar-propuestas.component';
+import { FaseEventoPresidente } from './presidente/pestañas/fases/fase-evento.component';
+import { CallForPaperPresidente } from './presidente/pestañas/fases/call-for-papers/call-for-paper.component';
+import { CallForPaperViewPresidente } from './presidente/pestañas/fases/call-for-papers/call-for-papers-view/call-for-paper-view.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,9 @@ import { AsignarPropuestasVer } from './presidente/pestañas/asignar-propuestas/
     VerEventoPresidenteComponent,
     AgregarEvaluador,
     AgregarEvaluadorPropuesta,
+    FaseEventoPresidente,
+    CallForPaperPresidente,
+    CallForPaperViewPresidente
   ],
   imports: [
     CommonModule,
