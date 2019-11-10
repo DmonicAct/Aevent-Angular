@@ -5,6 +5,8 @@ import { Observable,throwError } from 'rxjs';
 import {  catchError } from 'rxjs/operators';
 import { Evento, Persona, Usuario } from "../models";
 import { Evaluacion } from "../models/evaluacion";
+import { HttpObserve } from "@angular/common/http/src/client";
+import { ENGINE_METHOD_PKEY_ASN1_METHS } from "constants";
 
 @Injectable({
     providedIn: 'root',
@@ -147,13 +149,15 @@ export class EventoService{
 
     obtenerPropuestas(idEvento:number, pagina:number, registros:number):Observable<any>{
       //const url = `${this.apiEndpoint}/propuestas/${idEvento}`;
-      let params:HttpParams = new HttpParams()
-//      .set('id', idEvento.toString())
+      //console.log("IN OBTENERPROPUESTAS:", idEvento)
+      //console.log("IN OBTENERPROPUESTAS:", idEvento)
+      //console.log("IN OBTENERPROPUESTAS:", idEvento)
+      let params:HttpParams = new HttpParams()      
+      .set('idEvento', idEvento.toString())
       .set('pagina', pagina.toString())
       .set('registros', registros.toString());
 
-
-      return this.http.get(this.apiEndpoint + `/propuestas/${idEvento}`, {params}).pipe(
+      return this.http.get(this.apiEndpoint + `/propuestas`, {params}).pipe(
         catchError(e => {
           if (e.status == 400) {
             return throwError(e);
