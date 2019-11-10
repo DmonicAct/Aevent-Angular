@@ -21,15 +21,17 @@
               <thead>
                 <tr>
                   <th class="text-left">Código Propuesta</th>
+                  <th class="text-left">Titulo</th>
                   <th class="text-left">Fase</th> 
                   <th class="text-left">Fecha Postulación</th>
                   <th class="text-center">Editar</th>
                 </tr>
               </thead>
 
-              <tr *ngFor="let item of propuestas; let i = index" 
+              <tr *ngFor="let item of evaluaciones; let i = index" 
                           [class.selected]="i == selectedRow">
                           <td class="text-left" data-col="idPropuesta"><code>{{item.idPropuesta}}</code></td>
+                          <td class="text-left" data-col="titulo"><code>{{item.propuesta.titulo}}</code></td>
                           <!--Corregir esto, debe buscar datos de la fase-->
                           <td class="text-left" data-col="nombrePostulante"><code></code>{{item.idFase}}</td> 
                           <td class="text-left" data-col="fechaPostulación"><code>{{item.propuesta.fecha_postulacion}}</code></td>

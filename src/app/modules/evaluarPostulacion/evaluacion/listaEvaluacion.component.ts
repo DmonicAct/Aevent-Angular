@@ -17,7 +17,8 @@ import { EvaluacionService } from "src/app/services/evaluacion.service";
 export class ListaEvaluacionComponent implements OnInit{
     public items: Array<Evento>;
     public paginacion: Paginacion;
-    public propuestas: Array<Evaluacion>;
+    public evaluaciones: Array<Evaluacion>;
+    public propuestas: Array<Propuesta>;
     public loading: Boolean = false;
     constructor(private toastr: ToastrService,
         private authService: AeventAuthService,
@@ -30,7 +31,7 @@ export class ListaEvaluacionComponent implements OnInit{
         this.getEventos();
         this.service.obtenerPropuestas(3, this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
-                this.propuestas = response.resultado;
+                this.evaluaciones = response.resultado;
                 console.log(response);
               }
         )
