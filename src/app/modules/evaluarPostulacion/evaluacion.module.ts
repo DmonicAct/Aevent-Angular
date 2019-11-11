@@ -14,15 +14,20 @@ import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 // modules/components
 import { PaginacionModule } from '../../components/common/paginacion/paginacion.module';
 
-import {ListaEvaluacionComponent} from './evaluacion/listaEvaluacion.component'
-import {EditarEvaluacionComponent} from './evaluacion/editar/editarEvaluacion.component'
-import {ListaPreferenciasComponent} from './preferencias-evaluacion/listaPreferenciasEvaluacion.component'
+import {ListaEvaluacionComponent} from './evaluacion/listaEvaluacion.component';
+import {EditarEvaluacionComponent} from './evaluacion/editar/editarEvaluacion.component';
+import {ListaPreferenciasComponent} from './preferencias-evaluacion/listaPreferenciasEvaluacion.component';
+import {DetallePropuestaComponent} from './evaluacion/editar/tabset-parts/detalle-propuesta/detalle-propuesta.component';
+import {FasePropuestaComponent} from './evaluacion/editar/tabset-parts/fase-propuesta/fase-propuesta.component';
+
 
 @NgModule({
   declarations: [
     ListaEvaluacionComponent,
     EditarEvaluacionComponent,
-    ListaPreferenciasComponent
+    ListaPreferenciasComponent,
+    DetallePropuestaComponent,
+    FasePropuestaComponent,
   ],
   imports: [
     CommonModule,

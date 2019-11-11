@@ -18,13 +18,18 @@ import {PostularEvento} from './postular/postular.component';
 import {EdicionPonenciaComponent} from './postular/edicionPonencia.component';
 import {ListaPonenciaComponent} from './listaEventos/listaPonencia.component';
 import {CallForPaperResponse} from './call-for-paper-llenado/callForPaper.component'
+
+import {DetallePropuestaComponent} from './postular/detalle-propuesta/detalle-propuesta.component';
+import {FasePropuestaComponent} from './postular/fase-propuesta/fase-propuesta.component';
 @NgModule({
   declarations: [
     ListaEventos,
     PostularEvento,
     CallForPaperResponse,
     EdicionPonenciaComponent,
-    ListaPonenciaComponent
+    ListaPonenciaComponent,
+    FasePropuestaComponent,
+    DetallePropuestaComponent
   ],
   imports: [
     CommonModule,

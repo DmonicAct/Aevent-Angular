@@ -87,6 +87,7 @@ export class DetalleEventoConfiguracion implements OnInit {
                     i.fullName = i.nombre + ' ' + i.appaterno + ' ' + i.apmaterno ; return i; 
                 }); */
                 this.maestroUsuariosFilter = this.itemsPersona;
+                
                 this.check = Array<Boolean>(this.itemsPersona.length);
                 this.check.forEach(element => {
                     element = false;
@@ -108,7 +109,19 @@ export class DetalleEventoConfiguracion implements OnInit {
             }
         );
     }
+    filtro: String;
+    filtroPersona: Evento;
+    maestroFiltro: Array<Persona>;
 
+    buscarUsuario2() {
+        if (this.filtro.length > 0) {
+          this.maestroFiltro = this.itemsPersona.filter(
+            item => item.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+        )
+        } else {
+            this.maestroFiltro = this.itemsPersona;
+        }
+    }
 
     obtenerTipoEventos() {
         this.serviceTipoEvento.obtenerTipoEventos().subscribe(
@@ -163,7 +176,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         }
     }
     onEliminarCategoria(index: number) {
-        console.log(index);
+        //console.log(index);
         //this.categoriasSeleccionadas.splice(index, 1)[0];
         this.item.categorias.splice(index,1)[0];
     }
@@ -281,12 +294,15 @@ export class DetalleEventoConfiguracion implements OnInit {
     OnAceptarPresidente() {
         this.isModalShownPresidente = false;
     }
+    
     nombreUsuario: String;
     maestroUsuariosFilter: Array<Persona>;
     buscarUsuario(){
         if (this.nombreUsuario.length > 0){
+            
+            
             this.maestroUsuariosFilter = this.itemsPersona.filter(
-                item => item.fullName.toLowerCase().indexOf(this.nombreUsuario.toLowerCase()) > -1
+                item => item.nombreCompleto.toLowerCase().indexOf(this.nombreUsuario.toLowerCase()) > -1
              )
         } else {
             this.maestroUsuariosFilter = this.itemsPersona;
