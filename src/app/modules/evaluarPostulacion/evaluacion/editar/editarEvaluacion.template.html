@@ -1,0 +1,31 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <h2>Mis Eventos</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a>De Organizador</a>
+      </li>
+      <li>  
+        <a>Evaluar Propuestas</a>
+      </li>
+    </ol>
+  </div>
+</div>
+<article class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <tabset #tabsDetalle>
+        <tab heading="Detalle">
+          <div class="mail-box-header">
+            <detalle-propuesta></detalle-propuesta>
+          </div>
+        </tab>
+        <tab #tabsFases heading="Criterios de Evaluación">
+            <div class="mail-box-header">
+              <fase-propuesta></fase-propuesta>
+            </div>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</article>
