@@ -109,19 +109,7 @@ export class DetalleEventoConfiguracion implements OnInit {
             }
         );
     }
-    filtro: String;
-    filtroPersona: Evento;
-    maestroFiltro: Array<Persona>;
 
-    buscarUsuario2() {
-        if (this.filtro.length > 0) {
-          this.maestroFiltro = this.itemsPersona.filter(
-            item => item.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
-        )
-        } else {
-            this.maestroFiltro = this.itemsPersona;
-        }
-    }
 
     obtenerTipoEventos() {
         this.serviceTipoEvento.obtenerTipoEventos().subscribe(
@@ -255,7 +243,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         );
 
     }
-    onCancelar() {
+    OnCancelar() {
         this._location.back();
     }
     DetectFin() {
@@ -287,22 +275,18 @@ export class DetalleEventoConfiguracion implements OnInit {
 
     ElegirPresidente(data){
         this.item.presidente = data;
-        
         this.nombrePresidente = this.item.presidente.nombreCompleto;
     }
 
     OnAceptarPresidente() {
         this.isModalShownPresidente = false;
     }
-    
     nombreUsuario: String;
     maestroUsuariosFilter: Array<Persona>;
     buscarUsuario(){
         if (this.nombreUsuario.length > 0){
-            
-            
             this.maestroUsuariosFilter = this.itemsPersona.filter(
-                item => item.nombreCompleto.toLowerCase().indexOf(this.nombreUsuario.toLowerCase()) > -1
+                item => item.fullName.toLowerCase().indexOf(this.nombreUsuario.toLowerCase()) > -1
              )
         } else {
             this.maestroUsuariosFilter = this.itemsPersona;

@@ -141,7 +141,7 @@ export class EditarUsuarioComponent implements OnInit  {
     this.service.guardarUsuarioSistema(this.item).subscribe(
       (response:Response)=>{
         this.toastr.success('Se guardo el usuario correctamente', 'Aviso', {closeButton: true});
-        this._location.back();
+        //this._location.back();
       });
   }
   DetectChange(){

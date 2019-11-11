@@ -2,4 +2,8 @@
     background-color: #FFF9E6;
 }
 
+.form-control[readonly].no-gray {
+    background-color:white !important;
+  }
+
 ::ng-deep.bs-datepicker { top: -350px; }
