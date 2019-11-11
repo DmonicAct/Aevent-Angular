@@ -169,7 +169,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.item.categorias.splice(index,1)[0];
     }
     fechaHoy: Date;
-    onGuardar() {
+    OnGuardar() {
         this.fechaHoy = new Date();
         if(!this.item.titulo){
             this.toastr.warning(`Se necesita colocar un Título`, 'Aviso', { closeButton: true });
