@@ -68,7 +68,7 @@ export class EditarUsuarioComponent implements OnInit  {
       (response: Response)=>{
         this.item = response.resultado;
         this.item.roles.forEach((e,i)=>{
-          let index = e.id-1;
+          let index = e.idRol-1;
           this.boolean_flags[index]=true;
         });
       }
@@ -116,7 +116,7 @@ export class EditarUsuarioComponent implements OnInit  {
       this.boolean_flags.forEach((e1,i1)=>{
         let isOnArray = false;
         this.item.roles.forEach((e2,i2)=>{
-          if(e2.id-1==i1 && e1){
+          if(e2.idRol-1==i1 && e1){
             isOnArray=true;
             e2.enabled=e1;
             roles.push(e2);

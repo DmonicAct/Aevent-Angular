@@ -1,8 +1,7 @@
 import { OnInit, Component } from "@angular/core";
-import { Evento, Paginacion, Usuario } from '../../../models'
+import { Evento, Paginacion } from '../../../models'
 import {AuthService as AeventAuthService} from  '../../../auth/service/auth.service'
 import { EventoService } from  '../../../services'
-import { UsuarioService } from  '../../../services'
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { Estado, Response } from '../../../models';
@@ -24,7 +23,6 @@ export class ListaEvaluacionComponent implements OnInit{
     public loading: Boolean = false;
     constructor(private toastr: ToastrService,
         private authService: AeventAuthService,
-        private usuarioService: UsuarioService,
         private router: Router,
         private service: EvaluacionService) {
         this.item = new Evento();
@@ -33,19 +31,12 @@ export class ListaEvaluacionComponent implements OnInit{
     }
     ngOnInit(){
         this.getEventos();
-        console.log(this.authService)
-        this.usuarioService.obtenerUsuarioUs(this.authService.usuario.username).subscribe((
-            response: Response )=>{
-            let usr: Usuario = response.resultado;
-            this.service.obtenerPropuestas(usr.idUsuario, this.paginacion.pagina, this.paginacion.registros).subscribe(
-                (response: Response) => {
-                    this.evaluaciones = response.resultado;
-                    console.log(response);
-                    }
-            )
-
-        });
-
+        this.service.obtenerPropuestas(3, this.paginacion.pagina, this.paginacion.registros).subscribe(
+            (response: Response) => {
+                this.evaluaciones = response.resultado;
+                console.log(response);
+              }
+        )
     }
     public getEventos(){
         

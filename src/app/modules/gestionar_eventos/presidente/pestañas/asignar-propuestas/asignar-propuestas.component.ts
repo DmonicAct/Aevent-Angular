@@ -207,8 +207,7 @@ export class AsignarPropuestasVer implements OnInit{
             let  e1:Evaluacion = new Evaluacion();
             e1.evaluador=Object.assign([],nuevoComiteDisp[i]);
             e1.propuesta=Object.assign([],this.actualPropuesta);
-            e1.abierto=false;
-            e1.evaluado=false;
+            e1.estado='ASIGNADO';
             e1.fase = new Fase();
             e1.fase= Object.assign([],this.asignarFase(this.itemEventoParent.fases));
             

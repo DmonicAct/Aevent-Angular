@@ -12,7 +12,7 @@ import { AuthService as AeventAuthService } from '../../../../../auth/service/au
 import * as moment from 'moment';
 import { ToastrService } from "ngx-toastr";
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
-import { Preferencia } from "src/app/models/Preferencia";
+import { Preferencia } from "src/app/models/preferencia";
 import { Evaluacion } from "src/app/models/evaluacion";
 import { PreferenciaService } from "src/app/services/preferencia.service";
 import { Propuesta } from "src/app/models/propuesta";

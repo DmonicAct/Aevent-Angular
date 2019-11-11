@@ -4,7 +4,7 @@ import { Usuario } from "../models";
 import { catchError } from "rxjs/operators";
 import { throwError, Observable } from "rxjs";
 import { Injectable } from "@angular/core";
-import { Preferencia } from "../models/Preferencia";
+import { Preferencia } from "../models/preferencia";
 
 
 @Injectable({

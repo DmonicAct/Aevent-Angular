@@ -1,4 +1,4 @@
-import { TipoSeccion, Pregunta } from ".";
+import { TipoSeccion, Pregunta, Division } from ".";
 
 export class Seccion{
     public idSeccion:number;
@@ -7,5 +7,5 @@ export class Seccion{
     public tipoSeccion: TipoSeccion;
     public cantidadPreguntas: number;
     public preguntaList: Array<Pregunta>;
-
+    public division: Division;
 }

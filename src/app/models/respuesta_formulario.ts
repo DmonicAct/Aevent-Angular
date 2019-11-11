@@ -7,6 +7,6 @@ export class RespuestaFormulario{
 	public idDivision:number;
 	public idSeccion:number;
 	public idPregunta:number;
-	public tipoPregunta:String;
-	public respuesta:String;
+	public tipoPregunta:string;
+	public respuesta:string;
 }

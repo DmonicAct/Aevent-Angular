@@ -5,7 +5,7 @@ import { EventoService } from  '../../../services'
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { Estado, Response } from '../../../models';
-import { Preferencia } from "src/app/models/Preferencia";
+import { Preferencia } from "src/app/models/preferencia";
 import { PreferenciaService } from "src/app/services/preferencia.service";
 
 @Component({

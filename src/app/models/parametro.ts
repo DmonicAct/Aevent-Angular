@@ -1,5 +1,7 @@
 
 export class Parametro{
-    public id: number;
-    public decripcion: string;
+    public idParametro: number;
+    public descripcion: String;
+    public descripcionCorta: String;
+    public enabled: Boolean;
 }
