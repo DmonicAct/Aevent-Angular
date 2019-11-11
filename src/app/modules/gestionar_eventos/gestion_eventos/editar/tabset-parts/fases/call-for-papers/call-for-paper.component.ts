@@ -278,7 +278,8 @@ export class CallForPaperComponent implements OnInit {
         );
      }
      onCancelar(){
-        this._location.back();
+        //this._location.back();
+        this.hideModal();
      }
     OnEditarPregunta() {
         this.editarPregunta = true;
