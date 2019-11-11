@@ -3,10 +3,11 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import { Observable,throwError } from 'rxjs';
 import {  catchError } from 'rxjs/operators';
-import { Evento, Persona, Usuario } from "../models";
+import { Evento, Persona,  Usuario, Fase } from "../models";
 import { Evaluacion } from "../models/evaluacion";
 import { HttpObserve } from "@angular/common/http/src/client";
 import { ENGINE_METHOD_PKEY_ASN1_METHS } from "constants";
+import { Propuesta } from "../models/propuesta";
 
 @Injectable({
     providedIn: 'root',
@@ -39,25 +40,31 @@ export class EventoService{
           }));
     }
 
-    guardarEvaluaciones(evaluaciones: Array<Evaluacion>):Observable<any>{
+    guardarEvaluaciones(evaluacion: Evaluacion):Observable<any>{
 
-      for(var i=0;i<evaluaciones.length;i++){
-        let params:HttpParams = new HttpParams()
-        .set('idPropuesta', evaluaciones[i].propuesta.idPropuesta.toString())
-        .set('idEvaluador', evaluaciones[i].evaluador.idUsuario.toString())
-        .set('idFase', evaluaciones[i].fase.idFase.toString());
-        let url=environment.serviceEndpoint+`/evaluacion/${evaluaciones[i].evaluador.idUsuario}`+`/${evaluaciones[i].propuesta.idPropuesta}`+`/${evaluaciones[i].fase.idFase}`;
-        return this.http.post(url, {params}).pipe(
-          catchError(e => {
-            if (e.status == 400) {
-              return throwError(e);
-            }
-            if (e.error.mensaje) {
-              console.error(e.error.mensaje);
-            }
+      /*
+      let params:HttpParams = new HttpParams()
+      .set('idPropuesta', evaluacion.propuesta.idPropuesta.toString())
+      .set('idUsuario', evaluaciones[i].evaluador.idUsuario.toString())
+      .set('idFase', evaluaciones[i].fase.idFase.toString());*/
+      let url=environment.serviceEndpoint + `/evaluacion`;
+      let propuesta: Propuesta = evaluacion.propuesta;
+      console.log(propuesta)
+      let evaluador: Persona = <Persona>evaluacion.evaluador;
+      console.log(evaluador)
+      let fase: Fase = evaluacion.fase;
+      console.log(fase)
+      return this.http.post(url, [evaluador,propuesta,  fase]).pipe(
+        catchError(e => {
+          if (e.status == 400) {
             return throwError(e);
-          }));
-      }
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+      
       //console.log("EVALUACIONES SAVED");
   }
 

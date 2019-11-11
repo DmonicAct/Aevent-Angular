@@ -98,8 +98,12 @@ declare var jQuery: any;
           this.listaNuevoComiteDisp.push(this.items[i])
         }
       }
+      console.log("in swal: value of listaEvparaagregar",this.listaEvParaAgregar);
+      
       this.valueChange.emit(this.listaEvParaAgregar);
       this.nuevoComiteDisp.emit(this.listaEvParaAgregar);
+      console.log("in swal: value of nuevo comite");
+      console.log(this.nuevoComiteDisp);
     }
 
   

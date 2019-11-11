@@ -85,13 +85,10 @@ export class UsuarioService{
       let email = usuario.username;
       const credenciales = btoa(this.config_name + ':' + this.config_password);
 
-      return this.validarEmail(usuario.email);
-      
+      return this.validarEmail(usuario.email);     
       
       
     }
-
-
 
     guardarUsuarioSistema(usuario:Persona){
       return this.http.post(this.apiEndpoint, usuario).pipe(
