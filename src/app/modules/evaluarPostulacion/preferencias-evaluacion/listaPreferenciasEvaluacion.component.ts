@@ -33,6 +33,7 @@ export class ListaPreferenciasComponent implements OnInit{
             (response: Response) => {
                 this.preferencias = response.resultado;
                 console.log(response);
+                console.log(this.authService.usuario.idUsuario);
               }
         )
     }

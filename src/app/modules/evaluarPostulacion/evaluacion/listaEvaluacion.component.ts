@@ -29,7 +29,7 @@ export class ListaEvaluacionComponent implements OnInit{
     }
     ngOnInit(){
         this.getEventos();
-        this.service.obtenerPropuestas(3, this.paginacion.pagina, this.paginacion.registros).subscribe(
+        this.service.obtenerPropuestas(this.authService.usuario.idUsuario, this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
                 this.evaluaciones = response.resultado;
                 console.log(response);

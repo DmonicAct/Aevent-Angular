@@ -12,6 +12,10 @@ import { AuthService as AeventAuthService } from '../../../../../auth/service/au
 import * as moment from 'moment';
 import { ToastrService } from "ngx-toastr";
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
+import { Preferencia } from "src/app/models/Preferencia";
+import { Evaluacion } from "src/app/models/evaluacion";
+import { PreferenciaService } from "src/app/services/preferencia.service";
+import { Propuesta } from "src/app/models/propuesta";
 @Component({
   selector: 'comiteEventoPresidente',
   templateUrl: './comiteEventoPresidente.component.html',
@@ -40,12 +44,16 @@ export class ComiteEventoVer implements OnInit {
 
   public loading:boolean;
 
+  public nuevos:Array<Persona>; //Para ver que preferencias agregar
+  public quitar:Array<Persona>; //Para ver que preferencias quitar
   
+  public nuevasPreferencias:Array<Preferencia>;
   
-  
+  public propuestas:Array<Propuesta>;
   constructor(
     private servicePersonas: PersonaService,
     private authService: AeventAuthService,
+    private servicePreferencia: PreferenciaService,
     private serviceEvento: EventoService,) {
     this.comiteElegido = new Array<Usuario>();
     
@@ -67,9 +75,22 @@ export class ComiteEventoVer implements OnInit {
         console.log(response);
         console.log("EvaluadoresDisponibles");
       }
+
+      
     );
+    
     //this.loadComite();    
     
+    this.nuevos = new Array<Persona>();
+    this.quitar = new Array<Persona>();
+
+    this.propuestas=new Array<Propuesta>();
+       this.serviceEvento.obtenerPropuestas(1, 1, 10).subscribe(
+        (response: Response) => {
+          this.propuestas = response.resultado;
+          console.log(response,"gg");
+        }
+        );
   }
 /*
   async loadComite(){
@@ -122,8 +143,50 @@ export class ComiteEventoVer implements OnInit {
         console.log("EVENTO SAVED");
       }
     );
+    this.nuevasPreferencias= new Array<Preferencia>();
+    //Insertar Preferencias
+    
+       
+    for(let persona of this.nuevos){
+        var pref = new Preferencia();
+        console.log("entrando a nuevos",this.propuestas);
+        for(let prop of this.propuestas ){
+          console.log("prop",prop);
+            pref.descripcion="Sin Determinar";
+            pref.propuesta=prop;
+            pref.usuario=persona;
+            this.servicePreferencia.guardarPreferencia(pref).subscribe(
+              (response: Response) => {
+                //this.toastr.success(`Se ha guardado con exito`, 'Aviso', { closeButton: true });
+            }
+            );
+            console.log("insert preferencia");
+        }
+    }
 
+    for(let persona of this.quitar){
+      var pref = new Preferencia();
+      for(let prop of this.propuestas ){
+       
+        this.servicePreferencia.consultarByUsuarioAndPropuesta(persona.idUsuario,1).subscribe(
+          (response: Response) => {
+            pref = response.resultado;
+          }
+        );
+        console.log("preferencia",pref);
+        if(pref != null){
+          this.servicePreferencia.eliminarPreferencia(pref.id).subscribe(
+            (response: Response) => {
+            }
+          );
+          console.log("delete preferencia");
+        }
+      }
 
+    }
+    
+    this.nuevos = new Array<Persona>();
+    this.quitar = new Array<Persona>();
 
   }
 
@@ -133,9 +196,22 @@ export class ComiteEventoVer implements OnInit {
     this.swalComponent.nativeSwal.close();
     //Agregamos los evaluadores escogidos
     for(var p=0; p<lista.length;p++){
-
+      
       this.comiteElegido.push(lista[p]);
+
+      //Para preferencias
+      if(this.quitar.includes(lista[p])){
+        var ind = this.quitar.lastIndexOf(lista[p]);
+        this.quitar.splice(ind,1);
+      }
+      else{
+        this.nuevos.push(lista[p]);
+      }
     }
+    
+    console.log("nuevos",this.nuevos);
+    console.log("quitar",this.quitar);
+
     
     console.log(this.comiteElegido,"ss");
     this.listaEvAgregar = <Array<Persona>> this.comiteElegido;
@@ -175,6 +251,15 @@ export class ComiteEventoVer implements OnInit {
     console.log(this.evaluadoresDisponibles);
     this.comiteElegido.splice(i, 1)[0];
 
+    if(this.nuevos.includes(index)){
+      var ind = this.nuevos.lastIndexOf(index);
+      this.nuevos.splice(ind,1);
+    }
+    else{
+      this.quitar.push(index);
+    }
+    console.log("nuevos",this.nuevos);
+    console.log("quitar",this.quitar);
   }
 
   onNuevoComiteDisp(nuevoComiteDisp){

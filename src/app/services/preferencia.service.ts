@@ -56,4 +56,36 @@ export class PreferenciaService{
           return throwError(e);
         }));
   }
+
+  eliminarPreferencia(id:number):Observable<any>{
+    let params:HttpParams = new HttpParams()
+    .set('id', id.toString())
+    return this.http.get(this.apiEndpoint + '/delete/', {params}).pipe(
+      catchError(e => {
+        if (e.status == 400) {
+          return throwError(e);
+        }
+        if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
+        return throwError(e);
+      }));
+}
+
+
+consultarByUsuarioAndPropuesta(idUsuario:number,idPropuesta:number):Observable<any>{
+  let params:HttpParams = new HttpParams()
+  .set('idUsuario', idUsuario.toString())
+  .set('idPropuesta', idPropuesta.toString())
+  return this.http.get(this.apiEndpoint + '/find', {params}).pipe(
+    catchError(e => {
+      if (e.status == 400) {
+        return throwError(e);
+      }
+      if (e.error.mensaje) {
+        console.error(e.error.mensaje);
+      }
+      return throwError(e);
+    }));
+}
 }
