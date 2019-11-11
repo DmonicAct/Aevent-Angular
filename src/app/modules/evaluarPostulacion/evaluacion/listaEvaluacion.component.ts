@@ -16,6 +16,7 @@ import { EvaluacionService } from "src/app/services/evaluacion.service";
 })
 
 export class ListaEvaluacionComponent implements OnInit{
+    public item : Evento;
     public items: Array<Evento>;
     public paginacion: Paginacion;
     public evaluaciones: Array<Evaluacion>;
@@ -26,6 +27,7 @@ export class ListaEvaluacionComponent implements OnInit{
         private usuarioService: UsuarioService,
         private router: Router,
         private service: EvaluacionService) {
+        this.item = new Evento();
         this.items = new Array<Evento>();
         this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
     }
@@ -48,6 +50,12 @@ export class ListaEvaluacionComponent implements OnInit{
     public getEventos(){
         
     }
+
+    OnEditar(item: Evento) {
+        console.log(item);
+        this.router.navigate([`gestionEvaluacionEvento/eventos-postulante/evaluar/${item.idEvento}`]);
+    }
+
     OnPageChanged(event): void {
         this.paginacion.pagina = event.page;
         //this.getLista();
