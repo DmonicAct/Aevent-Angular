@@ -46,7 +46,8 @@ export class ComiteEventoVer implements OnInit {
   constructor(
     private servicePersonas: PersonaService,
     private authService: AeventAuthService,
-    private serviceEvento: EventoService,) {
+    private serviceEvento: EventoService,
+    private _location: Location,) {
     this.comiteElegido = new Array<Usuario>();
     
 
@@ -128,6 +129,10 @@ export class ComiteEventoVer implements OnInit {
     this.listaEvAgregar = <Array<Persona>> this.comiteElegido;
 
     
+  }
+
+  OnRetroceder(){
+    this._location.back();
   }
 
   onAgregar(){

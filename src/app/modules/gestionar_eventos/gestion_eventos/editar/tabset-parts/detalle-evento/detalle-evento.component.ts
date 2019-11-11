@@ -242,7 +242,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         );
 
     }
-    onCancelar() {
+    OnCancelar() {
         this._location.back();
     }
     DetectFin() {
@@ -274,7 +274,7 @@ export class DetalleEventoConfiguracion implements OnInit {
 
     ElegirPresidente(data){
         this.item.presidente = data;
-        this.nombrePresidente = this.item.presidente.fullName;
+        this.nombrePresidente = this.item.presidente.nombreCompleto;
     }
 
     OnAceptarPresidente() {
