@@ -39,16 +39,33 @@ export class GestionTipoCriterioListaComponent implements OnInit  {
     this.newItem = new TipoCriterio;    
     this.items = new Array<TipoCriterio>();
     this.paginacion = new Paginacion({pagina:0,registros: 10});
+    this.enFiltro = false;
+    this.numeroTipo = 0;
+    this.filtro = "";
   }
 
   ngOnInit():any {
     this.getLista();
   };
 
+  getTodos(){
+    this.service.obtenerTipoCriterios().subscribe(
+      (response: Response)=>{
+        this.items = response.resultado;
+        this.itemsFiltrados = this.items;
+        if(this.isModalShown){
+          this.autoShownModal.hide();
+          this.isModalShown=false;
+        }
+      }
+    );
+  }
+
   getLista(){
     this.service.obtenerTipoCriterio(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response)=>{
         this.items = response.resultado;
+        this.itemsFiltrados = this.items;
         this.paginacion = response.paginacion;
         if(this.isModalShown){
           this.autoShownModal.hide();
@@ -127,5 +144,35 @@ export class GestionTipoCriterioListaComponent implements OnInit  {
     this.paginacion.pagina = 1;
     this.getLista();
   }
+  enFiltro: Boolean;
+  numeroTipo: number;
+  filtro: String;
+  tipo: String;
+  itemsFiltrados: Array<TipoCriterio>;
 
+  cambioFiltro() {
+    if (this.tipo == "Nombre") {
+      this.numeroTipo = 1;
+    }
+  }
+
+  public itemsFiltro = ["Nombre"];
+  buscarTipos(){
+    this.cambioFiltro();
+    if (this.filtro.length > 0){
+      if (this.enFiltro == false){
+        this.enFiltro = true;
+        this.getTodos();
+      }
+      if (this.numeroTipo == 1){
+        this.itemsFiltrados = this.items.filter(
+          item => item.descripcion.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+        )
+      }
+    }else{
+      this.enFiltro = false;
+      this.getLista();
+      this.itemsFiltrados = this.items;
+    }
+  }
 }
