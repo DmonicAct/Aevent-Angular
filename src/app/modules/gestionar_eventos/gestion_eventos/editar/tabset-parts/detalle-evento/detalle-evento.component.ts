@@ -64,6 +64,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.obtenerTipoEventos();
         this.obtenerListaLugar();
         this.getListaActivos();
+        this.obtenerUsuarios();
         this.buscarUsuario();
     }
     public datos: boolean = true;
@@ -130,6 +131,7 @@ export class DetalleEventoConfiguracion implements OnInit {
                     element = false;
                 });
                 if (this.item && this.item.presidente) {
+                    
                     for (let i = 0; i < this.itemsPersona.length; i++) {
                         if (this.itemsPersona[i].idUsuario == this.item.presidente.idUsuario) {
                             /* this.item.presidente.fullName = this.itemsPersona[i].nombre + ' ' + this.itemsPersona[i].appaterno + ' ' + this.itemsPersona[i].apmaterno ;
