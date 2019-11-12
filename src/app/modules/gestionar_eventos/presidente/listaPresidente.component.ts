@@ -27,32 +27,43 @@ export class ListaEventosPresidente implements OnInit {
   flagVer: Boolean;
   rolOrga: Boolean;
   ngOnInit(): void {
-      this.getEventosPresidente();
-      this.rolOrga = false;
-        this.authService.usuario.roles.forEach(element => {
-            var aux = '' + element;
-            if (aux == 'ROLE_ORGANIZER') this.rolOrga = true;
-        });
+    this.getEventosPresidente();
+    this.rolOrga = false;
+    this.enFiltro = false;
+    this.authService.usuario.roles.forEach(element => {
+      var aux = '' + element;
+      if (aux == 'ROLE_ORGANIZER') this.rolOrga = true;
+    });
   }
-  
-  OnOrganizador(){
+
+  OnOrganizador() {
     this.router.navigate([`Eventos/MisEventos/organizador`]);
   }
 
-   OnRowClick(i, item){
-    
+  OnRowClick(i, item) {
+
   }
- 
+
 
   getEventosPresidente() {
-    this.service.consultarAllEventoByPresidente(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
+    this.service.consultarEventoByPresidente(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response) => {
         this.items = response.resultado;
         this.maestroEventoFilter = this.items;
       }
     );
   }
-  OnEditar(item : Evento){
+
+  getAllEventosPresidente() {
+    this.service.consultarAllEventoByPresidente(this.authService.usuario.username).subscribe(
+      (response: Response) => {
+        this.items = response.resultado;
+        this.maestroEventoFilter = this.items;
+      }
+    );
+  }
+
+  OnEditar(item: Evento) {
     this.router.navigate([`Eventos/MisEventos/presidente/ver/${item.idEvento}`]);
   }
 
@@ -66,46 +77,53 @@ export class ListaEventosPresidente implements OnInit {
     this.paginacion.pagina = 1;
     this.getEventosPresidente();
   }
-    filtro: String;
-    tipo: String;
-    numeroTipo: number;
-    eventoFiltro: Evento;
-    maestroEventoFilter: Array<Evento>;
+  filtro: String;
+  tipo: String;
+  numeroTipo: number;
+  eventoFiltro: Evento;
+  maestroEventoFilter: Array<Evento>;
 
-    cambioFiltro(){
-        if (this.tipo == "Título"){
-            this.numeroTipo = 1;
-        }
-        if (this.tipo == "Tipo"){
-            this.numeroTipo = 2;
-        }
-        if (this.tipo == "Organizador"){
-          this.numeroTipo = 3;
+  cambioFiltro() {
+    if (this.tipo == "Título") {
+      this.numeroTipo = 1;
+    }
+    if (this.tipo == "Tipo") {
+      this.numeroTipo = 2;
+    }
+    if (this.tipo == "Organizador") {
+      this.numeroTipo = 3;
+    }
+  }
+
+  public itemsFiltro = ["Título", "Tipo", "Organizador"];
+  enFiltro: Boolean;
+
+  buscarEvento() {
+    this.cambioFiltro();
+    if (this.filtro.length > 0) {
+      if (this.enFiltro == false) {
+        this.getAllEventosPresidente();
       }
+      this.enFiltro = true;
+      if (this.numeroTipo == 1) {
+        this.maestroEventoFilter = this.items.filter(
+          item => item.titulo.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+        )
+      }
+      if (this.numeroTipo == 2) {
+        this.maestroEventoFilter = this.items.filter(
+          item => item.tipoEvento.nombre.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+        )
+      }
+      if (this.numeroTipo == 3) {
+        this.maestroEventoFilter = this.items.filter(
+          item => item.organizador.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+        )
+      }
+    } else {
+      this.enFiltro = false;
+      this.getEventosPresidente();
+      this.maestroEventoFilter = this.items;
     }
-
-    public itemsFiltro = ["Título","Tipo","Organizador"];
-
-    buscarEvento() {
-        this.cambioFiltro();
-        if (this.filtro.length > 0) {
-            if (this.numeroTipo == 1){
-                this.maestroEventoFilter = this.items.filter(
-                    item => item.titulo.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
-                )
-            }
-            if (this.numeroTipo == 2){
-                this.maestroEventoFilter = this.items.filter(
-                    item => item.tipoEvento.nombre.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
-                )
-            }
-            if (this.numeroTipo == 3){
-              this.maestroEventoFilter = this.items.filter(
-                  item => item.organizador.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
-              )
-            }
-        } else {
-            this.maestroEventoFilter = this.items;
-        }
-    }
+  }
 }
