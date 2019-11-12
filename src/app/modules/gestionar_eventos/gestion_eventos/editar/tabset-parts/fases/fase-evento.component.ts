@@ -267,8 +267,21 @@ export class FaseEventoComponent implements OnInit {
     this._location.back();
 }
   OnAgregarFase(evento: Evento) { // En el boton de gestiongar fase (solo se guarda el nombre de la fase)
+    let flag = 0;
     if (this.esNuevo) {
       let faseNueva = new Fase();
+      
+      evento.fases.forEach(element =>{
+          if (element.descripcion == this.descripcionModal){
+            this.toastr.warning(`Ya exise una fase con ese título, inserte un título nuevo`, 'Aviso', { closeButton: true });
+            flag = 1;
+            return;
+          }
+      });
+      if (flag == 1){
+        flag =0;
+        return;
+      }
       if (!this.descripcionModal) {
         this.toastr.warning(`Se necesita colocar un nombre a la fase`, 'Aviso', { closeButton: true });
         return;

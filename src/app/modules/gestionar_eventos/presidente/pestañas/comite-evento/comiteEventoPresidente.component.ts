@@ -50,7 +50,7 @@ export class ComiteEventoVer implements OnInit {
   public nuevasPreferencias:Array<Preferencia>;
   public pref;
   public propuestas:Array<Propuesta>;
-  constructor(
+  constructor(private toastr: ToastrService,
     private servicePersonas: PersonaService,
     private authService: AeventAuthService,
     private servicePreferencia: PreferenciaService,
@@ -144,6 +144,7 @@ export class ComiteEventoVer implements OnInit {
       (response: Response) => {        
         console.log(response);
         console.log("EVENTO SAVED");
+        this.toastr.success(`Se ha actualizado la lista de evaluadores del evento con exito`, 'Aviso', { closeButton: true });
       }
     );
     this.nuevasPreferencias= new Array<Preferencia>();
