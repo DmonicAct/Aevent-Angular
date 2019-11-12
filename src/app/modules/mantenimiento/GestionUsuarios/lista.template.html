@@ -72,7 +72,7 @@
               <td class="text-center" data-col="apmatenro">{{item.apmaterno}}</td>
               <td class="text-center" data-col="usuario">{{item.username}}</td>
               <td data-col="email">{{item.email}}</td>
-              <td class="text-center" data-col="fechaCreacion">{{item.fechaCreacion}}</td>
+              <td class="text-center" data-col="fechaCreacion">{{item.fechaCreacion | date:'dd/MM/yyyy'}}</td>
 
               <td *ngIf="activos" class="text-center" data-col="eliminar" (click)="OnDeshabilitar(item)"><button class="btn btn-danger"><i class="fa fa-ban"></i></button></td>
               <td *ngIf="!activos" class="text-center" data-col="eliminar" (click)="OnHabilitar(item)"><button class="btn btn-success"><i class="fa fa-check"></i></button></td>
