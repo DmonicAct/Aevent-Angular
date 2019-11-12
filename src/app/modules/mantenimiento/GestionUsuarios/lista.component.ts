@@ -67,6 +67,7 @@ export class GestionUsuarioListaComponent implements OnInit {
         this.items = response.resultado;
         this.paginacion = response.paginacion;
         this.usuariosFiltrados = this.items;
+        console.log(this.usuariosFiltrados); 
         this.buscarUsuario();
       }
     );
@@ -184,16 +185,13 @@ export class GestionUsuarioListaComponent implements OnInit {
       this.enFiltro = true;
       if (this.numeroTipo == 1) {
         this.usuariosFiltrados = this.items.filter(
-          item => item.nombre.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1 ||
-            item.appaterno.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1 ||
-            item.apmaterno.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+          item => item.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
         )
       }
-      if (this.numeroTipo == 2) {
+      if (this.numeroTipo == 2) { 
         this.usuariosFiltrados = this.items.filter(
           item => item.username.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
         )
-        
       }
       if (this.numeroTipo == 3) {
         this.usuariosFiltrados = this.items.filter(
@@ -208,9 +206,9 @@ export class GestionUsuarioListaComponent implements OnInit {
           this.getListaInactivos();
         }
         this.seCambioActivo = false;
-      }      
+      } 
       this.enFiltro = false;
-      this.usuariosFiltrados = this.items;
+      this.usuariosFiltrados = this.items;      
     }
   }
 
