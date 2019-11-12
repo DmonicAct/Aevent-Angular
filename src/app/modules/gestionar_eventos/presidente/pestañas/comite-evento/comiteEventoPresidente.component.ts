@@ -48,7 +48,7 @@ export class ComiteEventoVer implements OnInit {
   public quitar:Array<Persona>; //Para ver que preferencias quitar
   
   public nuevasPreferencias:Array<Preferencia>;
-  
+  public pref;
   public propuestas:Array<Propuesta>;
   constructor(
     private servicePersonas: PersonaService,
@@ -168,12 +168,12 @@ export class ComiteEventoVer implements OnInit {
     }
 
     for(let persona of this.quitar){
-      var pref = new Preferencia();
+      this.pref = new Preferencia();
       for(let prop of this.propuestas ){
        
         this.servicePreferencia.consultarByUsuarioAndPropuesta(persona.idUsuario,1).subscribe(
           (response: Response) => {
-            pref = response.resultado;
+            this.pref = response.resultado;
           }
         );
         console.log("preferencia",pref);
