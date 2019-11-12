@@ -32,6 +32,7 @@ export class ListaEventosOrganizador implements OnInit {
         //this.getAllEventos();
         this.getEventosOrganizador();
         this.rolOrga = false;
+        this.enFiltro = false;
         this.authService.usuario.roles.forEach(element => {
             var aux = '' + element;
             if (aux == 'ROLE_ORGANIZER') this.rolOrga = true;
@@ -52,18 +53,19 @@ export class ListaEventosOrganizador implements OnInit {
     }
 
     getEventosOrganizador() {
-        this.service.consultarAllEventoByOrganizador(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
+        this.service.consultarEventoByOrganizador(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
                 this.items = response.resultado;
                 this.maestroEventoFilter = this.items;
-                console.log(this.items);
-                /* this.itemsPropios = response.resultado;
-                this.items.forEach(function (element,index) {
-                    if (this.itemsPropios.includes(element)){
-                        this.eventosPropios[index] = true;
-                    }
-                });
-                console.log("Eventos propios: ",this.eventosPropios); */
+            }
+        );
+    }
+
+    getAllEventosOrganizador(){
+        this.service.consultarAllEventoByOrganizador(this.authService.usuario.username).subscribe(
+            (response: Response) => {
+                this.items = response.resultado;
+                this.maestroEventoFilter = this.items;
             }
         );
     }
@@ -115,10 +117,16 @@ export class ListaEventosOrganizador implements OnInit {
     }
 
     public itemsFiltro = ["Título","Tipo","Presidente"];
+    enFiltro: Boolean;
+
 
     buscarEvento() {
         this.cambioFiltro();
         if (this.filtro.length > 0) {
+            if (this.enFiltro == false){
+                this.getAllEventosOrganizador();
+            }
+            this.enFiltro = true;
             if (this.numeroTipo == 1){
                 this.maestroEventoFilter = this.items.filter(
                     item => item.titulo.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
@@ -136,6 +144,8 @@ export class ListaEventosOrganizador implements OnInit {
             }
             
         } else {
+            this.enFiltro = false;
+            this.getEventosOrganizador();
             this.maestroEventoFilter = this.items;
         }
     }
