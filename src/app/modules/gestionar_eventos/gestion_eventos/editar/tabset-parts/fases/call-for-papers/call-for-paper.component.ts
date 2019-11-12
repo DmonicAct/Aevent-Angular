@@ -4,7 +4,6 @@ import { ModalDirective } from "ngx-bootstrap";
 import { Location } from '@angular/common';
 import { FaseService } from '../../../../../../../services/fase.service';
 import { ToastRef, ToastrService } from "ngx-toastr";
-import { UtilFormulario } from "src/app/util/util_formulario";
 import { FormularioCFPService } from "src/app/services/formulariocfp.service";
 declare var jQuery: any;
 
@@ -14,7 +13,6 @@ declare var jQuery: any;
     styleUrls: ['call-for-paper.template.scss']
 })
 export class CallForPaperComponent implements OnInit {
-    private utilForm: UtilFormulario;
         
     public itemsParametro: Array<Parametro>;
     public itemParametro: Parametro;
@@ -74,7 +72,6 @@ export class CallForPaperComponent implements OnInit {
         private toastr: ToastrService,
         private _location: Location
     ) {
-        this.utilForm = new UtilFormulario();
 
         this.itemsParametro = new Array<Parametro>();
         this.itemParametro = new Parametro;
@@ -105,6 +102,16 @@ export class CallForPaperComponent implements OnInit {
     }
     ngOnInit(): void {
         console.log(this.item.idEvento, this.item.idFase);
+        this.itemTipoSeccion = TipoSeccion.PREGUNTA_ABIERTA;
+        this.itemSeccion = new Seccion();
+        this.itemSeccion.descripcion = this.descripcionSeccion;
+        this.itemSeccion.tipoSeccion = this.itemTipoSeccion;
+        this.itemSeccion.preguntaList = this.itemsPreguntas = new Array<Pregunta>();
+        this.itemSeccion.indice = this.itemsSeccion.length+1;
+        let index = this.itemsSeccion.length;
+        this.itemsSeccion.push(this.itemSeccion);
+        this.indexSeccion= this.itemsSeccion.length-1;
+        this.itemsPreguntas = this.itemsSeccion[index].preguntaList;
     }
     OnSeleccionCriterio() {
 
@@ -153,8 +160,21 @@ export class CallForPaperComponent implements OnInit {
         this.descripcionDivision = null;
     }
     OnEditar(index: number) {
+        console.log('formulario: ', this.itemFormulario);
         this.itemsSeccion = this.itemFormulario.divisionList[index].seccionList;
-        this.itemsPreguntas = new Array<Pregunta>();
+        console.log('itemSeccion: ',this.itemsSeccion);
+        /**
+         * 
+         * Solo una seccion por division
+         */
+        this.itemSeccion = this.itemsSeccion[0];
+        this.itemsPreguntas = this.itemSeccion.preguntaList;
+        /**
+         * 
+         * Solo una seccion por division fin
+         */
+        console.log(this.itemsSeccion);
+        //this.itemsPreguntas = new Array<Pregunta>();
         this.isModalShown = true;
         this.indexDivision = index;
     }
@@ -205,6 +225,7 @@ export class CallForPaperComponent implements OnInit {
         if(!this.itemSeccion)
         return;
         //validar datos
+
         if (!this.descripcionPregunta) {
             this.toastr.warning(`Tipo de sección vacía`, 'Aviso', { closeButton: true });
             return;
@@ -222,11 +243,14 @@ export class CallForPaperComponent implements OnInit {
         if (this.itemSeccion) {
             switch (this.itemSeccion.tipoSeccion) {
                 case "PREGUNTA ABIERTA": {
-                   if (this.itemsPreguntas.length == 0)
-                        this.itemsPreguntas.push(this.itemPregunta);
+                  /*  if (this.itemsPreguntas.length == 0)
+                        this.itemsPreguntas.push(this.itemPregunta); */
+                    this.itemPregunta.tipoPregunta="PREGUNTA_ABIERTA";
+                    this.itemsPreguntas.push(this.itemPregunta);
+                    break;
                     /* else
                     this.toastr.warning(``, 'Aviso', {closeButton: true}); */
-                    break;
+                    
                 }
                 case "PREGUNTA MULTIPLE": {
                     this.itemsPreguntas.push(this.itemPregunta);
@@ -266,7 +290,7 @@ export class CallForPaperComponent implements OnInit {
         this.itemFormulario.idFase = this.item.idFase;
         this.item.formulario.divisionList.forEach(e=>{
 
-        })
+        });
         console.log(this.item.idEvento, this.item.idFase);  
         
         this.serviceFase.guardarFase(this.item).subscribe(
@@ -281,6 +305,7 @@ export class CallForPaperComponent implements OnInit {
         //this._location.back();
         this.hideModal();
      }
+     
     OnEditarPregunta() {
         this.editarPregunta = true;
     }

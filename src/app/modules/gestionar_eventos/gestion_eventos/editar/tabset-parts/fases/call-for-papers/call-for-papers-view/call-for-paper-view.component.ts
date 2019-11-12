@@ -7,6 +7,7 @@ declare var jQuery: any;
     styleUrls:['call-for-paper-view.template.scss']
 })
 export class CallForPaperView implements OnInit{
+    
     @Input('items')
     public items: Array<Division>;
     seleccionados: any[];

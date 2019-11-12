@@ -5,10 +5,10 @@
                 <div class="full-height">
                     <div class="full-height-scroll white-bg">
                         <div class="ibox-content">
-                            <div *ngFor="let division of items">
+                            <div *ngFor="let division of items; let divIndex = index">
                                 <div class="form-group">
                                     <div class="text-center">
-                                        <h4><strong>{{division.indice}}-{{division.descripcion}}</strong></h4>
+                                        <h4><strong>{{divIndex+1}}-{{division.descripcion}}</strong></h4>
                                     </div>
                                 </div>
                                 <div class="ibox-content">
@@ -16,14 +16,27 @@
                                         <div *ngIf="seccion.tipoSeccion=='PREGUNTA ABIERTA'">
                                             <div class="ibox-content">
                                                 <div class="row">
-                                                    <div class="col-lg-3">
+                                                    <!-- <div class="col-lg-3">
                                                         <label style="text-align: right;">
                                                             {{seccion.preguntaList[0].descripcion}}</label>
                                                     </div>
                                                     <div class="col-lg-9">
                                                         <textarea type="text" [disabled]="true" rows="3"
                                                             class="form-control"></textarea>
-                                                    </div>
+                                                    </div> -->
+                                                    <div class="col-lg-9">
+                                                            <div *ngFor="let pregunta of seccion.preguntaList; let i = index">
+                                                                <div class="row m-b-sm">
+                                                                    <label class="col-sm-4"
+                                                                        style="text-align: right;">{{pregunta.descripcion}}</label>
+                                                                    <div class="col-sm-8">
+                                                                        <input class="form-control"
+                                                                            name="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}"
+                                                                            [disabled]="true">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                 </div>
                                             </div>
                                         </div>

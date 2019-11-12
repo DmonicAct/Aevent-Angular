@@ -12,15 +12,9 @@ import { Propuesta } from "../models/propuesta";
   })
 export class PropuestaService{
     private apiEndpoint: string;
-    private config_name: string
-    private config_password: string;
-
-    private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
     constructor(public http: HttpClient) {
         this.apiEndpoint = environment.serviceEndpoint + '/postulacion';
-        this.config_name = environment.APP_CONFIG_NAME;
-        this.config_password = environment.APP_CONFIG_PASSWORD;
     }
 
 
