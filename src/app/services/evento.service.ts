@@ -54,7 +54,12 @@ export class EventoService{
       console.log(evaluador)
       let fase: Fase = evaluacion.fase;
       console.log(fase)
-      return this.http.post(url, [evaluador,propuesta,  fase]).pipe(
+
+      let params:HttpParams = new HttpParams()
+        .set('idUsuario', evaluador.idUsuario.toString())
+        .set('idPropuesta', propuesta.idPropuesta.toString())
+        .set('idFase', fase.idFase.toString())   
+      return this.http.post(url + '','', {params}).pipe(
         catchError(e => {
           if (e.status == 400) {
             return throwError(e);
