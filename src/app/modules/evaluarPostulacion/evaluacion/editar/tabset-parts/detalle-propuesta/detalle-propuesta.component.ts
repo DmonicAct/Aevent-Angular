@@ -19,5 +19,6 @@ export class DetallePropuestaComponent implements OnInit {
 
     ngOnInit(): void {
 
+        console.log("ITEM",)
     }
 }

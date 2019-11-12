@@ -1,5 +1,5 @@
 import { OnInit, Component } from "@angular/core";
-import { Evento, Paginacion } from '../../../models'
+import { Evento, Paginacion, Usuario } from '../../../models'
 import {AuthService as AeventAuthService} from  '../../../auth/service/auth.service'
 import { EventoService } from  '../../../services'
 import { ToastrService } from "ngx-toastr";
@@ -8,6 +8,7 @@ import { Estado, Response } from '../../../models';
 import { Propuesta } from "src/app/models/propuesta";
 import { Evaluacion } from "src/app/models/evaluacion";
 import { EvaluacionService } from "src/app/services/evaluacion.service";
+import { UsuarioService } from "src/app/services/usuario.service";
 @Component({
     selector:'lista-evaluacion',
     templateUrl:'listaEvaluacion.template.html',
@@ -19,24 +20,34 @@ export class ListaEvaluacionComponent implements OnInit{
     public items: Array<Evento>;
     public paginacion: Paginacion;
     public evaluaciones: Array<Evaluacion>;
+    public usr: Usuario;
     public propuestas: Array<Propuesta>;
     public loading: Boolean = false;
     constructor(private toastr: ToastrService,
         private authService: AeventAuthService,
+        private usrService: UsuarioService,
         private router: Router,
         private service: EvaluacionService) {
         this.item = new Evento();
+        this.usr= new Usuario();
         this.items = new Array<Evento>();
         this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
     }
     ngOnInit(){
         this.getEventos();
-        this.service.obtenerPropuestas(3, this.paginacion.pagina, this.paginacion.registros).subscribe(
-            (response: Response) => {
-                this.evaluaciones = response.resultado;
-                console.log(response);
-              }
+        this.usrService.obtenerUsuarioUs(this.authService.usuario.username).subscribe(
+            (response:Response)=>{
+                this.usr = response.resultado;
+                console.log(this.usr)
+                this.service.obtenerPropuestas(this.usr.idUsuario, this.paginacion.pagina, this.paginacion.registros).subscribe(
+                    (response: Response) => {
+                        this.evaluaciones = response.resultado;
+                        console.log(response);
+                      }
+                )
+            }
         )
+     
     }
     public getEventos(){
         

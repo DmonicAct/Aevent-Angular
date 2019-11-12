@@ -6,7 +6,7 @@ import { PersonaService, CategoriaService, LugarService, EventoService, TipoEven
 import { DetalleEventoVer } from '.././detalle-evento/detalleEventoPresidente.component';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ComiteEventoVer } from '.././comite-evento/comiteEventoPresidente.component';
-
+import { Location } from '@angular/common';
 import { AuthService as AeventAuthService } from '../../../../../auth/service/auth.service';
 
 import * as moment from 'moment';
@@ -68,6 +68,7 @@ export class AsignarPropuestasVer implements OnInit{
   constructor(
     private servicePersonas: PersonaService,      
     private authService: AeventAuthService,
+    private _location: Location,
     private serviceEvento: EventoService,) {
     this.comiteElegido = new Array<Usuario>();
     this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
@@ -236,14 +237,30 @@ export class AsignarPropuestasVer implements OnInit{
       for(var i=0;i<localEvaluadores.length;i++){
         var longEvDisponibles = this.evaluadoresDisponibles.length;
         for(var j=0;j<longEvDisponibles; j++){
-          if(localEvaluadores[i].idUsuario == this.evaluadoresDisponibles[j].idUsuario){
+          if(localEvaluadores[i].idUsuario == this.evaluadoresDisponibles[j].idUsuario /*|| item.postulante.idUsuario == this.evaluadoresDisponibles[j].idUsuario*/){
             this.evaluadoresDisponibles.splice(j, 1)[0];
             break;
           }
         }      
       }
+      console.log(this.evaluadoresDisponibles)
+      var longEvDisponibles = this.evaluadoresDisponibles.length;
+      for(var j=0;j<longEvDisponibles; j++){
+
+        if(item.postulante.idUsuario == this.evaluadoresDisponibles[j].idUsuario){
+          this.evaluadoresDisponibles.splice(j, 1)[0];
+          break;
+        }
+
+        
+      }
+      console.log(this.evaluadoresDisponibles)
     }
     //console.log("onConfigurar - FINAL",this.evaluadoresDisponibles);
+  }
+
+  OnRetroceder(){
+    this._location.back();
   }
   
 }

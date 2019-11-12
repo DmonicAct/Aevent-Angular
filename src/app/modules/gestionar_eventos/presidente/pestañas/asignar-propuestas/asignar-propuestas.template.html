@@ -3,7 +3,20 @@
 
   <sk-three-bounce></sk-three-bounce>
    
+  <div class="row col-md-12">
+      <div class="col-md-4">
+          <a class="btn btn-primary m-r" (click)="onGuardarCambiosPropuestas()"><i class="fa fa-check"></i> Guardar </a>
+          <a class="btn btn-default m-r" (click)="OnRetroceder()"><i class="fa fa-arrow-left"></i> Regresar</a>
+      </div>
+      <div class="text-center col-md-4" style="margin-left: auto; margin-right: auto;">
+    
+      </div>
+      <div class="col-md-4"></div>
+  </div> 
 
+  <br>
+  <div class="row">&nbsp;</div>
+  <br>
 
     <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
@@ -14,8 +27,9 @@
                     <table class="table table-striped table-hover issue-tracker">
                       <thead>
                         <tr>
-                          <th class="text-left">Código Propuesta</th>
+                          <th class="text-left">Código</th>
                           <th class="text-left">Postulante</th>
+                          <th class="text-left">Titulo</th>
                           <th class="text-left">Fecha Postulación</th>
                           <th class="text-left">Evaluadores Asignados</th>
                           <th class="text-center">Configurar</th>
@@ -36,6 +50,7 @@
                           [class.selected]="i == selectedRow">
                           <td class="text-left" data-col="idPropuesta"><code>{{item.idPropuesta}}</code></td>
                           <td class="text-left" data-col="nombrePostulante"><code>{{item.postulante.nombreCompleto}}</code></td>
+                          <td class="text-left" data-col="tituloPropuesta"><code>{{item.titulo}}</code></td>
                           <td class="text-left" data-col="fechaPostulación"><code>{{item.fecha_postulacion | date:'dd/MM/yyyy'}}</code></td>
                           <td class="text-left" data-col="fechaPostulación"><pre *ngFor = "let eval of item.evaluadoresAsignados; let j = index"><code>{{eval.nombreCompleto + "\n"}}</code></pre></td>
                        
@@ -60,14 +75,7 @@
                         </tr>
                       </tbody>
                     </table>
-                  </div>
-
-                  <div class="text-left">
-                      <button type="button" class="btn btn-success m-r" (click)="onGuardarCambiosPropuestas()"><i class="fa fa-save"></i>
-                          Guardar Cambios</button>
-                  </div>
-                  
-                </div>
+           
               </div>
             </div>
           </div>
