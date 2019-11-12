@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Usuario } from '../../../models';
 import { Persona } from '../../../models';
+import { Location } from '@angular/common';
 import { AuthService as AeventAuthService } from '../../../auth/service/auth.service';
 import { AuthService as SocialAuthService, GoogleLoginProvider} from "angular-6-social-login";
 import { UsuarioService  as UsuarioService }from '../../../services/usuario.service';
@@ -23,13 +24,16 @@ export class LoginCreateComponent /*implements OnInit*/ {
   usuario: Persona;
   public loading:Boolean=false;
   public error:string=null;
+
+
   constructor(private authService: AeventAuthService, 
               private toastr: ToastrService,
               private router: Router,
               private service: UsuarioService,
-              private socialAuthService: SocialAuthService) {
+              private socialAuthService: SocialAuthService,
+              private _location: Location) {
     this.usuario = new Persona();
-    this.usuario.sexo = "Seleccionar Sexo"
+    this.usuario.sexo = "Seleccionar Sexo";
   }
 
   ngOnInit() {
@@ -235,4 +239,7 @@ export class LoginCreateComponent /*implements OnInit*/ {
    
   }
 
+  regresar(){
+    this._location.back();
+  }
 }

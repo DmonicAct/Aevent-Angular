@@ -41,16 +41,33 @@ export class GestionLugarListaComponent implements OnInit  {
     this.newItem = new Lugar;    
     this.items = new Array<Lugar>();
     this.paginacion = new Paginacion({pagina:0,registros: 10});
+    this.enFiltro = false;
+    this.numeroTipo = 0;
+    this.filtro = "";
   }
 
   ngOnInit():any {
-    this.getLista();
+    this.buscarLugares();
   };
+
+  getTodos(){
+    this.service.obtenerLugares().subscribe(
+      (response: Response)=>{
+        this.items = response.resultado;
+        this.itemsFiltrados = this.items;
+        if(this.isModalShown){
+          this.autoShownModal.hide();
+          this.isModalShown=false;
+        }
+      }
+    );
+  }
 
   getLista(){
     this.service.obtenerLugarPaginado(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response)=>{
         this.items = response.resultado;
+        this.itemsFiltrados = this.items;
         this.paginacion = response.paginacion;
         if(this.isModalShown){
           this.autoShownModal.hide();
@@ -163,6 +180,38 @@ export class GestionLugarListaComponent implements OnInit  {
         }
       }
     ); */
+  }
+
+  enFiltro: Boolean;
+  numeroTipo: number;
+  filtro: String;
+  tipo: String;
+  itemsFiltrados: Array<Lugar>;
+
+  cambioFiltro() {
+    if (this.tipo == "Nombre") {
+      this.numeroTipo = 1;
+    }
+  }
+
+  public itemsFiltro = ["Nombre"];
+  buscarLugares(){
+    this.cambioFiltro();
+    if (this.filtro.length > 0){
+      if (this.enFiltro == false){
+        this.enFiltro = true;
+        this.getTodos();
+      }
+      if (this.numeroTipo == 1){
+        this.itemsFiltrados = this.items.filter(
+          item => item.descripcion.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+        )
+      }
+    }else{
+      this.enFiltro = false;
+      this.getLista();
+      this.itemsFiltrados = this.items;
+    }
   }
 
 }
