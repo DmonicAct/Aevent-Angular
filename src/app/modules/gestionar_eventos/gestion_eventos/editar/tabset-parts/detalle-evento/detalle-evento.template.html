@@ -85,16 +85,11 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group row">
-                            <label class="col-sm-2 control-label">Presidente (*)</label>
-                            <div class="col-sm-8">
+                            <label class="col-sm-3 control-label">Presidente (*)</label>
+                            <div class="col-sm-7">
                                 <input type="text" autocomplete="off" class="form-control no-gray" name="nombrePresidente"
                                     [(ngModel)]="nombrePresidente" readonly>
-                                <!-- <ng-select [(items)]="itemsPersona" bindLabel="fullName" name="Presidente"
-                                    placeholder="Seleccionar Presidente" [clearable]="false"
-                                    [(ngModel)]="item.presidente">
-                                </ng-select> -->
                             </div>
-                            
                             <div class="col-sm-1">
                                 <button type="button" class="btn btn-success m-r" (click)="OnAgregarPresidente()"><i
                                     class="fa fa-user"></i>
@@ -102,8 +97,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Categorías (*) </label>
-                            <div class="col-sm-8">
+                            <label class="col-sm-3 control-label">Categorías (*) </label>
+                            <div class="col-sm-7">
                                 <ng-select [items]="itemsCategorias" bindLabel="descripcion"
                                     placeholder="Seleccionar Categorias" name="Categorias" [clearable]="false"
                                     [(ngModel)]="categoriaSeleccionada">
@@ -149,29 +144,73 @@
 
     <div *ngIf="isModalShownPresidente" [config]="{ show: true }" (onHidden)="OnHiddenPresidente()" bsModal
         #autoShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
-        <div class="modal-dialog modal-sm" style="width: 400px;">
-            <div class="modal-content" >
+        <div class="modal-dialog modal-sm" >
+            <div class="modal-content" style="width: 300%;margin-left: -250px;">
                 <div class="modal-header">
-                    <h3 id="dialog-auto-name" class="modal-title pull-left">Filtro usuarios</h3>
+                    <h3 id="dialog-auto-name" class="modal-title">Filtro Usuarios</h3>
                     <button type="button" class="close pull-right" aria-label="Close" (click)="hideModalPresidente()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <div class="row">&nbsp;</div>
                     <br>
-                    <div class="row col-sm-8">
-                        <div class="col-sm-4 pull-left">Nombre</div>
-                        <div class="col-sm-8"><input type="text" [(ngModel)]="nombreUsuario" name="nombreUsuario"
-                            (input)="buscarUsuario()"></div>
+                    <div class="row m-b-sm">
+                        <div class="col-md-3">
+                            <ng-select [items]="itemsFiltro" (ngModelChange)="cambioFiltro()"
+                                placeholder="Seleccionar Filtro" name="filtroUsuario" autocomplete="off"
+                                [clearable]="false" [(ngModel)]="tipo">
+                            </ng-select>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" autocomplete="off" class="form-control" name="filtro"
+                                maxlength="30" [(ngModel)]="filtro" (input)="buscarUsuario()"
+                                onkeypress="return /^[a-zA-Z_0-9\s]*$/i.test(event.key)">
+                        </div>
                     </div>
                 </div>
-                <div class="modal-body" style="overflow: hidden;">
-                    <div class="row col-sm-12" style="height: 500px; overflow-y: scroll;overflow: auto;">
-                        <div class="list-group">
-                            <button type="button" class="list-group-item list-group-item-action"
-                                *ngFor="let data of maestroUsuariosFilter" (click)="ElegirPresidente(data)">
-                                {{data.nombreCompleto}}
-                            </button>
-                        </div>                 
+                <div class="modal-body" style="overflow: hidden; ">
+                    <div class="table-responsive" style="height: 400px; overflow-y: scroll;overflow: auto;">
+                        <table class="table table-hover issue-tracker">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Código</th>
+                                    <th class="text-left">Nombre</th>
+                                    <th class="text-left">Usuario</th>
+                                    <th class="text-left">Correo</th>
+                                    <th class="text-center">Agregar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of maestroUsuariosFilter;let i = index" (click)="ElegirPresidente(data,i)"
+                                    [class.selected]="i == selectedRow" ng-style="selected(i)">
+                                    <td class="text-center" data-col="idUsuario"><code>{{data.idUsuario}}</code></td>
+                                    <td class="text-left" data-col="nombreCompleto">{{data.nombreCompleto}}</td>
+                                    <td class="text-left" data-col="username">{{data.username}}</td>
+                                    <td class="text-left" data-col="email">{{data.email}}</td>
+                                    <td class="text-center" data-col="agregar"><button class="btn btn-info"><i
+                                        class="fa fa-plus"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <pagination [(ngModel)]="paginacion.pagina" (pageChanged)="OnPageChanged($event)"
+                                [totalItems]="paginacion.totalRegistros" [itemsPerPage]="paginacion.registros"
+                                [boundaryLinks]="true" [maxSize]="5" previousText="&lsaquo;" nextText="&rsaquo;"
+                                firstText="&laquo;" lastText="&raquo;">
+                            </pagination>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="text-center m-a-sm">
+                                <pagination-info [totalItems]="paginacion.totalRegistros"
+                                    [itemsPerPage]="paginacion.registros" [page]="paginacion.pagina"></pagination-info>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="text-right m-a-sm">
+                                <pagination-set (optionChanged)="OnPageOptionChanged($event)"></pagination-set>
+                            </div>
+                        </div>
                     </div>                    
                     <div class="row">
                         <div class="col-sm-12 text-center m-t-sm">

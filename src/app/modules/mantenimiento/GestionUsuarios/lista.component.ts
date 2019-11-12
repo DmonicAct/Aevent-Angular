@@ -59,16 +59,8 @@ export class GestionUsuarioListaComponent implements OnInit {
       }
     );
   }
-  getAllUsuariosInactivos(){
-    this.service.obtenerTodosUsuariosInactivos().subscribe(
-      (response: Response) => {
-        this.items = response.resultado;        
-        this.usuariosFiltrados = this.items;
-        this.buscarUsuario();
-      }
-    );
-  }
 
+  
   getListaActivos() {
     this.service.obtenerUsuariosActivos(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response) => {
@@ -79,6 +71,16 @@ export class GestionUsuarioListaComponent implements OnInit {
       }
     );
   }
+  getAllUsuariosInactivos(){
+    this.service.obtenerTodosUsuariosInactivos().subscribe(
+      (response: Response) => {
+        this.items = response.resultado;        
+        this.usuariosFiltrados = this.items;
+        this.buscarUsuario();
+      }
+    );
+  }
+
   getListaInactivos() {
     this.service.obtenerUsuariosInactivos(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response) => {

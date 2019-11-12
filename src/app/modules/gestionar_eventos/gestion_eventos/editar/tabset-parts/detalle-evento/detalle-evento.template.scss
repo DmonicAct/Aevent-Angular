@@ -6,4 +6,8 @@
     background-color:white !important;
   }
 
+.selectedRow{
+  background-color: lightblue;
+}
+
 ::ng-deep.bs-datepicker { top: -350px; }
