@@ -60,11 +60,18 @@ export class GestionUsuarioListaComponent implements OnInit {
     );
   }
 
-  
+  compFechas(a:Persona, b:Persona){
+    let fechaA:Date = new Date(a.fechaCreacion);
+    console.log(fechaA.getTime())
+    let fechaB:Date = new Date(b.fechaCreacion);
+    console.log(fechaB.getTime())
+    return fechaB.getTime()-fechaA.getTime();
+  }
   getListaActivos() {
     this.service.obtenerUsuariosActivos(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response) => {
         this.items = response.resultado;
+        this.items.sort((a,b)=>this.compFechas(a,b));
         this.paginacion = response.paginacion;
         this.usuariosFiltrados = this.items;
         console.log(this.usuariosFiltrados); 

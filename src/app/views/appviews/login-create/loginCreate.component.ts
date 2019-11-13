@@ -104,7 +104,7 @@ export class LoginCreateComponent /*implements OnInit*/ {
       
       return;
     }
-    if(apPaterno.length<1||apPaterno.length>20 ){
+    if(apMaterno.length<1||apMaterno.length>20 ){
       this.toastr.warning('Apellidos deben ser de 1 a 20 caracteres', 'Error', {closeButton: true});
       
       return;
@@ -128,9 +128,9 @@ export class LoginCreateComponent /*implements OnInit*/ {
       this.toastr.warning('Debes ser mayor a 13 años para poder registrarte al sistema', 'Error', {closeButton: true});      
       return;
     }    
-
-    if(this.stringIsNumber(this.usuario.dni)){
-      this.toastr.warning('Debes ser mayor a 13 años para poder registrarte al sistema', 'Error', {closeButton: true});      
+    //VALIDACION DNI
+    if(!this.checkDNI(this.usuario.dni)){
+      this.toastr.warning('Debes Ingresar un DNI válido', 'Error', {closeButton: true});      
       return;
     }
 
