@@ -143,7 +143,7 @@ export class EditarUsuarioComponent implements OnInit  {
         
         return;
       }
-      
+
       if(this.item.apmaterno!=undefined){
         if(this.item.apmaterno==""){
           this.item.apmaterno=null;          
@@ -230,6 +230,7 @@ export class EditarUsuarioComponent implements OnInit  {
     this.item.roles = roles;
     if(!this.item.roles || this.item.roles==undefined ||this.item.roles.length==0){
       this.toastr.warning('Escoga un rol para el nuevo usuario', 'Error', {closeButton: true});
+      return;
     }
     this.item.enabled = true;
 
