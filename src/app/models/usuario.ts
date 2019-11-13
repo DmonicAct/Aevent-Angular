@@ -9,7 +9,7 @@ export class Usuario{
     //public password_transit: string;
     public enabled : Boolean;
     //public roles: string[] = [];
-    public roles: Role[] = [];
+    public roles: Role[];
     public fechaCreacion: Date;
     public fechaModificacion: Date;
     public nombreCompleto: string;

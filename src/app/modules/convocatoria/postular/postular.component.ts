@@ -9,6 +9,7 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { Location } from '@angular/common';
 import { esLocale } from 'ngx-bootstrap/locale';
+import { PropuestaService } from 'src/app/services/propuesta.service';
 
 @Component({
     selector: 'postular-evento',
@@ -28,7 +29,9 @@ export class PostularEvento implements OnInit {
         private route: ActivatedRoute,
         private _location: Location,
         private localeService: BsLocaleService,
-        private service: EventoService){
+        private authService: AeventAuthService,
+        private service: EventoService,
+        private servicePropuesta: PropuestaService){
         this.item.tipoEvento = new TipoEvento();
         console.log(this.now_date);
         this.sub = this.route.params.subscribe(params => {
@@ -59,7 +62,24 @@ export class PostularEvento implements OnInit {
         this._location.back();
     }
 
-    OnPostular(){
-        this.router.navigate([`convocatoria/lista-ponencia/ver-postulacion/${this.item.idEvento}`]);
+    async OnPostular(){
+        let propuesta = null;
+        let username = this.authService.usuario.username;
+        let idEvento = this.item.idEvento;
+        await this.servicePropuesta.obtenerPropuesta(username,idEvento).subscribe(
+            (response:Response)=>{
+               
+                propuesta=response.resultado;
+                if(propuesta){
+                    let path:1;
+                    this.router.navigate([`convocatoria/lista-ponencia/ver-postulacion/1/${idEvento}`]);
+                }else{
+                    if(!propuesta){
+                        let path:0;
+                        this.router.navigate([`convocatoria/lista-ponencia/ver-postulacion/0/${idEvento}`]);
+                    }
+                }
+            }
+        );
     }
 }

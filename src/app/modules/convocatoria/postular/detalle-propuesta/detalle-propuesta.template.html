@@ -1,59 +1,124 @@
 <div class="ibox-content" style="border-top: 0;" [class.sk-loading]="loading">
-        <sk-three-bounce></sk-three-bounce>
-        <div class="row m-b-sm">
-            <div class="col-lg-12">
-                <div >
-                    <!-- *ngIf="datos" -->
-                    <form class="form-horizontal">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Código </label>
-                                <div class="col-sm-9">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="id"
-                                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"
-                                            readonly>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Título </label>
-                                <div class="col-sm-9">
-                                    <div class="input-group col-sm-10">
-                                        <input type="text" autocomplete="off" class="form-control" name="nombre"
-                                            maxlength="30" [(ngModel)]="item.titulo"
-                                            onkeypress="return /^[a-zA-Z0-9\s]*$/i.test(event.key)">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Descripción </label>
-                                <div class="col-sm-8">
-                                    <textarea oninput="this.value = this.value.toUpperCase()" class="form-control"
-                                        name="descripcion" rows="4"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                        </div>
-                        <!-- <div class="row">
-                            <div class="text-center">
-                                <button type="button" class="btn btn-success m-r" (click)="onGuardar()"><i
-                                        class="fa fa-save"></i>
-                                    Guardar</button>
-                                <button type="button" class="btn btn-danger" (click)="onCancelar()"><i class="fa fa-arrow-left"></i>
-                                    Cancelar</button>
-                            </div>
-                        </div> -->
-                    </form>
+    <sk-three-bounce></sk-three-bounce>
+    <div class="row m-b-sm">
+        <div class="col-lg-12">
+            <div>
+                <!-- *ngIf="datos" -->
+                <div class="row col-md-12">
+                    <h2>Evento:</h2>
                 </div>
-    
+                <form class="form-horizontal">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Código Evento: </label>
+                            <div class="col-sm-9">
+                                <div class="input-group col-sm-10">
+                                    <input type="text" [ngModel]="evento.idEvento" class="form-control" name="id"
+                                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"
+                                        readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Titulo: </label>
+                            <div class="col-sm-9">
+                                <div class="input-group col-sm-10">
+                                    <input type="text" [ngModel]="evento.titulo" class="form-control" name="id"
+                                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"
+                                        readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Descripcion: </label>
+                            <div class="col-sm-9">
+                                <div class="input-group col-sm-10">
+                                    <!-- <input type="text" [ngModel]="evento.titulo" class="form-control" name="id"
+                                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"
+                                        readonly> -->
+                                    <textarea class="form-control" maxlength="200" name="descripcion"
+                                        [ngModel]="evento.descripcion" rows="4" readonly></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Fecha Inicio: </label>
+                            <div class="col-sm-9">
+                                <div class="input-group col-sm-10">
+                                    <label class="control-label"> {{evento.fechaInicio | date:'dd/MM/yyyy'}} </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Fecha Fin: </label>
+                            <div class="col-sm-9">
+                                <div class="input-group col-sm-10">
+                                    <label class="control-label"> {{evento.fechaFin | date:'dd/MM/yyyy'}} </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row col-md-12">
+                    <h2>Datos Propuesta:</h2>
+                </div>
+                <form class="form-horizontal">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Código </label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" [ngModel]="propuesta.idPropuesta" class="form-control" name="id" aria-label="Sizing example input"
+                                        aria-describedby="inputGroup-sizing-lg" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Título </label>
+                            <div class="col-sm-9">
+                                <div class="input-group col-sm-10">
+                                    <input type="text" [(ngModel)]="propuesta.titulo" autocomplete="off" class="form-control" name="nombre"
+                                        maxlength="30" onkeypress="return /^[a-zA-Z0-9\s]*$/i.test(event.key)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Descripción </label>
+                            <div class="col-sm-8">
+                                <textarea oninput="this.value = this.value.toUpperCase()" [(ngModel)]="propuesta.descripcion" class="form-control"
+                                    name="descripcion" rows="4"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Publico Dirigido </label>
+                            <div class="col-sm-8">
+                                <input type="text" autocomplete="off" class="form-control" [(ngModel)]="propuesta.publico_dirigido" name="nombre" maxlength="30"
+                                    onkeypress="return /^[a-zA-Z0-9\s]*$/i.test(event.key)">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Cantidad de Sesiones </label>
+                            <div class="col-sm-8">
+                                <input type="text" autocomplete="off" class="form-control" [(ngModel)]="propuesta.cantidad_sesiones" name="nombre" maxlength="30"
+                                    onkeypress="return /^[0-9]*$/i.test(event.key)">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Conocimiento Previo </label>
+                            <div class="col-sm-8">
+                                <input type="text" autocomplete="off" class="form-control" [(ngModel)]="propuesta.conocimiento_previo" name="nombre" maxlength="30"
+                                    onkeypress="return /^[a-zA-Z0-9\s]*$/i.test(event.key)">
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
+
         </div>
-       <!--  <script>
-            function alphaOnly(event) {
-                var key = event.keyCode;
-                return ((key >= 65 && key <= 90) || key == 8);
-            }
-        </script> -->
+    </div>
 </div>

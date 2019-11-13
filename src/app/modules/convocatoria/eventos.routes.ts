@@ -11,5 +11,5 @@ export const EventosPonentesRoutes= [
 
 export const EventosEdicionPonentes= [  
     {path: '', component:ListaPonenciaComponent},
-    {path: 'ver-postulacion/:id', component:EdicionPonenciaComponent},
+    {path: 'ver-postulacion/:path/:id', component:EdicionPonenciaComponent},
 ];

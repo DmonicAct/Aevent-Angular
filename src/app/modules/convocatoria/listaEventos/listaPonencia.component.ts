@@ -3,7 +3,10 @@ import { Evento, Paginacion } from "src/app/models";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { EventoService } from "src/app/services";
-
+import { Estado, Response } from '../../../models';
+import { PropuestaService } from "src/app/services/propuesta.service";
+import { Propuesta } from "src/app/models/propuesta";
+import { AuthService as AeventAuthService } from '../../../auth/service/auth.service';
 @Component({
     selector: 'lista-ponencia',
     templateUrl: 'listaPonencia.template.html',
@@ -16,15 +19,22 @@ export class ListaPonenciaComponent implements OnInit {
     constructor(
         private toastr: ToastrService,
         private router: Router,
-        private serviceEvento: EventoService) {
-        this.items = new Array<Evento>();
+        private serviceEvento: EventoService,
+        private authService: AeventAuthService,
+        private servicePropuesta: PropuestaService) {
+        this.items = new Array<Propuesta>();
         this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
     }
     ngOnInit(): void {
        this.obtenerPostulaciones();
     }
     obtenerPostulaciones(){
-
+        this.servicePropuesta.obtenerListaPropuesta(this.authService.usuario.username,this.paginacion.pagina,this.paginacion.registros).subscribe(
+            (response:Response)=>{
+                this.items = response.resultado;
+                console.log(this.items);
+            }
+        );
     }
     OnPageChanged(event): void {
         this.paginacion.pagina = event.page;
@@ -36,5 +46,7 @@ export class ListaPonenciaComponent implements OnInit {
         this.paginacion.pagina = 1;
         this.obtenerPostulaciones();
     }
-
+    OnEditar(item:Propuesta){
+        this.router.navigate([`convocatoria/lista-ponencia/ver-postulacion/${item.idPropuesta}`]);
+    }
 }

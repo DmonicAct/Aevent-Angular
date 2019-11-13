@@ -20,6 +20,7 @@
                 <table class="table table-striped table-hover issue-tracker">
                   <thead>
                     <tr>
+                      <th class="text-left">Código</th>
                       <th class="text-left">Título</th>
                       <th class="text-center">Categorías</th>
                       <th class="text-center">Lugar</th>
@@ -31,7 +32,8 @@
                   <tbody>
                     <tr *ngFor="let item of items; let i = index" (click)="OnRowClick(i, item)"
                       [class.selected]="i == selectedRow">
-                      <td class="text-center" data-col="titulo">{{item.titulo}}</td>
+                      <td class="text-center" data-col="titulo">{{item.idEvento}}</td>
+                      <td class="text-left" data-col="titulo">{{item.titulo}}</td>
                       <td data-col="categorias">
                         <tr *ngFor="let categoria of item.categorias" class="text-center">
                             {{categoria.descripcion}}

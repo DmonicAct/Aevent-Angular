@@ -155,11 +155,29 @@ export class CallForPaperComponent implements OnInit {
         this.itemDivision = new Division();
         this.itemDivision.indice= this.itemFormulario.divisionList.length+1;
         this.itemDivision.descripcion = this.descripcionDivision;
+        /**
+         * 
+         * 
+         */
         this.itemDivision.seccionList = new Array<Seccion>();
+        this.itemDivision.seccionList.push(new Seccion());
+        this.itemDivision.seccionList[0].preguntaList = new Array<Pregunta>();
+        this.itemDivision.seccionList[0].tipoSeccion = TipoSeccion.PREGUNTA_ABIERTA;
+        /**
+         * 
+         * 
+         */
         this.itemFormulario.divisionList.push(this.itemDivision);
         this.descripcionDivision = null;
+
+
+        /**
+         * 
+         * 
+         */
     }
     OnEditar(index: number) {
+        console.log(index);
         console.log('formulario: ', this.itemFormulario);
         this.itemsSeccion = this.itemFormulario.divisionList[index].seccionList;
         console.log('itemSeccion: ',this.itemsSeccion);
@@ -169,11 +187,12 @@ export class CallForPaperComponent implements OnInit {
          */
         this.itemSeccion = this.itemsSeccion[0];
         this.itemsPreguntas = this.itemSeccion.preguntaList;
+    
         /**
          * 
          * Solo una seccion por division fin
          */
-        console.log(this.itemsSeccion);
+        console.log("Seccion: ",this.itemsSeccion);
         //this.itemsPreguntas = new Array<Pregunta>();
         this.isModalShown = true;
         this.indexDivision = index;

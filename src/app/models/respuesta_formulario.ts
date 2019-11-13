@@ -3,6 +3,7 @@ export class RespuestaFormulario{
     public idRespuestaFormulario: number;
 	public idPostulacion:number;
 	public idFase:number;
+	public idFormulario:number;
 	public idEvento:number;
 	public idDivision:number;
 	public idSeccion:number;

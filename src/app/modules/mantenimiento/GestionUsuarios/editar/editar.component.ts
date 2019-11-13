@@ -57,6 +57,7 @@ export class EditarUsuarioComponent implements OnInit  {
           let enabled = false;
           this.boolean_flags.push(enabled);
         });
+        console.log('Roles:',this.itemsRoles);
         if(this.itemCodigo){
           this.ObtenerUsuario()
         }
@@ -67,9 +68,9 @@ export class EditarUsuarioComponent implements OnInit  {
     this.service.obtenerUsuario(this.itemCodigo).subscribe(
       (response: Response)=>{
         this.item = response.resultado;
-        this.item.roles.forEach((e,i)=>{
+        this.item.roles.forEach((e)=>{
           let index = e.idRol-1;
-          this.boolean_flags[index]=true;
+          this.boolean_flags[e.idRol-1]=true;
         });
       }
     );

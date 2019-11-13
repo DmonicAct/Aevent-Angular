@@ -12,13 +12,14 @@ import { Propuesta } from "../models/propuesta";
   })
 export class PropuestaService{
     private apiEndpoint: string;
-
+    private apiEndpointPropuesta: string;
     constructor(public http: HttpClient) {
         this.apiEndpoint = environment.serviceEndpoint + '/postulacion';
+        this.apiEndpointPropuesta = environment.serviceEndpoint + '/propuesta';
     }
 
 
-    obtenerListaPropuesta(idUsuario:number,pagina:number, registros:number):Observable<any>{
+    obtenerListaPostulacion(idUsuario:number,pagina:number, registros:number):Observable<any>{
         let params:HttpParams = new HttpParams()
         .set('pagina', pagina.toString())
         .set('registros', registros.toString());
@@ -35,11 +36,38 @@ export class PropuestaService{
         }));
     }
 
+    obtenerListaPropuesta(Username: string,pagina:number, registros:number):Observable<any>{
+        let params:HttpParams = new HttpParams()
+        .set('pagina', pagina.toString())
+        .set('registros', registros.toString());
+        let url=this.apiEndpoint + `/propuesta/${Username}`;
+        return this.http.get(url,{params}).pipe(
+        catchError(e => {
+            if (e.status == 400) {
+                return throwError(e);
+            }
+            if (e.error.mensaje) {
+                console.error(e.error.mensaje);
+            }
+            return throwError(e);
+        }));
+    }
+
     obtenerPostulacion(idPostulacion: number):Observable<any>{
         return null;
     }
-    obtenerPropuesta(idPropuesta: number):Observable<any>{
-        return null;
+    obtenerPropuesta(username:string, idEvento:number):Observable<any>{
+        let url=this.apiEndpointPropuesta + `/${username}/${idEvento}`;
+        return this.http.get(url).pipe(
+        catchError(e => {
+            if (e.status == 400) {
+                return throwError(e);
+            }
+            if (e.error.mensaje) {
+                console.error(e.error.mensaje);
+            }
+            return throwError(e);
+        }));
     }
     guardarPostulacion(postulacion: RespuestaPostulacion):Observable<any>{
         let url=this.apiEndpoint;
@@ -55,8 +83,8 @@ export class PropuestaService{
         }));
     }
 
-    guardarPropuesta(propuesta: Propuesta):Observable<any>{
-        let url=this.apiEndpoint + `/postulacion`;
+    guardarPropuesta(propuesta: Propuesta, username:string, idEvento:number):Observable<any>{
+        let url=this.apiEndpoint + `/propuesta/${username}/${idEvento}`;
         return this.http.post(url,propuesta).pipe(
         catchError(e => {
             if (e.status == 400) {
@@ -69,8 +97,8 @@ export class PropuestaService{
         }));
     }
 
-    existePostulacion(idUsuario:number, idEvento:number):Observable<any>{
-        let url=this.apiEndpoint + `/exists/${idUsuario}/${idEvento}`;
+    existePostulacion(username:string, idEvento:number):Observable<any>{
+        let url=this.apiEndpoint + `/exists/${username}/${idEvento}`;
         return this.http.get(url).pipe(
         catchError(e => {
             if (e.status == 400) {
@@ -82,4 +110,19 @@ export class PropuestaService{
             return throwError(e);
         }));
     }
+    existePropuesta(username:string,idEvento:number):Observable<any>{
+        let url=this.apiEndpointPropuesta + `/exists/${username}/${idEvento}`;
+        return this.http.get(url).pipe(
+        catchError(e => {
+            if (e.status == 400) {
+                return throwError(e);
+            }
+            if (e.error.mensaje) {
+                console.error(e.error.mensaje);
+            }
+            return throwError(e);
+        }));
+    }
+
+    
 }
