@@ -23,7 +23,7 @@
         </tab>
 
 
-        <tab #tabsComite heading="Comite" (changed)="tabClick($event)">
+        <tab #tabsComite heading="Comité" (changed)="tabClick($event)">
             <div class="mail-box-header">
                 <comiteEventoPresidente  (click)="refreshComite()" [(item-evento)]="item" [item-presidente]="item.presidente" [(item-comite)]="comite1"  (savedItem)="displayItem($event)" ></comiteEventoPresidente>
               </div>
