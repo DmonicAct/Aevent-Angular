@@ -19,13 +19,17 @@
       </li> -->
       <li class="dropdown" dropdown>
         <a dropdownToggle>
-          <i class="fa fa-envelope" (click)="mostrarNotif()"> 0</i>
+          <i *ngIf = "usr.evaluacionSinLeer == 1" class="fa fa-envelope" > 1</i>
+          <i *ngIf = "usr.evaluacionSinLeer == 0" class="fa fa-envelope-open" > 0</i>
         </a>
         <ul class="dropdown-menu animated fadeInRight" *dropdownMenu>
 
-        <li><a routerLink="opciones"><i class="fa fa-book"></i>  Nuevas Evaluaciones </a></li>
+        
+
+        <li><a *ngIf = "usr.evaluacionSinLeer == 0" (click)="mostrarNotif2()"><i  class="fa fa-book"></i>  No tiene nuevas notificaciones </a></li>
+        <li><a *ngIf = "usr.evaluacionSinLeer == 1" (click)="mostrarNotif()"><i  class="fa fa-bell"></i>  Tiene Nuevas Evaluaciones! </a></li>
         <li></li>
-        <li><a (click)="OnLogout()"><i class="fa fa-graduation-cap"></i>  Postulaciones Aceptadas</a></li>
+        
       </ul>
     </li>
 
