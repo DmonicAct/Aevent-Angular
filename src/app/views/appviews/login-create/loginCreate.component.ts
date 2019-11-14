@@ -104,10 +104,12 @@ export class LoginCreateComponent /*implements OnInit*/ {
       
       return;
     }
-    if(apMaterno.length<1||apMaterno.length>20 ){
-      this.toastr.warning('Apellidos deben ser de 1 a 20 caracteres', 'Error', {closeButton: true});
-      
-      return;
+    if(apMaterno!=undefined){
+      if(apMaterno.length<1||apMaterno.length>20 ){
+        this.toastr.warning('Apellidos deben ser de 1 a 20 caracteres', 'Error', {closeButton: true});
+        
+        return;
+      }
     }
     /* a */
     //VALIDACION SEXO
@@ -129,11 +131,12 @@ export class LoginCreateComponent /*implements OnInit*/ {
       return;
     }    
     //VALIDACION DNI
+    /*
     if(!this.checkDNI(this.usuario.dni)){
       this.toastr.warning('Debes Ingresar un DNI válido', 'Error', {closeButton: true});      
       return;
     }
-
+*/
 
 
     this.service.validarUsuario(this.usuario.username).subscribe(
@@ -148,32 +151,24 @@ export class LoginCreateComponent /*implements OnInit*/ {
               if(response.resultado==true){
                 this.toastr.warning('El correo ya está en uso, escoga uno diferente', 'Error', {closeButton: true});
               valido=false;        
-            }else{
-              //VALIDACION DNI
-              this.service.validarDni(this.usuario.dni).subscribe(
-                  (response: Response) => {        
-                  console.log(response);
-                  if(response.resultado==true){
-                    this.toastr.warning('El DNI ya está en uso, escoga uno diferente', 'Error', {closeButton: true});        
-                  } else {
-                    this.usuario.fechaCreacion = fechaActual;
-                    this.usuario.modoInicioSesion=0;
-                    if (this.usuario.sexo == "Seleccionar Sexo") this.usuario.sexo = "";
-                    this.service.guardarUsuarioOut(this.usuario).subscribe(
-                      (response: Response)=>{
-                        this.login();
-                      },err =>{
-                        if(err.status == 500){
-                          this.toastr.warning('Hubo un problema con el sistema consulte a su administrador.', 'Error', {closeButton: true});
-                
-                        }
-                      }
-                    );
-                  }     
-                });      
-              }
-            });           
-      }      
+            }else{              
+              this.usuario.fechaCreacion = fechaActual;
+              this.usuario.modoInicioSesion=0;
+              this.usuario.evaluacionSinLeer=false;
+              if (this.usuario.sexo == "Seleccionar Sexo") this.usuario.sexo = "";
+              this.service.guardarUsuarioOut(this.usuario).subscribe(
+                (response: Response)=>{
+                  this.login();
+                },err =>{
+                  if(err.status == 500){
+                    this.toastr.warning('Hubo un problema con el sistema consulte a su administrador.', 'Error', {closeButton: true});
+          
+                  }
+                }
+              );        
+            }
+          });           
+        }      
     });     
   }
  

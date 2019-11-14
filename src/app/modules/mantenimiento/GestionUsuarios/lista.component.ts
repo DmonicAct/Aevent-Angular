@@ -62,9 +62,9 @@ export class GestionUsuarioListaComponent implements OnInit {
 
   compFechas(a:Persona, b:Persona){
     let fechaA:Date = new Date(a.fechaCreacion);
-    console.log(fechaA.getTime())
+    //console.log(fechaA.getTime())
     let fechaB:Date = new Date(b.fechaCreacion);
-    console.log(fechaB.getTime())
+    //console.log(fechaB.getTime())
     return fechaB.getTime()-fechaA.getTime();
   }
   getListaActivos() {

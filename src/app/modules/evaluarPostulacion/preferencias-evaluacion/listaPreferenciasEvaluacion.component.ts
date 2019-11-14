@@ -1,5 +1,5 @@
 import { OnInit, Component } from "@angular/core";
-import { Evento, Paginacion } from '../../../models'
+import { Evento, Paginacion, Usuario } from '../../../models'
 import {AuthService as AeventAuthService} from  '../../../auth/service/auth.service'
 import { EventoService } from  '../../../services'
 import { ToastrService } from "ngx-toastr";
@@ -7,6 +7,7 @@ import { Router } from "@angular/router";
 import { Estado, Response } from '../../../models';
 import { Preferencia } from "src/app/models/preferencia";
 import { PreferenciaService } from "src/app/services/preferencia.service";
+import { UsuarioService } from "src/app/services/usuario.service";
 
 @Component({
     selector:'listaPreferenciasEvaluacion',
@@ -18,24 +19,37 @@ export class ListaPreferenciasComponent implements OnInit{
 
     public loading: Boolean = false;
 
-    private authService: AeventAuthService;
+    
     public paginacion: Paginacion;
     public preferencias:  Array<Preferencia>;
-    private toastr: ToastrService;
+    public usr: Usuario;
+    
     constructor(
-        private service: PreferenciaService
+        private toastr: ToastrService,
+        private authService: AeventAuthService,
+        private service: PreferenciaService,
+        private usrService: UsuarioService,
         ) {
         this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
+        this.usr=new Usuario();
     }
 
-    ngOnInit(){        
-        this.service.obtenerPreferencias(4,this.paginacion.pagina,this.paginacion.registros).subscribe(
-            (response: Response) => {
-                this.preferencias = response.resultado;
-                console.log(response);
-                console.log(this.authService.usuario.idUsuario);
-              }
+    ngOnInit(){   
+        
+        this.usrService.obtenerUsuarioUs(this.authService.usuario.username).subscribe(
+            (response:Response)=>{
+                this.usr = response.resultado;
+                console.log(this.usr)
+                this.service.obtenerPreferencias(4,this.paginacion.pagina,this.paginacion.registros).subscribe(
+                    (response: Response) => {
+                        this.preferencias = response.resultado;
+                        console.log(response);
+                        console.log(this.authService.usuario.idUsuario);
+                      }
+                )
+            }
         )
+  
     }
     
     OnPageChanged(event): void {
@@ -48,16 +62,23 @@ export class ListaPreferenciasComponent implements OnInit{
         this.paginacion.pagina = 1;
  
     }
-
+public ver:boolean;
     OnGuardar(){
-        
+        this.ver=false;
         for(let pref of this.preferencias){
             this.service.guardarPreferencia(pref).subscribe(
                 (response: Response) => {
-                    //this.toastr.success(`Se ha guardado con exito`, 'Aviso', { closeButton: true });
+                    if(response.estado!="OK")this.ver=true;
+                    
+                        
+                    
                 }
             );
         }
+        if(!this.ver)
+            this.toastr.success(`Se ha guardado con exito`, 'Aviso', { closeButton: true });
+        else
+            this.toastr.warning(`Se ha guardado con exito`, 'Error', { closeButton: true });
     }
  
 }

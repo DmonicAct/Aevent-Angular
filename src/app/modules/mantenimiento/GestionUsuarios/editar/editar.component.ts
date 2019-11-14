@@ -166,18 +166,6 @@ export class EditarUsuarioComponent implements OnInit  {
         return;
       }
 
-      //VALIDACION DNI
-      if(!this.item.dni || this.item.dni == "" ){
-        this.toastr.warning('Debe colocar su DNI', 'Aviso', {closeButton: true});
-        return;
-      }
-
-         
-      if(!this.checkDNI(this.item.dni)){
-          this.toastr.warning('Debes Ingresar un DNI válido', 'Error', {closeButton: true});      
-          return;
-      }
-     
 
       if(!this.item.fechaNacimiento){
         this.toastr.warning('Debe colocar su Fecha de Nacimiento', 'Aviso', {closeButton: true});
@@ -246,28 +234,19 @@ export class EditarUsuarioComponent implements OnInit  {
               console.log(response);
               if(response.resultado==true){
                 this.toastr.warning('El correo ya está en uso, escoga uno diferente', 'Error', {closeButton: true});                   
-            }else{
-              //VALIDACION DNI
-              this.service.validarDni(this.item.dni).subscribe(
-                  (response: Response) => {        
-                  console.log(response);
-                  if(response.resultado==true){
-                    this.toastr.warning('El DNI ya está en uso, escoga uno diferente', 'Error', {closeButton: true});        
-                  } else {
-                    let fechaActual:Date = new Date();
-                    this.item.fechaCreacion = fechaActual;
-                    this.item.modoInicioSesion=0;
-                    if (this.item.sexo == "Seleccionar Sexo") this.item.sexo = "";
-                    this.service.guardarUsuarioSistema(this.item).subscribe(
-                      (response:Response)=>{
-                        this.toastr.success('Se guardo el usuario correctamente', 'Aviso', {closeButton: true});
-                        //this._location.back();
-                      });
-                  }     
-                });      
+              }else{                
+                let fechaActual:Date = new Date();
+                this.item.fechaCreacion = fechaActual;
+                this.item.modoInicioSesion=0;
+                if (this.item.sexo == "Seleccionar Sexo") this.item.sexo = "";
+                this.service.guardarUsuarioSistema(this.item).subscribe(
+                  (response:Response)=>{
+                    this.toastr.success('Se guardo el usuario correctamente', 'Aviso', {closeButton: true});
+                    //this._location.back();
+                });     
               }
-            });           
-      }      
+          });           
+        }      
     });    
 
 
@@ -297,9 +276,5 @@ export class EditarUsuarioComponent implements OnInit  {
     var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
     return re.test(str);
   }
-  public checkDNI(str) :boolean
-  {
-    var re = /(?=.*\d)/;
-    return re.test(str);
-  }
+
 }
