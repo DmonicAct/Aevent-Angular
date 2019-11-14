@@ -1,311 +1,305 @@
 <div class="ibox-content" style="border-top: 0;" [class.sk-loading]="loading">
-        <sk-three-bounce></sk-three-bounce>
+  <sk-three-bounce></sk-three-bounce>
+  <div class="row m-b-sm">
+    <div class="col-lg-12">
+      <form class="form-horizontal">
+        <div class="color ibox-content">
+          <div class="form-group">
+            <div class="row col-md-12">
+              <div class="col-md-4">
+                <button type="button" class="btn btn-primary m-r" (click)="OnGuardarFase(fase)"><i
+                    class="fa fa-check"></i>
+                  Guardar</button>
+                <a class="btn btn-default m-r" (click)="OnCancelar()"><i class="fa fa-arrow-left"></i>
+                  Regresar</a>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="ibox-content">
+              <div class="cfp-height">
+                <div class="row">
+                  <tabset #tabsDetalle>
+                    <tab *ngFor="let fase of this.item.fases" [heading]="fase.descripcion">
+                      <div class="form-group">
+                        <div class="col-lg-12">
+                          <div class="ibox-content" [ngClass]="{'sk-loading': loading}">
+                            <sk-three-bounce></sk-three-bounce>
+                            <div class="table-responsive" style="height: 300px; overflow: auto">
+                              <table class="table table-striped table-hover issue-tracker">
+                                <thead>
+                                  <tr>
+                                    <th class="text-center">Código</th>
+                                    <th class="text-center">Criterio</th>
+                                    <th class="text-center">Tipo de Criterio</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let criterio of fase.criterios; let i = index">
+                                    <td class="text-center" style="width:10%;" data-col="idDivision">
+                                      <code>{{i+1}}</code></td>
+                                    <td class="text-center" style="width:60%;" data-col="descripcion">
+                                      {{criterio.descripcion}}</td>
+                                    <td class="text-center" style="width:10%;" data-col="descripcion">
+                                      {{criterio.tipoCriterio.descripcion}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label">Formulario: </label>
+                        <div class="col-sm-3">
+                          <button *ngIf="!fase.formulario" class="btn btn-primary" (click)="OnCrearFormulario(fase)"><i
+                              class="fa fa-plus"></i>
+                            Crear Formulario CFP </button>
+                          <button *ngIf="fase.formulario" class="btn btn-primary" (click)="OnCrearFormulario(fase)"><i
+                              class="fa fa-plus"></i>
+                            Editar Formulario CFP </button>
+                          <label *ngIf="fase.formulario"> Título: {{fase.formulario.titulo}}
+                          </label>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label">Fecha Inicio:</label>
+                        <div class="col-sm-8">
+                          <div class="input-group date">
+                            <input bsDatepicker #dp3="bsDatepicker" name='fechaInicio' [(bsValue)]="fase.fechaInicial"
+                              autocomplete="off" (bsValueChange)="DetectInicio(fase)"
+                              value="{{ fase.fechaInicial | date:'dd/MM/yyyy' }}" type="text" class="form-control">
+                            <span class="input-group-addon" (click)="dp3.toggle()" [attr.aria-expanded]="dp3.isOpen"><i
+                                class="fa fa-calendar"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label">Fecha Fin:</label>
+                        <div class="col-sm-8">
+                          <div class="input-group date">
+                            <input bsDatepicker #dp4="bsDatepicker" name='fechaFin' [(bsValue)]="fase.fechaFin"
+                              autocomplete="off" (bsValueChange)="DetectFin(fase)"
+                              value="{{ fase.fechaFin | date:'dd/MM/yyyy' }}" type="text" class="form-control">
+                            <span class="input-group-addon" (click)="dp4.toggle()" [attr.aria-expanded]="dp4.isOpen"><i
+                                class="fa fa-calendar"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                    </tab>
+                  </tabset>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- PARA LA CREACION DE UN FORMULARIO -->
+<div *ngIf="isNewFormModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal
+  #autoNewFormShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-auto-name" class="modal-title pull-left">Crear Formulario</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
         <div class="row m-b-sm">
-            <div class="col-lg-12">
-                <form class="form-horizontal">
-                    <div class="color ibox-content">
-                            <div class="form-group">
-                                    <div class="row col-md-12">
-                                        <div class="col-md-4">
-            
-                                            <button type="button" class="btn btn-primary m-r" (click)="OnGuardarFase(fase)"><i
-                                                    class="fa fa-check"></i>
-                                                Guardar</button>
-                                            <a class="btn btn-default m-r" (click)="OnCancelar()"><i class="fa fa-arrow-left"></i>
-                                                Regresar</a>
-                                        </div>
-                                    </div>
-                                </div>
-                        <div class="form-group">
-                            <div class="ibox-content">
-                                <div class="cfp-height">
-                                    <div class="row">
-                                        <tabset #tabsDetalle>
-                                            <tab *ngFor="let fase of this.item.fases"
-                                                [heading]="fase.descripcion">
-                                                <div class="form-group">
-                                                    <div class="col-lg-12">
-                                                        <div class="ibox-content" [ngClass]="{'sk-loading': loading}">
-                                                            <sk-three-bounce></sk-three-bounce>
-                                                            <div class="table-responsive" style="height: 300px; overflow: auto">
-                                                                <table class="table table-striped table-hover issue-tracker">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th class="text-center">Código</th>
-                                                                            <th class="text-center">Criterio</th>
-                                                                            <th class="text-center">Tipo de Criterio</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr *ngFor="let criterio of fase.criterios; let i = index">
-                                                                            <td class="text-center" style="width:10%;"
-                                                                                data-col="idDivision"><code>{{i+1}}</code></td>
-                                                                            <td class="text-center" style="width:60%;"
-                                                                                data-col="descripcion">{{criterio.descripcion}}</td>
-                                                                            <td class="text-center" style="width:10%;"
-                                                                                data-col="descripcion">{{criterio.tipoCriterio.descripcion}}</td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-3 control-label">Formulario:   </label>
-                                                    <div class="col-sm-8">
-                                                            <button  class="btn btn-primary" (click)="OnCrearFormulario(fase)"><i class="fa fa-plus"></i> Crear Formulario CFP </button>  
-                                                    </div>
-                                                </div>    
-                                                <div class="form-group">
-                                                    <label class="col-sm-3 control-label">Fecha Inicio:</label>
-                                                    <div class="col-sm-8">
-                                                        <div class="input-group date">
-                                                            <input bsDatepicker #dp3="bsDatepicker" name='fechaInicio'
-                                                                [(bsValue)]="fase.fechaInicial" autocomplete="off"
-                                                                (bsValueChange)="DetectInicio(fase)"
-                                                                value="{{ fase.fechaInicial | date:'dd/MM/yyyy' }}" type="text"
-                                                                class="form-control">
-                                                            <span class="input-group-addon" (click)="dp3.toggle()"
-                                                                [attr.aria-expanded]="dp3.isOpen"><i class="fa fa-calendar"></i></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-3 control-label">Fecha Fin:</label>
-                                                    <div class="col-sm-8">
-                                                        <div class="input-group date">
-                                                            <input bsDatepicker #dp4="bsDatepicker" name='fechaFin' [(bsValue)]="fase.fechaFin"
-                                                                autocomplete="off" (bsValueChange)="DetectFin(fase)"
-                                                                value="{{ fase.fechaFin | date:'dd/MM/yyyy' }}" type="text"
-                                                                class="form-control">
-                                                            <span class="input-group-addon" (click)="dp4.toggle()"
-                                                                [attr.aria-expanded]="dp4.isOpen"><i class="fa fa-calendar"></i></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            
-                                            </tab>      
-                                        </tabset>        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+          <call-for-paper-init-pres [(item-cfp)]="formulario" [(item-fase)]="fase"></call-for-paper-init-pres>
         </div>
-    </div>
-    
-    <!-- PARA LA CREACION DE UN FORMULARIO -->
-    <div *ngIf="isNewFormModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoNewFormShownModal="bs-modal"
-      class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name" >
-      <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 id="dialog-auto-name" class="modal-title pull-left">Crear Formulario</h4>
-                <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row m-b-sm">
-                    <call-for-paper-init-pres [(item-cfp)]="formulario" [(item-fase)]="fase"></call-for-paper-init-pres>
-                </div>
-                </div>
-                <div class="form-group">
-                    <div class="text-center">
-                        <button (click)='OnNuevo()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
-                            Guardar</button>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div class="form-group">
+        <div class="text-center">
+          <button (click)='OnNuevo()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
+            Guardar</button>
         </div>
+      </div>
     </div>
-    
-    <!-- PARA LA CREACION DE UNA FASE -->
-    <div *ngIf="isNewModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoNewShownModal="bs-modal"
-      class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 id="dialog-auto-name" class="modal-title pull-left">Gestionar Fase</h4>
-                    <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover issue-tracker">
-                            <thead>
-                                <tr>
-                                    <th class="text-center" style="width: 80%;">Nombre de Fase</th>
-                                    <th class="text-center" style="width: 5%;">Eliminar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of this.item.fases; let i = index" 
-                                    [class.selected]="i == selectedRow">
-                                    <td class="text-left" style="width:80%;" data-col="descripcion">{{item.descripcion}}</td>
-                                    <td class="text-center" style="width:5%;" data-col="eliminar" (click)="OnEliminar(item,this.item)"><button
-                                            class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row m-b-sm">
-                        <div class="row">
-                            <label class="col-sm-2 control-label">Nombre de Fase(*):</label>
-                            <div class="col-sm-6">
-                            <input type="text" class="form-control" [(ngModel)]="descripcionModal"
-                            name="nuevaFase">
-                            </div>
-                            <div class="col-sm-2">
-                                    <button  class="btn btn-primary" (click)="OnAgregarFase(this.item)"><i class="fa fa-plus"></i> Agregar Fase </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="text-center">
-                        <button (click)='OnAgregarFase(this.item)' class="btn btn-primary"><i class="fa fa-save"></i>
-                            Guardar</button>
-                    </div>
-                </div>
-            </div>
+  </div>
+</div>
+
+<!-- PARA LA CREACION DE UNA FASE -->
+<div *ngIf="isNewModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoNewShownModal="bs-modal"
+  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-auto-name" class="modal-title pull-left">Gestionar Fase</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-striped table-hover issue-tracker">
+            <thead>
+              <tr>
+                <th class="text-center" style="width: 80%;">Nombre de Fase</th>
+                <th class="text-center" style="width: 5%;">Eliminar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of this.item.fases; let i = index" [class.selected]="i == selectedRow">
+                <td class="text-left" style="width:80%;" data-col="descripcion">{{item.descripcion}}</td>
+                <td class="text-center" style="width:5%;" data-col="eliminar" (click)="OnEliminar(item,this.item)">
+                  <button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-    </div>
-    
-    <!--ELIMINAR UNA FASE-->
-    <div *ngIf="isDeleteModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoDeleteShownModal="bs-modal"
-      class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
-      <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 id="dialog-auto-name" class="modal-title pull-left">Aviso</h4>
-                <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+        <div class="row m-b-sm">
+          <div class="row">
+            <label class="col-sm-2 control-label">Nombre de Fase(*):</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" [(ngModel)]="descripcionModal" name="nuevaFase">
             </div>
-            <div class="modal-body">
-                <div class="row m-b-sm">
-                    <div class="row">
-                          <h3 class="text-center">¿Eliminar permanentemente {{fase.descripcion}} de la lista?</h3>
-                    </div>
-                </div>
-                </div>
-                <div class="form-group">
-                    <div class="text-center">
-                        <button (click)='OnConfirmar()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
-                            Confirmar</button>
-                    </div>
-                </div>
+            <div class="col-sm-2">
+              <button class="btn btn-primary" (click)="OnAgregarFase(this.item)"><i class="fa fa-plus"></i> Agregar Fase
+              </button>
             </div>
+          </div>
         </div>
-    </div>
-    
-    <!-- PARA LA CREACION DE UN CRITERIO -->
-    <div *ngIf="isNewCriterioModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoNewCriterioShownModal="bs-modal"
-      class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="form-group modal-header">
-                    <h4 id="dialog-auto-name" class="modal-title pull-left">Agregar Criterio</h4>
-                    <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="form-group col-sm-12">
-                    <label class="col-sm-3 control-label">Tipo de Criterio(*)</label>
-                    <div class="col-sm-8">
-                        <ng-select [items]="tipoCriterios" bindLabel="descripcion"
-                            placeholder="Seleccionar Tipo de Criterio" name="TipoCriterio" autocomplete="off"
-                            [clearable]="false" [(ngModel)]="tipoCriterioModal">
-                        </ng-select>
-                    </div>
-                </div>
-                <div class="form-group col-sm-12">
-                    <label class="col-sm-3 control-label">Descripción(*)</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" [(ngModel)]="descripcionModal"
-                        name="subitulo">             
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="text-center">
-                        <button (click)='OnNuevo()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
-                            Guardar</button>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div class="form-group">
+        <div class="text-center">
+          <button (click)='OnAgregarFase(this.item)' class="btn btn-primary"><i class="fa fa-save"></i>
+            Guardar</button>
         </div>
+      </div>
     </div>
-    
-    <!--PARA LA EDICION DE UN CRITERIO-->
-    <div *ngIf="isModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoShownModal="bs-modal"
-        class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="form-group modal-header">
-                    <h4 id="dialog-auto-name" class="modal-title pull-left">Edición de Criterio </h4>
-                    <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="form-group col-sm-12">
-                    <label class="col-sm-3 control-label">Tipo de Criterio(*)</label>
-                    <div class="col-sm-8">
-                        <ng-select [items]="tipoCriterios" bindLabel="descripcion"
-                            placeholder="Seleccionar Tipo de Criterio" name="TipoCriterio" autocomplete="off"
-                            [clearable]="false" [(ngModel)]="tipoCriterioModal">
-                        </ng-select>
-                    </div>
-                </div>
-                <div class="form-group col-sm-12">
-                    <label class="col-sm-3 control-label">Descripción(*)</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" [(ngModel)]="descripcionModal"
-                        name="subitulo">             
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="text-center">
-                        <button (click)='OnNuevo()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
-                            Guardar</button>
-                    </div>
-                </div>
-            </div>
+  </div>
+</div>
+
+<!--ELIMINAR UNA FASE-->
+<div *ngIf="isDeleteModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal
+  #autoDeleteShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-auto-name" class="modal-title pull-left">Aviso</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row m-b-sm">
+          <div class="row">
+            <h3 class="text-center">¿Eliminar permanentemente {{fase.descripcion}} de la lista?</h3>
+          </div>
         </div>
-    </div>
-    
-    <!--ELIMINAR UN CRITERIO-->
-    <div *ngIf="isDeleteCriterioModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoDeleteCriterioShownModal="bs-modal"
-      class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
-      <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 id="dialog-auto-name" class="modal-title pull-left">Aviso</h4>
-                <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row m-b-sm">
-                    <div class="row">
-                          <h3 class="text-center">¿Eliminar permanentemente {{criterio.descripcion}} de la lista?</h3>
-                    </div>
-                </div>
-                </div>
-                <div class="form-group">
-                    <div class="text-center">
-                        <button (click)='OnConfirmarCriterio()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
-                            Confirmar</button>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div class="form-group">
+        <div class="text-center">
+          <button (click)='OnConfirmar()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
+            Confirmar</button>
         </div>
+      </div>
     </div>
-    
-    
-    
-    
+  </div>
+</div>
+
+<!-- PARA LA CREACION DE UN CRITERIO -->
+<div *ngIf="isNewCriterioModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal
+  #autoNewCriterioShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="form-group modal-header">
+        <h4 id="dialog-auto-name" class="modal-title pull-left">Agregar Criterio</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="form-group col-sm-12">
+        <label class="col-sm-3 control-label">Tipo de Criterio(*)</label>
+        <div class="col-sm-8">
+          <ng-select [items]="tipoCriterios" bindLabel="descripcion" placeholder="Seleccionar Tipo de Criterio"
+            name="TipoCriterio" autocomplete="off" [clearable]="false" [(ngModel)]="tipoCriterioModal">
+          </ng-select>
+        </div>
+      </div>
+      <div class="form-group col-sm-12">
+        <label class="col-sm-3 control-label">Descripción(*)</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" [(ngModel)]="descripcionModal" name="subitulo">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="text-center">
+          <button (click)='OnNuevo()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
+            Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--PARA LA EDICION DE UN CRITERIO-->
+<div *ngIf="isModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoShownModal="bs-modal"
+  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="form-group modal-header">
+        <h4 id="dialog-auto-name" class="modal-title pull-left">Edición de Criterio </h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="form-group col-sm-12">
+        <label class="col-sm-3 control-label">Tipo de Criterio(*)</label>
+        <div class="col-sm-8">
+          <ng-select [items]="tipoCriterios" bindLabel="descripcion" placeholder="Seleccionar Tipo de Criterio"
+            name="TipoCriterio" autocomplete="off" [clearable]="false" [(ngModel)]="tipoCriterioModal">
+          </ng-select>
+        </div>
+      </div>
+      <div class="form-group col-sm-12">
+        <label class="col-sm-3 control-label">Descripción(*)</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" [(ngModel)]="descripcionModal" name="subitulo">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="text-center">
+          <button (click)='OnNuevo()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
+            Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--ELIMINAR UN CRITERIO-->
+<div *ngIf="isDeleteCriterioModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal
+  #autoDeleteCriterioShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-auto-name" class="modal-title pull-left">Aviso</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row m-b-sm">
+          <div class="row">
+            <h3 class="text-center">¿Eliminar permanentemente {{criterio.descripcion}} de la lista?</h3>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="text-center">
+          <button (click)='OnConfirmarCriterio()' class="btn btn-primary container-button"><i class="fa fa-save"></i>
+            Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -190,7 +190,7 @@ export class FaseEventoComponent implements OnInit {
     fase.fechaInicial = fechaInicial;
     this.fechaHoy = new Date();
 
-    
+
     if (!fase.fechaFin) {
       this.toastr.warning(`Se debe de seleccionar una fecha para el fin de evento`, 'Aviso', { closeButton: true });
       return;
@@ -221,8 +221,8 @@ export class FaseEventoComponent implements OnInit {
     this.fase = JSON.parse(JSON.stringify(fase));
 
     let itemsCriterios = new Array<Criterio>();
-    fase.criterios.forEach((e)=>{
-      e.idFase=null;
+    fase.criterios.forEach((e) => {
+      e.idFase = null;
     });
     itemsCriterios = JSON.parse(JSON.stringify(fase.criterios));
     fase.criterios = null;
@@ -241,7 +241,7 @@ export class FaseEventoComponent implements OnInit {
 
     await this.faseService.guardarFase(fase).subscribe(
       (response: Response) => {
-        console.log('reponse guardarFase',response);
+        console.log('reponse guardarFase', response);
         itemsCriterios.forEach((e) => {
           e.idFase = fase;
           this.criterioService.guardarCriterio(e).subscribe(
@@ -265,21 +265,21 @@ export class FaseEventoComponent implements OnInit {
   }
   OnCancelar() {
     this._location.back();
-}
+  }
   OnAgregarFase(evento: Evento) { // En el boton de gestiongar fase (solo se guarda el nombre de la fase)
     let flag = 0;
     if (this.esNuevo) {
       let faseNueva = new Fase();
-      
-      evento.fases.forEach(element =>{
-          if (element.descripcion == this.descripcionModal){
-            this.toastr.warning(`Ya exise una fase con ese título, inserte un título nuevo`, 'Aviso', { closeButton: true });
-            flag = 1;
-            return;
-          }
+
+      evento.fases.forEach(element => {
+        if (element.descripcion == this.descripcionModal) {
+          this.toastr.warning(`Ya exise una fase con ese título, inserte un título nuevo`, 'Aviso', { closeButton: true });
+          flag = 1;
+          return;
+        }
       });
-      if (flag == 1){
-        flag =0;
+      if (flag == 1) {
+        flag = 0;
         return;
       }
       if (!this.descripcionModal) {
