@@ -189,7 +189,7 @@ export class UsuarioService{
     }
 
 
-    validarDni(dni: string):Observable<any> {
+   /*  validarDni(dni: string):Observable<any> {
       const url = `${this.apiEndpoint}/out/dni/${dni}`;
       return this.http.get(url).pipe(
         catchError(e => {
@@ -201,7 +201,7 @@ export class UsuarioService{
           }
           return throwError(e);
         }));
-    }
+    } */
 
     validarUsuario(username: string):Observable<any> {
       const url = `${this.apiEndpoint}/out/username/${username}`;

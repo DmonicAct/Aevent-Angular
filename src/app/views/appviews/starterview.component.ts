@@ -13,12 +13,13 @@ public constructor() {
 }
 
 public ngOnInit():any {
-  this.nav.className += " white-bg";
+ /*  this.nav.className += " white-bg"; */
 }
 
 
 public ngOnDestroy():any {
-  this.nav.classList.remove("white-bg");
+/*   debugger;
+  this.nav.classList.remove("white-bg"); */
 }
 
 }

@@ -56,14 +56,12 @@ export class EdicionPonenciaComponent implements OnInit{
                 }
             }
           });
-          console.log(this.sub);
     }
     ObtenerEvento(){
         this.service.obtenerEvento(this.codigo).subscribe(
             (response:Response)=>{
                 this.evento = response.resultado;
                 this.propuesta = new Propuesta();
-                console.log("EVENTO", this.evento);
             }
         );
     }
@@ -71,11 +69,8 @@ export class EdicionPonenciaComponent implements OnInit{
         let username = this.authService.usuario.username;
         this.servicePropuesta.obtenerPropuesta(this.codigo).subscribe(
             (response:Response)=>{
-                console.log(response);
                 this.propuesta = response.resultado;
                 this.evento = this.propuesta.evento;
-                console.log("PROPUESTA", this.propuesta);
-                console.log("EVENTO", this.evento);
             }
         );
     }
