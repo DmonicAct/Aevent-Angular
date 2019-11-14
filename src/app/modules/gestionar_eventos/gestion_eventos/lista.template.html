@@ -39,19 +39,21 @@
                     <table class="table table-striped table-hover issue-tracker">
                         <thead>
                             <tr>
+                                <th>Editar</th>
                                 <th class="text-center">Código</th>
                                 <th class="text-left">Título</th>
                                 <th class="text-center">Tipo</th>
                                 <th class="text-center">Presidente</th>
                                 <th class="text-center">Fecha Inicio</th>
                                 <th class="text-center">Fecha Fin</th>
-                                <th>Editar</th>
                                 <th>Deshabilitar</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of maestroEventoFilter; let i = index" (click)="OnRowClick(i, item)"
                                 [class.selected]="i == selectedRow">
+                                <td class="text-center" data-col="editar" (click)="OnEditar(item)"><button
+                                    class="btn btn-success"><i class="fa fa-edit"></i></button></td>
                                 <td class="text-center" data-col="idEvento"><code>{{item.idEvento}}</code></td>
                                 <td class="text-left" data-col="titulo">{{item.titulo}}</td>
                                 <td class="text-center" data-col="tipoEvento">{{item.tipoEvento.nombre}}</td>
@@ -59,8 +61,6 @@
                                 <td class="text-center" data-col="fechaInicio">{{item.fechaInicio | date:'dd/MM/yyyy'}}
                                 </td>
                                 <td class="text-center" data-col="fechafin">{{item.fechaFin | date:'dd/MM/yyyy'}}</td>
-                                <td class="text-center" data-col="editar" (click)="OnEditar(item)"><button
-                                        class="btn btn-success"><i class="fa fa-edit"></i></button></td>
                                 <td class="text-center" data-col="eliminar" (click)="OnDeshabilitar(item)"><button
                                         class="btn btn-danger"><i class="fa fa-ban"></i></button></td>
                             </tr>
