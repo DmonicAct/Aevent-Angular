@@ -56,8 +56,23 @@ export class PropuestaService{
     obtenerPostulacion(idPostulacion: number):Observable<any>{
         return null;
     }
-    obtenerPropuesta(username:string, idEvento:number):Observable<any>{
+    obtenerPropuesta(idPropuesta:number):Observable<any>{
+        let url=this.apiEndpointPropuesta + `/${idPropuesta}`;
+        console.log(url);
+        return this.http.get(url).pipe(
+        catchError(e => {
+            if (e.status == 400) {
+                return throwError(e);
+            }
+            if (e.error.mensaje) {
+                console.error(e.error.mensaje);
+            }
+            return throwError(e);
+        }));
+    }
+    obtenerPropuestaUsuarioEvento(username:string, idEvento:number):Observable<any>{
         let url=this.apiEndpointPropuesta + `/${username}/${idEvento}`;
+        console.log(url);
         return this.http.get(url).pipe(
         catchError(e => {
             if (e.status == 400) {

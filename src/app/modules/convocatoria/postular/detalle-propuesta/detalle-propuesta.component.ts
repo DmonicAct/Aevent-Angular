@@ -33,16 +33,6 @@ export class EdicionPropuestaComponent implements OnInit{
             this.toastr.warning('Titulo de propuesta vacío', 'Aviso', {closeButton: true});
             return;
         }
-        if(!this.propuesta.descripcion || this.propuesta.descripcion.trim()==""){
-            this.toastr.warning('Descripción de propuesta vacío', 'Aviso', {closeButton: true});
-            return;
-        }
-        if(!this.propuesta.conocimiento_previo || this.propuesta.conocimiento_previo.trim()==""){
-            this.propuesta.conocimiento_previo = "NINGUNO";
-        }
-        if(!this.propuesta.cantidad_sesiones || this.propuesta.cantidad_sesiones>10){
-            this.propuesta.cantidad_sesiones=10;
-        }
         console.log(this.propuesta);
         let username = this.authService.usuario.username;
         let idEvento = this.evento.idEvento;

@@ -20,7 +20,7 @@ export class TopNavbarComponent  implements OnInit{
     this.nombre = AppSettings.APP_NAME;
     this.usuario = auth.usuario;
     this.persona = auth.persona;
-    }
+  }
   ngOnInit() {
     this.usrService.obtenerUsuarioUs(this.auth.usuario.username).subscribe(
       (response:Response)=>{

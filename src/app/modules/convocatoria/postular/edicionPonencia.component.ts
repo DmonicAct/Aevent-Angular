@@ -69,9 +69,9 @@ export class EdicionPonenciaComponent implements OnInit{
     }
     ObtenerPropuesta(){
         let username = this.authService.usuario.username;
-        console.log("OBTENER PROPUESTA");
-        this.servicePropuesta.obtenerPropuesta(username,this.codigo).subscribe(
+        this.servicePropuesta.obtenerPropuesta(this.codigo).subscribe(
             (response:Response)=>{
+                console.log(response);
                 this.propuesta = response.resultado;
                 this.evento = this.propuesta.evento;
                 console.log("PROPUESTA", this.propuesta);

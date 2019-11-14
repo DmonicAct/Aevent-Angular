@@ -66,7 +66,7 @@ export class PostularEvento implements OnInit {
         let propuesta = null;
         let username = this.authService.usuario.username;
         let idEvento = this.item.idEvento;
-        await this.servicePropuesta.obtenerPropuesta(username,idEvento).subscribe(
+        await this.servicePropuesta.obtenerPropuestaUsuarioEvento(username,idEvento).subscribe(
             (response:Response)=>{
                
                 propuesta=response.resultado;

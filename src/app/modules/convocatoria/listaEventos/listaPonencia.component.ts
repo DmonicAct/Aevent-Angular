@@ -47,6 +47,6 @@ export class ListaPonenciaComponent implements OnInit {
         this.obtenerPostulaciones();
     }
     OnEditar(item:Propuesta){
-        this.router.navigate([`convocatoria/lista-ponencia/ver-postulacion/${item.idPropuesta}`]);
+        this.router.navigate([`convocatoria/lista-ponencia/ver-postulacion/1/${item.idPropuesta}`]);
     }
 }
