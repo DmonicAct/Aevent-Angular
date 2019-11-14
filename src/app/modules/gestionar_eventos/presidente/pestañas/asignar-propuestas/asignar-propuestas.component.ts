@@ -68,6 +68,7 @@ export class AsignarPropuestasVer implements OnInit{
   constructor(
     private servicePersonas: PersonaService,      
     private authService: AeventAuthService,
+    private toastr: ToastrService,
     private _location: Location,
     private serviceEvento: EventoService,) {
     this.comiteElegido = new Array<Usuario>();
@@ -103,20 +104,35 @@ export class AsignarPropuestasVer implements OnInit{
     }
   }
 
-
+public ver:boolean;
   onGuardarCambiosPropuestas(){
     //this.itemEventoParent.comite=this.listaEvAgregar;
     //console.log(this.itemEventoParent);
+    this.ver=false;
     console.log("MAESTRAAA ",this.maestraAgregar)
     for(var i=0;i<this.maestraAgregar.length;i++){
       console.log(this.maestraAgregar[i])
+      if(!this.ver){
       this.serviceEvento.guardarEvaluaciones(this.maestraAgregar[i]).subscribe(
-        (response: Response) => {        
+        (response: Response) => {      
+          if (response.estado == "ERROR"){
+            this.ver=true;
+          }  
           console.log(response);
           console.log("EVALUACIONES GUARDADAS");
         }
       );
+      }
     }
+    if(!this.ver){
+      this.toastr.success('Evaluadores asignados', 'Aviso', {closeButton: true});
+    
+    }else{
+      this.toastr.warning('Error al asignar evaluadores', 'Error', {closeButton: true});
+    }
+      
+    
+
   }
    getMinFecha(fases:Array<Fase>):Fase{
     //return null;
