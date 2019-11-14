@@ -5,6 +5,8 @@ import { Evento, Response, Persona, FormularioCFP, Fase } from '../../../../mode
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventoService } from '../../../../services';
 import { FasePropuestaComponent } from './tabset-parts/fase-propuesta/fase-propuesta.component';
+import { Evaluacion } from 'src/app/models/evaluacion';
+import { EvaluacionService } from 'src/app/services/evaluacion.service';
 
 @Component({
     selector:'editar-evaluacion',
@@ -18,25 +20,38 @@ export class EditarEvaluacionComponent implements OnInit{
 
     private sub: any;
     public item: Evento = new Evento();
-    public itemCodigo: number = null;
+    public itemEvaluacion: Evaluacion;
     public flagEvento:Boolean;
+    public codigo:number;
     constructor(private route: ActivatedRoute,
-        private service: EventoService){
+        private service: EventoService,
+        private serviceEvaluacion: EvaluacionService){
 
         this.item.idEvento = null;
         this.sub = this.route.params.subscribe(params => {
-            this.itemCodigo = +params['id'];
-            if(this.itemCodigo){
-                this.obtenerEvento();
+            this.codigo = +params['id'];
+           
+            
+            if(this.codigo){
+                this.obtenerEvaluacion();
             }else{
                 this.flagEvento=true;
             }
         });
     }
     ngOnInit(){
-        
+        console.log('HOlaaa')
+        console.log(this.itemEvaluacion);   
     }
-    
+
+    obtenerEvaluacion(){
+        this.serviceEvaluacion.obtenerPropuesta(this.codigo).subscribe(
+            (response:Response)=>{
+                this.itemEvaluacion = response.resultado;
+            });
+    }
+    /*
+
     obtenerEvento(){
         this.service.obtenerEvento(this.itemCodigo).subscribe(
             (response: Response)=>{
@@ -44,6 +59,5 @@ export class EditarEvaluacionComponent implements OnInit{
                 this.flagEvento = false;
             }
         );
-    }
-    
-}
+    }*/
+}   

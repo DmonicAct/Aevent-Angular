@@ -1,4 +1,4 @@
-import { OnInit, Component } from "@angular/core";
+import { OnInit, Component, ViewChild } from "@angular/core";
 import { Evento, Paginacion, Usuario } from '../../../models'
 import {AuthService as AeventAuthService} from  '../../../auth/service/auth.service'
 import { EventoService } from  '../../../services'
@@ -9,6 +9,7 @@ import { Propuesta } from "src/app/models/propuesta";
 import { Evaluacion } from "src/app/models/evaluacion";
 import { EvaluacionService } from "src/app/services/evaluacion.service";
 import { UsuarioService } from "src/app/services/usuario.service";
+import { EditarEvaluacionComponent } from "./editar/editarEvaluacion.component";
 @Component({
     selector:'lista-evaluacion',
     templateUrl:'listaEvaluacion.template.html',
@@ -23,6 +24,11 @@ export class ListaEvaluacionComponent implements OnInit{
     public usr: Usuario;
     public propuestas: Array<Propuesta>;
     public loading: Boolean = false;
+
+    @ViewChild('EditarEvaluacionComponent')
+    element: EditarEvaluacionComponent;
+
+
     constructor(private toastr: ToastrService,
         private authService: AeventAuthService,
         private usrService: UsuarioService,
@@ -53,9 +59,8 @@ export class ListaEvaluacionComponent implements OnInit{
         
     }
 
-    OnEditar(item: Evento) {
-        console.log(item);
-        this.router.navigate([`gestionEvaluacionEvento/eventos-postulante/evaluar/${item.idEvento}`]);
+    OnEditar(item: Evaluacion) {
+            this.router.navigate([`gestionEvaluacionEvento/eventos-postulante/evaluar/${item.idEvaluacion}`]);
     }
 
     OnPageChanged(event): void {
