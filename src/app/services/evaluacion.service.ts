@@ -39,4 +39,19 @@ import { Injectable } from "@angular/core";
               return throwError(e);
             }));
     }
+
+    obtenerPropuesta(idEvaluacion:number):Observable<any>{
+        //const url = `${this.apiEndpoint}/${idEvaluador}`;    
+        let url = this.apiEndpoint + `/${idEvaluacion}`;
+          return this.http.get(url).pipe(
+            catchError(e => {
+              if (e.status == 400) {
+                return throwError(e);
+              }
+              if (e.error.mensaje) {
+                console.error(e.error.mensaje);
+              }
+              return throwError(e);
+            }));
+    }
 }
