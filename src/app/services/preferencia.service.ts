@@ -60,7 +60,7 @@ export class PreferenciaService{
   eliminarPreferencia(id:number):Observable<any>{
     let params:HttpParams = new HttpParams()
     .set('id', id.toString())
-    return this.http.get(this.apiEndpoint + '/delete/', {params}).pipe(
+    return this.http.get(this.apiEndpoint + `/delete/${id}`).pipe(
       catchError(e => {
         if (e.status == 400) {
           return throwError(e);

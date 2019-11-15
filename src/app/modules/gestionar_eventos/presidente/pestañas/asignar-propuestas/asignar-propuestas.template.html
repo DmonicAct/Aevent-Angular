@@ -48,11 +48,11 @@
                         
                         <tr *ngFor="let item of propuestasEvento; let i = index" 
                           [class.selected]="i == selectedRow">
-                          <td class="text-left" data-col="idPropuesta"><code>{{item.idPropuesta}}</code></td>
-                          <td class="text-left" data-col="nombrePostulante"><code>{{item.postulante.nombreCompleto}}</code></td>
-                          <td class="text-left" data-col="tituloPropuesta"><code>{{item.titulo}}</code></td>
-                          <td class="text-left" data-col="fechaPostulación"><code>{{item.fecha_postulacion | date:'dd/MM/yyyy'}}</code></td>
-                          <td class="text-left" data-col="fechaPostulación"><pre *ngFor = "let eval of item.evaluadoresAsignados; let j = index"><code>{{eval.nombreCompleto + "\n"}}</code></pre></td>
+                          <td class="text-left" data-col="idPropuesta">{{item.idPropuesta}}</td>
+                          <td class="text-left" data-col="nombrePostulante">{{item.postulante.nombreCompleto}}</td>
+                          <td class="text-left" data-col="tituloPropuesta">{{item.titulo}}</td>
+                          <td class="text-left" data-col="fechaPostulación">{{item.fecha_postulacion | date:'dd/MM/yyyy'}}</td>
+                          <td class="text-left" data-col="fechaPostulación"><pre *ngFor = "let eval of item.evaluadoresAsignados; let j = index">{{eval.nombreCompleto + "\n"}}</pre></td>
                        
                           <td class="text-center" data-col="Configurar" [swal]="visorAgregarEvaluador" (click)="onConfigurar(item,i)"><button class="btn btn-primary"><i
                                 class="fa fa-cog"></i></button></td>    

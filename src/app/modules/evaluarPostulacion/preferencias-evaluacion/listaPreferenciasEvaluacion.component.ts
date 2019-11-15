@@ -39,8 +39,8 @@ export class ListaPreferenciasComponent implements OnInit{
         this.usrService.obtenerUsuarioUs(this.authService.usuario.username).subscribe(
             (response:Response)=>{
                 this.usr = response.resultado;
-                console.log(this.usr)
-                this.service.obtenerPreferencias(4,this.paginacion.pagina,this.paginacion.registros).subscribe(
+                console.log("USR",this.usr)
+                this.service.obtenerPreferencias(this.usr.idUsuario,this.paginacion.pagina,this.paginacion.registros).subscribe(
                     (response: Response) => {
                         this.preferencias = response.resultado;
                         console.log(response);

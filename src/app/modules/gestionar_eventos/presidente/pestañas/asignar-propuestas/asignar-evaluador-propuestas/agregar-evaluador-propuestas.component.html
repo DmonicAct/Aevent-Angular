@@ -22,7 +22,7 @@
                                           </thead>
                                           <tbody >
                                             <tr *ngFor="let item of items; let i = index" [class.selected]="i == selectedRow">
-                                              <td class="text-left" data-col="name"><code>{{item.nombreCompleto }}</code></td>
+                                              <td class="text-left" data-col="name">{{item.nombreCompleto }}</td>
                                               <!--<td class="text-left" data-col="email">{{item.appaterno + " " + item.apmaterno }}</td> -->
                     
                                               <th scope="row">

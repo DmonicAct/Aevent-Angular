@@ -35,21 +35,21 @@ export class ComiteEventoVer implements OnInit {
 
 
   @Input('item-comite')
-  public  comiteElegido: Array<Usuario>;
+  public comiteElegido: Array<Usuario>;
 
   @Input('listaEvAgregar')
-  public listaEvAgregar:Array<Persona>;
+  public listaEvAgregar: Array<Persona>;
 
-  public evaluadoresDisponibles:Array<Persona>;
+  public evaluadoresDisponibles: Array<Persona>;
 
-  public loading:boolean;
+  public loading: boolean;
 
-  public nuevos:Array<Persona>; //Para ver que preferencias agregar
-  public quitar:Array<Persona>; //Para ver que preferencias quitar
-  
-  public nuevasPreferencias:Array<Preferencia>;
+  public nuevos: Array<Persona>; //Para ver que preferencias agregar
+  public quitar: Array<Persona>; //Para ver que preferencias quitar
+
+  public nuevasPreferencias: Array<Preferencia>;
   public pref;
-  public propuestas:Array<Propuesta>;
+  public propuestas: Array<Propuesta>;
   constructor(private toastr: ToastrService,
     private servicePersonas: PersonaService,
     private authService: AeventAuthService,
@@ -57,16 +57,16 @@ export class ComiteEventoVer implements OnInit {
     private serviceEvento: EventoService,
     private _location: Location) {
     this.comiteElegido = new Array<Usuario>();
-    
+
 
     this.itemEvento = new Evento();
     this.itemComite = new Array<Usuario>();
     console.log(this.itemEventoParent);
     //this.itemComite = this.itemEventoParent.comite;
-    }
+  }
 
   @ViewChild('autoShownModal') autoShownModal: ModalDirective;
-  
+
   @ViewChild(`visorAgregarEvaluador`) private swalComponent: SwalComponent;
 
   ngOnInit() {
@@ -77,157 +77,174 @@ export class ComiteEventoVer implements OnInit {
         console.log("EvaluadoresDisponibles");
       }
 
-      
+
     );
-    
+
     //this.loadComite();    
-    
+
     this.nuevos = new Array<Persona>();
     this.quitar = new Array<Persona>();
 
-    this.propuestas=new Array<Propuesta>();
-       this.serviceEvento.obtenerPropuestas(1, 1, 10).subscribe(
-        (response: Response) => {
-          this.propuestas = response.resultado;
-          console.log(response,"gg");
-        }
-        );
+    this.propuestas = new Array<Propuesta>();
+    this.serviceEvento.obtenerPropuestas(1, 1, 10).subscribe(
+      (response: Response) => {
+        this.propuestas = response.resultado;
+        console.log(response, "gg");
+      }
+    );
   }
-/*
-  async loadComite(){
-    this.comiteElegido = await  this.waitComite();
-
-    return this.comiteElegido;
-
-  }
-
-  waitComite(){
-    while(1){
-      if(this.itemEventoParent!=undefined && this.comiteElegido!=undefined)break;
-
+  /*
+    async loadComite(){
+      this.comiteElegido = await  this.waitComite();
+  
+      return this.comiteElegido;
+  
     }
-    console.log("ENDED");
-    return this.itemEventoParent.comite;
+  
+    waitComite(){
+      while(1){
+        if(this.itemEventoParent!=undefined && this.comiteElegido!=undefined)break;
+  
+      }
+      console.log("ENDED");
+      return this.itemEventoParent.comite;
+    }
+  */
+
+
+  ngOnLoad() {
+
   }
-*/
-
-
-  ngOnLoad(){
-
-  }
-//FUNCIONA PERO ESCALAR A FUTURO!
-  onAgregarEvaluador(){
+  //FUNCIONA PERO ESCALAR A FUTURO!
+  onAgregarEvaluador() {
     //Paso reliminar para poder filtrar las personas del comite de los evaluadoresDisponibles
-    console.log(this.listaEvAgregar); 
+    console.log("onAgregarEvaluador", this.listaEvAgregar);
+    console.log("comiteElegido", this.comiteElegido);
     //debugger
     this.comiteElegido = this.itemEventoParent.comite;
-    console.log("before: evaluadoresDisponibles",this.evaluadoresDisponibles);
-    console.log("before: comite Elegido",this.comiteElegido);
-    if(this.comiteElegido!=undefined){
-      for(var i=0;i<this.comiteElegido.length;i++){
-          var longEvDisponibles = this.evaluadoresDisponibles.length;
-          for(var j=0;j<longEvDisponibles; j++){
-            if(this.evaluadoresDisponibles[j].idUsuario == this.comiteElegido[i].idUsuario){
-              this.evaluadoresDisponibles.splice(j, 1)[0];
-              break;
-            }
-          }      
+    console.log("before: evaluadoresDisponibles", this.evaluadoresDisponibles);
+    console.log("before: comite Elegido", this.comiteElegido);
+    if (this.comiteElegido != undefined) {
+      for (var i = 0; i < this.comiteElegido.length; i++) {
+        var longEvDisponibles = this.evaluadoresDisponibles.length;
+        for (var j = 0; j < longEvDisponibles; j++) {
+          if (this.evaluadoresDisponibles[j].idUsuario == this.comiteElegido[i].idUsuario) {
+            this.evaluadoresDisponibles.splice(j, 1)[0];
+            break;
+          }
         }
+      }
     }
   }
 
 
-  onGuardarCambiosEvento(){    
-    this.itemEventoParent.comite=this.listaEvAgregar;
-    console.log(this.itemEventoParent);
+  onGuardarCambiosEvento() {
+    //  console.log("itemEventoParent", this.itemEventoParent);
+    //console.log("listaEvAgregar", this.listaEvAgregar);
+    //console.log("itemcomite", this.itemComite);
+    if (this.listaEvAgregar != undefined || this.listaEvAgregar || this.listaEvAgregar != null) {
+      //console.log("INSIDE THIS STUFF")
+      this.itemEventoParent.comite = this.listaEvAgregar;
+    }
+    //    else this.itemEventoParent.comite = this.comiteElegido;
+    //console.log(this.itemEventoParent);
     this.serviceEvento.guardarEvento(this.itemEventoParent).subscribe(
-      (response: Response) => {        
-        console.log(response);
-        console.log("EVENTO SAVED");
+      (response: Response) => {
+        this.comiteElegido = this.itemEventoParent.comite;
+      //  console.log(response);
+        //console.log("EVENTO SAVED");
+
         this.toastr.success(`Se ha actualizado la lista de evaluadores del evento con exito`, 'Aviso', { closeButton: true });
+
       }
     );
-    this.nuevasPreferencias= new Array<Preferencia>();
+    this.nuevasPreferencias = new Array<Preferencia>();
     //Insertar Preferencias
-    
-       
-    for(let persona of this.nuevos){
-        var pref = new Preferencia();
-        console.log("entrando a nuevos",this.propuestas);
-        for(let prop of this.propuestas ){
-          console.log("prop",prop);
-            pref.descripcion="Sin Determinar";
-            pref.propuesta=prop;
-            pref.usuario=persona;
-            this.servicePreferencia.guardarPreferencia(pref).subscribe(
-              (response: Response) => {
-                //this.toastr.success(`Se ha guardado con exito`, 'Aviso', { closeButton: true });
-            }
-            );
-            console.log("insert preferencia");
-        }
-    }
-
-    for(let persona of this.quitar){
+    for (let persona of this.nuevos) {
       this.pref = new Preferencia();
-      for(let prop of this.propuestas ){
-       
-        this.servicePreferencia.consultarByUsuarioAndPropuesta(persona.idUsuario,1).subscribe(
+      //console.log("entrando a nuevos", this.propuestas);
+      for (let prop of this.propuestas) {
+        //console.log("prop", prop);
+        this.pref.descripcion = "Sin Determinar";
+        this.pref.propuesta = prop;
+        this.pref.usuario = persona;
+        this.servicePreferencia.guardarPreferencia(this.pref).subscribe(
           (response: Response) => {
-            this.pref = response.resultado;
+            //this.toastr.success(`Se ha guardado con exito`, 'Aviso', { closeButton: true });
           }
         );
-        console.log("preferencia",pref);
-        if(pref != null){
-          this.servicePreferencia.eliminarPreferencia(pref.id).subscribe(
-            (response: Response) => {
+        //console.log("insert preferencia");
+      }
+    }
+
+    for (let persona of this.quitar) {
+      this.pref = new Preferencia();
+      for (let prop of this.propuestas) {
+        //console.log("prop",prop)
+        //console.log("persona",persona.idUsuario)
+        //console.log("prop.idPropuesta number ", prop.idPropuesta)
+        //console.log("prop.idPropuesta number ", <number>prop.idPropuesta)
+
+        this.servicePreferencia.consultarByUsuarioAndPropuesta(persona.idUsuario, prop.idPropuesta.valueOf()).subscribe(
+          (response: Response) => {
+            this.pref = response.resultado;
+            //  console.log("preferencia", this.pref);
+
+            if (this.pref != null) {
+              this.servicePreferencia.eliminarPreferencia(this.pref.id).subscribe(
+                (response: Response) => {
+                  console.log("delete preferencia",response);
+                }
+              );
+
             }
-          );
-          console.log("delete preferencia");
-        }
+
+          }
+        );
+
       }
 
     }
-    
+
     this.nuevos = new Array<Persona>();
     this.quitar = new Array<Persona>();
 
   }
 
-  getList(items){
+  getList(items) {
     console.log("Items:", items);
-    var lista = <Array<Persona>> items;
+    var lista = <Array<Persona>>items;
     this.swalComponent.nativeSwal.close();
     //Agregamos los evaluadores escogidos
-    for(var p=0; p<lista.length;p++){
-      
+    for (var p = 0; p < lista.length; p++) {
+
       this.comiteElegido.push(lista[p]);
 
       //Para preferencias
-      if(this.quitar.includes(lista[p])){
+      if (this.quitar.includes(lista[p])) {
         var ind = this.quitar.lastIndexOf(lista[p]);
-        this.quitar.splice(ind,1);
+        this.quitar.splice(ind, 1);
       }
-      else{
+      else {
         this.nuevos.push(lista[p]);
       }
     }
-    
-    console.log("nuevos",this.nuevos);
-    console.log("quitar",this.quitar);
 
-    
-    console.log(this.comiteElegido,"ss");
-    this.listaEvAgregar = <Array<Persona>> this.comiteElegido;
+    console.log("nuevos", this.nuevos);
+    console.log("quitar", this.quitar);
 
-    
+
+    console.log(this.comiteElegido, "ss");
+    this.listaEvAgregar = <Array<Persona>>this.comiteElegido;
+
+
   }
 
-  OnRetroceder(){
+  OnRetroceder() {
     this._location.back();
   }
 
-  onAgregar(){
+  onAgregar() {
     /*this.serviceEvento.obtenerEvento(this.item.idEvento).subscribe(
       (response: Response) => {
           this.itemEvento = response.resultado;
@@ -247,33 +264,36 @@ export class ComiteEventoVer implements OnInit {
       }
   );*/
   }
-  
-  onQuitar(index,i){ 
-    
-    console.log(index);
-    console.log(i);
-    console.log(this.evaluadoresDisponibles);
-    console.log(this.comiteElegido[index]);
+
+  onQuitar(index, i) {
+
+    //console.log("onQuitar index",index);
+    //console.log("onQuitar i",i);
+    //console.log("onQuitar evaluadoresDisponibles (BEFORE)",this.evaluadoresDisponibles);
+    //console.log("onQuitar comiteElegido[i]",this.comiteElegido[i]);
     var usr = <Usuario>index;
     this.evaluadoresDisponibles.push(<Persona>(this.comiteElegido[i]));
-    console.log(this.evaluadoresDisponibles);
+    //console.log("onQuitar evaluadoresDisponibles (AFTER)",this.evaluadoresDisponibles);
     this.comiteElegido.splice(i, 1)[0];
-
-    if(this.nuevos.includes(index)){
+    //console.log("onQuitar comiteElegido",this.comiteElegido);
+    //console.log("nuevos before",this.nuevos);
+    //console.log("quitar before",this.quitar);
+    this.listaEvAgregar = <Array<Persona>>this.comiteElegido;
+    if (this.nuevos.includes(index)) {
       var ind = this.nuevos.lastIndexOf(index);
-      this.nuevos.splice(ind,1);
+      this.nuevos.splice(ind, 1);
     }
-    else{
+    else {
       this.quitar.push(index);
     }
-    console.log("nuevos",this.nuevos);
-    console.log("quitar",this.quitar);
+    //console.log("nuevos", this.nuevos);
+    //console.log("quitar", this.quitar);
   }
 
-  onNuevoComiteDisp(nuevoComiteDisp){
-    if(nuevoComiteDisp!=undefined){
-      this.evaluadoresDisponibles=<Array<Persona>>nuevoComiteDisp;  
-      console.log(this.evaluadoresDisponibles,"evaluadores disponibles");
+  onNuevoComiteDisp(nuevoComiteDisp) {
+    if (nuevoComiteDisp != undefined) {
+      this.evaluadoresDisponibles = <Array<Persona>>nuevoComiteDisp;
+      console.log(this.evaluadoresDisponibles, "evaluadores disponibles");
     }
   }
 }
