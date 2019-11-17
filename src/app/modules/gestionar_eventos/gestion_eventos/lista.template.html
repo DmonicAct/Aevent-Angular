@@ -50,7 +50,7 @@
                                 <th class="text-center">Fecha Inicio</th>
                                 <th class="text-center">Fecha Fin</th>
                                 <th *ngIf="activos" class="text-center">Deshabilitar</th>   
-                                <th *ngIf="!activos" class="text-center">Habilitar</th>
+                                <th *ngIf="!activos" class="text-center">Motivo</th>   
                             </tr>
                         </thead>
                         <tbody>
@@ -65,8 +65,8 @@
                                 <td class="text-center" data-col="fechaInicio">{{item.fechaInicio | date:'dd/MM/yyyy'}}
                                 </td>
                                 <td class="text-center" data-col="fechafin">{{item.fechaFin | date:'dd/MM/yyyy'}}</td>
-                                <td *ngIf="activos" class="text-center" data-col="eliminar" (click)="OnDeshabilitar(item)"><button class="btn btn-danger"><i class="fa fa-ban"></i></button></td>
-              <td *ngIf="!activos" class="text-center" data-col="eliminar" (click)="OnHabilitar(item)"><button class="btn btn-success"><i class="fa fa-check"></i></button></td>
+                                <td *ngIf="activos" class="text-center" data-col="eliminar" (click)="OnMotivoDeshabilitar(item)"><button class="btn btn-danger"><i class="fa fa-ban"></i></button></td>
+                                <td *ngIf="!activos" class="text-center" data-col="eliminar" >{{item.motivoFin}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -94,4 +94,33 @@
             </div>
         </div>
     </div>
+</div>
+<!--Motivo desabiitar Evento-->
+<div *ngIf="isNewModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal
+  #autoShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="form-group modal-header">
+        <h4 id="dialog-auto-name" class="modal-title pull-left">Deshabilitar Evento</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="form-group col-sm-12">
+        <label class="col-sm-3 control-label">Motivo(*)</label>
+        <div class="col-sm-8">
+                <ng-select [items]="motivos" bindLabel="descripcion" placeholder="Seleccionar Motivo"
+                name="motivoDeshabilitar" autocomplete="off" [clearable]="false" [(ngModel)]="motivoDeshabilitar">
+              </ng-select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="text-center">
+          <button (click)='OnDeshabilitar(this.eventoDes)' class="btn btn-primary container-button"><i class="fa fa-save"></i>
+            Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

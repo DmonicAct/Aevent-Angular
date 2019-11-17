@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { Evento, Paginacion } from '../../../models';
 import { EventoService } from '../../../services/evento.service';
 import { Estado, Response } from '../../../models';
 import { AuthService as AeventAuthService } from '../../../auth/service/auth.service';
-
+import { ModalDirective } from 'ngx-bootstrap';
 @Component({
     selector: 'lista-eventos-organizador',
     templateUrl: 'lista.template.html',
@@ -13,18 +13,25 @@ import { AuthService as AeventAuthService } from '../../../auth/service/auth.ser
 })
 
 export class ListaEventosOrganizador implements OnInit {
+    public isNewModalShown: Boolean;
+    public descripcionModal: String;
     public items: Array<Evento>;
     public itemsPropios: Array<Evento>;
     public paginacion: Paginacion;
     public loading: Boolean = false;
     public rolOrga: Boolean;
-    seCambioActivo: Boolean;
+    private eventoDes: Evento;
+    private seCambioActivo: Boolean;
     private tipoEvento: String;
+    @ViewChild('autoShownModal')
+    autoShownModal: ModalDirective;
+
     constructor(private authService: AeventAuthService,
         private toastr: ToastrService,
         private router: Router,
         private service: EventoService) {
         this.items = new Array<Evento>();
+        this.eventoDes = new Evento();
         this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
         this.seCambioActivo = false;
         this.activos = true;
@@ -33,7 +40,14 @@ export class ListaEventosOrganizador implements OnInit {
     }
     flagVer: Boolean;
     eventosPropios: Array<Boolean>;
-
+    onHidden(): void{
+        this.isNewModalShown = false;
+    }
+    hideModal(): void {
+        if (this.isNewModalShown) {
+          this.autoShownModal.hide();
+        }
+      }
     ngOnInit(): void {
         //this.getAllEventos();
         this.getListaActivos();
@@ -44,7 +58,10 @@ export class ListaEventosOrganizador implements OnInit {
             if (aux == 'ROLE_ORGANIZER') this.rolOrga = true;
         });
     }
+    public motivos = ["Finalizado", "Cancelado"];
     public filtroActivo = ["Activos", "Inactivos"];
+    public motivoDeshabilitar: string;
+
     activos: Boolean;
     cambioTipoEvento() {
         this.activos = !this.activos;
@@ -142,7 +159,7 @@ export class ListaEventosOrganizador implements OnInit {
     OnVer(item: Evento) {
         this.router.navigate([`Eventos/MisEventos/organizador/editar/${item.idEvento}`]);
     }
-    OnHabilitar(item:Evento){
+    /*OnHabilitar(item:Evento){   NO HAY OPCION DE HABILITAR EVENTO DE NUEVO, LO GUARDO POR SIACASO
         item.enabled = true;
         this.service.guardarEvento(item).subscribe(
             (response: Response) => {
@@ -156,8 +173,14 @@ export class ListaEventosOrganizador implements OnInit {
                 }
             }
         );
+    }*/
+    OnMotivoDeshabilitar(item: Evento){
+        this.isNewModalShown = true;
+        this.eventoDes = item;
+
     }
     OnDeshabilitar(item: Evento) {
+        item.motivoFin = this.motivoDeshabilitar; 
         item.enabled = false;
         this.service.guardarEvento(item).subscribe(
             (response: Response) => {
@@ -168,7 +191,10 @@ export class ListaEventosOrganizador implements OnInit {
                     } else {
                         this.getListaInactivos();
                     }
+                    this.onHidden();
                 }
+
+
             }
         );
     }
