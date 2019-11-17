@@ -1,5 +1,5 @@
 export class Role{
-    public idRol: number;
+    public id: number;
     public nombre: String;
     public enabled:Boolean;
 }

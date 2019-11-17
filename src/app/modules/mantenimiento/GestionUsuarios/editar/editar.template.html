@@ -25,194 +25,206 @@
     </div>
   </div>
   <div class="row m-b-md">
-      <div class="ibox-content">
-          <div class="row">
     <div class="ibox-content">
-      
-        <!-- <div class="col-lg-12"> -->
-        <div class="col-md-12">
-          <h2>Datos Personales:</h2>
+      <div class="row">
+        <div class="ibox-content">
+
+          <!-- <div class="col-lg-12"> -->
+          <div class="col-md-12">
+            <h2>Datos Personales:</h2>
+          </div>
+          <div class="ibox-content">
+
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-2">Nombre(*):</label>
+                <div class="col-sm-4"><input required type="text" autocomplete="off" class="form-control"
+                    placement="top" name="nombre" [(ngModel)]="item.nombre"></div>
+
+
+                <label class="col-sm-2">Sexo:</label>
+                <div *ngIf="item.modoInicioSesion == 0" class="col-sm-4">
+                  <select class="form-control m-b-x" name="estado" [(ngModel)]="item.sexo">
+                    <option value="MASCULINO">MASCULINO</option>
+                    <option value="FEMENINO">FEMENINO</option>
+                  </select>
+                </div>
+
+                <div *ngIf="item.modoInicioSesion != 0" class="col-sm-4">
+                  <select [disabled]="true" class="form-control m-b-x" name="estado" [(ngModel)]="item.sexo">
+                    <option value="MASCULINO">MASCULINO</option>
+                    <option value="FEMENINO">FEMENINO</option>
+                  </select>
+                </div>
+
+
+
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2">A.Paterno(*):</label>
+                <div class="col-sm-4"><input required type="text" autocomplete="off" class="form-control"
+                    placement="top" name="appaterno" [(ngModel)]="item.appaterno"></div>
+                <label class="col-sm-2">Correo(*):</label>
+                <div class="col-sm-4">
+                  <div class="input-group date">
+                    <input required type="email" name="email" autocomplete="off" [(ngModel)]="item.email"
+                      class="form-control" placement="top">
+                    <span *ngIf="!validar_email" class="input-group-addon"><i class="fa fa-check"></i></span>
+                    <span *ngIf="validar_email" class="input-group-addon"><i class="fa fa-check"></i></span>
+                  </div>
+
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2">A.Materno:</label>
+
+                <div *ngIf="item.modoInicioSesion == 0" class="col-sm-4"><input required type="text" autocomplete="off"
+                    class="form-control" placement="top" name="appmaterno" [(ngModel)]="item.apmaterno"></div>
+                <div *ngIf="item.modoInicioSesion != 0" class="col-sm-4"><input required type="text" autocomplete="off"
+                    class="form-control" placement="top" name="appmaterno" [disabled]="true"
+                    [(ngModel)]="item.apmaterno">
+                </div>
+
+                <label class="col-sm-2">Fecha Nacimiento(*):</label>
+                <div class="col-sm-4">
+                  <div *ngIf="item.modoInicioSesion == 0" class="input-group date">
+                    <input bsDatepicker #dp="bsDatepicker" autocomplete="off" name='fechaDocumento'
+                      [(bsValue)]="item.fechaNacimiento" (bsValueChange)="DetectChange()"
+                      value="{{ item.fechaNacimiento | date:'dd/MM/yyyy' }}" type="text" class="form-control">
+                    <span class="input-group-addon" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen"><i
+                        class="fa fa-calendar"></i></span>
+                  </div>
+
+                  <div *ngIf="item.modoInicioSesion != 0" class="input-group date">
+                    <input [disabled]="true" bsDatepicker #dp="bsDatepicker" autocomplete="off" name='fechaDocumento'
+                      [(bsValue)]="item.fechaNacimiento" (bsValueChange)="DetectChange()"
+                      value="{{ item.fechaNacimiento | date:'dd/MM/yyyy' }}" type="text" class="form-control">
+                    <span class="input-group-addon" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen"><i
+                        class="fa fa-calendar"></i></span>
+                  </div>
+
+                </div>
+
+
+              </div>
+
+
+            </form>
+          </div>
+
         </div>
         <div class="ibox-content">
 
-          <form class="form-horizontal">
-            <div class="form-group">
-              <label class="col-sm-2">Nombre(*):</label>
-              <div class="col-sm-4"><input required type="text" autocomplete="off" class="form-control" placement="top"
-                  name="nombre" [(ngModel)]="item.nombre"></div>
-
-
-              <label class="col-sm-2">Sexo:</label>
-              <div *ngIf="item.modoInicioSesion == 0" class="col-sm-4">
-                <select class="form-control m-b-x" name="estado" [(ngModel)]="item.sexo">
-                  <option value="MASCULINO">MASCULINO</option>
-                  <option value="FEMENINO">FEMENINO</option>
-                </select>
+          <div class="row">
+            <div class="row col-md-6">
+              <div class=" col-md-12">
+                <h2>Datos del Sistema:</h2>
               </div>
 
-              <div *ngIf="item.modoInicioSesion != 0" class="col-sm-4">
-                <select [disabled]="true" class="form-control m-b-x" name="estado" [(ngModel)]="item.sexo">
-                  <option value="MASCULINO">MASCULINO</option>
-                  <option value="FEMENINO">FEMENINO</option>
-                </select>
-              </div>
-
-
-
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2">A.Paterno(*):</label>
-              <div class="col-sm-4"><input required type="text" autocomplete="off" class="form-control" placement="top"
-                  name="appaterno" [(ngModel)]="item.appaterno"></div>
-              <label class="col-sm-2">Correo(*):</label>
-              <div class="col-sm-4">
-                <div class="input-group date">
-                  <input required type="email" name="email" autocomplete="off" [(ngModel)]="item.email"
-                    class="form-control" placement="top">
-                  <span *ngIf="!validar_email" class="input-group-addon"><i class="fa fa-check"></i></span>
-                  <span *ngIf="validar_email" class="input-group-addon"><i class="fa fa-check"></i></span>
-                </div>
-
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2">A.Materno:</label>
-
-              <div *ngIf="item.modoInicioSesion == 0" class="col-sm-4"><input required type="text" autocomplete="off"
-                  class="form-control" placement="top" name="appmaterno" [(ngModel)]="item.apmaterno"></div>
-              <div *ngIf="item.modoInicioSesion != 0" class="col-sm-4"><input required type="text" autocomplete="off"
-                  class="form-control" placement="top" name="appmaterno" [disabled]="true" [(ngModel)]="item.apmaterno">
-              </div>
-
-              <label class="col-sm-2">Fecha Nacimiento(*):</label>
-              <div class="col-sm-4">
-                <div *ngIf="item.modoInicioSesion == 0" class="input-group date">
-                  <input bsDatepicker #dp="bsDatepicker" autocomplete="off" name='fechaDocumento'
-                    [(bsValue)]="item.fechaNacimiento" (bsValueChange)="DetectChange()"
-                    value="{{ item.fechaNacimiento | date:'dd/MM/yyyy' }}" type="text" class="form-control">
-                  <span class="input-group-addon" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen"><i
-                      class="fa fa-calendar"></i></span>
-                </div>
-
-                <div *ngIf="item.modoInicioSesion != 0" class="input-group date">
-                  <input [disabled]="true" bsDatepicker #dp="bsDatepicker" autocomplete="off" name='fechaDocumento'
-                    [(bsValue)]="item.fechaNacimiento" (bsValueChange)="DetectChange()"
-                    value="{{ item.fechaNacimiento | date:'dd/MM/yyyy' }}" type="text" class="form-control">
-                  <span class="input-group-addon" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen"><i
-                      class="fa fa-calendar"></i></span>
-                </div>
-
-              </div>
-
-
-            </div>
-
-
-          </form>
-        </div>
-      
-    </div>
-    <div class="ibox-content">
-      
-      <div class="row">
-        <div class="row col-md-6">
-          <div class=" col-md-12">
-            <h2>Datos del Sistema:</h2>
-          </div>
-          
-            <div class="col-lg-12">
-              <div class="ibox-content">
-                <form class="form-horizontal">
-                  <div class="form-group">
-                    <label class="col-sm-4">Usuario(*):</label>
-                    <div class="col-sm-8"><input required type="text" autocomplete="off" autocomplete="false"
-                        name="username" [(ngModel)]="item.username" class="form-control" placement="top"></div>
-                  </div>
-                  <div *ngIf="item.modoInicioSesion == 0" class="form-group">
-                    <label class="col-sm-4">Nueva Contraseña(*):</label>
-                    <div class="col-sm-8"><input required type="password" autocomplete="off" autocomplete="false"
-                        name="password" [(ngModel)]="password" class="form-control" placement="top"></div>
-                  </div>
-
-                  <div *ngIf="item.modoInicioSesion != 0" class="form-group">
-                    <label class="col-sm-4">Nueva Contraseña(*):</label>
-                    <div class="col-sm-8"><input required type="password" [disabled]="true" autocomplete="off"
-                        autocomplete="false" name="password" [(ngModel)]="password" class="form-control"
-                        placement="top"></div>
-                  </div>
-
-                  <div *ngIf="item.modoInicioSesion == 0" class="form-group">
-                    <label class="col-sm-4">Repetir Contraseña(*):</label>
-                    <div class="col-sm-8"><input required type="password" autocomplete="false" name="password_repeat"
-                        [(ngModel)]="password_repeat" class="form-control" placement="top">
+              <div class="col-lg-12">
+                <div class="ibox-content">
+                  <form class="form-horizontal">
+                    <div class="form-group">
+                      <label class="col-sm-4">Usuario(*):</label>
+                      <div class="col-sm-8"><input required type="text" autocomplete="off" autocomplete="false"
+                          name="username" [(ngModel)]="item.username" class="form-control" placement="top"></div>
                     </div>
-                  </div>
+                    <div *ngIf="item.modoInicioSesion == 0" class="form-group">
+                      <label class="col-sm-4">Nueva Contraseña(*):</label>
+                      <div class="col-sm-8"><input required type="password" autocomplete="off" autocomplete="false"
+                          name="password" [(ngModel)]="password" class="form-control" placement="top"></div>
+                    </div>
 
-                  <div *ngIf="item.modoInicioSesion != 0" class="form-group">
-                    <label class="col-sm-4">Repetir Contraseña(*):</label>
-                    <div class="col-sm-8"><input requirezd type="password" [disabled]="true" autocomplete="false"
-                        name="password_repeat" [(ngModel)]="password_repeat" class="form-control" placement="top">
+                    <div *ngIf="item.modoInicioSesion != 0" class="form-group">
+                      <label class="col-sm-4">Nueva Contraseña(*):</label>
+                      <div class="col-sm-8"><input required type="password" [disabled]="true" autocomplete="off"
+                          autocomplete="false" name="password" [(ngModel)]="password" class="form-control"
+                          placement="top"></div>
                     </div>
-                  </div>
 
-                  <div class="form-group">
-                    <label class="col-sm-4">Fecha Creación(*):</label>
-                    <div class="col-sm-8">
-                      <!--<input class="form-control" [(ngModel)]="item.fechaCreacion" [disabled]="true" placement="top"></div>-->
-                      <td class="text-center">{{item.fechaCreacion | date:'dd/MM/yyyy HH:mm:ss'}}</td>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-4">Fecha Modificación(*):</label>
-                    <div class="col-sm-8">
-                      <td class="text-center">{{item.fechaModificacion | date:'dd/MM/yyyy HH:mm:ss'}}</td>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          
-        </div>
-        <div class="row col-md-6">
-          <div class="col-lg-12">
-            <h2>Roles:</h2>
-          </div>
-          
-            <div class="col-lg-12">
-              <div class="ibox-content">
-                <div class="form-horizontal">
-                  <div class="form-group">
-                    <div *ngFor="let item of itemsRoles; let i = index">
-                      <label class="col-sm-4 text-left">{{item.nombre}}</label>
-                      <div class="col-sm-8 text-left">
-                        <ui-switch [(ngModel)]="this.boolean_flags[i]"></ui-switch>
+                    <div *ngIf="item.modoInicioSesion == 0" class="form-group">
+                      <label class="col-sm-4">Repetir Contraseña(*):</label>
+                      <div class="col-sm-8"><input required type="password" autocomplete="false" name="password_repeat"
+                          [(ngModel)]="password_repeat" class="form-control" placement="top">
                       </div>
-                      <div class="row"></div>
                     </div>
 
-                  </div>
-                  <!--               <div class="form-group">
-                <label class="col-sm-4 text-left">Estado</label>
-                  <div class="col-sm-8 text-left">
-                    <ui-switch [(ngModel)]="this.item.enabled"></ui-switch>
-                  </div>
-              </div> -->
+                    <div *ngIf="item.modoInicioSesion != 0" class="form-group">
+                      <label class="col-sm-4">Repetir Contraseña(*):</label>
+                      <div class="col-sm-8"><input requirezd type="password" [disabled]="true" autocomplete="false"
+                          name="password_repeat" [(ngModel)]="password_repeat" class="form-control" placement="top">
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
 
-                  <div class="form-group" *ngIf="item.modoInicioSesion == 0"> <h3 class="col-sm-6 text-left">Usuario
-                      registrado por AEvent</h3>
-                  </div>
-                  <div class="form-group" *ngIf="item.modoInicioSesion != 0"> <h3 class="col-sm-6 text-left">Usuario
-                      registrado por Google</h3>
+            </div>
+            <div class="row col-md-6">
+              <div class="col-lg-12">
+                <h2>Roles:</h2>
+              </div>
+
+              <div class="col-lg-12">
+                <div class="ibox-content">
+                  <div class="form-horizontal">
+                    <div class="form-group">
+                      <div *ngFor="let item of itemsRoles; let i = index">
+                        <label class="col-sm-4 text-left">{{item.nombre}}</label>
+                        <div class="col-sm-8 text-left">
+                          <ui-switch [(ngModel)]="this.boolean_flags[i]"></ui-switch>
+                        </div>
+                        <div class="row"></div>
+                      </div>
+
+                    </div>
+
+                    <div class="form-group" *ngIf="item.modoInicioSesion == 0">
+                      <h3 class="col-sm-6 text-left">Usuario
+                        registrado por AEvent</h3>
+                    </div>
+                    <div class="form-group" *ngIf="item.modoInicioSesion != 0">
+                      <h3 class="col-sm-6 text-left">Usuario
+                        registrado por Google</h3>
+                    </div>
                   </div>
                 </div>
               </div>
+
             </div>
-          
+          </div>
+        </div>
+
+        <div class="ibox-content">
+
+          <div class="row">
+            <div class="row col-md-6">
+              <div class=" col-md-12">
+                <h2>Datos de Auditoría:</h2>
+              </div>
+              <div class="col-lg-12">
+                <div class="ibox-content">
+                  <form class="form-horizontal">
+                    <div class="form-group">
+                      <label class="col-sm-4">Fecha Creación:</label>
+                      <div class="col-sm-8">
+                        <td class="text-center">{{item.fechaCreacion | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-4">Fecha Modificación:</label>
+                      <div class="col-sm-8">
+                        <td class="text-center">{{item.fechaModificacion | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
 
   </div>

@@ -43,7 +43,7 @@ export class EditarUsuarioComponent implements OnInit {
   ngOnInit(): any {
     this.sub = this.route.params.subscribe(params => {
       this.itemCodigo = +params['id'];
-      console.log(this.itemCodigo);
+      //console.log(this.itemCodigo);
       if (this.itemCodigo == null) {
         this.item.modoInicioSesion = 0;
       }
@@ -58,7 +58,7 @@ export class EditarUsuarioComponent implements OnInit {
           let enabled = false;
           this.boolean_flags.push(enabled);
         });
-        console.log('Roles:', this.itemsRoles);
+        //console.log('Roles:', this.itemsRoles);
         if (this.itemCodigo) {
           this.ObtenerUsuario()
         }
@@ -68,10 +68,10 @@ export class EditarUsuarioComponent implements OnInit {
   ObtenerUsuario() {
     this.service.obtenerUsuario(this.itemCodigo).subscribe(
       (response: Response) => {
+        debugger
         this.item = response.resultado;
         this.item.roles.forEach((e) => {
-          let index = e.idRol - 1;
-          this.boolean_flags[e.idRol - 1] = true;
+          this.boolean_flags[e.id - 1] = true;
         });
       }
     );
@@ -80,11 +80,7 @@ export class EditarUsuarioComponent implements OnInit {
     this._location.back();
   }
   OnGuardar() {
-    //debugger
     if (!this.itemCodigo) {
-
-
-      //USERNAME
       if (!this.item.username || this.item.username == "") {
         this.toastr.warning('Debe colocar un Usuario', 'Aviso', { closeButton: true });
         return;
@@ -195,7 +191,7 @@ export class EditarUsuarioComponent implements OnInit {
       this.boolean_flags.forEach((e1, i1) => {
         let isOnArray = false;
         this.item.roles.forEach((e2, i2) => {
-          if (e2.idRol - 1 == i1 && e1) {
+          if (e2.id - 1 == i1 && e1) {
             isOnArray = true;
             e2.enabled = e1;
             roles.push(e2);
@@ -231,7 +227,7 @@ export class EditarUsuarioComponent implements OnInit {
           } else {
             this.service.validarEmail(this.item.email).subscribe(
               (response: Response) => {
-                console.log(response);
+                //console.log(response);
                 if (response.resultado == true) {
                   this.toastr.warning('El correo ya está en uso, escoga uno diferente', 'Error', { closeButton: true });
                 } else {
