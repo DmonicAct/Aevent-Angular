@@ -14,15 +14,18 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row m-b-sm">
         <div class="col-md-2">
-            <ng-select [items]="itemsFiltro" (input)="cambioFiltro()"
-                placeholder="Seleccionar Filtro" name="filtroEvento" autocomplete="off"
-                [clearable]="false" [(ngModel)]="tipo">
+            <ng-select [items]="filtroActivo" (ngModelChange)="cambioTipoEvento()" placeholder="Activos"
+                name="filtroActivo" autocomplete="off" [clearable]="false" [(ngModel)]="tipoEvento">
+            </ng-select>
+        </div>
+        <div class="col-md-2">
+            <ng-select [items]="itemsFiltro" (input)="cambioFiltro()" placeholder="Seleccionar Filtro"
+                name="filtroEvento" autocomplete="off" [clearable]="false" [(ngModel)]="tipo">
             </ng-select>
         </div>
         <div class="col-md-4">
-            <input type="text" autocomplete="off" class="form-control" name="filtro"
-                maxlength="30" [(ngModel)]="filtro" (input)="buscarEvento()"
-                onkeypress="return /^[a-zA-Z0-9,.*-\s]*$/i.test(event.key)">
+            <input type="text" autocomplete="off" class="form-control" name="filtro" maxlength="30" [(ngModel)]="filtro"
+                (input)="buscarEvento()" onkeypress="return /^[a-zA-Z0-9,.*-\s]*$/i.test(event.key)">
         </div>
         <div class="col-md-4">
 
@@ -53,7 +56,7 @@
                             <tr *ngFor="let item of maestroEventoFilter; let i = index" (click)="OnRowClick(i, item)"
                                 [class.selected]="i == selectedRow">
                                 <td class="text-center" data-col="editar" (click)="OnEditar(item)"><button
-                                    class="btn btn-success"><i class="fa fa-edit"></i></button></td>
+                                        class="btn btn-success"><i class="fa fa-edit"></i></button></td>
                                 <td class="text-center" data-col="idEvento"><code>{{item.idEvento}}</code></td>
                                 <td class="text-left" data-col="titulo">{{item.titulo}}</td>
                                 <td class="text-center" data-col="tipoEvento">{{item.tipoEvento.nombre}}</td>

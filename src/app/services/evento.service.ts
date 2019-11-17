@@ -272,4 +272,38 @@ export class EventoService{
             }));
     }
 
+    obtenerEventosOrganizadorActivos(user: string, pagina:number, registros:number):Observable<any>{
+      let params:HttpParams = new HttpParams()
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString())
+      .set('username', user);
+        return this.http.get(this.apiEndpoint + '/organizadorAndEnabled', {params}).pipe(
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
+            return throwError(e);
+          }));
+  }
+
+  obtenerEventosOrganizadorInactivos(user: string, pagina:number, registros:number):Observable<any>{
+    let params:HttpParams = new HttpParams()
+    .set('pagina', pagina.toString())
+    .set('registros', registros.toString())
+    .set('username', user);         
+      return this.http.get(this.apiEndpoint + '/organizadorAndNotEnabled', {params}).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+}
+
 }
