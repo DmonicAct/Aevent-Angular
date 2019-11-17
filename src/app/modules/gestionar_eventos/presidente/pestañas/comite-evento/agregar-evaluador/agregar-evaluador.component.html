@@ -1,77 +1,80 @@
-<div class="row">
-  <div class="col-lg-12" >
-    <div class="ibox-content">
-      <div class="fh-breadcrumb">
-        <div class="full-height">
-          <div class="full-height-scroll white-bg">
-            <div class="ibox-content" >
-              <div class="table-responsive" >
-                <div class="row col-sm-12">
-                    <div class="col-sm-5 pull-left"><h3>Filtro por Nombre</h3></div>
-                    <div class="col-sm-7"><input type="text" [(ngModel)]="filtro" name="filtro"
-                        (input)="buscarUsuario()"></div>
+<div [config]="{ show: true }" (onHidden)="OnHiddenPresidente()" bsModal
+#autoShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+<div class="modal-dialog modal-sm" >
+    <div class="modal-content" style="width: 300%;margin-left: -250px;">
+        <div class="modal-header">
+            <h3 id="dialog-auto-name" class="modal-title">Filtro Usuarios</h3>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="hideModalPresidente()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="row">&nbsp;</div>
+            <br>
+            <div class="row m-b-sm">
+                <div class="col-md-3">
+                    <ng-select [items]="itemsFiltro" (ngModelChange)="cambioFiltro()"
+                        placeholder="Seleccionar Filtro" name="filtroUsuario" autocomplete="off"
+                        [clearable]="false" [(ngModel)]="tipo">
+                    </ng-select>
                 </div>
-                <div class="row">&nbsp;</div>
-                <br>
-                <table class="table table-striped table-hover issue-tracker">
-                  <thead>
-                    <tr>
-                      <th class="text-left">Nombre</th>
-                      <!--<th class="text-left">Apellidos</th>-->
-                      <th>
-                        <!-- Default unchecked -->
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" style="float:left;" class="custom-control-input"
-                            id="tableDefaultCheck1" [(ngModel)]="cb" (click)="OnSelectAll()">
-                          <label class="custom-control-label" for="tableDefaultCheck1">Agregar</label>
-                        </div>
-                      </th>
-                    </tr>
-
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let item of maestroFiltro; let i = index" [class.selected]="i == selectedRow">
-                      <td class="text-left" data-col="name">
-                        {{item.nombreCompleto}}</td>
-                      <!--<td class="text-left" data-col="email">{{item.appaterno + " " + item.apmaterno }}</td> -->
-
-                      <th scope="row">
-                        <!-- Default unchecked -->
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" id="tableDefaultCheck2"
-                            [(ngModel)]="checks[i]">
-                          <label class="custom-control-label" for="tableDefaultCheck2"></label>
-                        </div>
-                      </th>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
+                <div class="col-md-6">
+                    <input type="text" autocomplete="off" class="form-control" name="filtro"
+                        maxlength="30" [(ngModel)]="filtro" (input)="buscarUsuario()"
+                        onkeypress="return /^[a-zA-Z_0-9\s]*$/i.test(event.key)">
+                </div>
             </div>
-          </div>
         </div>
-        <!--<button class="button" (click)="OnAgregarEv()">Agregar</button>-->
-      </div>
+        <div class="modal-body" style="overflow: hidden; ">
+            <div class="table-responsive" style="height: 400px; overflow-y: scroll;overflow: auto;">
+                <table class="table table-hover issue-tracker">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Código</th>
+                            <th class="text-left">Nombre</th>
+                            <th class="text-left">Usuario</th>
+                            <th class="text-left">Correo</th>
+                            <th class="text-center">Agregar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of maestroUsuariosFilter;let i = index" (click)="ElegirPresidente(data,i)"
+                            [class.selected]="i == selectedRow" ng-style="selected(i)">
+                            <td class="text-center" data-col="idUsuario"><code>{{data.idUsuario}}</code></td>
+                            <td class="text-left" data-col="nombreCompleto">{{data.nombreCompleto}}</td>
+                            <td class="text-left" data-col="username">{{data.username}}</td>
+                            <td class="text-left" data-col="email">{{data.email}}</td>
+                            <td class="text-center" data-col="agregar"><button class="btn btn-info"><i
+                                class="fa fa-plus"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <pagination [(ngModel)]="paginacion.pagina" (pageChanged)="OnPageChanged($event)"
+                        [totalItems]="paginacion.totalRegistros" [itemsPerPage]="paginacion.registros"
+                        [boundaryLinks]="true" [maxSize]="5" previousText="&lsaquo;" nextText="&rsaquo;"
+                        firstText="&laquo;" lastText="&raquo;">
+                    </pagination>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="text-center m-a-sm">
+                        <pagination-info [totalItems]="paginacion.totalRegistros"
+                            [itemsPerPage]="paginacion.registros" [page]="paginacion.pagina"></pagination-info>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="text-right m-a-sm">
+                        <pagination-set (optionChanged)="OnPageOptionChanged($event)"></pagination-set>
+                    </div>
+                </div>
+            </div>                    
+            <div class="row">
+                <div class="col-sm-12 text-center m-t-sm">
+                    <button (click)='OnAceptarPresidente()' class="btn btn-primary container-button"><i
+                            class="fa fa-check"></i> Aceptar</button>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="text-left">
-      <div class="row col-md-12">
-        <div class="col-md-5">
-          
-        </div>
-        <div class="col-md-2">
-            <button style="margin-left: auto; margin-right: auto;" class="btn btn-success" (click)="OnAgregarEv()"><i class="fa fa-plus"></i>
-              Agregar</button>
-        </div>
-        <div class="col-md-5">
-        
-          </div>
-      </div>
-
-
-    </div>
-  </div>
-
-
+</div>
 </div>

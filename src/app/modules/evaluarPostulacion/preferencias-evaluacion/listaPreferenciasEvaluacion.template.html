@@ -43,9 +43,9 @@
 
               <tr *ngFor="let item of preferencias; let i = index" 
               [class.selected]="i == selectedRow">
-              <td class="text-center" data-col="idCodigo"><code>{{i+1}}</code></td>
+              <td class="text-center" data-col="idCodigo">{{i+1}}</td>
               <!--<td class="text-left" data-col="nombrePostulante"><code>{{item.propuesta.postulante.nombre}}</code></td>
-              --><td class="text-center" data-col="fechaTitulo"><code>{{item.propuesta.titulo}}</code></td>
+              --><td class="text-center" data-col="fechaTitulo">{{item.propuesta.titulo}}</td>
               
               <td class="text-center" data-col="interes" >
                 
