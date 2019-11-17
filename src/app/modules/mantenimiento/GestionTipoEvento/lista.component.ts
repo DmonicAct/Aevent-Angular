@@ -44,13 +44,24 @@ export class GestionTipoEventoListaComponent implements OnInit  {
     this.enFiltro = false;
     this.numeroTipo = 0;
     this.filtro = "";
+    this.seCambioActivo = false;
+    this.activos = true;
   }
+
 
   ngOnInit():any {
     this.getLista();
   };
 
-  getTodos(){
+  getLista(){
+    if (this.activos == true){
+      this.getListaActivos();
+    } else {
+      this.getListaInactivos();
+    }
+  }
+
+  getTodosActivos(){
     this.service.obtenerTipoEventos().subscribe(
       (response: Response)=>{
         this.items = response.resultado;
@@ -63,7 +74,7 @@ export class GestionTipoEventoListaComponent implements OnInit  {
     );
   }
 
-  getLista(){
+  getListaActivos(){
     this.service.obtenerTipoEvento(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response)=>{
         this.items = response.resultado;
@@ -76,6 +87,35 @@ export class GestionTipoEventoListaComponent implements OnInit  {
       }
     );
   }
+
+  getTodosInactivos(){
+    this.service.obtenerTodosInactivos().subscribe(
+      (response: Response)=>{
+        this.items = response.resultado;
+        this.itemsFiltrados = this.items;
+        this.paginacion = response.paginacion;
+        if(this.isModalShown){
+          this.autoShownModal.hide();
+          this.isModalShown=false;
+        }
+      }
+    );
+  }
+
+  getListaInactivos(){
+    this.service.obtenerListaInactivos(this.paginacion.pagina, this.paginacion.registros).subscribe(
+      (response: Response)=>{
+        this.items = response.resultado;
+        this.itemsFiltrados = this.items;
+        this.paginacion = response.paginacion;
+        if(this.isModalShown){
+          this.autoShownModal.hide();
+          this.isModalShown=false;
+        }
+      }
+    );
+  }
+
   OnNuevo(){
     if(this.esNuevo){ //Creando tipo de evento 
       this.newItem.nombre = this.descripcionModal;
@@ -84,7 +124,11 @@ export class GestionTipoEventoListaComponent implements OnInit  {
         (response: Response)=>{
           if(response.estado=="OK"){
             this.toastr.success(`Se ha creado el tipo de evento con exito`, 'Aviso', {closeButton: true});
-            this.getLista()
+            if (this.activos == true){
+              this.getListaActivos();
+            } else{
+              this.getListaInactivos();
+            }
             this.onHidden()
           }
         }
@@ -96,7 +140,11 @@ export class GestionTipoEventoListaComponent implements OnInit  {
         (response: Response)=>{
           if(response.estado=="OK"){
             this.toastr.success(`Se ha editado tipo de evento con éxito`, 'Aviso', {closeButton: true});
-            this.getLista()
+            if (this.activos == true){
+              this.getListaActivos();
+            } else{
+              this.getListaInactivos();
+            }
           }
         }
       );
@@ -106,6 +154,7 @@ export class GestionTipoEventoListaComponent implements OnInit  {
 
   }
 
+  public filtroActivo = ["Activos", "Inactivos"];
   OnAgregar(){
 
     this.descripcionModal = "";
@@ -136,7 +185,7 @@ export class GestionTipoEventoListaComponent implements OnInit  {
       (response: Response)=>{
         if(response.estado=="OK"){
           this.toastr.success(`Se ha eliminado el tipo de evento con éxito`, 'Aviso', {closeButton: true});
-          this.getLista()
+          this.getListaActivos()
           this.onHidden()
         }
       }
@@ -162,13 +211,13 @@ export class GestionTipoEventoListaComponent implements OnInit  {
 
   OnPageChanged(event): void {
     this.paginacion.pagina = event.page;
-    this.getLista();
+    this.getListaActivos();
   }
 
   OnPageOptionChanged(event): void {
     this.paginacion.registros = event.rows;
     this.paginacion.pagina = 1;
-    this.getLista();
+    this.getListaActivos();
   }
 
   OnDeshabilitar(item: TipoEvento){
@@ -192,6 +241,13 @@ export class GestionTipoEventoListaComponent implements OnInit  {
       this.numeroTipo = 1;
     }
   }
+  activos: Boolean;
+  seCambioActivo: Boolean;
+  cambioTipoActivo() {
+    this.activos = !this.activos;
+    this.seCambioActivo = true;
+    this.buscarTipos();
+  }
 
   public itemsFiltro = ["Nombre"];
   buscarTipos(){
@@ -199,7 +255,11 @@ export class GestionTipoEventoListaComponent implements OnInit  {
     if (this.filtro.length > 0){
       if (this.enFiltro == false){
         this.enFiltro = true;
-        this.getTodos();
+        if (this.activos == true){
+          this.getTodosActivos();
+        } else{
+          this.getTodosInactivos();
+        }
       }
       if (this.numeroTipo == 1){
         this.itemsFiltrados = this.items.filter(
@@ -208,7 +268,11 @@ export class GestionTipoEventoListaComponent implements OnInit  {
       }
     }else{
       this.enFiltro = false;
-      this.getLista();
+      if (this.activos == true){
+        this.getListaActivos();
+      } else{
+        this.getListaInactivos();
+      }
       this.itemsFiltrados = this.items;
     }
   }
