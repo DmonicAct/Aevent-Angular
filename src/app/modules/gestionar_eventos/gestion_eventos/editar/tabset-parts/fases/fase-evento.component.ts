@@ -24,10 +24,12 @@ export class FaseEventoComponent implements OnInit {
   public isDeleteCriterioModalShown: Boolean;
   public isModalShown: Boolean;
   public isNewFormModalShown: Boolean;
-
+  public isNewFaseModalShown: Boolean;
+  public descripcionFaseModal: String;
   public descripcionModal: String;
   public tipoCriterioModal: TipoCriterio;
   public esNuevo: Boolean;
+  public tempDescModal: String;
 
   @ViewChild('autoShownModal')
   autoShownModal: ModalDirective;
@@ -41,7 +43,8 @@ export class FaseEventoComponent implements OnInit {
   autoDeleteShownModal: ModalDirective;
   @ViewChild('autoNewCriterioShownModal')
   autoNewCriterioShownModal: ModalDirective;
-
+  @ViewChild('autoNewFaseShownModal')
+  autoNewFaseShownModal: ModalDirective;
   //Evento de Padre
   @Input('item-evento')
   public item: Evento;
@@ -97,6 +100,10 @@ export class FaseEventoComponent implements OnInit {
     this.isNewCriterioModalShown = false;
     this.isDeleteCriterioModalShown = false;
     this.isNewFormModalShown = false;
+    this.isNewFaseModalShown = false;
+  }
+  onHiddenEditarFase(): void {
+    this.isNewFaseModalShown = false;
   }
 
   hideModal(): void {
@@ -112,6 +119,9 @@ export class FaseEventoComponent implements OnInit {
       this.autoNewFormShownModal.hide();
     } else if (this.isNewCriterioModalShown) {
       this.autoNewCriterioShownModal.hide();
+    } else if (this.isNewFaseModalShown){
+      this.autoNewFaseShownModal.hide();
+
     }
   }
 
@@ -174,7 +184,12 @@ export class FaseEventoComponent implements OnInit {
     this.esNuevo = false;
     this.isModalShown = true;
   }
+  OnEditarFase(fase: Fase){
+    this.isNewFaseModalShown = true;
+    this.esNuevo = false;
+    this.tempDescModal = fase.descripcion;
 
+  }
   OnGestionarFases() {
     this.descripcionModal = "";
 
@@ -298,8 +313,27 @@ export class FaseEventoComponent implements OnInit {
           this.getEventoActualizado();
         }
       )
-    }
+    }else{ //modificar fase
+      let faseNueva = new Fase();
+
+      evento.fases.forEach(element => {
+        if (element.descripcion == this.tempDescModal) { // encontro la se
+            faseNueva = element;
+            faseNueva.descripcion = this.descripcionFaseModal;
+          return;
+        }
+    });
+    this.faseService.guardarFase(faseNueva).subscribe(
+      (response: Response) => {
+        this.toastr.success(`Se ha actualizado la fase con exito`, 'Aviso', { closeButton: true });
+        this.getEventoActualizado();
+        this.onHiddenEditarFase();  
+      }
+    )
+    
+
   }
+}
 
   OnEliminar(fase: Fase, evento: Evento) {
     this.fase = fase;

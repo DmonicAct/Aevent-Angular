@@ -84,6 +84,7 @@ export class ListaEventosOrganizador implements OnInit {
         this.service.obtenerEventosOrganizadorInactivos(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
                 this.items = response.resultado;
+                this.items.sort((a, b) => this.compFechas(a, b));
                 this.paginacion = response.paginacion;
                 this.maestroEventoFilter = this.items;
                 this.buscarEvento();
@@ -216,6 +217,7 @@ export class ListaEventosOrganizador implements OnInit {
 
         } else {
             if (this.seCambioActivo == true) {
+                
                 if (this.activos) {
                     this.getListaActivos();
                 } else {
