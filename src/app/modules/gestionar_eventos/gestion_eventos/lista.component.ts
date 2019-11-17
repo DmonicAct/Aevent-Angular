@@ -18,12 +18,18 @@ export class ListaEventosOrganizador implements OnInit {
     public paginacion: Paginacion;
     public loading: Boolean = false;
     public rolOrga: Boolean;
+    seCambioActivo: Boolean;
+    private tipoEvento: String;
     constructor(private authService: AeventAuthService,
         private toastr: ToastrService,
         private router: Router,
         private service: EventoService) {
         this.items = new Array<Evento>();
         this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
+        this.seCambioActivo = false;
+        this.activos = true;
+        this.tipoEvento = "Activos";
+        this.filtro = "";
     }
     flagVer: Boolean;
     eventosPropios: Array<Boolean>;
@@ -38,8 +44,56 @@ export class ListaEventosOrganizador implements OnInit {
             if (aux == 'ROLE_ORGANIZER') this.rolOrga = true;
         });
     }
+    public filtroActivo = ["Activos", "Inactivos"];
+    activos: Boolean;
+    cambioTipoEvento() {
+        this.activos = !this.activos;
+        this.seCambioActivo = true;
+        this.buscarEvento();
+    }
+    cargarLista() {
+        if (this.activos) {
+            this.getListaActivos();
+        } else {
+            this.getListaInactivos();
+        }
+    }
+    compFechas(a: Evento, b: Evento) {
+        let fechaA: Date = new Date(a.fechaInicio);
+        //console.log(fechaA.getTime())
+        let fechaB: Date = new Date(b.fechaInicio);
+        //console.log(fechaB.getTime())
+        return fechaB.getTime() - fechaA.getTime();
+    }
+    getListaActivos() {
 
-    getAllEventos(){
+        this.service.obtenerEventosOrganizadorActivos(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
+            (response: Response) => {
+
+                this.items = response.resultado;
+                this.items.sort((a, b) => this.compFechas(a, b));
+                this.paginacion = response.paginacion;
+                this.maestroEventoFilter = this.items;
+                //console.log(this.maestroEventoFilter); 
+                this.buscarEvento();
+            }
+        );
+    }
+
+    getListaInactivos() {
+        this.service.obtenerEventosOrganizadorInactivos(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
+            (response: Response) => {
+                this.items = response.resultado;
+                this.paginacion = response.paginacion;
+                this.maestroEventoFilter = this.items;
+                this.buscarEvento();
+            }
+        );
+    }
+
+
+
+    getAllEventos() {
         this.service.consultarAllEventos(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
                 this.items = response.resultado;
@@ -57,11 +111,12 @@ export class ListaEventosOrganizador implements OnInit {
             (response: Response) => {
                 this.items = response.resultado;
                 this.maestroEventoFilter = this.items;
+                console.log(this.maestroEventoFilter);
             }
         );
     }
 
-    getAllEventosOrganizador(){
+    getAllEventosOrganizador() {
         this.service.consultarAllEventoByOrganizador(this.authService.usuario.username).subscribe(
             (response: Response) => {
                 this.items = response.resultado;
@@ -82,8 +137,23 @@ export class ListaEventosOrganizador implements OnInit {
         this.router.navigate([`Eventos/MisEventos/organizador/editar/${item.idEvento}`]);
     }
 
-    OnVer(item: Evento){
+    OnVer(item: Evento) {
         this.router.navigate([`Eventos/MisEventos/organizador/editar/${item.idEvento}`]);
+    }
+    OnDeshabilitar(item: Evento) {
+        item.enabled = false;
+        this.service.guardarEvento(item).subscribe(
+            (response: Response) => {
+                if (response.estado == "OK") {
+                    this.toastr.success(`Se ha deshabilitado con exito`, 'Aviso', { closeButton: true });
+                    if (this.activos) {
+                        this.getListaActivos();
+                    } else {
+                        this.getListaInactivos();
+                    }
+                }
+            }
+        );
     }
 
 
@@ -104,49 +174,58 @@ export class ListaEventosOrganizador implements OnInit {
     eventoFiltro: Evento;
     maestroEventoFilter: Array<Evento>;
 
-    cambioFiltro(){
-        if (this.tipo == "Título"){
+    cambioFiltro() {
+        if (this.tipo == "Título") {
             this.numeroTipo = 1;
         }
-        if (this.tipo == "Tipo"){
+        if (this.tipo == "Tipo") {
             this.numeroTipo = 2;
         }
-        if (this.tipo == "Presidente"){
+        if (this.tipo == "Presidente") {
             this.numeroTipo = 3;
         }
     }
 
-    public itemsFiltro = ["Título","Tipo","Presidente"];
+    public itemsFiltro = ["Título", "Tipo", "Presidente"];
     enFiltro: Boolean;
 
 
     buscarEvento() {
         this.cambioFiltro();
+        //console.log(this.filtro.length);
         if (this.filtro.length > 0) {
-            if (this.enFiltro == false){
+            if (this.enFiltro == false) {
                 this.getAllEventosOrganizador();
             }
             this.enFiltro = true;
-            if (this.numeroTipo == 1){
+            if (this.numeroTipo == 1) {
                 this.maestroEventoFilter = this.items.filter(
                     item => item.titulo.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
                 )
             }
-            if (this.numeroTipo == 2){
+            if (this.numeroTipo == 2) {
                 this.maestroEventoFilter = this.items.filter(
                     item => item.tipoEvento.nombre.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
                 )
             }
-            if (this.numeroTipo == 3){
+            if (this.numeroTipo == 3) {
                 this.maestroEventoFilter = this.items.filter(
                     item => item.presidente.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
                 )
             }
-            
+
         } else {
+            if (this.seCambioActivo == true) {
+                if (this.activos) {
+                    this.getListaActivos();
+                } else {
+                    this.getListaInactivos();
+                }
+                this.seCambioActivo = false;
+            }
             this.enFiltro = false;
-            this.getEventosOrganizador();
             this.maestroEventoFilter = this.items;
+
         }
     }
 }
