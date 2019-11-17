@@ -6,13 +6,15 @@
         <div class="color ibox-content">
           <div class="form-group">
             <div class="row col-md-12">
-              <div class="col-md-4">
+              <div class="col-md-2">
                 <button type="button" class="btn btn-primary m-r" (click)="OnGuardarFase(fase)"><i
                     class="fa fa-check"></i>
                   Guardar</button>
-                <a class="btn btn-default m-r" (click)="OnCancelar()"><i class="fa fa-arrow-left"></i>
-                  Regresar</a>
               </div>
+              <div class="col-md-2">
+                  <a class="btn btn-default m-r" (click)="OnCancelar()"><i class="fa fa-arrow-left"></i>
+                    Regresar</a>
+              </div>  
               <div class=" pull-right">
                 <button class="btn btn-primary" (click)="OnGestionarFases()"><i class="fa fa-plus"></i>
                   Gestionar Fases</button>
@@ -287,7 +289,7 @@
 
 
 <!--PARA LA EDICION DE UN CRITERIO-->
-<div *ngIf="isModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoShownModal="bs-modal"
+<div *ngIf="editCriterioModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoEditCriterioShownModal="bs-modal"
   class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
   <div class="modal-dialog">
     <div class="modal-content">

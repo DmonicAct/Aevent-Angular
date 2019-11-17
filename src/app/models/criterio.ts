@@ -3,7 +3,7 @@ import {TipoCriterio} from '.';
 export class Criterio{
     public idCriterio: number;
     public descripcion: String;
-    public idFase: Fase;
+    public idFase: number;
     public tipoCriterio: TipoCriterio;
 
 }

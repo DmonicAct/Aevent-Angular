@@ -25,12 +25,14 @@ export class FaseEventoComponent implements OnInit {
   public isModalShown: Boolean;
   public isNewFormModalShown: Boolean;
   public isNewFaseModalShown: Boolean;
+  public editCriterioModalShown: Boolean;
   public descripcionFaseModal: String;
   public descripcionModal: String;
   public tipoCriterioModal: TipoCriterio;
   public esNuevo: Boolean;
   public tempDescModal: String;
-
+  @ViewChild('autoEditCriterioShownModal')
+  autoEditCriterioShownModal: ModalDirective;
   @ViewChild('autoShownModal')
   autoShownModal: ModalDirective;
   @ViewChild('autoNewFormShownModal')
@@ -48,7 +50,7 @@ export class FaseEventoComponent implements OnInit {
   //Evento de Padre
   @Input('item-evento')
   public item: Evento;
-
+  public arrayCriterios: Array<Criterio>;
   public criterio: Criterio;
   public fase: Fase;
   public tipoCriterios: Array<TipoCriterio>;
@@ -66,7 +68,7 @@ export class FaseEventoComponent implements OnInit {
     this.criterio = new Criterio;
     this.fase = new Fase;
     this.tipoCriterios = new Array<TipoCriterio>();
-
+    this.arrayCriterios = new Array<Criterio>();
     this.utilForm = new UtilFormulario();
     this.fase.formulario = new FormularioCFP();
     this.fase.formulario.divisionList = this.utilForm.inicializarFormulario();
@@ -80,7 +82,7 @@ export class FaseEventoComponent implements OnInit {
     this.tipoCriterioService.obtenerTipoCriterios().subscribe(
       (response: Response) => {
         this.tipoCriterios = response.resultado;
-        console.log(this.tipoCriterios);
+        console.log(this.item.fases[0].criterios);
       }
     );
   }
@@ -101,6 +103,7 @@ export class FaseEventoComponent implements OnInit {
     this.isDeleteCriterioModalShown = false;
     this.isNewFormModalShown = false;
     this.isNewFaseModalShown = false;
+    this.editCriterioModalShown = false;
   }
   onHiddenEditarFase(): void {
     this.isNewFaseModalShown = false;
@@ -121,19 +124,20 @@ export class FaseEventoComponent implements OnInit {
       this.autoNewCriterioShownModal.hide();
     } else if (this.isNewFaseModalShown){
       this.autoNewFaseShownModal.hide();
-
+    } else if (this.editCriterioModalShown){
+      this.autoEditCriterioShownModal.hide();
     }
   }
 
   OnNuevo() {
     if (this.esNuevo) { //Creando criterio
       this.criterio.descripcion = this.descripcionModal;
-      this.criterio.idFase = this.fase;
+      this.criterio.idFase = this.fase.idFase;
       this.criterio.tipoCriterio = this.tipoCriterioModal;
-
+      this.criterio.idCriterio = null;
       console.log('CREANDO CRITERIO');
-      console.log(this.criterio.idFase);
-
+      console.log(this.criterio);
+      this.arrayCriterios.push(this.criterio);
       this.criterioService.guardarCriterio(this.criterio).subscribe(
         (response: Response) => {
           if (response.estado == "OK") {
@@ -144,14 +148,16 @@ export class FaseEventoComponent implements OnInit {
         }
       );
     } else { //editando criterio
-      this.criterio.descripcion = this.descripcionModal;
-      this.criterio.idFase = this.fase;
-      this.criterio.tipoCriterio = this.tipoCriterioModal;
-
-      console.log('EDITANDO CRITERIO');
-      console.log(this.criterio.idFase);
-
-      this.criterioService.guardarCriterio(this.criterio).subscribe(
+      let nuevoCriterio = new Criterio ();
+      nuevoCriterio.idCriterio = this.criterio.idCriterio;
+      nuevoCriterio.descripcion = this.descripcionModal;
+      nuevoCriterio.idFase = this.fase.idFase;
+      nuevoCriterio.tipoCriterio = this.tipoCriterioModal;
+      this.arrayCriterios.forEach(e=>{
+        if (e.idCriterio == nuevoCriterio.idCriterio)
+          e.descripcion = nuevoCriterio.descripcion;
+      })
+      this.criterioService.guardarCriterio(nuevoCriterio).subscribe(
         (response: Response) => {
           if (response.estado == "OK") {
             console.log(this.criterio.idFase);
@@ -165,9 +171,10 @@ export class FaseEventoComponent implements OnInit {
   }
 
   OnAgregarCriterio(fase: Fase) {
-    console.log(fase)
+    
 
     this.fase = fase;
+    this.arrayCriterios = this.fase.criterios;
     this.descripcionModal = "";
     this.tipoCriterioModal = new TipoCriterio();
 
@@ -176,13 +183,16 @@ export class FaseEventoComponent implements OnInit {
   }
 
   OnEditarCriterio(criterio: Criterio, fase: Fase) {
+
     this.fase = fase;
     this.criterio = criterio;
+
     this.descripcionModal = this.criterio.descripcion;
+    this.tipoCriterioModal = new TipoCriterio();
     this.tipoCriterioModal = this.criterio.tipoCriterio;
 
     this.esNuevo = false;
-    this.isModalShown = true;
+    this.editCriterioModalShown = true;
   }
   OnEditarFase(fase: Fase){
     this.isNewFaseModalShown = true;
@@ -197,6 +207,7 @@ export class FaseEventoComponent implements OnInit {
     this.isNewModalShown = true;
   }
   fechaHoy: Date;
+  
 
   async OnGuardarFase(fase: Fase) {//en el formulario grande de fase, donde va CFP ya esta validado el nombre de la fase
     let fechaFin = new Date(fase.fechaFin);
@@ -204,6 +215,7 @@ export class FaseEventoComponent implements OnInit {
     fase.fechaFin = fechaFin;
     fase.fechaInicial = fechaInicial;
     this.fechaHoy = new Date();
+    console.log(this.fechaHoy);
 
 
     if (!fase.fechaFin) {
@@ -215,7 +227,7 @@ export class FaseEventoComponent implements OnInit {
       return;
     }
     if (fase.fechaFin < fase.fechaInicial) {
-      this.toastr.warning(`La fecha de fin de evento no puede ser menos a la de inicio de evento`, 'Aviso', { closeButton: true });
+      this.toastr.warning(`La fecha de fin de fase no puede ser menos a la de inicio de fase`, 'Aviso', { closeButton: true });
       return;
     }
     if (fase.fechaInicial < this.fechaHoy) {
@@ -236,11 +248,11 @@ export class FaseEventoComponent implements OnInit {
     this.fase = JSON.parse(JSON.stringify(fase));
 
     let itemsCriterios = new Array<Criterio>();
-    fase.criterios.forEach((e) => {
+    /*fase.criterios.forEach((e) => {
       e.idFase = null;
-    });
+    });*/
     itemsCriterios = JSON.parse(JSON.stringify(fase.criterios));
-    fase.criterios = null;
+    //fase.criterios = null;
 
     fase.formulario.divisionList.forEach(e => {
       e.idDivision = null;
@@ -253,12 +265,15 @@ export class FaseEventoComponent implements OnInit {
         })
       })
     })
-
+    this.arrayCriterios.forEach(e=>{
+      e.idFase = fase.idFase;
+      console.log(e.idFase);
+    })
+    fase.criterios = this.arrayCriterios; 
     await this.faseService.guardarFase(fase).subscribe(
       (response: Response) => {
         console.log('reponse guardarFase', response);
-        itemsCriterios.forEach((e) => {
-          e.idFase = fase;
+        /*this.arrayCriterios.forEach((e) => {
           this.criterioService.guardarCriterio(e).subscribe(
             (response: Response) => {
               if (response.estado == "OK") {
@@ -266,7 +281,7 @@ export class FaseEventoComponent implements OnInit {
               }
             }
           );
-        });
+        });*/
         this.toastr.success(`Se ha guardado la fase con exito`, 'Aviso', { closeButton: true });
         this.getEventoActualizado();
         this.onHidden();
@@ -356,7 +371,7 @@ export class FaseEventoComponent implements OnInit {
 
   OnEliminarCriterio(criterio: Criterio, fase: Fase) {
     this.criterio = criterio;
-    this.criterio.idFase = fase;
+    this.criterio.idFase = fase.idFase;
 
     this.isDeleteCriterioModalShown = true;
   }
