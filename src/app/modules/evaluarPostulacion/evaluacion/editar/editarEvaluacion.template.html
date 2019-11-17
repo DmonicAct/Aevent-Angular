@@ -17,12 +17,12 @@
       <tabset #tabsDetalle>
         <tab heading="Detalle">
           <div class="mail-box-header">
-            <detalle-propuesta></detalle-propuesta>
+            <detalle-propuesta [(item-division)]="itemEvaluacion.fase.formulario.divisionList"></detalle-propuesta>
           </div>
         </tab>
         <tab #tabsFases heading="Criterios de Evaluación">
             <div class="mail-box-header">
-              <fase-propuesta></fase-propuesta>
+              <fase-propuesta [(item-evaluacion)]="itemEvaluacion"></fase-propuesta>
             </div>
         </tab>
       </tabset>

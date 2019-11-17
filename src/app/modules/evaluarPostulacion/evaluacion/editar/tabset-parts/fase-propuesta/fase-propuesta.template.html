@@ -1,29 +1,26 @@
 <div class="form-group">
-    <div class="color ibox-content">
-        <div class="cfp-height">
-            <div class="row">
-                <div class="form-group">
-                    <div class="text-center">
-                        <h4><strong>1. Primera Fase </strong></h4>
-                    </div>
+  <div class="color ibox-content">
+    <div class="cfp-height">
+      <div class="row">
+        <div class="form-group">
+          <div class="text-center">
+            <h4><strong>{{this.evaluacion.fase.descripcion}}</strong></h4>
+          </div>
+        </div>
+        <div *ngFor="let criterio of this.evaluacion.fase.criterios">
+          <div *ngIf="criterio.tipoCriterio.idTipoCriterio==5">
+            <div class="ibox-content">
+              <div class="row">
+                <div class="col-lg-3">
+                  <label style="text-align: right;">
+                    {{criterio.descripcion}}</label>
                 </div>
-                <div *ngFor="let criterio of criterios">
-                    <div class="ibox-content">
-                        <div *ngIf="criterio.tipoCriterio.idTipoCriterio==5">
-                            <div class="ibox-content">
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                        <label style="text-align: right;">
-                                            {{criterio.descripcion}}</label>
-                                    </div>
-                                    <div class="col-lg-9">
-                                        <textarea type="text" rows="3" style="resize: none;"
-                                            class="form-control"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--
+                <div class="col-lg-9">
+                  <textarea type="text" rows="3" style="resize: none;" class="form-control"></textarea>
+                </div>
+              </div>
+            </div>
+            <!--
                         <div *ngIf="seccion.tipoSeccion=='PREGUNTA MULTIPLE'">
                             <div class="ibox-content">
                                 <div class="row">
@@ -68,9 +65,9 @@
                                 </div>
                             </div>
                         </div>-->
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

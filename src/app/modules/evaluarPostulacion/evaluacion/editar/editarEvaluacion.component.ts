@@ -40,14 +40,15 @@ export class EditarEvaluacionComponent implements OnInit{
         });
     }
     ngOnInit(){
-        console.log('HOlaaa')
-        console.log(this.itemEvaluacion);   
+        //console.log('HOlaaa')
+        //console.log(this.itemEvaluacion);   
     }
 
     obtenerEvaluacion(){
         this.serviceEvaluacion.obtenerPropuesta(this.codigo).subscribe(
             (response:Response)=>{
                 this.itemEvaluacion = response.resultado;
+                console.log(this.itemEvaluacion)
             });
     }
     /*
