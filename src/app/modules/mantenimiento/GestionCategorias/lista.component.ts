@@ -43,22 +43,35 @@ export class GestionCategoriaListaComponent implements OnInit  {
     this.enFiltro = false;
     this.numeroTipo = 0;
     this.filtro = "";
+    this.seCambioActivo = false;
+    this.activos = true;
   }
 
   ngOnInit():any {
-    this.buscarCategoria();
+    this.getLista();
   };
 
-  getTodos(){
+  getLista(){
+    if (this.activos == true){
+      this.getListaActivos();
+    } else {
+      this.getListaInactivos();
+    }
+  }
+
+  getTodosActivos(){
     this.service.obtenerCategorias().subscribe(
       (response: Response)=>{
         this.items = response.resultado;
         this.itemsFiltrados = this.items;
+        if (this.enFiltro == true){
+          this.buscarCategoria();
+        }
       }
     );
   }
 
-  getLista(){
+  getListaActivos(){
     this.service.obtenerCategoriasPaginadas(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response)=>{
         this.items = response.resultado;
@@ -72,6 +85,34 @@ export class GestionCategoriaListaComponent implements OnInit  {
       }
     );
   }
+
+  getTodosInactivos(){
+    this.service.obtenerTodosInactivos().subscribe(
+      (response: Response)=>{
+        this.items = response.resultado;
+        this.itemsFiltrados = this.items;
+        if (this.enFiltro == true){
+          this.buscarCategoria();
+        }
+      }
+    );
+  }
+
+  getListaInactivos(){
+    this.service.obtenerListaInactivos(this.paginacion.pagina, this.paginacion.registros).subscribe(
+      (response: Response)=>{
+        this.items = response.resultado;
+        this.itemsFiltrados = this.items;
+        this.paginacion = response.paginacion;
+        if(this.isModalShown){
+          this.autoShownModal.hide();
+          this.isModalShown=false;
+        }
+
+      }
+    );
+  }
+
   OnNuevo(){
     if(this.esNuevo){ //Creando lugar
       this.newItem.descripcion = this.descripcionModal;
@@ -189,16 +230,33 @@ export class GestionCategoriaListaComponent implements OnInit  {
       this.numeroTipo = 1;
     }
   }
+  activos: Boolean;
+  seCambioActivo: Boolean;
+  cambioTipoActivo() {
+    this.activos = !this.activos;
+    this.seCambioActivo = true;
+    if (this.enFiltro == true){
+      if (this.activos == true){
+        this.getTodosActivos();
+      } else{
+        this.getTodosInactivos();
+      }
+    }
+    this.buscarCategoria();
+  }
+  public filtroActivo = ["Activos", "Inactivos"];
 
   public itemsFiltro = ["Nombre"];
   buscarCategoria(){
-    debugger
     this.cambioFiltro();
-    
     if (this.filtro.length > 0){
       if (this.enFiltro == false){
         this.enFiltro = true;
-        this.getTodos();
+        if (this.activos == true){
+          this.getTodosActivos();
+        } else{
+          this.getTodosInactivos();
+        }
       }
       if (this.numeroTipo == 1){
         this.itemsFiltrados = this.items.filter(
@@ -207,7 +265,11 @@ export class GestionCategoriaListaComponent implements OnInit  {
       }
     }else{
       this.enFiltro = false;
-      this.getLista();
+      if (this.activos == true){
+        this.getListaActivos();
+      } else{
+        this.getListaInactivos();
+      }
       this.itemsFiltrados = this.items;
     }
   }

@@ -22,13 +22,25 @@ export class CategoriaService{
       this.config_password = environment.APP_CONFIG_PASSWORD;
   
     }
+    obtenerCategorias():Observable<any> {
+      return this.http.get(this.apiEndpoint + '/activas').pipe(
+      catchError(e => {
+          if (e.status == 400) {
+          return throwError(e);
+          }
+          if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+          }
+          return throwError(e);
+      }));
+  }
 
     obtenerCategoriasPaginadas(pagina:number, registros:number):Observable<any> {
         let params:HttpParams = new HttpParams()
         .set('pagina', pagina.toString())
         .set('registros', registros.toString());
 
-        let url = `${this.apiEndpoint + 'Paginadas'}`;
+        let url = `${this.apiEndpoint + '/activasPaginadas'}`;
   
           return this.http.get(url, {params}).pipe(
             catchError(e => {
@@ -41,6 +53,39 @@ export class CategoriaService{
               return throwError(e);
             }));
       }
+
+      obtenerTodosInactivos():Observable<any> {
+        return this.http.get(this.apiEndpoint + '/inactivas').pipe(
+        catchError(e => {
+            if (e.status == 400) {
+            return throwError(e);
+            }
+            if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+            }
+            return throwError(e);
+        }));
+    }
+  
+      obtenerListaInactivos(pagina:number, registros:number):Observable<any> {
+          let params:HttpParams = new HttpParams()
+          .set('pagina', pagina.toString())
+          .set('registros', registros.toString());
+  
+          let url = `${this.apiEndpoint + '/inactivasPaginadas'}`;
+    
+            return this.http.get(url, {params}).pipe(
+              catchError(e => {
+                if (e.status == 400) {
+                  return throwError(e);
+                }
+                if (e.error.mensaje) {
+                  console.error(e.error.mensaje);
+                }
+                return throwError(e);
+              }));
+        }
+  
 
     guardarCategoria(categoria:Categoria){
       return this.http.post(this.apiEndpoint, categoria).pipe(
@@ -55,18 +100,7 @@ export class CategoriaService{
         }));
     }
 
-    obtenerCategorias():Observable<any> {
-      return this.http.get(this.apiEndpoint).pipe(
-      catchError(e => {
-          if (e.status == 400) {
-          return throwError(e);
-          }
-          if (e.error.mensaje) {
-          console.error(e.error.mensaje);
-          }
-          return throwError(e);
-      }));
-  }
+    
   eliminarCategoria(categoria:Categoria){
   let url = `${this.apiEndpoint + '/eliminar'}`;
 

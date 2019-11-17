@@ -20,7 +20,7 @@ export class LugarService{
     }
 
     obtenerLugares():Observable<any> {
-        return this.http.get(this.apiEndpoint).pipe(
+        return this.http.get(this.apiEndpoint + '/activas').pipe(
         catchError(e => {
             if (e.status == 400) {
             return throwError(e);
@@ -37,7 +37,7 @@ export class LugarService{
       .set('pagina', pagina.toString())
       .set('registros', registros.toString());
 
-        return this.http.get(this.apiEndpoint+'/paginacion',{params}).pipe(
+        return this.http.get(this.apiEndpoint+'/activasPaginadas',{params}).pipe(
         catchError(e => {
             if (e.status == 400) {
             return throwError(e);
@@ -48,6 +48,36 @@ export class LugarService{
             return throwError(e);
         }));
     }
+
+    obtenerTodosInactivos():Observable<any> {
+      return this.http.get(this.apiEndpoint +'/inactivas').pipe(
+      catchError(e => {
+          if (e.status == 400) {
+          return throwError(e);
+          }
+          if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+          }
+          return throwError(e);
+      }));
+  }
+
+  obtenerListaInactivos(pagina:number, registros:number):Observable<any> {
+    let params:HttpParams = new HttpParams()
+    .set('pagina', pagina.toString())
+    .set('registros', registros.toString());
+
+      return this.http.get(this.apiEndpoint+'/inactivasPaginadas',{params}).pipe(
+      catchError(e => {
+          if (e.status == 400) {
+          return throwError(e);
+          }
+          if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+          }
+          return throwError(e);
+      }));
+  }
 
     obtenerLugar():Observable<any> {
       return this.http.get(this.apiEndpoint).pipe(

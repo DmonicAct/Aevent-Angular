@@ -26,7 +26,7 @@ export class TipoCriterioService{
       .set('pagina', pagina.toString())
       .set('registros', registros.toString());
 
-        return this.http.get(this.apiEndpoint+'Paginadas',{params}).pipe(
+        return this.http.get(environment.serviceEndpoint+'/tipoCriterio/activasPaginadas',{params}).pipe(
         catchError(e => {
             if (e.status == 400) {
             return throwError(e);
@@ -39,7 +39,7 @@ export class TipoCriterioService{
     }
 
     obtenerTipoCriterios():Observable<any> {
-      return this.http.get(this.apiEndpoint).pipe(
+      return this.http.get(environment.serviceEndpoint + '/tipoCriterio/activas').pipe(
       catchError(e => {
           if (e.status == 400) {
           return throwError(e);
@@ -50,6 +50,34 @@ export class TipoCriterioService{
           return throwError(e);
       }));
   }
+  obtenerListaInactivos(pagina:number, registros:number):Observable<any> {
+    let params:HttpParams = new HttpParams()
+    .set('pagina', pagina.toString())
+    .set('registros', registros.toString());
+      return this.http.get(environment.serviceEndpoint+'/tipoCriterio/inactivasPaginadas',{params}).pipe(
+      catchError(e => {
+          if (e.status == 400) {
+          return throwError(e);
+          }
+          if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+          }
+          return throwError(e);
+      }));
+  }
+
+  obtenerTodosInactivos():Observable<any> {
+    return this.http.get(environment.serviceEndpoint + '/tipoCriterio/inactivas').pipe(
+    catchError(e => {
+        if (e.status == 400) {
+        return throwError(e);
+        }
+        if (e.error.mensaje) {
+        console.error(e.error.mensaje);
+        }
+        return throwError(e);
+    }));
+}
 
   guardarTipoCriterio(tipoCriterio: TipoCriterio){
     //let url = `${this.apiEndpoint + '/guardar'}`;

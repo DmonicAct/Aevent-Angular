@@ -70,6 +70,9 @@ export class GestionTipoEventoListaComponent implements OnInit  {
           this.autoShownModal.hide();
           this.isModalShown=false;
         }
+        if (this.enFiltro == true){
+          this.buscarTipos();
+        }
       }
     );
   }
@@ -97,6 +100,9 @@ export class GestionTipoEventoListaComponent implements OnInit  {
         if(this.isModalShown){
           this.autoShownModal.hide();
           this.isModalShown=false;
+        }
+        if (this.enFiltro == true){
+          this.buscarTipos();
         }
       }
     );
@@ -154,7 +160,7 @@ export class GestionTipoEventoListaComponent implements OnInit  {
 
   }
 
-  public filtroActivo = ["Activos", "Inactivos"];
+  
   OnAgregar(){
 
     this.descripcionModal = "";
@@ -185,7 +191,11 @@ export class GestionTipoEventoListaComponent implements OnInit  {
       (response: Response)=>{
         if(response.estado=="OK"){
           this.toastr.success(`Se ha eliminado el tipo de evento con éxito`, 'Aviso', {closeButton: true});
-          this.getListaActivos()
+          if (this.activos == true){
+            this.getListaActivos();
+          } else{
+            this.getListaInactivos();
+          }
           this.onHidden()
         }
       }
@@ -211,13 +221,21 @@ export class GestionTipoEventoListaComponent implements OnInit  {
 
   OnPageChanged(event): void {
     this.paginacion.pagina = event.page;
-    this.getListaActivos();
+    if (this.activos == true){
+      this.getListaActivos();
+    } else{
+      this.getListaInactivos();
+    }
   }
 
   OnPageOptionChanged(event): void {
     this.paginacion.registros = event.rows;
     this.paginacion.pagina = 1;
-    this.getListaActivos();
+    if (this.activos == true){
+      this.getListaActivos();
+    } else{
+      this.getListaInactivos();
+    }
   }
 
   OnDeshabilitar(item: TipoEvento){
@@ -246,9 +264,16 @@ export class GestionTipoEventoListaComponent implements OnInit  {
   cambioTipoActivo() {
     this.activos = !this.activos;
     this.seCambioActivo = true;
+    if (this.enFiltro == true){
+      if (this.activos == true){
+        this.getTodosActivos();
+      } else{
+        this.getTodosInactivos();
+      }
+    }
     this.buscarTipos();
   }
-
+  public filtroActivo = ["Activos", "Inactivos"];
   public itemsFiltro = ["Nombre"];
   buscarTipos(){
     this.cambioFiltro();

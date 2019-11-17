@@ -16,6 +16,12 @@
 </div>
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row m-b-sm">
+        <div class="col-md-2" >
+            <ng-select [items]="filtroActivo" (ngModelChange)="cambioTipoActivo()"
+                placeholder="Activos" name="filtroActivo" autocomplete="off"
+                [clearable]="false" [(ngModel)]="tipoActivo">
+            </ng-select>
+        </div>
         <div class="col-md-2">
             <ng-select [items]="itemsFiltro" (ngModelChange)="cambioFiltro()"
                 placeholder="Seleccionar Filtro" name="filtroLugares" autocomplete="off"
@@ -27,7 +33,7 @@
                 maxlength="30" [(ngModel)]="filtro" (input)="buscarLugares()"
                 onkeypress="return /^[a-zA-Z_0-9\s]*$/i.test(event.key)">
         </div>      
-        <div class="col-md-4">
+        <div class="col-md-2">
   
         </div>
         <div class="col-md-2">

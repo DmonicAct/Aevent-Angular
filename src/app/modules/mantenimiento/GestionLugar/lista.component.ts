@@ -44,13 +44,23 @@ export class GestionLugarListaComponent implements OnInit  {
     this.enFiltro = false;
     this.numeroTipo = 0;
     this.filtro = "";
+    this.seCambioActivo = false;
+    this.activos = true;
   }
 
   ngOnInit():any {
-    this.buscarLugares();
+    this.getLista();
   };
 
-  getTodos(){
+  getLista(){
+    if (this.activos == true){
+      this.getListaActivos();
+    } else {
+      this.getListaInactivos();
+    }
+  }
+
+  getTodosActivos(){
     this.service.obtenerLugares().subscribe(
       (response: Response)=>{
         this.items = response.resultado;
@@ -59,12 +69,46 @@ export class GestionLugarListaComponent implements OnInit  {
           this.autoShownModal.hide();
           this.isModalShown=false;
         }
+        if (this.enFiltro == true){
+          this.buscarTipos();
+        }
       }
     );
   }
 
-  getLista(){
+  getListaActivos(){
     this.service.obtenerLugarPaginado(this.paginacion.pagina, this.paginacion.registros).subscribe(
+      (response: Response)=>{
+        this.items = response.resultado;
+        this.itemsFiltrados = this.items;
+        this.paginacion = response.paginacion;
+        if(this.isModalShown){
+          this.autoShownModal.hide();
+          this.isModalShown=false;
+        }
+      }
+    );
+  }
+
+
+  getTodosInactivos(){
+    this.service.obtenerTodosInactivos().subscribe(
+      (response: Response)=>{
+        this.items = response.resultado;
+        this.itemsFiltrados = this.items;
+        if(this.isModalShown){
+          this.autoShownModal.hide();
+          this.isModalShown=false;
+        }
+        if (this.enFiltro == true){
+          this.buscarTipos();
+        }
+      }
+    );
+  }
+
+  getListaInactivos(){
+    this.service.obtenerListaInactivos(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response)=>{
         this.items = response.resultado;
         this.itemsFiltrados = this.items;
@@ -84,7 +128,11 @@ export class GestionLugarListaComponent implements OnInit  {
         (response: Response)=>{
           if(response.estado=="OK"){
             this.toastr.success(`Se ha creado el lugar con exito`, 'Aviso', {closeButton: true});
-            this.getLista()
+            if (this.activos == true){
+              this.getListaActivos();
+            } else{
+              this.getListaInactivos();
+            }
             this.onHidden()
           }
         }
@@ -96,7 +144,11 @@ export class GestionLugarListaComponent implements OnInit  {
         (response: Response)=>{
           if(response.estado=="OK"){
             this.toastr.success(`Se ha editado el lugar con éxito`, 'Aviso', {closeButton: true});
-            this.getLista()
+            if (this.activos == true){
+              this.getListaActivos();
+            } else{
+              this.getListaInactivos();
+            }
           }
         }
       );
@@ -136,7 +188,11 @@ export class GestionLugarListaComponent implements OnInit  {
       (response: Response)=>{
         if(response.estado=="OK"){
           this.toastr.success(`Se ha eliminado el lugar con éxito`, 'Aviso', {closeButton: true});
-          this.getLista()
+          if (this.activos == true){
+            this.getListaActivos();
+          } else{
+            this.getListaInactivos();
+          }
           this.onHidden()
         }
       }
@@ -162,13 +218,21 @@ export class GestionLugarListaComponent implements OnInit  {
 
   OnPageChanged(event): void {
     this.paginacion.pagina = event.page;
-    this.getLista();
+    if (this.activos == true){
+      this.getListaActivos();
+    } else{
+      this.getListaInactivos();
+    }
   }
 
   OnPageOptionChanged(event): void {
     this.paginacion.registros = event.rows;
     this.paginacion.pagina = 1;
-    this.getLista();
+    if (this.activos == true){
+      this.getListaActivos();
+    } else{
+      this.getListaInactivos();
+    }
   }
 
   OnDeshabilitar(item: Lugar){
@@ -193,14 +257,32 @@ export class GestionLugarListaComponent implements OnInit  {
       this.numeroTipo = 1;
     }
   }
-
+  activos: Boolean;
+  seCambioActivo: Boolean;
+  cambioTipoActivo() {
+    this.activos = !this.activos;
+    this.seCambioActivo = true;
+    if (this.enFiltro == true){
+      if (this.activos == true){
+        this.getTodosActivos();
+      } else{
+        this.getTodosInactivos();
+      }
+    }
+    this.buscarTipos();
+  }
+  public filtroActivo = ["Activos", "Inactivos"];
   public itemsFiltro = ["Nombre"];
-  buscarLugares(){
+  buscarTipos(){
     this.cambioFiltro();
     if (this.filtro.length > 0){
       if (this.enFiltro == false){
         this.enFiltro = true;
-        this.getTodos();
+        if (this.activos == true){
+          this.getTodosActivos();
+        } else{
+          this.getTodosInactivos();
+        }
       }
       if (this.numeroTipo == 1){
         this.itemsFiltrados = this.items.filter(
@@ -209,7 +291,11 @@ export class GestionLugarListaComponent implements OnInit  {
       }
     }else{
       this.enFiltro = false;
-      this.getLista();
+      if (this.activos == true){
+        this.getListaActivos();
+      } else{
+        this.getListaInactivos();
+      }
       this.itemsFiltrados = this.items;
     }
   }
