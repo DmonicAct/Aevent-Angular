@@ -36,7 +36,7 @@ export class ListaEventosOrganizador implements OnInit {
 
     ngOnInit(): void {
         //this.getAllEventos();
-        this.getEventosOrganizador();
+        this.getListaActivos();
         this.rolOrga = false;
         this.enFiltro = false;
         this.authService.usuario.roles.forEach(element => {
@@ -69,12 +69,13 @@ export class ListaEventosOrganizador implements OnInit {
 
         this.service.obtenerEventosOrganizadorActivos(this.authService.usuario.username, this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
-
+                
+                
                 this.items = response.resultado;
                 this.items.sort((a, b) => this.compFechas(a, b));
                 this.paginacion = response.paginacion;
                 this.maestroEventoFilter = this.items;
-                //console.log(this.maestroEventoFilter); 
+                
                 this.buscarEvento();
             }
         );
@@ -141,12 +142,27 @@ export class ListaEventosOrganizador implements OnInit {
     OnVer(item: Evento) {
         this.router.navigate([`Eventos/MisEventos/organizador/editar/${item.idEvento}`]);
     }
+    OnHabilitar(item:Evento){
+        item.enabled = true;
+        this.service.guardarEvento(item).subscribe(
+            (response: Response) => {
+                if (response.estado == "OK") {
+                    this.toastr.success(`Se ha habilitado el evento con exito`, 'Aviso', { closeButton: true });
+                    if (this.activos) {
+                        this.getListaActivos();
+                    } else {
+                        this.getListaInactivos();
+                    }
+                }
+            }
+        );
+    }
     OnDeshabilitar(item: Evento) {
         item.enabled = false;
         this.service.guardarEvento(item).subscribe(
             (response: Response) => {
                 if (response.estado == "OK") {
-                    this.toastr.success(`Se ha deshabilitado con exito`, 'Aviso', { closeButton: true });
+                    this.toastr.success(`Se ha deshabilitado el evento con exito`, 'Aviso', { closeButton: true });
                     if (this.activos) {
                         this.getListaActivos();
                     } else {
@@ -216,8 +232,7 @@ export class ListaEventosOrganizador implements OnInit {
             }
 
         } else {
-            if (this.seCambioActivo == true) {
-                
+            if (this.seCambioActivo == true) { 
                 if (this.activos) {
                     this.getListaActivos();
                 } else {

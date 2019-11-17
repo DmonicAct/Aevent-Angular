@@ -27,7 +27,7 @@
             <input type="text" autocomplete="off" class="form-control" name="filtro" maxlength="30" [(ngModel)]="filtro"
                 (input)="buscarEvento()" onkeypress="return /^[a-zA-Z0-9,.*-\s]*$/i.test(event.key)">
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
 
         </div>
         <div class="col-md-2">
@@ -49,7 +49,8 @@
                                 <th class="text-center">Presidente</th>
                                 <th class="text-center">Fecha Inicio</th>
                                 <th class="text-center">Fecha Fin</th>
-                                <th>Deshabilitar</th>
+                                <th *ngIf="activos" class="text-center">Deshabilitar</th>   
+                                <th *ngIf="!activos" class="text-center">Habilitar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,8 +65,8 @@
                                 <td class="text-center" data-col="fechaInicio">{{item.fechaInicio | date:'dd/MM/yyyy'}}
                                 </td>
                                 <td class="text-center" data-col="fechafin">{{item.fechaFin | date:'dd/MM/yyyy'}}</td>
-                                <td class="text-center" data-col="eliminar" (click)="OnDeshabilitar(item)"><button
-                                        class="btn btn-danger"><i class="fa fa-ban"></i></button></td>
+                                <td *ngIf="activos" class="text-center" data-col="eliminar" (click)="OnDeshabilitar(item)"><button class="btn btn-danger"><i class="fa fa-ban"></i></button></td>
+              <td *ngIf="!activos" class="text-center" data-col="eliminar" (click)="OnHabilitar(item)"><button class="btn btn-success"><i class="fa fa-check"></i></button></td>
                             </tr>
                         </tbody>
                     </table>
