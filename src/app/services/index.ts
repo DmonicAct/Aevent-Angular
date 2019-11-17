@@ -8,6 +8,7 @@ import {EventoService } from './evento.service';
 import {FaseService} from './fase.service';
 import {CriterioService} from './criterio.service';
 import {TipoCriterioService} from './tipoCriterio.service';
+import {RespuestaCriterioService} from './respuesta_criterio.service';
 export{
     CategoriaService,
     RolesServices,
@@ -19,4 +20,5 @@ export{
     FaseService,
     CriterioService,
     TipoCriterioService,
+    RespuestaCriterioService,
 }

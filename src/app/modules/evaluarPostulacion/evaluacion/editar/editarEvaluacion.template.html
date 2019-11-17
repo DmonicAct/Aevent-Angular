@@ -5,7 +5,7 @@
       <li>
         <a>De Organizador</a>
       </li>
-      <li>  
+      <li>
         <a>Evaluar Propuestas</a>
       </li>
     </ol>
@@ -21,9 +21,10 @@
           </div>
         </tab>
         <tab #tabsFases heading="Criterios de Evaluación">
-            <div class="mail-box-header">
-              <fase-propuesta [(item-evaluacion)]="itemEvaluacion"></fase-propuesta>
-            </div>
+          <div class="mail-box-header">
+            <fase-propuesta [(item-evaluacion)]="itemEvaluacion" [(item-respuesta)]="respuestaCriterio">
+            </fase-propuesta>
+          </div>
         </tab>
       </tabset>
     </div>
