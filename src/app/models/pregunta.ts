@@ -7,5 +7,5 @@ export class Pregunta{
     public idSeccion: Seccion;
     public tipoSeccion: TipoSeccion;
     public tipoPregunta: string;
-    public cantidadLetras: number;
+    public maxCaracteres: number;
 }
