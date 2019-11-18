@@ -37,17 +37,22 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of comiteElegido; let i = index" [class.selected]="i == selectedRow">
-                  <td *ngIf="enEvElegidos(item.idUsuario)==-1" class="text-left" data-col="username">{{item.username}}</td>
-                  <td *ngIf="enEvElegidos(item.idUsuario)!=-1" bgcolor="#c3e8f0"class="text-left" data-col="username">{{item.username}}</td>
-                  <td *ngIf="enEvElegidos(item.idUsuario)==-1" class="text-left" data-col="nombre">{{item.nombreCompleto}}</td>
-                  <td *ngIf="enEvElegidos(item.idUsuario)!=-1" bgcolor="#c3e8f0"class="text-left" data-col="nombre">{{item.nombreCompleto}}</td>
-                  <td *ngIf="enEvElegidos(item.idUsuario)==-1" class="text-left" data-col="email">{{item.email}}</td>
-                  <td *ngIf="enEvElegidos(item.idUsuario)!=-1" bgcolor="#c3e8f0"class="text-left" data-col="email">{{item.email}}</td>
+                  <td *ngIf="estadoRegistro(item.idUsuario)==3" class="text-left" data-col="username">{{item.username}}</td>
+                  <td *ngIf="estadoRegistro(item.idUsuario)==1" bgcolor="#c3e8f0"class="text-left" data-col="username">{{item.username}}</td>
+                  <td *ngIf="estadoRegistro(item.idUsuario)==4" bgcolor="#f7a3a5"class="text-left" data-col="username">{{item.username}}</td>
+                  <td *ngIf="estadoRegistro(item.idUsuario)==3" class="text-left" data-col="nombre">{{item.nombreCompleto}}</td>
+                  <td *ngIf="estadoRegistro(item.idUsuario)==1" bgcolor="#c3e8f0"class="text-left" data-col="nombre">{{item.nombreCompleto}}</td>
+                  <td *ngIf="estadoRegistro(item.idUsuario)==4" bgcolor="#f7a3a5"class="text-left" data-col="nombre">{{item.nombreCompleto}}</td>
+                  <td *ngIf="estadoRegistro(item.idUsuario)==3" class="text-left" data-col="email">{{item.email}}</td>
+                  <td *ngIf="estadoRegistro(item.idUsuario)==1" bgcolor="#c3e8f0"class="text-left" data-col="email">{{item.email}}</td>
+                  <td *ngIf="estadoRegistro(item.idUsuario)==4" bgcolor="#f7a3a5"class="text-left" data-col="email">{{item.email}}</td>
 
-                  <td *ngIf="enEvElegidos(item.idUsuario)==-1" class="text-center" data-col="Quitar" (click)="onQuitar(item,i)"><button class="btn btn-danger"><i
+                  <td *ngIf="estadoRegistro(item.idUsuario)==3" class="text-center" data-col="Quitar" (click)="onQuitar(item,i)"><button class="btn btn-danger"><i
                         class="fa fa-minus"></i></button></td>
-                  <td *ngIf="enEvElegidos(item.idUsuario)!=-1" bgcolor="#c3e8f0"class="text-center" data-col="Quitar" (click)="onQuitar(item,i)"><button class="btn btn-info"><i
+                  <td *ngIf="estadoRegistro(item.idUsuario)==1" bgcolor="#c3e8f0"class="text-center" data-col="Quitar" (click)="onQuitar(item,i)"><button class="btn btn-info"><i
                           class="fa fa-minus"></i></button></td>
+                  <td *ngIf="estadoRegistro(item.idUsuario)==4" bgcolor="#f7a3a5"class="text-center" data-col="Quitar" (click)="onQuitar(item,i)"><button class="btn btn-danger"><i
+                          class="fa fa-plus"></i></button></td>
 
                 </tr>
               </tbody>
@@ -145,17 +150,17 @@
             
               <tr *ngFor="let data of evaluadoresDisponibles;let i = index" (click)="ElegirEvaluador(data,i)"
                 [class.selected]="i == selectedRow" ng-style="selected(i)">
-                <td *ngIf="enEvElegidos(data.idUsuario)==-1"class="text-center" data-col="idUsuario">{{data.idUsuario}}</td>
-                <td *ngIf="enEvElegidos(data.idUsuario)!=-1" bgcolor="#c3e8f0"class="text-center" data-col="idUsuario">{{data.idUsuario}}</td>
-                <td *ngIf="enEvElegidos(data.idUsuario)==-1" class="text-left" data-col="nombreCompleto">{{data.nombreCompleto}}</td>
-                <td *ngIf="enEvElegidos(data.idUsuario)!=-1" bgcolor="#c3e8f0"class="text-left" data-col="nombreCompleto">{{data.nombreCompleto}}</td>
-                <td *ngIf="enEvElegidos(data.idUsuario)==-1" class="text-left" data-col="username">{{data.username}}</td>
-                <td *ngIf="enEvElegidos(data.idUsuario)!=-1" bgcolor="#c3e8f0" class="text-left" data-col="username">{{data.username}}</td>
-                <td *ngIf="enEvElegidos(data.idUsuario)==-1" class="text-left" data-col="email">{{data.email}}</td>
-                <td *ngIf="enEvElegidos(data.idUsuario)!=-1" bgcolor="#c3e8f0"class="text-left" data-col="email">{{data.email}}</td>
-                <td *ngIf="enEvElegidos(data.idUsuario)==-1"class="text-center" data-col="agregar"><button class="btn btn-info"><i
+                <td *ngIf="enEvElegidos(data.idUsuario)==-1 && enMaestraAgregar(data.idUsuario)==-1"class="text-center" data-col="idUsuario">{{data.idUsuario}}</td>
+                <td *ngIf="enEvElegidos(data.idUsuario)!=-1 || enMaestraAgregar(data.idUsuario)!=-1" bgcolor="#c3e8f0"class="text-center" data-col="idUsuario">{{data.idUsuario}}</td>
+                <td *ngIf="enEvElegidos(data.idUsuario)==-1 && enMaestraAgregar(data.idUsuario)==-1" class="text-left" data-col="nombreCompleto">{{data.nombreCompleto}}</td>
+                <td *ngIf="enEvElegidos(data.idUsuario)!=-1 || enMaestraAgregar(data.idUsuario)!=-1" bgcolor="#c3e8f0"class="text-left" data-col="nombreCompleto">{{data.nombreCompleto}}</td>
+                <td *ngIf="enEvElegidos(data.idUsuario)==-1 && enMaestraAgregar(data.idUsuario)==-1" class="text-left" data-col="username">{{data.username}}</td>
+                <td *ngIf="enEvElegidos(data.idUsuario)!=-1 || enMaestraAgregar(data.idUsuario)!=-1" bgcolor="#c3e8f0" class="text-left" data-col="username">{{data.username}}</td>
+                <td *ngIf="enEvElegidos(data.idUsuario)==-1 && enMaestraAgregar(data.idUsuario)==-1" class="text-left" data-col="email">{{data.email}}</td>
+                <td *ngIf="enEvElegidos(data.idUsuario)!=-1 || enMaestraAgregar(data.idUsuario)!=-1" bgcolor="#c3e8f0"class="text-left" data-col="email">{{data.email}}</td>
+                <td *ngIf="enEvElegidos(data.idUsuario)==-1 && enMaestraAgregar(data.idUsuario)==-1"class="text-center" data-col="agregar"><button class="btn btn-info"><i
                     class="fa fa-plus"></i></button></td>
-                <td *ngIf="enEvElegidos(data.idUsuario)!=-1" bgcolor="#c3e8f0"class="text-center" data-col="agregar"><button class="btn btn-info"><i
+                <td *ngIf="enEvElegidos(data.idUsuario)!=-1 || enMaestraAgregar(data.idUsuario)!=-1" bgcolor="#c3e8f0"class="text-center" data-col="agregar"><button class="btn btn-info"><i
                   class="fa fa-minus"></i></button></td>
               </tr>
             </tbody>
