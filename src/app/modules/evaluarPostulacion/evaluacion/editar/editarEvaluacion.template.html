@@ -20,10 +20,16 @@
             <detalle-propuesta [(item-division)]="itemEvaluacion.fase.formulario.divisionList"></detalle-propuesta>
           </div>
         </tab>
-        <tab #tabsFases heading="Criterios de Evaluación">
+        <tab #tabsFases heading="Criterios de Evaluación" (select)="onSelect()">
           <div class="mail-box-header">
             <fase-propuesta [(item-evaluacion)]="itemEvaluacion" [(item-respuesta)]="respuestaCriterio">
             </fase-propuesta>
+          </div>
+        </tab>
+        <tab #tabsFases heading="Comentarios" (select)="onSelectComentario()">
+          <div class="mail-box-header">
+            <comentario [(item-evaluacion)]="itemEvaluacion">
+            </comentario>
           </div>
         </tab>
       </tabset>

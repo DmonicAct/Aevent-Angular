@@ -13,21 +13,22 @@
               <h4><strong>{{this.evaluacion.fase.descripcion}}</strong></h4>
             </div>
           </div>
-          <div *ngFor="let criterio of this.evaluacion.fase.criterios; let i = index">
-            <div *ngIf="criterio.tipoCriterio.idTipoCriterio==5">
-              <div class="ibox-content">
-                <div class="row">
-                  <div class="col-lg-3">
-                    <label style="text-align: right;">
-                      {{criterio.descripcion}}</label>
-                  </div>
-                  <div class="col-lg-9">
-                    <textarea type="text" rows="3" style="resize: none;" class="form-control"
-                      [(ngModel)]="this.respuestas[i].respuesta"></textarea>
+          <div *ngIf="this.evaluacion">
+            <div *ngFor="let criterio of this.evaluacion.fase.criterios; let i = index">
+              <div *ngIf="criterio.tipoCriterio.idTipoCriterio==5">
+                <div class="ibox-content">
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <label style="text-align: right;">
+                        {{criterio.descripcion}}</label>
+                    </div>
+                    <div class="col-lg-9">
+                      <textarea type="text" rows="3" style="resize: none;" class="form-control" 
+                        [(ngModel)]="this.modalRespuestas[i]"></textarea>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <!--
+                <!--
               <div *ngIf="seccion.tipoSeccion=='PREGUNTA MULTIPLE'">
                   <div class="ibox-content">
                       <div class="row">
@@ -72,6 +73,7 @@
                       </div>
                   </div>
               </div>-->
+              </div>
             </div>
           </div>
         </div>

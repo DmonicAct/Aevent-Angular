@@ -6,7 +6,7 @@ export class Evaluacion{
     public evaluador: Usuario;
     public fase: Fase;
     public propuesta: Propuesta;
-    public comentarioParticipante: String;
-    public comentarioPresidente: String;
-    public estado: String;
+    public comentarioParticipante: string;
+    public comentarioPresidente: string;
+    public estado: string;
 }

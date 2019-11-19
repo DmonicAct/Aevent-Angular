@@ -1,9 +1,10 @@
 import { HttpHeaders, HttpClient, HttpParams } from "@angular/common/http";
 import { environment } from "src/environments/environment";
-import { Usuario } from "../models";
+import { Usuario} from "../models";
 import { catchError } from "rxjs/operators";
 import { throwError, Observable } from "rxjs";
 import { Injectable } from "@angular/core";
+import { Evaluacion } from "../models/evaluacion";
 
 @Injectable({
     providedIn: 'root',
@@ -53,5 +54,19 @@ import { Injectable } from "@angular/core";
               }
               return throwError(e);
             }));
+    }
+
+    guardarRespuestaCriterio(evaluacion:Evaluacion){
+      let url = this.apiEndpoint + `/guardar`;
+      return this.http.post(url, evaluacion).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
     }
 }
