@@ -20,18 +20,20 @@
                 <table class="table table-striped table-hover issue-tracker">
                   <thead>
                     <tr>
+                      <th class="text-center">Postular</th>
                       <th class="text-left">Código</th>
                       <th class="text-left">Título</th>
                       <th class="text-center">Categorías</th>
                       <th class="text-center">Lugar</th>
                       <th class="text-center">Fecha Fin Postulación</th>
                       <th class="text-center">Fecha Evento</th>
-                      <th class="text-center">Postular</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let item of items; let i = index" (click)="OnRowClick(i, item)"
                       [class.selected]="i == selectedRow">
+                      <td class="text-center" data-col="postular" (click)="OnPostular(item)"><button
+                        class="btn btn-danger"><i class="fa fa-envelope"></i></button></td>
                       <td class="text-center" data-col="titulo">{{item.idEvento}}</td>
                       <td class="text-left" data-col="titulo">{{item.titulo}}</td>
                       <td data-col="categorias">
@@ -42,8 +44,6 @@
                       <td class="text-center" data-col="lugar">{{item.lugar.descripcion}}</td>
                       <td class="text-center" data-col="fechaFinPostulacion">{{item.fechaInicio | date:'dd/MM/yyyy'}}</td>
                       <td class="text-center" data-col="fechaEvento">{{item.fechaInicio | date:'dd/MM/yyyy'}}</td>
-                      <td class="text-center" data-col="postular" (click)="OnPostular(item)"><button
-                          class="btn btn-danger"><i class="fa fa-envelope"></i></button></td>
                     </tr>
                   </tbody>
                 </table>
