@@ -1,17 +1,10 @@
-import { OnInit, Component, Input, ViewChild, OnChanges, SimpleChanges, AfterViewInit, ChangeDetectorRef } from "@angular/core";
-import { Fase, Evento, Criterio, Response, TipoCriterio, FormularioCFP, } from "../../../../../../models";
+import { OnInit, Component, Input } from "@angular/core";
+import { Criterio, Response } from "../../../../../../models";
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
 import { RespuestaCriterioService } from '../../../../../../services/index';
 
-import { ModalDirective } from 'ngx-bootstrap';
-import { UtilFormulario } from 'src/app/util/util_formulario';
-import * as moment from 'moment';
-import { a } from "@angular/core/src/render3";
 import { Evaluacion } from "src/app/models/evaluacion";
 import { RespuestaCriterio } from "src/app/models/respuesta_criterio";
-import { stringify } from "querystring";
-import { ifStmt } from "@angular/compiler/src/output/output_ast";
 
 @Component({
   selector: 'fase-propuesta',
@@ -32,9 +25,7 @@ export class FasePropuestaComponent implements OnInit {
   public auxRespuestas: Array<RespuestaCriterio>;
 
   constructor(private toastr: ToastrService,
-    private router: Router,
     private service: RespuestaCriterioService,
-    private cdRef: ChangeDetectorRef,
   ) {
     this.isGuardarRespuestas = true;
     this.respuestas = new Array<RespuestaCriterio>();
@@ -47,22 +38,47 @@ export class FasePropuestaComponent implements OnInit {
 
   }
 
+  llenarRespuestas(){
+    this.respuestas = new Array<RespuestaCriterio>();
+    this.evaluacion.fase.criterios.forEach((e) => {
+      this.service.obtenerRespuestaCriterio(e.idCriterio).subscribe(
+          (response: Response) => {
+              if (response.estado == "OK") {
+                  if(response.resultado[0]!=null){
+                      this.respuestas.push(response.resultado[0]);
+                  }
+              }
+          }
+      );
+  });
+  this.onSelect();
+  }
+
   onSelect() {
     this.respuestas.sort(function (a, b) { return a.idCriterio - b.idCriterio });
 
     this.respuestas.forEach((respuesta, i) => {
-        this.modalRespuestas[i] = respuesta.respuesta;
+      this.modalRespuestas[i] = respuesta.respuesta;
     });
   }
 
   OnGuardar() {
-    this.evaluacion.fase.criterios.forEach((criterio,i) => {
-      if(this.respuestas[i]==null){
-        this.respuestas[i]= new RespuestaCriterio;
+    this.evaluacion.fase.criterios.forEach((criterio, i) => {
+      if (this.respuestas[i] != null) {
+        if (this.respuestas[i].idRespuestaCriterio != null) {
+          this.respuestas[i].idCriterio = criterio.idCriterio;
+          this.respuestas[i].respuesta = this.modalRespuestas[i];
+        } else {
+          this.respuestas[i].idCriterio = criterio.idCriterio;
+          this.respuestas[i].respuesta = this.modalRespuestas[i];
+        }
+      } else {
+        this.respuestas[i] = new RespuestaCriterio;
+        this.respuestas[i].idCriterio = criterio.idCriterio;
+        this.respuestas[i].respuesta = this.modalRespuestas[i];
       }
-      this.respuestas[i].idCriterio = criterio.idCriterio;
-      this.respuestas[i].respuesta = this.modalRespuestas[i];
 
+      console.log(this.respuestas[i]);
       this.service.guardarRespuestaCriterio(this.respuestas[i]).subscribe(
         (response: Response) => {
           if (response.estado != "OK") {
@@ -71,29 +87,9 @@ export class FasePropuestaComponent implements OnInit {
         }
       );
     });
-    /*
-    this.respuestas.forEach((respuesta, i) => {
-      if (respuesta == null) { 
-        //IF NUEVO
-        respuesta = new RespuestaCriterio;
-        respuesta.idCriterio = this.evaluacion.fase.criterios[i].idCriterio;
-        respuesta.respuesta = this.modalRespuestas[i];
-      } else {
-        //IF EDITANDO
-        respuesta.idCriterio = this.evaluacion.fase.criterios[i].idCriterio;
-        respuesta.respuesta = this.modalRespuestas[i];
-      }
-
-      this.service.guardarRespuestaCriterio(respuesta).subscribe(
-        (response: Response) => {
-          if (response.estado != "OK") {
-            this.isGuardarRespuestas = false;
-          }
-        }
-      );
-    });*/
 
     if (this.isGuardarRespuestas) {
+      this.llenarRespuestas();
       this.toastr.success(`Se han guardado las respuestas correctamente`, 'Aviso', { closeButton: true });
     }
   }
