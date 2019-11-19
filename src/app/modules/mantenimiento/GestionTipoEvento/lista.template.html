@@ -50,16 +50,17 @@
           <table class="table table-striped table-hover issue-tracker">
             <thead>
             <tr>
+              <th class="text-center">Editar</th>
               <th class="text-center">Código</th>
               <th class="text-center">Tipo de Evento</th>
-              <th class="text-center">Editar</th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let item of itemsFiltrados; let i = index" (click)="OnRowClick(i, item)" [class.selected]="i == selectedRow">
+                <td class="text-center" data-col="editar" (click)="OnEditar(i)"><button class="btn btn-success"><i class="fa fa-edit"></i></button></td>
               <td class="text-center"  data-col="codigo"><code>{{item.idTipoEvento}}</code></td>
               <td class="text-center" data-col="nombre">{{item.nombre}}</td>
-              <td class="text-center" data-col="editar" (click)="OnEditar(i)"><button class="btn btn-success"><i class="fa fa-edit"></i></button></td>
+
               <!-- <td class="text-center" disabled="disabled" data-col="fecha">{{item.fechaRegistro | date:'dd/MM/yyyy'}}</td> -->
             </tr>
             </tbody>
