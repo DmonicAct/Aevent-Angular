@@ -29,7 +29,7 @@ declare var jQuery: any;
     public items: Array<Persona>;
 
     public listaNuevoComiteDisp:Array<Persona>;
-    
+    isModalShownPresidente = false;
     public tam: number;
     public checks: Array<Boolean>;
     constructor() {
@@ -82,6 +82,7 @@ declare var jQuery: any;
 
 
     OnAgregarEv(){
+      
       this.listaEvParaAgregar=new Array<Persona>();
       this.listaNuevoComiteDisp=new Array<Persona>();
       for (var i = 0; i < this.tam; i++) {

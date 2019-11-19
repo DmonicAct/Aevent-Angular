@@ -38,4 +38,22 @@ export class PersonaService{
             return throwError(e);
           }));
     }
+
+
+    obtenerEvaluadoresDisponibles(idEvento:number,pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+      return this.http.get(`${environment.serviceEndpoint}/persona/evaluadoresDisponibles/${idEvento}`,{params}).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+  }
 }
