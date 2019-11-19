@@ -51,6 +51,8 @@ export class FaseEventoPresidente implements OnInit {
   public tipoCriterios: Array<TipoCriterio>;
   private utilForm: UtilFormulario;
   public formulario: FormularioCFP;
+  public tempDescModal: String;
+  public arrayCriterios: Array<Criterio>;
   constructor(private toastr: ToastrService,
     private router: Router,
     private faseService: FaseService,
@@ -61,14 +63,14 @@ export class FaseEventoPresidente implements OnInit {
     this.criterio = new Criterio;
     this.fase = new Fase;
     this.tipoCriterios = new Array<TipoCriterio>();
-
+    this.arrayCriterios = new Array<Criterio>();
     this.utilForm = new UtilFormulario();
     this.fase.formulario = new FormularioCFP();
     this.fase.formulario.divisionList = this.utilForm.inicializarFormulario();
   }
 
   ngOnInit(): void {
-    console.log("Evento: ", this.item);
+    //console.log("Evento: ", this.item);
     this.obtenerTipoCriterio();
   }
 
@@ -76,7 +78,7 @@ export class FaseEventoPresidente implements OnInit {
     this.tipoCriterioService.obtenerTipoCriterios().subscribe(
       (response: Response) => {
         this.tipoCriterios = response.resultado;
-        console.log(this.tipoCriterios);
+        //console.log(this.tipoCriterios);
       }
     );
   }
@@ -117,9 +119,10 @@ export class FaseEventoPresidente implements OnInit {
   OnNuevo() {
     if (this.esNuevo) { //Creando criterio
       this.criterio.descripcion = this.descripcionModal;
-      this.criterio.idFase = this.fase;
+      this.criterio.idFase = this.fase.idFase;
       this.criterio.tipoCriterio = this.tipoCriterioModal;
-
+      this.criterio.idCriterio = null;
+      this.arrayCriterios.push(this.criterio);
       console.log('CREANDO CRITERIO');
       console.log(this.criterio.idFase);
 
@@ -133,14 +136,16 @@ export class FaseEventoPresidente implements OnInit {
         }
       );
     } else { //editando criterio
-      this.criterio.descripcion = this.descripcionModal;
-      this.criterio.idFase = this.fase;
-      this.criterio.tipoCriterio = this.tipoCriterioModal;
-
-      console.log('EDITANDO CRITERIO');
-      console.log(this.criterio.idFase);
-
-      this.criterioService.guardarCriterio(this.criterio).subscribe(
+      let nuevoCriterio = new Criterio ();
+      nuevoCriterio.idCriterio = this.criterio.idCriterio;
+      nuevoCriterio.descripcion = this.descripcionModal;
+      nuevoCriterio.idFase = this.fase.idFase;
+      nuevoCriterio.tipoCriterio = this.tipoCriterioModal;
+      this.arrayCriterios.forEach(e=>{
+        if (e.idCriterio == nuevoCriterio.idCriterio)
+          e.descripcion = nuevoCriterio.descripcion;
+      })
+      this.criterioService.guardarCriterio(nuevoCriterio).subscribe(
         (response: Response) => {
           if (response.estado == "OK") {
             console.log(this.criterio.idFase);
@@ -157,6 +162,7 @@ export class FaseEventoPresidente implements OnInit {
     console.log(fase)
 
     this.fase = fase;
+    this.arrayCriterios = this.fase.criterios;
     this.descripcionModal = "";
     this.tipoCriterioModal = new TipoCriterio();
 
@@ -167,7 +173,9 @@ export class FaseEventoPresidente implements OnInit {
   OnEditarCriterio(criterio: Criterio, fase: Fase) {
     this.fase = fase;
     this.criterio = criterio;
+    
     this.descripcionModal = this.criterio.descripcion;
+    this.tipoCriterioModal = new TipoCriterio();
     this.tipoCriterioModal = this.criterio.tipoCriterio;
 
     this.esNuevo = false;
@@ -227,7 +235,7 @@ export class FaseEventoPresidente implements OnInit {
 
   OnEliminarCriterio(criterio: Criterio, fase: Fase) {
     this.criterio = criterio;
-    this.criterio.idFase = fase;
+    this.criterio.idFase = fase.idFase;
 
     this.isDeleteCriterioModalShown = true;
   }

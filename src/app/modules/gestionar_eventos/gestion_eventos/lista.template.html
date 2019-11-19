@@ -14,17 +14,20 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row m-b-sm">
         <div class="col-md-2">
-            <ng-select [items]="itemsFiltro" (input)="cambioFiltro()"
-                placeholder="Seleccionar Filtro" name="filtroEvento" autocomplete="off"
-                [clearable]="false" [(ngModel)]="tipo">
+            <ng-select [items]="filtroActivo" (ngModelChange)="cambioTipoEvento()" placeholder="Activos"
+                name="filtroActivo" autocomplete="off" [clearable]="false" [(ngModel)]="tipoEvento">
+            </ng-select>
+        </div>
+        <div class="col-md-2">
+            <ng-select [items]="itemsFiltro" (input)="cambioFiltro()" placeholder="Seleccionar Filtro"
+                name="filtroEvento" autocomplete="off" [clearable]="false" [(ngModel)]="tipo">
             </ng-select>
         </div>
         <div class="col-md-4">
-            <input type="text" autocomplete="off" class="form-control" name="filtro"
-                maxlength="30" [(ngModel)]="filtro" (input)="buscarEvento()"
-                onkeypress="return /^[a-zA-Z0-9,.*-\s]*$/i.test(event.key)">
+            <input type="text" autocomplete="off" class="form-control" name="filtro" maxlength="30" [(ngModel)]="filtro"
+                (input)="buscarEvento()" onkeypress="return /^[a-zA-Z0-9,.*-\s]*$/i.test(event.key)">
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
 
         </div>
         <div class="col-md-2">
@@ -46,14 +49,15 @@
                                 <th class="text-center">Presidente</th>
                                 <th class="text-center">Fecha Inicio</th>
                                 <th class="text-center">Fecha Fin</th>
-                                <th>Deshabilitar</th>
+                                <th *ngIf="activos" class="text-center">Deshabilitar</th>   
+                                <th *ngIf="!activos" class="text-center">Motivo</th>   
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of maestroEventoFilter; let i = index" (click)="OnRowClick(i, item)"
                                 [class.selected]="i == selectedRow">
                                 <td class="text-center" data-col="editar" (click)="OnEditar(item)"><button
-                                    class="btn btn-success"><i class="fa fa-edit"></i></button></td>
+                                        class="btn btn-success"><i class="fa fa-edit"></i></button></td>
                                 <td class="text-center" data-col="idEvento"><code>{{item.idEvento}}</code></td>
                                 <td class="text-left" data-col="titulo">{{item.titulo}}</td>
                                 <td class="text-center" data-col="tipoEvento">{{item.tipoEvento.nombre}}</td>
@@ -61,8 +65,8 @@
                                 <td class="text-center" data-col="fechaInicio">{{item.fechaInicio | date:'dd/MM/yyyy'}}
                                 </td>
                                 <td class="text-center" data-col="fechafin">{{item.fechaFin | date:'dd/MM/yyyy'}}</td>
-                                <td class="text-center" data-col="eliminar" (click)="OnDeshabilitar(item)"><button
-                                        class="btn btn-danger"><i class="fa fa-ban"></i></button></td>
+                                <td *ngIf="activos" class="text-center" data-col="eliminar" (click)="OnMotivoDeshabilitar(item)"><button class="btn btn-danger"><i class="fa fa-ban"></i></button></td>
+                                <td *ngIf="!activos" class="text-center" data-col="eliminar" >{{item.motivoFin}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -90,4 +94,33 @@
             </div>
         </div>
     </div>
+</div>
+<!--Motivo desabiitar Evento-->
+<div *ngIf="isNewModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal
+  #autoShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="form-group modal-header">
+        <h4 id="dialog-auto-name" class="modal-title pull-left">Deshabilitar Evento</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="form-group col-sm-12">
+        <label class="col-sm-3 control-label">Motivo(*)</label>
+        <div class="col-sm-8">
+                <ng-select [items]="motivos" bindLabel="descripcion" placeholder="Seleccionar Motivo"
+                name="motivoDeshabilitar" autocomplete="off" [clearable]="false" [(ngModel)]="motivoDeshabilitar">
+              </ng-select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="text-center">
+          <button (click)='OnDeshabilitar(this.eventoDes)' class="btn btn-primary container-button"><i class="fa fa-save"></i>
+            Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

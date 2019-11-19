@@ -131,7 +131,7 @@ export class DetalleEventoConfiguracion implements OnInit {
                     element = false;
                 });
                 if (this.item && this.item.presidente) {
-                    
+
                     for (let i = 0; i < this.itemsPersona.length; i++) {
                         if (this.itemsPersona[i].idUsuario == this.item.presidente.idUsuario) {
                             /* this.item.presidente.fullName = this.itemsPersona[i].nombre + ' ' + this.itemsPersona[i].appaterno + ' ' + this.itemsPersona[i].apmaterno ;
@@ -309,8 +309,10 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.isModalShownPresidente = false;
     }
 
-    ElegirPresidente(data,i) {
+    ElegirPresidente(data, i) {
+
         this.item.presidente = data;
+        this.toastr.success(this.item.presidente.nombreCompleto + ' seleccionado como presidente', 'Aviso', { closeButton: true });
         this.nombrePresidente = this.item.presidente.nombreCompleto;
         this.selected = new Array<String>(this.itemsPersona.length).fill("");
         this.selected[i] = "{background-color: lightblue}";
@@ -330,16 +332,16 @@ export class DetalleEventoConfiguracion implements OnInit {
 
     cambioFiltro() {
         if (this.tipo == "Nombre") {
-          this.numeroTipo = 1;
+            this.numeroTipo = 1;
         }
         if (this.tipo == "Usuario") {
-          this.numeroTipo = 2;
+            this.numeroTipo = 2;
         }
         if (this.tipo == "Email") {
-          this.numeroTipo = 3;
+            this.numeroTipo = 3;
         }
-      }
-    
+    }
+
     public itemsFiltro = ["Nombre", "Usuario", "Email"];
 
     buscarUsuario() {
@@ -351,22 +353,22 @@ export class DetalleEventoConfiguracion implements OnInit {
             this.enFiltro = true;
             if (this.numeroTipo == 1) {
                 this.maestroUsuariosFilter = this.itemsPersona.filter(
-                  item => item.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1 
+                    item => item.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
                 )
-              }
-              if (this.numeroTipo == 2) {
+            }
+            if (this.numeroTipo == 2) {
                 this.maestroUsuariosFilter = this.itemsPersona.filter(
-                  item => item.username.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+                    item => item.username.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
                 )
-                
-              }
-              if (this.numeroTipo == 3) {
+
+            }
+            if (this.numeroTipo == 3) {
                 this.maestroUsuariosFilter = this.itemsPersona.filter(
-                  item => item.email.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+                    item => item.email.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
                 )
-              }
+            }
         } else {
-            if (this.enFiltro == true){
+            if (this.enFiltro == true) {
                 this.enFiltro = false;
                 this.getListaActivos();
             }

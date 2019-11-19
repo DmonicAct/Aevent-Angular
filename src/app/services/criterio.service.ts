@@ -70,6 +70,22 @@ export class CriterioService{
             return throwError(e);
           }));
       }
+
+      modificarCriterio(criterio:Criterio){
+        let url = this.apiEndpoint + `/update/${criterio}`;
+        
+          console.log(url);
+          return this.http.post(url, criterio).pipe(
+            catchError(e => {
+              if (e.status == 400) {
+                return throwError(e);
+              }
+              if (e.error) {
+                console.error(e.error);
+              }
+              return throwError(e);
+            }));
+        }
 /*
     consultarAllEventoByOrganizador(user:string, pagina:number, registros:number):Observable<any>{
       let params:HttpParams = new HttpParams()

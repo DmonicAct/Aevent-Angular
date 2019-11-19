@@ -1,76 +1,83 @@
-<div class="form-group">
-    <div class="color ibox-content">
-        <div class="cfp-height">
-            <div class="row">
-                <div class="form-group">
-                    <div class="text-center">
-                        <h4><strong>1. Primera Fase </strong></h4>
-                    </div>
-                </div>
-                <div *ngFor="let criterio of criterios">
-                    <div class="ibox-content">
-                        <div *ngIf="criterio.tipoCriterio.idTipoCriterio==5">
-                            <div class="ibox-content">
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                        <label style="text-align: right;">
-                                            {{criterio.descripcion}}</label>
-                                    </div>
-                                    <div class="col-lg-9">
-                                        <textarea type="text" rows="3" style="resize: none;"
-                                            class="form-control"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--
-                        <div *ngIf="seccion.tipoSeccion=='PREGUNTA MULTIPLE'">
-                            <div class="ibox-content">
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                        <label
-                                            style="text-align: right;">{{division.indice}}.{{seccion.indice}}-{{seccion.descripcion}}</label>
-                                    </div>
-                                    <div class="col-lg-9">
-                                        <div class="col-sm-3"
-                                            *ngFor="let pregunta of seccion.preguntaList; let i = index">
-                                            <div class="checkbox checkbox-primary">
-                                                <input name="pregunta"
-                                                    id="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}"
-                                                    value="{{pregunta}}" type="checkbox"><label
-                                                    for="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}">{{pregunta.descripcion}}</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div *ngIf="seccion.tipoSeccion=='PREGUNTA FORMULARIO'">
-                            <div class="ibox-content">
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                        <label
-                                            style="text-align: right;">{{division.indice}}.{{seccion.indice}}-{{seccion.descripcion}}</label>
-                                    </div>
-                                    <div class="col-lg-9">
-                                        <div *ngFor="let pregunta of seccion.preguntaList; let i = index">
-                                            <div class="row m-b-sm">
-                                                <label class="col-sm-4"
-                                                    style="text-align: right;">{{pregunta.descripcion}}</label>
-                                                <div class="col-sm-8">
-                                                    <input class="form-control"
-                                                        name="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}"
-                                                        [disabled]="true">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="color ibox-content">
+  <div class="col-md-4">
+    <div class="form-group">
+      <a class="btn btn-primary m-r" (click)="OnGuardar()"><i class="fa fa-check"></i> Guardar </a>
     </div>
+  </div>
+  <div class="form-group">
+    <div class="color ibox-content">
+      <div class="cfp-height">
+        <div class="row">
+          <div class="form-group">
+            <div class="text-center">
+              <h4><strong>{{this.evaluacion.fase.descripcion}}</strong></h4>
+            </div>
+          </div>
+          <div *ngIf="this.evaluacion">
+            <div *ngFor="let criterio of this.evaluacion.fase.criterios; let i = index">
+              <div *ngIf="criterio.tipoCriterio.idTipoCriterio==5">
+                <div class="ibox-content">
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <label style="text-align: right;">
+                        {{criterio.descripcion}}</label>
+                    </div>
+                    <div class="col-lg-9">
+                      <textarea type="text" rows="3" style="resize: none;" class="form-control" 
+                        [(ngModel)]="this.modalRespuestas[i]"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <!--
+              <div *ngIf="seccion.tipoSeccion=='PREGUNTA MULTIPLE'">
+                  <div class="ibox-content">
+                      <div class="row">
+                          <div class="col-lg-3">
+                              <label
+                                  style="text-align: right;">{{division.indice}}.{{seccion.indice}}-{{seccion.descripcion}}</label>
+                          </div>
+                          <div class="col-lg-9">
+                              <div class="col-sm-3"
+                                  *ngFor="let pregunta of seccion.preguntaList; let i = index">
+                                  <div class="checkbox checkbox-primary">
+                                      <input name="pregunta"
+                                          id="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}"
+                                          value="{{pregunta}}" type="checkbox"><label
+                                          for="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}">{{pregunta.descripcion}}</label>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div *ngIf="seccion.tipoSeccion=='PREGUNTA FORMULARIO'">
+                  <div class="ibox-content">
+                      <div class="row">
+                          <div class="col-lg-3">
+                              <label
+                                  style="text-align: right;">{{division.indice}}.{{seccion.indice}}-{{seccion.descripcion}}</label>
+                          </div>
+                          <div class="col-lg-9">
+                              <div *ngFor="let pregunta of seccion.preguntaList; let i = index">
+                                  <div class="row m-b-sm">
+                                      <label class="col-sm-4"
+                                          style="text-align: right;">{{pregunta.descripcion}}</label>
+                                      <div class="col-sm-8">
+                                          <input class="form-control"
+                                              name="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}"
+                                              [disabled]="true">
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

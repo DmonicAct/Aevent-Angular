@@ -5,7 +5,7 @@
       <li>
         <a>De Organizador</a>
       </li>
-      <li>  
+      <li>
         <a>Evaluar Propuestas</a>
       </li>
     </ol>
@@ -17,13 +17,20 @@
       <tabset #tabsDetalle>
         <tab heading="Detalle">
           <div class="mail-box-header">
-            <detalle-propuesta></detalle-propuesta>
+            <detalle-propuesta [(item-division)]="itemEvaluacion.fase.formulario.divisionList"></detalle-propuesta>
           </div>
         </tab>
-        <tab #tabsFases heading="Criterios de Evaluación">
-            <div class="mail-box-header">
-              <fase-propuesta></fase-propuesta>
-            </div>
+        <tab #tabsFases heading="Criterios de Evaluación" (select)="onSelect()">
+          <div class="mail-box-header">
+            <fase-propuesta [(item-evaluacion)]="itemEvaluacion" [(item-respuesta)]="respuestaCriterio">
+            </fase-propuesta>
+          </div>
+        </tab>
+        <tab #tabsFases heading="Comentarios" (select)="onSelectComentario()">
+          <div class="mail-box-header">
+            <comentario [(item-evaluacion)]="itemEvaluacion">
+            </comentario>
+          </div>
         </tab>
       </tabset>
     </div>

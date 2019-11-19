@@ -6,13 +6,15 @@
         <div class="color ibox-content">
           <div class="form-group">
             <div class="row col-md-12">
-              <div class="col-md-4">
+              <div class="col-md-2">
                 <button type="button" class="btn btn-primary m-r" (click)="OnGuardarFase(fase)"><i
                     class="fa fa-check"></i>
                   Guardar</button>
-                <a class="btn btn-default m-r" (click)="OnCancelar()"><i class="fa fa-arrow-left"></i>
-                  Regresar</a>
               </div>
+              <div class="col-md-2">
+                  <a class="btn btn-default m-r" (click)="OnCancelar()"><i class="fa fa-arrow-left"></i>
+                    Regresar</a>
+              </div>  
               <div class=" pull-right">
                 <button class="btn btn-primary" (click)="OnGestionarFases()"><i class="fa fa-plus"></i>
                   Gestionar Fases</button>
@@ -54,7 +56,7 @@
                                     </td>
                                     <td class="text-center" style="width:60%;" data-col="descripcion">
                                       {{criterio.descripcion}}</td>
-                                    <td class="text-center" style="width:10%;" data-col="descripcion">
+                                    <td class="text-center" style="width:10%;" data-col="descripcionTipoCriterio">
                                       {{criterio.tipoCriterio.descripcion}}
                                     </td>
                                     <td class="text-center" style="width:10%;" data-col="editar"
@@ -160,6 +162,7 @@
             <thead>
               <tr>
                 <th class="text-center" style="width: 80%;">Nombre de Fase</th>
+                <th class="text-center" style="width: 5%;">Editar</th>
                 <th class="text-center" style="width: 5%;">Eliminar</th>
               </tr>
             </thead>
@@ -167,6 +170,8 @@
               <tr *ngFor="let item of this.item.fases; let i = index" [class.selected]="i == selectedRow">
                 <td class="text-left" style="width:80%;" data-col="descripcion">{{item.descripcion}}
                 </td>
+                <td class="text-center" data-col="editar" (click)="OnEditarFase(item)"><button
+                  class="btn btn-success"><i class="fa fa-edit"></i></button></td>  
                 <td class="text-center" style="width:5%;" data-col="eliminar" (click)="OnEliminar(item,this.item)">
                   <button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
               </tr>
@@ -184,6 +189,33 @@
               </button>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--EDITAR UNA FASE-->
+<div *ngIf="isNewFaseModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal
+  #autoNewFaseShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="form-group modal-header">
+        <h4 id="dialog-auto-name" class="modal-title pull-left">Modificar Fase</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="form-group col-sm-12">
+        <label class="col-sm-3 control-label">Descripción(*)</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" [(ngModel)]="descripcionFaseModal" name="subitulo">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="text-center">
+          <button (click)='OnAgregarFase(this.item)' class="btn btn-primary container-button"><i class="fa fa-save"></i>
+            Guardar</button>
         </div>
       </div>
     </div>
@@ -254,8 +286,10 @@
   </div>
 </div>
 
+
+
 <!--PARA LA EDICION DE UN CRITERIO-->
-<div *ngIf="isModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoShownModal="bs-modal"
+<div *ngIf="editCriterioModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoEditCriterioShownModal="bs-modal"
   class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
   <div class="modal-dialog">
     <div class="modal-content">

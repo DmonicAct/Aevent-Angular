@@ -4,7 +4,6 @@ import { ModalDirective } from "ngx-bootstrap";
 import { Location } from '@angular/common';
 import { FaseService } from '../../../../../../../services/fase.service';
 import { ToastRef, ToastrService } from "ngx-toastr";
-import { FormularioCFPService } from "src/app/services/formulariocfp.service";
 declare var jQuery: any;
 
 @Component({
@@ -13,7 +12,7 @@ declare var jQuery: any;
     styleUrls: ['call-for-paper.template.scss']
 })
 export class CallForPaperComponent implements OnInit {
-        
+
     public itemsParametro: Array<Parametro>;
     public itemParametro: Parametro;
 
@@ -34,7 +33,7 @@ export class CallForPaperComponent implements OnInit {
 
     @Input('item-fase')
     public item: Fase;
-    
+
     @Input('item-cfp')
     public itemFormulario: FormularioCFP;
     //Tipos Preguntas
@@ -49,13 +48,14 @@ export class CallForPaperComponent implements OnInit {
     public itemsSeccion: Array<Seccion>;
     public itemSeccion: Seccion;
     public descripcionSeccion: string;
-    public disabledSeccionDescripcion: Boolean=false;
+    public disabledSeccionDescripcion: Boolean = false;
     public indexSeccion: number;
     //Preguntas
     public itemsPreguntas: Array<Pregunta>;
-    public itemPregunta: Pregunta;  
+    public itemPregunta: Pregunta;
     public descripcionPregunta: string;
-    public disabledPreguntaDescripcion: Boolean=false;
+    public cantCaracteres: number;
+    public disabledPreguntaDescripcion: Boolean = false;
     public indexPregunta: number;
     //Edicion
     public editarPregunta: Boolean = false;
@@ -68,7 +68,6 @@ export class CallForPaperComponent implements OnInit {
     selectedRowPregunta: number;
     constructor(
         private serviceFase: FaseService,
-        private serviceFormulario: FormularioCFPService,
         private toastr: ToastrService,
         private _location: Location
     ) {
@@ -80,10 +79,10 @@ export class CallForPaperComponent implements OnInit {
         this.itemsPreguntas = new Array<Pregunta>();
         this.itemPregunta = new Pregunta();
         this.itemsTipoSeccion = new Array<TipoSeccion>();
-        
-            
-        this.itemFormulario = new FormularioCFP();    
-        
+
+
+        this.itemFormulario = new FormularioCFP();
+
         this.itemsSeccion = new Array<Seccion>();
         this.itemSeccion = new Seccion();
         //
@@ -107,24 +106,24 @@ export class CallForPaperComponent implements OnInit {
         this.itemSeccion.descripcion = this.descripcionSeccion;
         this.itemSeccion.tipoSeccion = this.itemTipoSeccion;
         this.itemSeccion.preguntaList = this.itemsPreguntas = new Array<Pregunta>();
-        this.itemSeccion.indice = this.itemsSeccion.length+1;
+        this.itemSeccion.indice = this.itemsSeccion.length + 1;
         let index = this.itemsSeccion.length;
         this.itemsSeccion.push(this.itemSeccion);
-        this.indexSeccion= this.itemsSeccion.length-1;
+        this.indexSeccion = this.itemsSeccion.length - 1;
         this.itemsPreguntas = this.itemsSeccion[index].preguntaList;
     }
     OnSeleccionCriterio() {
 
     }
-    
+
 
     OnVerPreliminar() {
-        
-     }
+
+    }
 
     //Modal
     hideModal(): void {
-       this.autoShownModal.hide();
+        this.autoShownModal.hide();
     }
 
     onHidden(): void {
@@ -150,10 +149,10 @@ export class CallForPaperComponent implements OnInit {
             this.toastr.warning(`Descripcion mayor a 255 caracteres`, 'Aviso', { closeButton: true });
             return;
         }
-        if(!this.itemFormulario.divisionList)
+        if (!this.itemFormulario.divisionList)
             this.itemFormulario.divisionList = new Array<Division>();
         this.itemDivision = new Division();
-        this.itemDivision.indice= this.itemFormulario.divisionList.length+1;
+        this.itemDivision.indice = this.itemFormulario.divisionList.length + 1;
         this.itemDivision.descripcion = this.descripcionDivision;
         /**
          * 
@@ -180,19 +179,19 @@ export class CallForPaperComponent implements OnInit {
         console.log(index);
         console.log('formulario: ', this.itemFormulario);
         this.itemsSeccion = this.itemFormulario.divisionList[index].seccionList;
-        console.log('itemSeccion: ',this.itemsSeccion);
+        console.log('itemSeccion: ', this.itemsSeccion);
         /**
          * 
          * Solo una seccion por division
          */
         this.itemSeccion = this.itemsSeccion[0];
         this.itemsPreguntas = this.itemSeccion.preguntaList;
-    
+
         /**
          * 
          * Solo una seccion por division fin
          */
-        console.log("Seccion: ",this.itemsSeccion);
+        console.log("Seccion: ", this.itemsSeccion);
         //this.itemsPreguntas = new Array<Pregunta>();
         this.isModalShown = true;
         this.indexDivision = index;
@@ -206,10 +205,10 @@ export class CallForPaperComponent implements OnInit {
         this.itemSeccion.descripcion = this.descripcionSeccion;
         this.itemSeccion.tipoSeccion = this.itemTipoSeccion;
         this.itemSeccion.preguntaList = this.itemsPreguntas = new Array<Pregunta>();
-        this.itemSeccion.indice = this.itemsSeccion.length+1;
+        this.itemSeccion.indice = this.itemsSeccion.length + 1;
         let index = this.itemsSeccion.length;
         this.itemsSeccion.push(this.itemSeccion);
-        this.indexSeccion= this.itemsSeccion.length-1;
+        this.indexSeccion = this.itemsSeccion.length - 1;
         this.itemsPreguntas = this.itemsSeccion[index].preguntaList;
         this.descripcionSeccion = null;
         //Validacion de secciones
@@ -236,40 +235,52 @@ export class CallForPaperComponent implements OnInit {
         this.itemsPreguntas = new Array<Pregunta>();
     }
     OnEditarSeccion(index: number) {
-        this.indexSeccion=index;
+        this.indexSeccion = index;
         this.itemsPreguntas = this.itemsSeccion[index].preguntaList;
     }
     //Preguntas
     OnAgregarPregunta() {
-        if(!this.itemSeccion)
-        return;
+        if (!this.itemSeccion)
+            return;
         //validar datos
-
         if (!this.descripcionPregunta) {
             this.toastr.warning(`Tipo de sección vacía`, 'Aviso', { closeButton: true });
             return;
         }
-        if ( this.descripcionPregunta.length > 50) {
+        if (this.descripcionPregunta.length > 50) {
             this.toastr.warning(`Descripcion mayor a 50 caracteres`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if (this.cantCaracteres<0) {
+            this.toastr.warning(`No se puede ingresar una cantidad negativa`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if (this.cantCaracteres>500) {
+            this.toastr.warning(`No se puede ingresar más de 500 caracteres`, 'Aviso', { closeButton: true });
+            return;
+        }
+        if (!this.cantCaracteres) {
+            this.toastr.warning(`Se necesita ingresar una cantidad máxima de caracteres`, 'Aviso', { closeButton: true });
             return;
         }
         this.itemPregunta = new Pregunta();
         this.itemPregunta.descripcion = this.descripcionPregunta;
+        this.itemPregunta.maxCaracteres = this.cantCaracteres;
         this.itemPregunta.tipoPregunta = this.itemTipoSeccion.toString();
-        this.itemPregunta.indice=this.itemsPreguntas.length+1;
-        
+        this.itemPregunta.indice = this.itemsPreguntas.length + 1;
+
 
         if (this.itemSeccion) {
             switch (this.itemSeccion.tipoSeccion) {
                 case "PREGUNTA ABIERTA": {
-                  /*  if (this.itemsPreguntas.length == 0)
-                        this.itemsPreguntas.push(this.itemPregunta); */
-                    this.itemPregunta.tipoPregunta="PREGUNTA_ABIERTA";
+                    /*  if (this.itemsPreguntas.length == 0)
+                          this.itemsPreguntas.push(this.itemPregunta); */
+                    this.itemPregunta.tipoPregunta = "PREGUNTA_ABIERTA";
                     this.itemsPreguntas.push(this.itemPregunta);
                     break;
                     /* else
                     this.toastr.warning(``, 'Aviso', {closeButton: true}); */
-                    
+
                 }
                 case "PREGUNTA MULTIPLE": {
                     this.itemsPreguntas.push(this.itemPregunta);
@@ -283,48 +294,51 @@ export class CallForPaperComponent implements OnInit {
                 }
             }
             this.descripcionPregunta = null;
+            this.cantCaracteres = null;
             this.descripcionSeccion = null;
         }
     }
 
     onGuardar() {
-        
-
-        if(this.itemFormulario.titulo.length > 100){
-            this.toastr.warning(`Se necesita ingresar un titulo a formulario menor a 100 caracteres`, 'Aviso', { closeButton: true });
+        if (!this.itemFormulario.titulo) {
+            this.toastr.warning(`Se necesita ingresar un título`, 'Aviso', { closeButton: true });
             return;
-          }
-        this.itemFormulario.divisionList.forEach(e=>{
-            e.idDivision=null;
-            
-            e.seccionList.forEach(k=>{
-                k.idSeccion=null;
-                k.preguntaList.forEach(m=>{
-                    m.idPregunta=null;  
-                    
+        }
+        if (this.itemFormulario.titulo.length > 100) {
+            this.toastr.warning(`Se necesita ingresar un título a formulario menor a 100 caracteres`, 'Aviso', { closeButton: true });
+            return;
+        }
+        this.itemFormulario.divisionList.forEach(e => {
+            e.idDivision = null;
+
+            e.seccionList.forEach(k => {
+                k.idSeccion = null;
+                k.preguntaList.forEach(m => {
+                    m.idPregunta = null;
+
                 })
             })
         })
         this.item.formulario = this.itemFormulario;
         this.itemFormulario.idFase = this.item.idFase;
-        this.item.formulario.divisionList.forEach(e=>{
+        this.item.formulario.divisionList.forEach(e => {
 
         });
-        console.log(this.item.idEvento, this.item.idFase);  
-        
+        console.log(this.item.idEvento, this.item.idFase);
+
         this.serviceFase.guardarFase(this.item).subscribe(
-            (response:Response)=>{
-                if(response.estado=='OK'){
+            (response: Response) => {
+                if (response.estado == 'OK') {
                     this.toastr.success(`Se ha guardado formulario con exito`, 'Aviso', { closeButton: true });
                 }
             }
         );
-     }
-     onCancelar(){
+    }
+    onCancelar() {
         //this._location.back();
         this.hideModal();
-     }
-     
+    }
+
     OnEditarPregunta() {
         this.editarPregunta = true;
     }
@@ -342,7 +356,7 @@ export class CallForPaperComponent implements OnInit {
     OnRowClickSecciones(index: number, item: Pregunta) {
         this.selectedRowSeccion = index
     }
-    OnRowClick(index:number, item:Pregunta){
+    OnRowClick(index: number, item: Pregunta) {
 
     }
 }

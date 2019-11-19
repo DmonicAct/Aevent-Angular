@@ -1,224 +1,212 @@
 <div class="ibox-content" style="border-top: 0;" [class.sk-loading]="loading">
-    <sk-three-bounce></sk-three-bounce>
-    <div class="row m-b-sm">
-        <div class="col-lg-12">
-            <div *ngIf="datos">
-                <div class="row m-b-md">
-                    <div class="col-lg-12">
-                        <a class="btn btn-primary m-r" (click)="OnGuardar()"><i class="fa fa-check"></i> Guardar </a>
-                        <a class="btn btn-default m-r" (click)="OnCancelar()"><i class="fa fa-arrow-left"></i> Regresar</a>
-                    </div>
-                </div>  
-                <form class="form-horizontal">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Código </label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    <input [ngModel]="item.idEvento" type="text" class="form-control" name="id"
-                                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"
-                                        readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Título (*)</label>
-                            <div class="col-sm-9">
-                                <div class="input-group col-sm-10">
-                                    <input type="text" autocomplete="off" class="form-control" name="nombre"
-                                        maxlength="70" [(ngModel)]="item.titulo"
-                                        onkeypress="return /^[a-zA-Z0-9\s]*$/i.test(event.key)">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-12">
-                            <label class="col-sm-3 control-label">Tipo (*)</label>
-                            <div class="col-sm-8">
-                                <ng-select [items]="itemsTipoEvento" bindLabel="nombre"
-                                    placeholder="Seleccionar Tipo de Evento" name="TipoEvento" autocomplete="off"
-                                    [clearable]="false" [(ngModel)]="item.tipoEvento">
-                                </ng-select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Descripción (*)</label>
-                            <div class="col-sm-8">
-                                <textarea oninput="this.value = this.value.toUpperCase()" class="form-control"
-                                maxlength="200" name="descripcion" [(ngModel)]="item.descripcion" rows="4"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Lugar (*)</label>
-                            <div class="col-sm-8">
-                                <ng-select [items]="itemsLugar" bindLabel="descripcion" placeholder="Seleccionar Lugar"
-                                    name="Lugar" [clearable]="false" [(ngModel)]="item.lugar">
-                                </ng-select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Fecha Inicio (*)</label>
-                            <div class="col-sm-8">
-                                <div class="input-group date">
-                                    <input bsDatepicker #dp1="bsDatepicker" name='fechaInicio'
-                                        [(bsValue)]="item.fechaInicio" autocomplete="off"
-                                        (bsValueChange)="DetectInicio()"
-                                        value="{{ item.fechaInicio | date:'dd/MM/yyyy' }}" type="text"
-                                        class="form-control">
-                                    <span class="input-group-addon" (click)="dp1.toggle()"
-                                        [attr.aria-expanded]="dp1.isOpen"><i class="fa fa-calendar"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Fecha Fin (*)</label>
-                            <div class="col-sm-8">
-                                <div class="input-group date">
-                                    <input bsDatepicker #dp2="bsDatepicker" name='fechaFin' [(bsValue)]="item.fechaFin"
-                                        autocomplete="off" (bsValueChange)="DetectFin()"
-                                        value="{{ item.fechaFin | date:'dd/MM/yyyy' }}" type="text"
-                                        class="form-control">
-                                    <span class="input-group-addon" (click)="dp2.toggle()"
-                                        [attr.aria-expanded]="dp2.isOpen"><i class="fa fa-calendar"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 control-label">Presidente (*)</label>
-                            <div class="col-sm-7">
-                                <input type="text" autocomplete="off" class="form-control no-gray" name="nombrePresidente"
-                                    [(ngModel)]="nombrePresidente" readonly>
-                            </div>
-                            <div class="col-sm-1">
-                                <button type="button" class="btn btn-success m-r" (click)="OnAgregarPresidente()"><i
-                                    class="fa fa-user"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Categorías (*) </label>
-                            <div class="col-sm-7">
-                                <ng-select [items]="itemsCategorias" bindLabel="descripcion"
-                                    placeholder="Seleccionar Categorias" name="Categorias" [clearable]="false"
-                                    [(ngModel)]="categoriaSeleccionada">
-                                </ng-select>
-                            </div>
-                            <span class="input-group-btn col-sm-1">
-                                <button class="btn btn-info" (click)="agregarCategoria()"><i
-                                        class="fa fa-plus"></i></button>
-                            </span>
-                        </div>
-                        <div class="row col-sm-10 pull-right" style="height: 200px; overflow: auto">
-                            <table *ngIf="item.categorias.length>0" class="table">
-                                <thead>
-                                    <th class="text-left">Código</th>
-                                    <th class="text-left">Descripción</th>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let data of this.item.categorias; let i = index">
-                                        <th class="text-left">{{data.codigo}}</th>
-                                        <th class="text-left">{{data.descripcion}}</th>
-                                        <th>
-                                            <button class="btn btn-danger" (click)="onEliminarCategoria(i)">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        </th>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
+  <sk-three-bounce></sk-three-bounce>
+  <div class="row m-b-sm">
+    <div class="col-lg-12">
+      <div *ngIf="datos">
+        <div class="row m-b-md">
+          <div class="col-lg-12">
+            <a class="btn btn-primary m-r" (click)="OnGuardar()"><i class="fa fa-check"></i> Guardar </a>
+            <a class="btn btn-default m-r" (click)="OnCancelar()"><i class="fa fa-arrow-left"></i> Regresar</a>
+          </div>
         </div>
-    </div>
-    <script>
-        function alphaOnly(event) {
-            var key = event.keyCode;
-            return ((key >= 65 && key <= 90) || key == 8);
-        }
-    </script>
-
-
-    <div *ngIf="isModalShownPresidente" [config]="{ show: true }" (onHidden)="OnHiddenPresidente()" bsModal
-        #autoShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
-        <div class="modal-dialog modal-sm" >
-            <div class="modal-content" style="width: 300%;margin-left: -250px;">
-                <div class="modal-header">
-                    <h3 id="dialog-auto-name" class="modal-title">Filtro Usuarios</h3>
-                    <button type="button" class="close pull-right" aria-label="Close" (click)="hideModalPresidente()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <div class="row">&nbsp;</div>
-                    <br>
-                    <div class="row m-b-sm">
-                        <div class="col-md-3">
-                            <ng-select [items]="itemsFiltro" (ngModelChange)="cambioFiltro()"
-                                placeholder="Seleccionar Filtro" name="filtroUsuario" autocomplete="off"
-                                [clearable]="false" [(ngModel)]="tipo">
-                            </ng-select>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" autocomplete="off" class="form-control" name="filtro"
-                                maxlength="30" [(ngModel)]="filtro" (input)="buscarUsuario()"
-                                onkeypress="return /^[a-zA-Z_0-9\s]*$/i.test(event.key)">
-                        </div>
-                    </div>
+        <form class="form-horizontal">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Código </label>
+              <div class="col-sm-9">
+                <div class="input-group">
+                  <input [ngModel]="item.idEvento" type="text" class="form-control" name="id"
+                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" readonly>
                 </div>
-                <div class="modal-body" style="overflow: hidden; ">
-                    <div class="table-responsive" style="height: 400px; overflow-y: scroll;overflow: auto;">
-                        <table class="table table-hover issue-tracker">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Código</th>
-                                    <th class="text-left">Nombre</th>
-                                    <th class="text-left">Usuario</th>
-                                    <th class="text-left">Correo</th>
-                                    <th class="text-center">Agregar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let data of maestroUsuariosFilter;let i = index" (click)="ElegirPresidente(data,i)"
-                                    [class.selected]="i == selectedRow" ng-style="selected(i)">
-                                    <td class="text-center" data-col="idUsuario"><code>{{data.idUsuario}}</code></td>
-                                    <td class="text-left" data-col="nombreCompleto">{{data.nombreCompleto}}</td>
-                                    <td class="text-left" data-col="username">{{data.username}}</td>
-                                    <td class="text-left" data-col="email">{{data.email}}</td>
-                                    <td class="text-center" data-col="agregar"><button class="btn btn-info"><i
-                                        class="fa fa-plus"></i></button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 col-sm-12 col-xs-12">
-                            <pagination [(ngModel)]="paginacion.pagina" (pageChanged)="OnPageChanged($event)"
-                                [totalItems]="paginacion.totalRegistros" [itemsPerPage]="paginacion.registros"
-                                [boundaryLinks]="true" [maxSize]="5" previousText="&lsaquo;" nextText="&rsaquo;"
-                                firstText="&laquo;" lastText="&raquo;">
-                            </pagination>
-                        </div>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="text-center m-a-sm">
-                                <pagination-info [totalItems]="paginacion.totalRegistros"
-                                    [itemsPerPage]="paginacion.registros" [page]="paginacion.pagina"></pagination-info>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="text-right m-a-sm">
-                                <pagination-set (optionChanged)="OnPageOptionChanged($event)"></pagination-set>
-                            </div>
-                        </div>
-                    </div>                    
-                    <div class="row">
-                        <div class="col-sm-12 text-center m-t-sm">
-                            <button (click)='OnAceptarPresidente()' class="btn btn-primary container-button"><i
-                                    class="fa fa-check"></i> Aceptar</button>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
-        </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Título (*)</label>
+              <div class="col-sm-9">
+                <div class="input-group col-sm-10">
+                  <input type="text" autocomplete="off" class="form-control" name="nombre" maxlength="70"
+                    [(ngModel)]="item.titulo" onkeypress="return /^[a-zA-Z0-9\s]*$/i.test(event.key)">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-12">
+              <label class="col-sm-3 control-label">Tipo (*)</label>
+              <div class="col-sm-8">
+                <ng-select [items]="itemsTipoEvento" bindLabel="nombre" placeholder="Seleccionar Tipo de Evento"
+                  name="TipoEvento" autocomplete="off" [clearable]="false" [(ngModel)]="item.tipoEvento">
+                </ng-select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Descripción (*)</label>
+              <div class="col-sm-8">
+                <textarea oninput="this.value = this.value.toUpperCase()" class="form-control" maxlength="200"
+                  name="descripcion" [(ngModel)]="item.descripcion" rows="4"></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Lugar (*)</label>
+              <div class="col-sm-8">
+                <ng-select [items]="itemsLugar" bindLabel="descripcion" placeholder="Seleccionar Lugar" name="Lugar"
+                  [clearable]="false" [(ngModel)]="item.lugar">
+                </ng-select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Fecha Inicio (*)</label>
+              <div class="col-sm-8">
+                <div class="input-group date">
+                  <input bsDatepicker #dp1="bsDatepicker" name='fechaInicio' [(bsValue)]="item.fechaInicio"
+                    autocomplete="off" (bsValueChange)="DetectInicio()"
+                    value="{{ item.fechaInicio | date:'dd/MM/yyyy' }}" type="text" class="form-control">
+                  <span class="input-group-addon" (click)="dp1.toggle()" [attr.aria-expanded]="dp1.isOpen"><i
+                      class="fa fa-calendar"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Fecha Fin (*)</label>
+              <div class="col-sm-8">
+                <div class="input-group date">
+                  <input bsDatepicker #dp2="bsDatepicker" name='fechaFin' [(bsValue)]="item.fechaFin" autocomplete="off"
+                    (bsValueChange)="DetectFin()" value="{{ item.fechaFin | date:'dd/MM/yyyy' }}" type="text"
+                    class="form-control">
+                  <span class="input-group-addon" (click)="dp2.toggle()" [attr.aria-expanded]="dp2.isOpen"><i
+                      class="fa fa-calendar"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group row">
+              <label class="col-sm-3 control-label">Presidente (*)</label>
+              <div class="col-sm-7">
+                <input type="text" autocomplete="off" class="form-control no-gray" name="nombrePresidente"
+                  [(ngModel)]="nombrePresidente" readonly>
+              </div>
+              <div class="col-sm-1">
+                <button type="button" class="btn btn-success m-r" (click)="OnAgregarPresidente()"><i
+                    class="fa fa-user"></i>
+                </button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Categorías (*) </label>
+              <div class="col-sm-7">
+                <ng-select [items]="itemsCategorias" bindLabel="descripcion" placeholder="Seleccionar Categorias"
+                  name="Categorias" [clearable]="false" [(ngModel)]="categoriaSeleccionada">
+                </ng-select>
+              </div>
+              <span class="input-group-btn col-sm-1">
+                <button class="btn btn-info" (click)="agregarCategoria()"><i class="fa fa-plus"></i></button>
+              </span>
+            </div>
+            <div class="row col-sm-10 pull-right" style="height: 200px; overflow: auto">
+              <table *ngIf="item.categorias.length>0" class="table">
+                <thead>
+                  <th class="text-left">Código</th>
+                  <th class="text-left">Descripción</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of this.item.categorias; let i = index">
+                    <th class="text-left">{{data.codigo}}</th>
+                    <th class="text-left">{{data.descripcion}}</th>
+                    <th>
+                      <button class="btn btn-danger" (click)="onEliminarCategoria(i)">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
+  <script>
+    function alphaOnly(event) {
+      var key = event.keyCode;
+      return ((key >= 65 && key <= 90) || key == 8);
+    }
+  </script>
+
+
+  <div *ngIf="isModalShownPresidente" [config]="{ show: true }" (onHidden)="OnHiddenPresidente()" bsModal
+    #autoShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content" style="width: 300%;margin-left: -250px;">
+        <div class="modal-header">
+          <h3 id="dialog-auto-name" class="modal-title">Filtro Usuarios</h3>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="hideModalPresidente()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="row">&nbsp;</div>
+          <br>
+          <div class="row m-b-sm">
+            <div class="col-md-3">
+              <ng-select [items]="itemsFiltro" (ngModelChange)="cambioFiltro()" placeholder="Seleccionar Filtro"
+                name="filtroUsuario" autocomplete="off" [clearable]="false" [(ngModel)]="tipo">
+              </ng-select>
+            </div>
+            <div class="col-md-6">
+              <input type="text" autocomplete="off" class="form-control" name="filtro" maxlength="30"
+                [(ngModel)]="filtro" (input)="buscarUsuario()" onkeypress="return /^[a-zA-Z_0-9\s]*$/i.test(event.key)">
+            </div>
+          </div>
+        </div>
+        <div class="modal-body" style="overflow: hidden; ">
+          <div class="table-responsive" style="height: 400px; overflow-y: scroll;overflow: auto;">
+            <table class="table table-hover issue-tracker">
+              <thead>
+                <tr>
+                  <th class="text-center">Código</th>
+                  <th class="text-left">Nombre</th>
+                  <th class="text-left">Usuario</th>
+                  <th class="text-left">Correo</th>
+                  <th class="text-center">Seleccionar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of maestroUsuariosFilter;let i = index" [class.selected]="i == selectedRow"
+                  ng-style="selected(i)">
+                  <td class="text-center" data-col="idUsuario"><code>{{data.idUsuario}}</code></td>
+                  <td class="text-left" data-col="nombreCompleto">{{data.nombreCompleto}}</td>
+                  <td class="text-left" data-col="username">{{data.username}}</td>
+                  <td class="text-left" data-col="email">{{data.email}}</td>
+                  <td class="text-center" data-col="agregar"><button class="btn btn-primary"
+                      (click)="ElegirPresidente(data,i)"><i class="fa fa-check"></i></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-12 col-xs-12">
+              <pagination [(ngModel)]="paginacion.pagina" (pageChanged)="OnPageChanged($event)"
+                [totalItems]="paginacion.totalRegistros" [itemsPerPage]="paginacion.registros" [boundaryLinks]="true"
+                [maxSize]="5" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+              </pagination>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+              <div class="text-center m-a-sm">
+                <pagination-info [totalItems]="paginacion.totalRegistros" [itemsPerPage]="paginacion.registros"
+                  [page]="paginacion.pagina"></pagination-info>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+              <div class="text-right m-a-sm">
+                <pagination-set (optionChanged)="OnPageOptionChanged($event)"></pagination-set>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 text-center m-t-sm">
+              <button (click)='OnAceptarPresidente()' class="btn btn-primary container-button"><i
+                  class="fa fa-check"></i> Aceptar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

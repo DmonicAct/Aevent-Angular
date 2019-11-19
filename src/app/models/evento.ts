@@ -16,6 +16,7 @@ export class Evento{
     public lugar?: Lugar;
     public enabled?:Boolean;
     public fases?: Array<Fase>;
+    public motivoFin?: string;
     constructor(){
         this.idEvento = null;
         this.fases=new Array<Fase>();

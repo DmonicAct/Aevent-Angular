@@ -19,8 +19,7 @@ import {EditarEvaluacionComponent} from './evaluacion/editar/editarEvaluacion.co
 import {ListaPreferenciasComponent} from './preferencias-evaluacion/listaPreferenciasEvaluacion.component';
 import {DetallePropuestaComponent} from './evaluacion/editar/tabset-parts/detalle-propuesta/detalle-propuesta.component';
 import {FasePropuestaComponent} from './evaluacion/editar/tabset-parts/fase-propuesta/fase-propuesta.component';
-import {CallForPaperComponent} from './evaluacion/editar/tabset-parts/fase-propuesta/call-for-papers/call-for-paper.component';
-import {CallForPaperView} from './evaluacion/editar/tabset-parts/fase-propuesta/call-for-papers/call-for-papers-view/call-for-paper-view.component';
+import { ComentarioComponent } from './evaluacion/editar/tabset-parts/comentario-propuesta/comentario.component';
 
 @NgModule({
   declarations: [
@@ -29,8 +28,7 @@ import {CallForPaperView} from './evaluacion/editar/tabset-parts/fase-propuesta/
     ListaPreferenciasComponent,
     DetallePropuestaComponent,
     FasePropuestaComponent,
-    CallForPaperComponent,
-    CallForPaperView
+    ComentarioComponent,
   ],
   imports: [
     CommonModule,

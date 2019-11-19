@@ -1,16 +1,16 @@
 import { HttpHeaders, HttpClient, HttpParams } from "@angular/common/http";
 import { environment } from "src/environments/environment";
-import { Usuario} from "../models";
+import { Usuario } from "../models";
 import { catchError } from "rxjs/operators";
 import { throwError, Observable } from "rxjs";
 import { Injectable } from "@angular/core";
-import { Evaluacion } from "../models/evaluacion";
+import { RespuestaCriterio } from "../models/respuesta_criterio";
 
 @Injectable({
     providedIn: 'root',
   })
 
-  export class EvaluacionService{
+  export class RespuestaCriterioService{
     private apiEndpoint: string;
     private config_name: string
     private config_password: string;
@@ -18,32 +18,14 @@ import { Evaluacion } from "../models/evaluacion";
     private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
     constructor(public http: HttpClient) {
-        this.apiEndpoint = environment.serviceEndpoint + '/evaluaciones';
+        this.apiEndpoint = environment.serviceEndpoint + '/respuestaCriterio';
         this.config_name = environment.APP_CONFIG_NAME;
         this.config_password = environment.APP_CONFIG_PASSWORD;
     }
 
-    obtenerPropuestas(idEvaluador:number,pagina:number, registros:number):Observable<any>{
-      let params:HttpParams = new HttpParams()
-      .set('idUsuario', idEvaluador.toString())
-      .set('pagina', pagina.toString())
-      .set('registros', registros.toString());
-        //const url = `${this.apiEndpoint}/${idEvaluador}`;     
-          return this.http.get(this.apiEndpoint, {params}).pipe(
-            catchError(e => {
-              if (e.status == 400) {
-                return throwError(e);
-              }
-              if (e.error.mensaje) {
-                console.error(e.error.mensaje);
-              }
-              return throwError(e);
-            }));
-    }
-
-    obtenerPropuesta(idEvaluacion:number):Observable<any>{
+    obtenerRespuestaCriterio(idCriterio:number):Observable<any>{
         //const url = `${this.apiEndpoint}/${idEvaluador}`;    
-        let url = this.apiEndpoint + `/${idEvaluacion}`;
+        let url = this.apiEndpoint + `/${idCriterio}`;
           return this.http.get(url).pipe(
             catchError(e => {
               if (e.status == 400) {
@@ -56,9 +38,9 @@ import { Evaluacion } from "../models/evaluacion";
             }));
     }
 
-    guardarRespuestaCriterio(evaluacion:Evaluacion){
+    guardarRespuestaCriterio(respuesta:RespuestaCriterio){
       let url = this.apiEndpoint + `/guardar`;
-      return this.http.post(url, evaluacion).pipe(
+      return this.http.post(url, respuesta).pipe(
         catchError(e => {
           if (e.status == 400) {
             return throwError(e);
