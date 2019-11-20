@@ -33,6 +33,7 @@ export class ListaEventos implements OnInit {
     this.serviceEvento.consultarAllEventoEnabled(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response) => {
         this.items = response.resultado;
+        this.paginacion = response.paginacion;
       }
     );
   }

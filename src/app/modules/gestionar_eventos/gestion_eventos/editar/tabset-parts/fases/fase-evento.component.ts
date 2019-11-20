@@ -82,7 +82,7 @@ export class FaseEventoComponent implements OnInit {
     this.tipoCriterioService.obtenerTipoCriterios().subscribe(
       (response: Response) => {
         this.tipoCriterios = response.resultado;
-        console.log(this.item.fases[0].criterios);
+       // console.log(this.item.fases[0].criterios);
       }
     );
   }

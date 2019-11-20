@@ -1,7 +1,7 @@
 import { Persona, Evento } from ".";
 
 export class Propuesta{
-    public idPropuesta: Number;
+    public idPropuesta: number;
     public evento: Evento;
     public postulante: Persona;
     public fecha_postulacion: Date;

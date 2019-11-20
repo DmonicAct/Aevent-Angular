@@ -1,10 +1,11 @@
-import { OnInit, Component, Input } from "@angular/core";
+import { OnInit, Component, Input, Output, EventEmitter } from "@angular/core";
 import { Propuesta } from "../../../../models/propuesta";
 import { Evento, Response } from "../../../../models";
 import { ToastrService } from "ngx-toastr";
 import { PropuestaService } from "src/app/services/propuesta.service";
 import { AuthService as AeventAuthService } from '../../../../auth/service/auth.service';
 import { EstadoPropuesta } from "src/app/models/enums/estadoPropuesta";
+import { ResponseOptions } from "@angular/http";
 @Component({
     selector:'detalle-propuesta',
     templateUrl:'detalle-propuesta.template.html',
@@ -17,6 +18,8 @@ export class EdicionPropuestaComponent implements OnInit{
     @Input('evento')
     public evento: Evento;
 
+    @Output() 
+    itemCodigo = new EventEmitter<any>();
 
     constructor(
         private toastr: ToastrService,
@@ -28,7 +31,7 @@ export class EdicionPropuestaComponent implements OnInit{
 
     }
 
-    OnGuardarDetalle(){
+    async OnGuardarDetalle(){
         if(!this.propuesta.titulo || this.propuesta.titulo.trim()==""){
             this.toastr.warning('Titulo de propuesta vacío', 'Aviso', {closeButton: true});
             return;
@@ -39,9 +42,10 @@ export class EdicionPropuestaComponent implements OnInit{
         if(this.propuesta.idPropuesta==null){
             this.propuesta.estado = EstadoPropuesta.PROPUESTA_BORRADOR;
         }
-        this.servicePropuesta.guardarPropuesta(this.propuesta,username, idEvento).subscribe(
+        await this.servicePropuesta.guardarPropuesta(this.propuesta,username, idEvento).subscribe(
             (response:Response)=>{
                 this.toastr.success('Se ha guardado la propuesta con exito', 'Aviso', {closeButton: true});
+                this.itemCodigo.emit(response.resultado);
             }
         );
     }

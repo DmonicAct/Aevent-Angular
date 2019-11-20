@@ -19,23 +19,6 @@ export class PropuestaService{
     }
 
 
-    obtenerListaPostulacion(idUsuario:number,pagina:number, registros:number):Observable<any>{
-        let params:HttpParams = new HttpParams()
-        .set('pagina', pagina.toString())
-        .set('registros', registros.toString());
-        let url=this.apiEndpoint + `/${idUsuario}`;
-        return this.http.get(url,{params}).pipe(
-        catchError(e => {
-            if (e.status == 400) {
-                return throwError(e);
-            }
-            if (e.error.mensaje) {
-                console.error(e.error.mensaje);
-            }
-            return throwError(e);
-        }));
-    }
-
     obtenerListaPropuesta(Username: string,pagina:number, registros:number):Observable<any>{
         let params:HttpParams = new HttpParams()
         .set('pagina', pagina.toString())
@@ -53,8 +36,19 @@ export class PropuestaService{
         }));
     }
 
-    obtenerPostulacion(idPostulacion: number):Observable<any>{
-        return null;
+    obtenerPostulaciones(idPropuesta: Number):Observable<any>{
+        let url=this.apiEndpoint+'/all'+ `/${idPropuesta}`;
+        console.log(url);
+        return this.http.get(url).pipe(
+        catchError(e => {
+            if (e.status == 400) {
+                return throwError(e);
+            }
+            if (e.error.mensaje) {
+                console.error(e.error.mensaje);
+            }
+            return throwError(e);
+        }));
     }
     obtenerPropuesta(idPropuesta:number):Observable<any>{
         let url=this.apiEndpointPropuesta + `/${idPropuesta}`;
@@ -84,8 +78,8 @@ export class PropuestaService{
             return throwError(e);
         }));
     }
-    guardarPostulacion(postulacion: RespuestaPostulacion):Observable<any>{
-        let url=this.apiEndpoint;
+    guardarPostulacion(postulacion: RespuestaPostulacion, username:string):Observable<any>{
+        let url=this.apiEndpoint + `/${username}`;
         return this.http.post(url,postulacion).pipe(
         catchError(e => {
             if (e.status == 400) {

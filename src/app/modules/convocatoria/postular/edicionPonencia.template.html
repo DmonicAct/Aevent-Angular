@@ -26,17 +26,18 @@
       <tabset #tabsPropuesta>
         <tab heading="Propuesta" style="margin-top: 0;">
           <div class="mail-box-header">
-            <detalle-propuesta #detallePropuesta *ngIf="propuesta && evento" [evento]="evento" [propuesta]="propuesta"></detalle-propuesta>
+            <detalle-propuesta #detallePropuesta *ngIf="propuesta && evento" [evento]="evento" [propuesta]="propuesta" (itemCodigo)="displayItem($event)"></detalle-propuesta>
           </div>
         </tab>
-            <tab #tabsFases *ngFor="let fase of evento.fases" [heading]="fase.descripcion" style="margin-top: 0;">
+            <tab *ngFor="let fase of evento.fases; let i = index" [heading]="fase.descripcion" style="margin-top: 0;" [disabled]="!propuesta.idPropuesta">
                 <div class="mail-box-header" >
-                  <fase-propuesta *ngIf="fase.formulario" 
+                  <fase-propuesta #fasePropuesta *ngIf="fase.formulario"
                   [fase]="fase"
                   [idFase]="fase.idFase" 
                   [idEvento]="evento.idEvento" 
                   [idFormulario]="fase.formulario.idFormulariocfp" 
                   [items]="fase.formulario.divisionList"
+                  [index]="i"
                   ></fase-propuesta>
                 </div>
               </tab>

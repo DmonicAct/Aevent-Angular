@@ -32,7 +32,8 @@ export class ListaPonenciaComponent implements OnInit {
         this.servicePropuesta.obtenerListaPropuesta(this.authService.usuario.username,this.paginacion.pagina,this.paginacion.registros).subscribe(
             (response:Response)=>{
                 this.items = response.resultado;
-                console.log(this.items);
+                this.paginacion = response.paginacion;
+                console.log("paginacion postulacion: ", response);
             }
         );
     }
