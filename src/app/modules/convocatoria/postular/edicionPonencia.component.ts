@@ -33,6 +33,7 @@ export class EdicionPonenciaComponent implements OnInit {
     private propuesta: Propuesta = null;
     private listaRespuestaPostulacion: Array<RespuestaPostulacion>;
     private evento: Evento = null;
+
     @ViewChild('detallePropuesta') detallePropuesta: EdicionPropuestaComponent;
     @ViewChildren('fasePropuesta') fasesPropuestas:QueryList<FasePropuestaComponent>;
     @ViewChild('tabsPropuesta') tabset: TabsetComponent;
@@ -88,8 +89,14 @@ export class EdicionPonenciaComponent implements OnInit {
         this.servicePropuesta.obtenerPostulaciones(this.propuesta.idPropuesta).subscribe(
             (response: Response) => {
                 if (response && response.resultado != null) {
-                    /* this.listaRespuestaPostulacion = response.resultado; */
-                    console.log(response);
+                    this.listaRespuestaPostulacion = response.resultado;
+                    console.log(this.listaRespuestaPostulacion);
+                    this.listaRespuestaPostulacion.forEach((e,i)=>{
+                        this.fasesPropuestas.forEach((child) => { 
+                            child.cargarDatosFormulario(e,i);
+                        });
+                    });
+                   
                 }
             }
         );

@@ -31,6 +31,8 @@ export class FasePropuestaComponent implements OnInit{
     @Input("index")
     public  index: number;
 
+    public respuestaPostulacion: RespuestaPostulacion;
+
     public now_date: String = new Date().toISOString();
     public itemsRepuesta : RespuestaFormulario[][]=[];
 
@@ -59,12 +61,41 @@ export class FasePropuestaComponent implements OnInit{
             });
             this.itemsRepuesta.push(conjuntoRpta);
         });
+      
         this.respuestaFase = new RespuestaPostulacion();
     }
     ngAfterViewInit() {
         jQuery('.full-height-scroll').slimscroll({
             height: '100%'
         });
+    }
+    cargarDatosFormulario(respuestas:RespuestaPostulacion,outer_index:number){
+        console.log("outer index: ",outer_index);
+        console.log("index:",this.index);
+        if(this.index == outer_index){
+           this.respuestaPostulacion = respuestas;
+           this.postulacion = this.respuestaPostulacion.postulacion;
+           console.log(this.respuestaPostulacion);
+           let divArray: number[];
+           let index:number = 0;
+           let index_prev:number = -1;
+           let index_division = -1;
+           let index_pregunta = 0;
+           this.respuestaPostulacion.listaFormulario.forEach((e,i)=>{
+                index = e.idDivision;
+                if(index==index_prev){
+                    this.itemsRepuesta[index_division][index_pregunta] = e;
+                    index_pregunta++;
+                }else{
+                    index_prev = index;
+                    index_division++;
+                    index_pregunta=0;
+                    this.itemsRepuesta[index_division][index_pregunta] = e;
+                    index_pregunta++;
+                }
+           });
+           
+        }
     }
     OnEnviar(){
         this.respuestaFase.listaFormulario = new Array<RespuestaFormulario>();
