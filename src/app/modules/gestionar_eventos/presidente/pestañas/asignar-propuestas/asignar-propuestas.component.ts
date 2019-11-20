@@ -520,12 +520,12 @@ export class AsignarPropuestasVer implements OnInit {
 
   //MODAL
   getEvaluadoresDisponibles() {
-    this.servicePersonas.obtenerEvaluadoresDisponibles(this.itemEventoParent.idEvento, this.paginacion.pagina, this.paginacion.registros).subscribe(
+    this.servicePersonas.obtenerEvaluadoresDisponibles(this.itemEventoParent.idEvento, this.paginacionEval.pagina, this.paginacionEval.registros).subscribe(
       (response: Response) => {
         //       console.log(response.resultado)
         this.evaluadoresDisponibles = response.resultado;
-        this.paginacion = response.paginacion;
-        //     console.log(response.paginacion)
+        this.paginacionEval = response.paginacion;
+        console.log(response.paginacion)
         //debugger
       }
     )
@@ -573,17 +573,17 @@ export class AsignarPropuestasVer implements OnInit {
   }
 
   getListaActivos() {
-    this.getEvaluadoresDisponibles();
+    this.onAsignarNuevosEvaluadores();
   }
 
   OnPageChanged(event): void {
-    this.paginacion.pagina = event.page;
+    this.paginacionEval.pagina = event.page;
     this.getListaActivos();
   }
 
   OnPageOptionChanged(event): void {
-    this.paginacion.registros = event.rows;
-    this.paginacion.pagina = 1;
+    this.paginacionEval.registros = event.rows;
+    this.paginacionEval.pagina = 1;
     this.getListaActivos();
   }
   OnHiddenEvaluadores() {
@@ -591,7 +591,7 @@ export class AsignarPropuestasVer implements OnInit {
   }
 
   onAsignarNuevosEvaluadores() {
-    this.servicePreferencia.consultarPreferenciasComite(<number>this.propElegida.idPropuesta, this.paginacionComite.pagina, this.paginacionComite.registros).subscribe(
+    this.servicePreferencia.consultarPreferenciasComite(<number>this.propElegida.idPropuesta, this.paginacionEval.pagina, this.paginacionEval.registros).subscribe(
       (response: Response) => {
         console.log(response);
         this.prefComite=new Array<Preferencia>();

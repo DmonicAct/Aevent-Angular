@@ -26,12 +26,13 @@
             <table class="table table-striped table-hover issue-tracker">
               <thead>
                 <tr>
+                  <th class="text-center">Agregar Evaluadores</th>
                   <th class="text-left">Código</th>
                   <th class="text-left">Postulante</th>
                   <th class="text-left">Título</th>
                   <th class="text-left">Fecha Postulación</th>
                   <th class="text-left">Estado Propuesta</th>
-                  <th class="text-center">Agregar Evaluadores</th>
+                  
                 </tr>
               </thead>
               <tbody>
@@ -46,6 +47,9 @@
                         -->
 
                 <tr *ngFor="let item of propuestasEvento; let i = index" [class.selected]="i == selectedRow">
+                    <td class="text-center" data-col="Configurar" (click)="onAgregarEvaluadores(item,i)"><button
+                      class="btn btn-success"><i class="fa fa-edit"></i></button>
+                  </td>
                   <td class="text-left" data-col="idPropuesta">{{item.idPropuesta}}</td>
                   <td class="text-left" data-col="nombrePostulante">{{item.postulante.nombreCompleto}}</td>
                   <td class="text-left" data-col="tituloPropuesta">{{item.titulo}}</td>
@@ -60,10 +64,9 @@
                       *ngFor="let eval of item.evaluadoresAsignados; let j = index">{{eval.nombreCompleto + "\n"}}</pre>
                   </td>
                   -->
+                  
 
-                  <td class="text-center" data-col="Configurar" (click)="onAgregarEvaluadores(item,i)"><button
-                      class="btn btn-primary"><i class="fa fa-cog"></i></button>
-                  </td>
+                  
                   <!--
                                   <tr *ngFor="let item of propuestasEvento; let i = index" 
                                     [class.selected]="i == selectedRow">
