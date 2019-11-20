@@ -8,58 +8,58 @@ import { Preferencia } from "../models/preferencia";
 
 
 @Injectable({
-    providedIn: 'root',
-  })
+  providedIn: 'root',
+})
 
-export class PreferenciaService{
-    private apiEndpoint: string;
-    private config_name: string
-    private config_password: string;
+export class PreferenciaService {
+  private apiEndpoint: string;
+  private config_name: string
+  private config_password: string;
 
-    private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+  private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    constructor(public http: HttpClient) {
-        this.apiEndpoint = environment.serviceEndpoint + '/preferencia';
-        this.config_name = environment.APP_CONFIG_NAME;
-        this.config_password = environment.APP_CONFIG_PASSWORD;
-    
-      }
+  constructor(public http: HttpClient) {
+    this.apiEndpoint = environment.serviceEndpoint + '/preferencia';
+    this.config_name = environment.APP_CONFIG_NAME;
+    this.config_password = environment.APP_CONFIG_PASSWORD;
 
-    obtenerPreferencias(idUsuario:number,pagina:number,registros:number):Observable<any>{
-        //const url = `${this.apiEndpoint}/${idUsuario}`;
-        let params:HttpParams = new HttpParams()
-        .set('idUsuario', idUsuario.toString())
-        .set('pagina', pagina.toString())
-        .set('registros', registros.toString());
-          
-          return this.http.get(this.apiEndpoint + '/propuestas', {params}).pipe(
-            catchError(e => {
-              if (e.status == 400) {
-                return throwError(e);
-              }
-              if (e.error.mensaje) {
-                console.error(e.error.mensaje);
-              }
-              return throwError(e);
-            }));
-    }
-
-    guardarPreferencia(preferencia:Preferencia):Observable<any>{
-      return this.http.post(this.apiEndpoint, preferencia).pipe(
-        catchError(e => {
-          if (e.status == 400) {
-            return throwError(e);
-          }
-          if (e.error.mensaje) {
-            console.error(e.error.mensaje);
-          }
-          return throwError(e);
-        }));
   }
 
-  eliminarPreferencia(id:number):Observable<any>{
-    let params:HttpParams = new HttpParams()
-    .set('id', id.toString())
+  obtenerPreferencias(idUsuario: number, pagina: number, registros: number): Observable<any> {
+    //const url = `${this.apiEndpoint}/${idUsuario}`;
+    let params: HttpParams = new HttpParams()
+      .set('idUsuario', idUsuario.toString())
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+    return this.http.get(this.apiEndpoint + '/propuestas', { params }).pipe(
+      catchError(e => {
+        if (e.status == 400) {
+          return throwError(e);
+        }
+        if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
+        return throwError(e);
+      }));
+  }
+
+  guardarPreferencia(preferencia: Preferencia): Observable<any> {
+    return this.http.post(this.apiEndpoint, preferencia).pipe(
+      catchError(e => {
+        if (e.status == 400) {
+          return throwError(e);
+        }
+        if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
+        return throwError(e);
+      }));
+  }
+
+  eliminarPreferencia(id: number): Observable<any> {
+    let params: HttpParams = new HttpParams()
+      .set('id', id.toString())
     return this.http.get(this.apiEndpoint + `/delete/${id}`).pipe(
       catchError(e => {
         if (e.status == 400) {
@@ -70,22 +70,39 @@ export class PreferenciaService{
         }
         return throwError(e);
       }));
-}
+  }
 
-
-consultarByUsuarioAndPropuesta(idUsuario:number,idPropuesta:number):Observable<any>{
-  let params:HttpParams = new HttpParams()
-  .set('idUsuario', idUsuario.toString())
-  .set('idPropuesta', idPropuesta.toString())
-  return this.http.get(this.apiEndpoint + '/find', {params}).pipe(
-    catchError(e => {
-      if (e.status == 400) {
+  consultarPreferenciasComite(idPropuesta: number, pagina: number, registros: number): Observable<any> {
+    let params: HttpParams = new HttpParams()      
+      .set('idPropuesta', idPropuesta.toString())
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+    return this.http.get(this.apiEndpoint + '/propuesta', { params }).pipe(
+      catchError(e => {
+        if (e.status == 400) {
+          return throwError(e);
+        }
+        if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
         return throwError(e);
-      }
-      if (e.error.mensaje) {
-        console.error(e.error.mensaje);
-      }
-      return throwError(e);
-    }));
-}
+      }));
+  }
+
+
+  consultarByUsuarioAndPropuesta(idUsuario: number, idPropuesta: number): Observable<any> {
+    let params: HttpParams = new HttpParams()
+      .set('idUsuario', idUsuario.toString())
+      .set('idPropuesta', idPropuesta.toString())
+    return this.http.get(this.apiEndpoint + '/find', { params }).pipe(
+      catchError(e => {
+        if (e.status == 400) {
+          return throwError(e);
+        }
+        if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
+        return throwError(e);
+      }));
+  }
 }

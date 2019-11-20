@@ -123,11 +123,13 @@ export class EditarUsuarioComponent implements OnInit {
         this.toastr.warning('Nombres deben ser de 1 a 20 caracteres', 'Error', { closeButton: true });
         return;
       }
+      /*
       //sexo
       if (!this.item.sexo || this.item.sexo == "") {
         this.toastr.warning('Debe ingresar su sexo', 'Error', { closeButton: true });
         return;
       }
+      */
 
       //apellidos
       if (!this.item.appaterno || this.item.appaterno == "") {

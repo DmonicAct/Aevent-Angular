@@ -78,6 +78,7 @@ export class VerEventoPresidenteComponent implements OnInit {
     OnRowClick(i, item) {
 
     }
+    public pagAsignar: Paginacion;
     obtenerEvento() {
         this.service.obtenerEvento(this.itemCodigo).subscribe(
             (response: Response) => {
@@ -101,6 +102,7 @@ export class VerEventoPresidenteComponent implements OnInit {
         this.service.obtenerPropuestas(this.itemCodigo, this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
                 this.propuestas = response.resultado;
+                this.pagAsignar=response.paginacion;
 
 
 
