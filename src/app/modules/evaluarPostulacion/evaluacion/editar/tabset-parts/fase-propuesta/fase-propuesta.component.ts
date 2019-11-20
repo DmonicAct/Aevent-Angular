@@ -1,8 +1,8 @@
-import { OnInit, Component, Input } from "@angular/core";
+import { OnInit, Component, Input, ViewChild } from "@angular/core";
 import { Criterio, Response } from "../../../../../../models";
 import { ToastrService } from 'ngx-toastr';
-import { RespuestaCriterioService } from '../../../../../../services/index';
-
+import { RespuestaCriterioService, EvaluacionService } from '../../../../../../services/index';
+import { ModalDirective } from 'ngx-bootstrap';
 import { Evaluacion } from "src/app/models/evaluacion";
 import { RespuestaCriterio } from "src/app/models/respuesta_criterio";
 
@@ -14,20 +14,28 @@ import { RespuestaCriterio } from "src/app/models/respuesta_criterio";
 export class FasePropuestaComponent implements OnInit {
 
   public criterios: Array<Criterio>;
+  public isConfirmModalShown: Boolean;
 
   @Input('item-evaluacion')
   public evaluacion: Evaluacion;
   @Input('item-respuesta')
   public respuestas: Array<RespuestaCriterio>;
+  @ViewChild('autoConfirmShownModal')
+  autoConfirmShownModal: ModalDirective;
 
   public modalRespuestas: Array<string>;
   public isGuardarRespuestas: Boolean;
+  public isCriterioVacio: Boolean;
+  public onTerminar: Boolean;
   public auxRespuestas: Array<RespuestaCriterio>;
 
   constructor(private toastr: ToastrService,
     private service: RespuestaCriterioService,
+    private serviceEvaluacion: EvaluacionService,
   ) {
+    this.isCriterioVacio = false;
     this.isGuardarRespuestas = true;
+    this.onTerminar = false;
     this.respuestas = new Array<RespuestaCriterio>();
     this.auxRespuestas = new Array<RespuestaCriterio>();
     this.modalRespuestas = new Array<string>();
@@ -38,20 +46,69 @@ export class FasePropuestaComponent implements OnInit {
 
   }
 
-  llenarRespuestas(){
+  onHidden(): void {
+    this.isConfirmModalShown = false;
+  }
+
+  hideModal(): void {
+    if (this.isConfirmModalShown) {
+      this.autoConfirmShownModal.hide();
+    }
+  }
+
+  OnConfirmar() {
+    this.evaluacion.estado = "EVALUADO";
+
+    console.log(this.evaluacion);
+
+    this.serviceEvaluacion.guardarRespuestaCriterio(this.evaluacion).subscribe(
+      (response: Response) => {
+        if (response.estado == "OK") {
+          this.toastr.success(`Se ha enviado la evaluación correctamente`, 'Aviso', { closeButton: true });
+          this.onHidden();
+        }
+      }
+    );
+  }
+
+  OnTerminar() {
+    this.onTerminar = true;
+    this.OnGuardar();
+
+    this.modalRespuestas.forEach(respuesta => {
+      if (respuesta == "") {
+        this.isCriterioVacio = true;
+      }
+    });
+
+    if (this.isCriterioVacio) {
+      this.toastr.warning('No es posible enviar la evaluación con criterios vacíos', 'Aviso', { closeButton: true });
+      this.isCriterioVacio = false;
+    } else if (this.evaluacion.comentarioParticipante == "") {
+      this.toastr.warning('No es posible enviar la evaluación sin un comentario', 'Aviso', { closeButton: true });
+      this.isCriterioVacio = false;
+    } else if (this.evaluacion.comentarioPresidente == "") {
+      this.toastr.warning('No es posible enviar la evaluación sin un comentario', 'Aviso', { closeButton: true });
+      this.isCriterioVacio = false;
+    } else {
+      this.isConfirmModalShown = true;
+    }
+  }
+
+  llenarRespuestas() {
     this.respuestas = new Array<RespuestaCriterio>();
     this.evaluacion.fase.criterios.forEach((e) => {
       this.service.obtenerRespuestaCriterio(e.idCriterio).subscribe(
-          (response: Response) => {
-              if (response.estado == "OK") {
-                  if(response.resultado[0]!=null){
-                      this.respuestas.push(response.resultado[0]);
-                  }
-              }
+        (response: Response) => {
+          if (response.estado == "OK") {
+            if (response.resultado[0] != null) {
+              this.respuestas.push(response.resultado[0]);
+            }
           }
+        }
       );
-  });
-  this.onSelect();
+    });
+    this.onSelect();
   }
 
   onSelect() {
@@ -90,8 +147,11 @@ export class FasePropuestaComponent implements OnInit {
 
     if (this.isGuardarRespuestas) {
       this.llenarRespuestas();
-      this.toastr.success(`Se han guardado las respuestas correctamente`, 'Aviso', { closeButton: true });
+      if (!this.onTerminar) {
+        this.toastr.success(`Se han guardado las respuestas correctamente`, 'Aviso', { closeButton: true });
+      }
     }
+    this.onTerminar = false;
   }
 
 }

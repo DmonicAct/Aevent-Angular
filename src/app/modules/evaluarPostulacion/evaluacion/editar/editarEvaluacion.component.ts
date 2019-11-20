@@ -1,15 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { TabsetComponent, TabDirective } from 'ngx-bootstrap';
 import { DetallePropuestaComponent } from './tabset-parts/detalle-propuesta/detalle-propuesta.component';
-import { Evento, Response, Persona, FormularioCFP, Fase, Criterio } from '../../../../models';
+import { Evento, Response, Persona, FormularioCFP, Fase, Criterio, RespuestaFormulario } from '../../../../models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventoService } from '../../../../services';
 import { FasePropuestaComponent } from './tabset-parts/fase-propuesta/fase-propuesta.component';
 import { Evaluacion } from 'src/app/models/evaluacion';
 import { EvaluacionService } from 'src/app/services/evaluacion.service';
 import { RespuestaCriterioService } from '../../../../services/respuesta_criterio.service';
+import { PropuestaService } from '../../../../services/propuesta.service';
 import { RespuestaCriterio } from 'src/app/models/respuesta_criterio';
 import { ComentarioComponent } from './tabset-parts/comentario-propuesta/comentario.component';
+import { Propuesta } from 'src/app/models/propuesta';
 
 @Component({
     selector: 'editar-evaluacion',
@@ -27,17 +29,24 @@ export class EditarEvaluacionComponent implements OnInit {
     public itemEvaluacion: Evaluacion;
     public flagEvento: Boolean;
     public codigo: number;
-    public respuestaCriterio: Array<RespuestaCriterio>
+    public respuestaCriterio: Array<RespuestaCriterio>;
+    public respuestaFormulario: Array<RespuestaFormulario>;
     constructor(private route: ActivatedRoute,
         private service: EventoService,
         private serviceEvaluacion: EvaluacionService,
-        private serviceRespuestaCriterio: RespuestaCriterioService) {
+        private serviceRespuestaCriterio: RespuestaCriterioService,
+        private servicePropuesta: PropuestaService,
+    ) {
         this.respuestaCriterio = new Array<RespuestaCriterio>();
+        this.respuestaFormulario = new Array<RespuestaFormulario>();
 
         this.itemEvaluacion = new Evaluacion();
         this.itemEvaluacion.fase = new Fase();
         this.itemEvaluacion.fase.criterios = new Array<Criterio>();
         this.itemEvaluacion.fase.formulario = new FormularioCFP;
+
+        this.itemEvaluacion.propuesta = new Propuesta();
+        this.itemEvaluacion.propuesta.postulante = new Persona();
 
         this.item.idEvento = null;
         this.sub = this.route.params.subscribe(params => {
@@ -57,10 +66,10 @@ export class EditarEvaluacionComponent implements OnInit {
         this.tabsFases.onSelect();
     }
 
-    onSelectComentario():void {
+    onSelectComentario(): void {
         this.tabComentario.onSelect();
     }
-    
+
 
     async obtenerEvaluacion() {
         await this.serviceEvaluacion.obtenerPropuesta(this.codigo).subscribe(
@@ -70,14 +79,20 @@ export class EditarEvaluacionComponent implements OnInit {
                     this.serviceRespuestaCriterio.obtenerRespuestaCriterio(e.idCriterio).subscribe(
                         (response: Response) => {
                             if (response.estado == "OK") {
-                                if(response.resultado[0]!=null){
+                                if (response.resultado[0] != null) {
                                     this.respuestaCriterio.push(response.resultado[0]);
                                 }
                             }
                         }
                     );
                 });
+
+                this.servicePropuesta.obtenerPostulaciones(this.itemEvaluacion.propuesta.idPropuesta).subscribe(
+                    (response: Response) => {
+                        this.respuestaFormulario = response.resultado[0].listaFormulario;
+                    }
+                );
             }
-        );    
+        );
     }
 }   

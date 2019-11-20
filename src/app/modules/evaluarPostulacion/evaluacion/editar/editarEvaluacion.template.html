@@ -1,12 +1,9 @@
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-lg-12">
-    <h2>Mis Eventos</h2>
+    <h2>Propuesta: {{itemEvaluacion.propuesta.titulo}}</h2>
     <ol class="breadcrumb">
       <li>
-        <a>De Organizador</a>
-      </li>
-      <li>
-        <a>Evaluar Propuestas</a>
+        <a>Postulante: {{itemEvaluacion.propuesta.postulante.nombreCompleto}}</a>
       </li>
     </ol>
   </div>
@@ -17,7 +14,7 @@
       <tabset #tabsDetalle>
         <tab heading="Detalle">
           <div class="mail-box-header">
-            <detalle-propuesta [(item-division)]="itemEvaluacion.fase.formulario.divisionList"></detalle-propuesta>
+            <detalle-propuesta [(item-division)]="itemEvaluacion.fase.formulario.divisionList" [(item-respuesta)]="respuestaFormulario"></detalle-propuesta>
           </div>
         </tab>
         <tab #tabsFases heading="Criterios de Evaluación" (select)="onSelect()">
