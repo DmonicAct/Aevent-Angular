@@ -15,8 +15,10 @@ table {
       td[data-col='eliminar_seccion'] {width: 5%;}
       //Preguntas
       td[data-col='nro_pregunta'] {width: 10%;}
-      td[data-col='descripcion_pregunta'] {width: 80%;}
-      td[data-col='descripcion_pregunta_mod'] {width: 80%;}
+      td[data-col='descripcion_pregunta'] {width: 60%;}
+      td[data-col='descripcion_pregunta_mod'] {width: 60%;}
+      td[data-col='caracteres-pregunta'] {width: 20%;}
+      td[data-col='caracteres-pregunta_mod'] {width: 20%;}
       td[data-col='eliminar_pregunta'] {width: 10%;}
     }
   }

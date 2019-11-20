@@ -33,7 +33,6 @@ export class ListaPonenciaComponent implements OnInit {
             (response:Response)=>{
                 this.items = response.resultado;
                 this.paginacion = response.paginacion;
-                console.log("paginacion postulacion: ", response);
             }
         );
     }
@@ -49,5 +48,7 @@ export class ListaPonenciaComponent implements OnInit {
     }
     OnEditar(item:Propuesta){
         this.router.navigate([`convocatoria/lista-ponencia/ver-postulacion/1/${item.idPropuesta}`]);
+    }
+    OnRowClick(i:number,item:any) {
     }
 }

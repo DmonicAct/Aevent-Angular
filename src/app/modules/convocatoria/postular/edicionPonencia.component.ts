@@ -90,7 +90,6 @@ export class EdicionPonenciaComponent implements OnInit {
             (response: Response) => {
                 if (response && response.resultado != null) {
                     this.listaRespuestaPostulacion = response.resultado;
-                    console.log(this.listaRespuestaPostulacion);
                     this.listaRespuestaPostulacion.forEach((e,i)=>{
                         this.fasesPropuestas.forEach((child) => { 
                             child.cargarDatosFormulario(e,i);

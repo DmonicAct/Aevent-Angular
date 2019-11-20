@@ -126,4 +126,5 @@ export class ListaEventosPresidente implements OnInit {
       this.maestroEventoFilter = this.items;
     }
   }
+  
 }

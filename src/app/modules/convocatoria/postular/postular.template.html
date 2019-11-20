@@ -51,6 +51,25 @@
                   </dl>
                 </div>
               </div>
+              <div class="row">
+                  <div class="col-lg-12">
+                    <h5>Lugar:</h5>
+                    <p>
+                      {{item.lugar.descripcion}}
+                    </p>
+                  </div>
+                  <div class="col-lg-12">
+                    <h5>Categorías:</h5>
+                    <ul class="list-group">
+                      <li class="list-group-item" *ngFor="let e of item.categorias; let i = index">
+                        <i class="fa fa-chevron-right text-muted m-l-sm m-r-sm"></i>
+                        {{e.descripcion}}
+                        <!-- <span class="badge badge-primary">En Curso</span>
+                        <span class="badge badge-orange">Fuera de Fecha</span> -->
+                      </li>
+                    </ul>
+                  </div>
+                </div>
             </div>
           </div>
           <div class="mail-box">
@@ -58,7 +77,7 @@
               <div class="row">
                 <div class="col-md-6">
                   <dl>
-                    <dt>Organizado Por:</dt>
+                    <!-- <dt>Organizado Por:</dt>
                     <dd class="project-people">
                       <ul class="list-group">
                         <span>
@@ -69,7 +88,7 @@
                           </li>
                         </span>
                       </ul>
-                    </dd>
+                    </dd> -->
                     <dt>Presidente Asignado:</dt>
                     <dd class="project-people">
                       <ul class="list-group">
@@ -103,25 +122,7 @@
                   </dl>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-lg-12">
-                  <h5>Lugar:</h5>
-                  <p>
-                    {{item.lugar.descripcion}}
-                  </p>
-                </div>
-                <div class="col-lg-12">
-                  <h5>Categorías:</h5>
-                  <ul class="list-group">
-                    <li class="list-group-item" *ngFor="let e of item.categorias; let i = index">
-                      <i class="fa fa-chevron-right text-muted m-l-sm m-r-sm"></i>
-                      {{e.descripcion}}
-                      <!-- <span class="badge badge-primary">En Curso</span>
-                      <span class="badge badge-orange">Fuera de Fecha</span> -->
-                    </li>
-                  </ul>
-                </div>
-              </div>
+              
             </div>
           </div>
         </tab>

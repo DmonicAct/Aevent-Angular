@@ -238,10 +238,14 @@
                                         <thead>
                                             <tr>
                                                 <th style="width: 10%;">Nro</th>
-                                                <th *ngIf="!editarPregunta" style="width: 80%;" class="text-left">
+                                                <th *ngIf="!editarPregunta" style="width: 60%;" class="text-left">
                                                     Decripción </th>
-                                                <th *ngIf="editarPregunta" style="width: 80%;" class="text-left">
+                                                <th *ngIf="editarPregunta" style="width: 60%;" class="text-left">
                                                     Decripción </th>
+                                                <th *ngIf="!editarPregunta" style="width: 20%;" class="text-center">
+                                                    Max. Caracteres</th>
+                                                <th *ngIf="editarPregunta" style="width: 20%;" class="text-center">
+                                                    Max. Caracteres</th>
                                                 <th style="width: 10%;">Eliminar</th>
                                             </tr>
                                         </thead>
@@ -259,6 +263,15 @@
                                                     data-col="descripcion_pregunta_mod">
                                                     <input type="text" class="form-control"
                                                         [(ngModel)]="item.descripcion" name="descripcion_pregunta">
+                                                </td>
+                                                <td *ngIf="!editarPregunta" class="text-left"
+                                                    data-col="caracteres-pregunta">
+                                                    {{item.maxCaracteres}}
+                                                </td>
+                                                <td *ngIf="editarPregunta" class="text-left"
+                                                    data-col="caracteres-pregunta_mod">
+                                                    <input type="text" class="form-control"
+                                                        [(ngModel)]="item.maxCaracteres" name="caracteres-maximos">
                                                 </td>
                                                 <td class="text-center" data-col="eliminar_pregunta"
                                                     (click)="OnEliminarPregunta(i)">

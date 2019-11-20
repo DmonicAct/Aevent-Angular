@@ -55,7 +55,9 @@
                                                                 <div class="col-sm-8">
                                                                     <input class="form-control"
                                                                         [(ngModel)]="itemsRepuesta[divIndex][i].respuesta"
-                                                                        name="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}">
+                                                                        name="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}"
+                                                                        placeholder="Máximo {{pregunta.maxCaracteres}} caracteres"
+                                                                        maxlength="{{pregunta.maxCaracteres}}">
                                                                 </div>
                                                             </div>
                                                         </div>

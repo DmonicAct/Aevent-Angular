@@ -259,4 +259,6 @@ export class GestionTipoCriterioListaComponent implements OnInit  {
       this.itemsFiltrados = this.items;
     }
   }
+  OnRowClick(i:number,item:any) {
+  }
 }

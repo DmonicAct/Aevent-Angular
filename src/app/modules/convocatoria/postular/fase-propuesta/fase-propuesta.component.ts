@@ -47,6 +47,7 @@ export class FasePropuestaComponent implements OnInit{
         this.postulacion = new Postulacion();
     }
     ngOnInit(){
+        console.log(this.items);
         this.items.forEach((e,i)=>{
             let conjuntoRpta = new Array<RespuestaFormulario>();
             e.seccionList[0].preguntaList.forEach((p,i)=>{
@@ -70,12 +71,9 @@ export class FasePropuestaComponent implements OnInit{
         });
     }
     cargarDatosFormulario(respuestas:RespuestaPostulacion,outer_index:number){
-        console.log("outer index: ",outer_index);
-        console.log("index:",this.index);
         if(this.index == outer_index){
            this.respuestaPostulacion = respuestas;
            this.postulacion = this.respuestaPostulacion.postulacion;
-           console.log(this.respuestaPostulacion);
            let divArray: number[];
            let index:number = 0;
            let index_prev:number = -1;
@@ -106,28 +104,21 @@ export class FasePropuestaComponent implements OnInit{
     }
     OnGuardarFase(outer_index: number,codigoPropuesta:number){
         if(this.index == outer_index){
-           /*  console.log("its me ..." + this.index); */
             if(!this.postulacion.idPropuesta){
                 this.postulacion.idPropuesta = codigoPropuesta;
                 this.postulacion.idEvento = this.idEvento;
                 this.postulacion.idFase = this.idFase;
                 this.postulacion.enabled = true;
                 this.postulacion.estado = EstadoPropuesta.PROPUESTA_BORRADOR;
-                //this.postulacion.idUsuario = this.authService.persona.idUsuario;
             }
             let username = this.authService.usuario.username;
-            console.log("persona:", this.authService.persona);
-            console.log("usuario:", this.authService.usuario);
             this.respuestaFase.listaFormulario = new Array<RespuestaFormulario>();
             this.respuestaFase.postulacion = this.postulacion;
             this.itemsRepuesta.forEach((e,i)=>{
                 this.respuestaFase.listaFormulario = this.respuestaFase.listaFormulario.concat(e);
             });
-            console.log(this.respuestaFase);
-    
             this.propuestaService.guardarPostulacion(this.respuestaFase,username).subscribe(
                 (response:Response)=>{
-                    console.log(response);
                     this.toastr.info(`Se guardo el formulario correctamente`, 'Aviso', { closeButton: true });
                 }
             );

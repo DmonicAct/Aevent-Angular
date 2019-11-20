@@ -33,7 +33,6 @@ export class PostularEvento implements OnInit {
         private service: EventoService,
         private servicePropuesta: PropuestaService){
         this.item.tipoEvento = new TipoEvento();
-        console.log(this.now_date);
         this.sub = this.route.params.subscribe(params => {
             this.itemCodigo = +params['id'];
             this.obtenerEvento();
@@ -54,7 +53,6 @@ export class PostularEvento implements OnInit {
             (response: Response)=>{
                 this.item=response.resultado;
                 //this.items = this.item.formulario.divisionList;
-                console.log(this.item);
             }
         );
     }

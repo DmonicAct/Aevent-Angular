@@ -119,5 +119,7 @@ export class ListaEvaluacionComponent implements OnInit{
             this.maestroEventoFilter = this.items;
         }
     }
+    OnRowClick(i:number,item:any) {
+    }
       
 }

@@ -36,7 +36,6 @@ export class EdicionPropuestaComponent implements OnInit{
             this.toastr.warning('Titulo de propuesta vacío', 'Aviso', {closeButton: true});
             return;
         }
-        console.log(this.propuesta);
         let username = this.authService.usuario.username;
         let idEvento = this.evento.idEvento;
         if(this.propuesta.idPropuesta==null){

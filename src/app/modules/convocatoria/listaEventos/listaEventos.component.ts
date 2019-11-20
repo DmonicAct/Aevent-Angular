@@ -51,4 +51,7 @@ export class ListaEventos implements OnInit {
     this.paginacion.pagina = 1;
     this.getEventosConvocatoria();
   }
+
+  OnRowClick(i:number,item:any) {
+  }
 }
