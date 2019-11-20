@@ -1,42 +1,42 @@
-
 <div class="ibox-content" style="border-top: 0;" [class.sk-loading]="loading" id='tableEvaluador'>
 
   <sk-three-bounce></sk-three-bounce>
-   
+
   <div class="row col-md-12">
-      <div class="col-md-4">
-          <a class="btn btn-primary m-r" (click)="onGuardarCambiosPropuestas()"><i class="fa fa-check"></i> Guardar </a>
-          <a class="btn btn-default m-r" (click)="OnRetroceder()"><i class="fa fa-arrow-left"></i> Regresar</a>
-      </div>
-      <div class="text-center col-md-4" style="margin-left: auto; margin-right: auto;">
-    
-      </div>
-      <div class="col-md-4"></div>
-  </div> 
+    <div class="col-md-4">
+      <!--<a class="btn btn-primary m-r" (click)="onGuardarCambiosPropuestas()"><i class="fa fa-check"></i> Guardar </a>-->
+      <a class="btn btn-default m-r" (click)="OnRetroceder()"><i class="fa fa-arrow-left"></i> Regresar</a>
+    </div>
+    <div class="text-center col-md-4" style="margin-left: auto; margin-right: auto;">
+
+    </div>
+    <div class="col-md-4"></div>
+  </div>
 
   <br>
   <div class="row">&nbsp;</div>
   <br>
 
-    <div class="wrapper wrapper-content animated fadeInRight">
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="ibox-content" [ngClass]="{'sk-loading': loading}">
-                  <sk-three-bounce></sk-three-bounce>
-                  <div class="table-responsive" >
-                    <table class="table table-striped table-hover issue-tracker">
-                      <thead>
-                        <tr>
-                          <th class="text-left">Código</th>
-                          <th class="text-left">Postulante</th>
-                          <th class="text-left">Título</th>
-                          <th class="text-left">Fecha Postulación</th>
-                          <th class="text-left">Evaluadores Asignados</th>
-                          <th class="text-center">Configurar</th>
-                        </tr>
-                      </thead>
-                      <tbody >
-<!--
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox-content" [ngClass]="{'sk-loading': loading}">
+          <sk-three-bounce></sk-three-bounce>
+          <div class="table-responsive">
+            <table class="table table-striped table-hover issue-tracker">
+              <thead>
+                <tr>
+                  <th class="text-center">Agregar Evaluadores</th>
+                  <th class="text-left">Código</th>
+                  <th class="text-left">Postulante</th>
+                  <th class="text-left">Título</th>
+                  <th class="text-left">Fecha Postulación</th>
+                  <th class="text-left">Estado Propuesta</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                <!--
                           <div class="form-group">
                               <label class="col-sm-3 control-label">Descripcion </label>
                               <div class="col-sm-8">
@@ -45,18 +45,29 @@
                               </div>
                           </div>
                         -->
-                        
-                        <tr *ngFor="let item of propuestasEvento; let i = index" 
-                          [class.selected]="i == selectedRow">
-                          <td class="text-left" data-col="idPropuesta">{{item.idPropuesta}}</td>
-                          <td class="text-left" data-col="nombrePostulante">{{item.postulante.nombreCompleto}}</td>
-                          <td class="text-left" data-col="tituloPropuesta">{{item.titulo}}</td>
-                          <td class="text-left" data-col="fechaPostulación">{{item.fecha_postulacion | date:'dd/MM/yyyy'}}</td>
-                          <td class="text-left" data-col="fechaPostulación"><pre *ngFor = "let eval of item.evaluadoresAsignados; let j = index">{{eval.nombreCompleto + "\n"}}</pre></td>
-                       
-                          <td class="text-center" data-col="Configurar" [swal]="visorAgregarEvaluador" (click)="onConfigurar(item,i)"><button class="btn btn-primary"><i
-                                class="fa fa-cog"></i></button></td>    
-                                <!--
+
+                <tr *ngFor="let item of propuestasEvento; let i = index" [class.selected]="i == selectedRow">
+                    <td class="text-center" data-col="Configurar" (click)="onAgregarEvaluadores(item,i)"><button
+                      class="btn btn-success"><i class="fa fa-edit"></i></button>
+                  </td>
+                  <td class="text-left" data-col="idPropuesta">{{item.idPropuesta}}</td>
+                  <td class="text-left" data-col="nombrePostulante">{{item.postulante.nombreCompleto}}</td>
+                  <td class="text-left" data-col="tituloPropuesta">{{item.titulo}}</td>
+                  <td class="text-left" data-col="fechaPostulación">{{item.fecha_postulacion | date:'dd/MM/yyyy'}}</td>
+                  <td *ngIf="getEstadoPropuesta(item)==0" class="text-left" data-col="estadoPropuesta">Propuesta sin
+                    evaluador</td>
+                  <td *ngIf="getEstadoPropuesta(item)>0" class="text-left" data-col="estadoPropuesta">Propuesta con
+                    {{item.evaluadoresAsignados.length}} evaluadores asignados</td>
+                  <!--
+                  <td class="text-left" data-col="fechaPostulación">
+                    <pre
+                      *ngFor="let eval of item.evaluadoresAsignados; let j = index">{{eval.nombreCompleto + "\n"}}</pre>
+                  </td>
+                  -->
+                  
+
+                  
+                  <!--
                                   <tr *ngFor="let item of propuestasEvento; let i = index" 
                                     [class.selected]="i == selectedRow">
                                     <td class="text-left" data-col="idPropuesta"><code>{{item.idPropuesta}}</code></td>
@@ -72,24 +83,279 @@
 
                                 -->
 
-                        </tr>
-                      </tbody>
-                    </table>
-           
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+          <!--
+          <div class="row">
+            <div class="col-md-4 col-sm-12 col-xs-12">
+              <pagination [(ngModel)]="pagPropuestas.pagina" (pageChanged)="OnPageChanged($event)"
+                [totalItems]="pagPropuestas.totalRegistros" [itemsPerPage]="pagPropuestas.registros" [boundaryLinks]="true"
+                [maxSize]="5" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+              </pagination>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+              <div class="text-center m-a-sm">
+                <pagination-info [totalItems]="pagPropuestas.totalRegistros" [itemsPerPage]="pagPropuestas.registros"
+                  [page]="pagPropuestas.pagina"></pagination-info>
               </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+              <div class="text-right m-a-sm">
+                <pagination-set (optionChanged)="OnPageOptionChanged($event)"></pagination-set>
+              </div>
+            </div>
+          </div>-->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function alphaOnly(event) {
+      var key = event.keyCode;
+      return ((key >= 65 && key <= 90) || key == 8);
+    }
+  </script>
+
+  <!--DETALLE DE LA PROPUESTA!-->
+  <div *ngIf="isModalShownPropuestaDetalle" [config]="{ show: true }" (onHidden)="OnHiddenPropuestaDetalle()" bsModal
+    #autoShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content" style="width: 300%;margin-left: -250px; height: 150%">
+        <div class="modal-header">
+
+          <button type="button" class="close pull-right" aria-label="Close" (click)="hideModalPropuestaDetalle()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h3 id="dialog-auto-name" class="modal-title">Detalle de la Propuesta</h3>
+          <div class="row">&nbsp;</div>
+
+          <button (click)='onAsignarNuevosEvaluadores()' class="btn btn-primary container-button"
+            style="margin:auto;display:block"><i class="fa fa-plus"></i>
+            Asignar Nuevos Evaluadores</button>
+          <div class="row">&nbsp;</div>
+
+          <div class="row m-b-sm">
+            <div class="col-md-3">
+              <ng-select [items]="itemsFiltro" (ngModelChange)="cambioFiltro()" placeholder="Seleccionar Filtro"
+                name="filtroUsuario" autocomplete="off" [clearable]="false" [(ngModel)]="tipo">
+              </ng-select>
+            </div>
+            <div class="col-md-6">
+              <input type="text" autocomplete="off" class="form-control" name="filtro" maxlength="30"
+                [(ngModel)]="filtro" (input)="buscarUsuario()" onkeypress="return /^[a-zA-Z_0-9\s]*$/i.test(event.key)">
             </div>
           </div>
 
-          
-</div>  
+        </div>
+        <div class="modal-body" style="overflow: hidden; ">
+          <div class="table-responsive" style="height: 400px; overflow-y: scroll;overflow: auto;">
+            <table class="table table-hover issue-tracker">
+              <thead>
+                <tr>
+                  <th class="text-center">Código</th>
+                  <th class="text-left">Nombre</th>
+                  <th class="text-left">Usuario</th>
+                  <th class="text-left">Correo</th>
+                  <th class="text-center">Agregar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of propElegida.evaluadoresAsignados;let i = index"
+                   [class.selected]="i == selectedRow" ng-style="selected(i)">
 
-<script>
-  function alphaOnly(event) {
-      var key = event.keyCode;
-      return ((key >= 65 && key <= 90) || key == 8);
-  }
-</script>
+                  <td *ngIf="estadoRegistro(data.idUsuario)==3" class="text-left" data-col="idUsuario">{{data.idUsuario}}</td>
+                  <td *ngIf="estadoRegistro(data.idUsuario)==1" bgcolor="#c3e8f0"class="text-left" data-col="idUsuario">{{data.idUsuario}}</td>
+                  <td *ngIf="estadoRegistro(data.idUsuario)==4" bgcolor="#f7a3a5"class="text-left" data-col="idUsuaro">{{data.idUsuario}}</td>
 
+                  <td *ngIf="estadoRegistro(data.idUsuario)==3" class="text-left" data-col="username">{{data.username}}</td>
+                  <td *ngIf="estadoRegistro(data.idUsuario)==1" bgcolor="#c3e8f0"class="text-left" data-col="username">{{data.username}}</td>
+                  <td *ngIf="estadoRegistro(data.idUsuario)==4" bgcolor="#f7a3a5"class="text-left" data-col="username">{{data.username}}</td>
+                  <td *ngIf="estadoRegistro(data.idUsuario)==3" class="text-left" data-col="nombre">{{data.nombreCompleto}}</td>
+                  <td *ngIf="estadoRegistro(data.idUsuario)==1" bgcolor="#c3e8f0"class="text-left" data-col="nombre">{{data.nombreCompleto}}</td>
+                  <td *ngIf="estadoRegistro(data.idUsuario)==4" bgcolor="#f7a3a5"class="text-left" data-col="nombre">{{data.nombreCompleto}}</td>
+                  <td *ngIf="estadoRegistro(data.idUsuario)==3" class="text-left" data-col="email">{{data.email}}</td>
+                  <td *ngIf="estadoRegistro(data.idUsuario)==1" bgcolor="#c3e8f0"class="text-left" data-col="email">{{data.email}}</td>
+                  <td *ngIf="estadoRegistro(data.idUsuario)==4" bgcolor="#f7a3a5"class="text-left" data-col="email">{{data.email}}</td>
+
+                  <td *ngIf="estadoRegistro(data.idUsuario)==3" class="text-center" data-col="Quitar" (click)="onQuitar(data,i)"><button class="btn btn-danger"><i
+                        class="fa fa-minus"></i></button></td>
+                  <td *ngIf="estadoRegistro(data.idUsuario)==1" bgcolor="#c3e8f0"class="text-center" data-col="Quitar" (click)="onQuitar(data,i)"><button class="btn btn-info"><i
+                          class="fa fa-minus"></i></button></td>
+                  <td *ngIf="estadoRegistro(data.idUsuario)==4" bgcolor="#f7a3a5"class="text-center" data-col="Quitar" (click)="onQuitar(data,i)"><button class="btn btn-danger"><i
+                          class="fa fa-plus"></i></button></td>
+                  <!--
+                  <td class="text-center" data-col="idUsuario">{{data.idUsuario}}</td>
+                  <td class="text-left" data-col="nombreCompleto">{{data.nombreCompleto}}</td>
+                  <td class="text-left" data-col="username">{{data.username}}</td>
+                  <td class="text-left" data-col="email">{{data.email}}</td>
+                  <td class="text-center" data-col="agregar"><button class="btn btn-info"><i
+                        class="fa fa-minus"></i></button></td>-->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--
+          <div class="row">
+            <div class="col-md-4 col-sm-12 col-xs-12">
+              <pagination [(ngModel)]="paginacion.pagina" (pageChanged)="OnPageChanged($event)"
+                [totalItems]="paginacion.totalRegistros" [itemsPerPage]="paginacion.registros" [boundaryLinks]="true"
+                [maxSize]="5" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+              </pagination>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+              <div class="text-center m-a-sm">
+                <pagination-info [totalItems]="paginacion.totalRegistros" [itemsPerPage]="paginacion.registros"
+                  [page]="paginacion.pagina"></pagination-info>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+              <div class="text-right m-a-sm">
+                <pagination-set (optionChanged)="OnPageOptionChanged($event)"></pagination-set>
+              </div>
+            </div>
+          </div>-->
+          <div class="row">
+            <div class="col-sm-12 text-center m-t-sm">
+              <button (click)='OnGuardarEvaluadores()' class="btn btn-primary container-button"><i
+                  class="fa fa-check"></i>
+                Guardar Evaluadores</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--ESCOGER EVALUADORES DEL COMITE!-->
+
+<div *ngIf="isModalShownEvaluadores" [config]="{ show: true }" (onHidden)="OnHiddenEvaluadores()" bsModal
+  #autoShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" style="width: 400%; left: 50%; top: 50%; transform: translate(-47%, 0%); height: 150%">
+      <div class="modal-header">
+        <h3 id="dialog-auto-name" class="modal-title">Agregar Evaluadores</h3>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="OnHiddenEvaluadores()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="row">&nbsp;</div>
+        <br>
+        <div class="row m-b-sm">
+          <div class="col-md-3">
+            <ng-select [items]="itemsFiltro" (ngModelChange)="cambioFiltro()" placeholder="Seleccionar Filtro"
+              name="filtroUsuario" autocomplete="off" [clearable]="false" [(ngModel)]="tipo">
+            </ng-select>
+          </div>
+          <div class="col-md-6">
+            <input type="text" autocomplete="off" class="form-control" name="filtro" maxlength="30" [(ngModel)]="filtro"
+              (input)="buscarUsuario()" onkeypress="return /^[a-zA-Z_0-9\s]*$/i.test(event.key)">
+          </div>
+        </div>
+      </div>
+      <div class="modal-body" style="overflow: hidden; ">
+        <div class="table-responsive" style="height: 400px; overflow-y: scroll;overflow: auto;">
+          <table class="table table-hover issue-tracker">
+            <thead>
+              <tr>
+                <th class="text-center">Código</th>
+                <th class="text-left">Nombre</th>
+                <th class="text-left">Usuario</th>
+                <th class="text-left">Correo</th>
+                <th class="text-left">Preferencia</th>
+                <th class="text-center">Agregar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of prefComite;let i = index" (click)="ElegirEvaluador(data,i)"
+                [class.selected]="i == selectedRow" ng-style="selected(i)">
+                <td *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregar(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  class="text-center" data-col="idUsuario">{{data.usuario.idUsuario}}</td>
+                <td *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 || enMaestraAgregar(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  bgcolor="#c3e8f0" class="text-center" data-col="idUsuario">{{data.usuario.idUsuario}}</td>
+                <td *ngIf="enPropuesta(data.usuario.idUsuario)!=-1"
+                  bgcolor="#d4d4d4" class="text-center" data-col="idUsuario">{{data.usuario.idUsuario}}</td>
+
+
+                <td *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregar(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  class="text-left" data-col="nombreCompleto">{{data.usuario.nombreCompleto}}</td>
+                <td *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 || enMaestraAgregar(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  bgcolor="#c3e8f0" class="text-left" data-col="nombreCompleto">{{data.usuario.nombreCompleto}}</td>
+                <td *ngIf="enPropuesta(data.usuario.idUsuario)!=-1"
+                  bgcolor="#d4d4d4" class="text-left" data-col="nombreCompleto">{{data.usuario.nombreCompleto}}</td>
+
+                <td *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregar(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  class="text-left" data-col="username">{{data.usuario.username}}</td>
+                <td *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 || enMaestraAgregar(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  bgcolor="#c3e8f0" class="text-left" data-col="username">{{data.usuario.username}}</td>
+                <td *ngIf="enPropuesta(data.usuario.idUsuario)!=-1"
+                  bgcolor="#d4d4d4" class="text-left" data-col="username">{{data.usuario.username}}</td>
+
+                <td *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregar(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  class="text-left" data-col="email">{{data.usuario.email}}</td>
+                <td *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 || enMaestraAgregar(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  bgcolor="#c3e8f0" class="text-left" data-col="email">{{data.usuario.email}}</td>
+                <td *ngIf="enPropuesta(data.usuario.idUsuario)!=-1"
+                  bgcolor="#d4d4d4" class="text-left" data-col="email">{{data.usuario.email}}</td>
+
+                <td *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregar(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  class="text-left" data-col="preferencia">{{data.descripcion}}</td>
+                <td *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 || enMaestraAgregar(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  bgcolor="#c3e8f0" class="text-left" data-col="preferencia">{{data.descripcion}}</td>
+                <td *ngIf="enPropuesta(data.usuario.idUsuario)!=-1"
+                  bgcolor="#d4d4d4" class="text-left" data-col="preferencia">{{data.descripcion}}</td>
+
+
+                <td *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregar(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  class="text-center" data-col="agregar"><button class="btn btn-info"><i
+                      class="fa fa-plus"></i></button></td>
+
+                <td *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 || enMaestraAgregar(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  bgcolor="#c3e8f0" class="text-center" data-col="agregar"><button class="btn btn-info"><i
+                      class="fa fa-minus"></i></button></td>
+                <td *ngIf="enPropuesta(data.usuario.idUsuario)!=-1"
+                  bgcolor="#d4d4d4" class="text-center" data-col="agregar"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-sm-12 col-xs-12">
+            <pagination [(ngModel)]="paginacionEval.pagina" (pageChanged)="OnPageChanged($event)"
+              [totalItems]="paginacionEval.totalRegistros" [itemsPerPage]="paginacionEval.registros" [boundaryLinks]="true"
+              [maxSize]="5" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+            </pagination>
+          </div>
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="text-center m-a-sm">
+              <pagination-info [totalItems]="paginacionEval.totalRegistros" [itemsPerPage]="paginacionEval.registros"
+                [page]="paginacionEval.pagina"></pagination-info>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="text-right m-a-sm">
+              <pagination-set (optionChanged)="OnPageOptionChanged($event)"></pagination-set>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 text-center m-t-sm">
+            <button (click)='OnAceptarEvaluadores()' class="btn btn-primary container-button"><i
+                class="fa fa-check"></i>
+              Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--
 <swal
   #visorAgregarEvaluador
   title="Agregar Evaluador"
@@ -103,3 +369,4 @@
     <agregar-evaluador-propuestas  [i]="posTabla" [items]="evaluadoresDisponibles" (nuevoComiteDisp)='onNuevoComiteDisp($event)' (valueChange)='getList($event)'></agregar-evaluador-propuestas>
   </div>
 </swal>
+-->

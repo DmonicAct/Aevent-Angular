@@ -41,6 +41,27 @@ import { Evaluacion } from "../models/evaluacion";
             }));
     }
 
+
+    desasignarEvaluadorPropuesta(idEvaluacion:number):Observable<any>{
+      console.log(idEvaluacion)
+      let params:HttpParams = new HttpParams()
+      .set('idEvaluacion', idEvaluacion.toString());
+
+      let url= environment.serviceEndpoint + `/evaluacion/desasignar` + `/${idEvaluacion}`;
+        //const url = `${this.apiEndpoint}/${idEvaluador}`;     
+          return this.http.get(url).pipe(
+            catchError(e => {
+              if (e.status == 400) {
+                return throwError(e);
+              }
+              if (e.error.mensaje) {
+                console.error(e.error.mensaje);
+              }
+              return throwError(e);
+            }));
+
+    }
+
     obtenerPropuesta(idEvaluacion:number):Observable<any>{
         //const url = `${this.apiEndpoint}/${idEvaluador}`;    
         let url = this.apiEndpoint + `/${idEvaluacion}`;
