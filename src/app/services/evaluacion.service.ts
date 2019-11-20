@@ -46,8 +46,10 @@ import { Evaluacion } from "../models/evaluacion";
       console.log(idEvaluacion)
       let params:HttpParams = new HttpParams()
       .set('idEvaluacion', idEvaluacion.toString());
+
+      let url= environment.serviceEndpoint + `/evaluacion/desasignar` + `/${idEvaluacion}`;
         //const url = `${this.apiEndpoint}/${idEvaluador}`;     
-          return this.http.post(environment.serviceEndpoint + `/evaluacion/desasignar`, {params}).pipe(
+          return this.http.get(url).pipe(
             catchError(e => {
               if (e.status == 400) {
                 return throwError(e);

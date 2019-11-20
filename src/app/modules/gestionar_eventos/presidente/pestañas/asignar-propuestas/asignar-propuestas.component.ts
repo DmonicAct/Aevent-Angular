@@ -318,6 +318,9 @@ export class AsignarPropuestasVer implements OnInit {
 
       }
     }
+    this.nuevos=new Array<Persona>();
+    this.quitar=new Array<Persona>();
+    this.maestraAgregarProp=new Array<Persona>();
 
 
 
@@ -591,6 +594,7 @@ export class AsignarPropuestasVer implements OnInit {
     this.servicePreferencia.consultarPreferenciasComite(<number>this.propElegida.idPropuesta, this.paginacionComite.pagina, this.paginacionComite.registros).subscribe(
       (response: Response) => {
         console.log(response);
+        this.prefComite=new Array<Preferencia>();
         this.prefComite = response.resultado;
         this.paginacionEval = response.paginacion;
         this.isModalShownEvaluadores = true;
