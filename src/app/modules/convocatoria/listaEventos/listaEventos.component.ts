@@ -17,6 +17,10 @@ export class ListaEventos implements OnInit {
   public items: Array<Evento>;
   public paginacion: Paginacion;
   public loading: Boolean = false;
+  public itemsFiltro = ["Título", "Categoria", "Lugar"];
+  public filtro: String;
+  public tipo: String;
+  public numeroTipo: number;
   constructor(private authService: AeventAuthService,
     private toastr: ToastrService,
     private router: Router,
@@ -37,7 +41,9 @@ export class ListaEventos implements OnInit {
       }
     );
   }
+  cambioFiltro(){
 
+  }
   OnPostular(item: Evento) {
     this.router.navigate([`convocatoria/lista-eventos/postular/${item.idEvento}`]);
   }

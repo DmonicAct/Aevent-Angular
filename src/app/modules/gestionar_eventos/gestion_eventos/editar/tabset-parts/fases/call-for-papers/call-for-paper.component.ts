@@ -4,6 +4,9 @@ import { ModalDirective } from "ngx-bootstrap";
 import { Location } from '@angular/common';
 import { FaseService } from '../../../../../../../services/fase.service';
 import { ToastRef, ToastrService } from "ngx-toastr";
+import { FormularioService } from "../../../../../../../services/formulario.service";
+import { Observable } from "rxjs";
+
 declare var jQuery: any;
 
 @Component({
@@ -61,16 +64,26 @@ export class CallForPaperComponent implements OnInit {
     public editarPregunta: Boolean = false;
     public editarSeccion: Boolean = false;
     public editarDivision: Boolean = false;
+
     @ViewChild('autoShownModal')
     autoShownModal: ModalDirective;
 
     selectedRowSeccion: number;
     selectedRowPregunta: number;
+
+    private listaPreguntasEliminadas: Array<number>;
+    private listaDivisionesEliminadas: Array<number>;
+    private listaSeccionEliminadas: Array<number>;
+
     constructor(
         private serviceFase: FaseService,
+        private serviceFormulario: FormularioService,
         private toastr: ToastrService,
         private _location: Location
     ) {
+        this.listaPreguntasEliminadas = new Array<number>();
+        this.listaDivisionesEliminadas = new Array<number>();
+        this.listaSeccionEliminadas = new Array<number>();
 
         this.itemsParametro = new Array<Parametro>();
         this.itemParametro = new Parametro;
@@ -197,6 +210,29 @@ export class CallForPaperComponent implements OnInit {
         this.indexDivision = index;
     }
     OnEliminar(index: number) {
+        let idDivision = this.itemFormulario.divisionList[index].idDivision;
+        if (idDivision != null) {
+            this.listaDivisionesEliminadas.push(idDivision);
+            /**
+             * Solo una seccion por division
+             */
+            let seccionList = this.itemFormulario.divisionList[index].seccionList;
+            if (seccionList != null && seccionList.length > 0) {
+                let idSeccion = seccionList[0].idSeccion;
+                if (idSeccion != null) {
+                    this.listaSeccionEliminadas.push(idSeccion);
+                }
+                let listaPreguntas = seccionList[0].preguntaList;
+                if (listaPreguntas != null && listaPreguntas.length > 0) {
+                    for (let item of listaPreguntas) {
+                        let idPregunta = item.idPregunta;
+                        if (idPregunta != null) {
+                            this.listaPreguntasEliminadas.push(idPregunta);
+                        }
+                    }
+                }
+            }
+        }
         this.itemFormulario.divisionList.splice(index, 1)[0];
     }
     //Secciones
@@ -251,11 +287,11 @@ export class CallForPaperComponent implements OnInit {
             this.toastr.warning(`Descripcion mayor a 50 caracteres`, 'Aviso', { closeButton: true });
             return;
         }
-        if (this.cantCaracteres<0) {
+        if (this.cantCaracteres < 0) {
             this.toastr.warning(`No se puede ingresar una cantidad negativa`, 'Aviso', { closeButton: true });
             return;
         }
-        if (this.cantCaracteres>500) {
+        if (this.cantCaracteres > 500) {
             this.toastr.warning(`No se puede ingresar más de 500 caracteres`, 'Aviso', { closeButton: true });
             return;
         }
@@ -308,33 +344,48 @@ export class CallForPaperComponent implements OnInit {
             this.toastr.warning(`Se necesita ingresar un título a formulario menor a 100 caracteres`, 'Aviso', { closeButton: true });
             return;
         }
-        this.itemFormulario.divisionList.forEach(e => {
-            e.idDivision = null;
-
-            e.seccionList.forEach(k => {
-                k.idSeccion = null;
-                k.preguntaList.forEach(m => {
-                    m.idPregunta = null;
-
-                })
-            })
-        })
         this.item.formulario = this.itemFormulario;
         this.itemFormulario.idFase = this.item.idFase;
-        this.item.formulario.divisionList.forEach(e => {
-
-        });
         console.log(this.item.idEvento, this.item.idFase);
-
+        console.log(this.item);
+       // this.loading = true;
+        this.eliminarDescartes();
+       
+    }
+    private eliminarDescartes(){
+        if (this.listaPreguntasEliminadas && this.listaPreguntasEliminadas.length > 0)
+            for (let item of this.listaPreguntasEliminadas)
+                this.serviceFormulario.eliminarPregunta(item);
+        else
+            if (this.listaSeccionEliminadas && this.listaSeccionEliminadas.length > 0)
+                for (let item of this.listaSeccionEliminadas)
+                    this.serviceFormulario.eliminarSeccion(item);
+        else
+            if (this.listaDivisionesEliminadas && this.listaDivisionesEliminadas.length > 0)
+                for (let item of this.listaDivisionesEliminadas)
+                    this.serviceFormulario.eliminarDivision(item);
+        else
+            this.finalizarGuardado();
+    }
+    finalizarGuardado(){
         this.serviceFase.guardarFase(this.item).subscribe(
             (response: Response) => {
                 if (response.estado == 'OK') {
+                    this.itemFormulario = response.resultado.formulario;
                     this.toastr.success(`Se ha guardado formulario con exito`, 'Aviso', { closeButton: true });
+                    this.loading=false;
                 }
-            }
+            },
+            (error=>{
+                    if(this.loading){
+                        this.loading=false;
+                }
+            })
         );
     }
     onCancelar() {
+        if (this.listaPreguntasEliminadas && this.listaPreguntasEliminadas.length > 0)
+            this.listaPreguntasEliminadas = new Array<number>();
         //this._location.back();
         this.hideModal();
     }
@@ -344,9 +395,25 @@ export class CallForPaperComponent implements OnInit {
     }
     OnGuardarPregunta() {
         this.editarPregunta = false;
+        for(let index=0;index<this.itemsPreguntas.length;index++){
+            if(this.itemsPreguntas[index].maxCaracteres<1){
+                this.itemsPreguntas[index].maxCaracteres=1;
+            }
+            if(this.itemsPreguntas[index].maxCaracteres>500){
+                this.itemsPreguntas[index].maxCaracteres=500;
+            }
+        }
+        
     }
     OnEliminarPregunta(index: number) {
-        this.itemsPreguntas.splice(index, 1)[0];
+       
+        let idPregunta = this.itemsPreguntas[index].idPregunta;
+        if (idPregunta != null) {
+            this.listaPreguntasEliminadas.push(idPregunta);
+            this.itemsPreguntas.splice(index, 1)[0];
+        }
+        else
+            this.itemsPreguntas.splice(index, 1)[0];
     }
 
     //---------------->

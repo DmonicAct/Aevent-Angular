@@ -3,6 +3,7 @@ import { FormularioCFP } from ".";
 
 export class Division{
     public idDivision:number;
+    public idFormulariocfp:number;
     public indice: number;
     public descripcion: string;
     public formulario: FormularioCFP;

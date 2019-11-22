@@ -418,6 +418,7 @@ export class AsignarPropuestasVer implements OnInit {
 
       }
     }
+    return faseMin;
 
   }
 

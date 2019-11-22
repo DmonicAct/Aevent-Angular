@@ -16,6 +16,10 @@ export class ListaPonenciaComponent implements OnInit {
     public items: Array<Evento>;
     public paginacion: Paginacion;
     public loading: Boolean = false;
+    public itemsFiltro = ["Título", "Categoria", "Lugar"];
+    public filtro: String;
+    public tipo: String;
+    public numeroTipo: number;
     constructor(
         private toastr: ToastrService,
         private router: Router,
@@ -27,6 +31,9 @@ export class ListaPonenciaComponent implements OnInit {
     }
     ngOnInit(): void {
        this.obtenerPostulaciones();
+    }
+    cambioFiltro(){
+
     }
     obtenerPostulaciones(){
         this.servicePropuesta.obtenerListaPropuesta(this.authService.usuario.username,this.paginacion.pagina,this.paginacion.registros).subscribe(

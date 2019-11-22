@@ -61,7 +61,7 @@ export class ComiteEventoVer implements OnInit {
     this.maestraAgregar = new Array<Persona>();
     this.paginacionPropuestas = new Paginacion({ pagina: 1, registros: 10 });
     this.evElegidos = new Array<Persona>();
-    this.paginacion = new Paginacion({ pagina: 1, registros: 5 });
+    this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
     this.itemEvento = new Evento();
     this.itemComite = new Array<Usuario>();
     //console.log(this.itemEventoParent);

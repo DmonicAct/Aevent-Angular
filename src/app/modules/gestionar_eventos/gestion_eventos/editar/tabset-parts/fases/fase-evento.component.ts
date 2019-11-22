@@ -253,26 +253,13 @@ export class FaseEventoComponent implements OnInit {
     });*/
     itemsCriterios = JSON.parse(JSON.stringify(fase.criterios));
     //fase.criterios = null;
-
-    fase.formulario.divisionList.forEach(e => {
-      e.idDivision = null;
-
-      e.seccionList.forEach(k => {
-        k.idSeccion = null;
-        k.preguntaList.forEach(m => {
-          m.idPregunta = null;
-
-        })
-      })
-    })
     this.arrayCriterios.forEach(e=>{
       e.idFase = fase.idFase;
-      console.log(e.idFase);
     })
     fase.criterios = this.arrayCriterios; 
+    console.log(fase);
     await this.faseService.guardarFase(fase).subscribe(
       (response: Response) => {
-        console.log('reponse guardarFase', response);
         /*this.arrayCriterios.forEach((e) => {
           this.criterioService.guardarCriterio(e).subscribe(
             (response: Response) => {
