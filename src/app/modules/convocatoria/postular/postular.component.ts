@@ -70,7 +70,7 @@ export class PostularEvento implements OnInit {
                 propuesta=response.resultado;
                 if(propuesta){
                     let path:1;
-                    this.router.navigate([`convocatoria/lista-ponencia/ver-postulacion/1/${idEvento}`]);
+                    this.router.navigate([`convocatoria/lista-ponencia/ver-postulacion/1/${propuesta.idPropuesta}`]);
                 }else{
                     if(!propuesta){
                         let path:0;

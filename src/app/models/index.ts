@@ -16,9 +16,10 @@ import { Categoria } from './categoria'
 import { Seccion } from './seccion';
 import { TipoEvento } from './tipoevento';
 import {Lugar} from './lugar'; 
-import {TipoCriterio} from './tipocriterio'
-import {Postulacion} from './postulacion'
-import {RespuestaFormulario} from './respuesta_formulario'
+import {TipoCriterio} from './tipocriterio';
+import {Postulacion} from './postulacion';
+import {RespuestaFormulario} from './respuesta_formulario';
+import {ListaFormulario} from './listaFormulario';
 export {
 
     Persona,
@@ -41,5 +42,6 @@ export {
     Lugar,
     TipoCriterio,
     Postulacion,
-    RespuestaFormulario
+    RespuestaFormulario,
+    ListaFormulario
 }

@@ -348,26 +348,24 @@ export class CallForPaperComponent implements OnInit {
         this.itemFormulario.idFase = this.item.idFase;
         console.log(this.item.idEvento, this.item.idFase);
         console.log(this.item);
-       // this.loading = true;
-        this.eliminarDescartes();
        
+        if (
+            (this.listaPreguntasEliminadas && this.listaPreguntasEliminadas.length > 0) ||
+            (this.listaSeccionEliminadas && this.listaSeccionEliminadas.length > 0)     ||
+            (this.listaDivisionesEliminadas && this.listaDivisionesEliminadas.length > 0)
+            ){
+                this.serviceFormulario.elimiar(this.listaPreguntasEliminadas,this.listaSeccionEliminadas,this.listaDivisionesEliminadas).subscribe(
+                    (response:Response)=>{
+                        if(response.estado=="OK"){
+                            this.GuardarFormulario();
+                        }
+                    }
+                );
+            }else{
+                this.GuardarFormulario();
+            }
     }
-    private eliminarDescartes(){
-        if (this.listaPreguntasEliminadas && this.listaPreguntasEliminadas.length > 0)
-            for (let item of this.listaPreguntasEliminadas)
-                this.serviceFormulario.eliminarPregunta(item);
-        else
-            if (this.listaSeccionEliminadas && this.listaSeccionEliminadas.length > 0)
-                for (let item of this.listaSeccionEliminadas)
-                    this.serviceFormulario.eliminarSeccion(item);
-        else
-            if (this.listaDivisionesEliminadas && this.listaDivisionesEliminadas.length > 0)
-                for (let item of this.listaDivisionesEliminadas)
-                    this.serviceFormulario.eliminarDivision(item);
-        else
-            this.finalizarGuardado();
-    }
-    finalizarGuardado(){
+    GuardarFormulario(){
         this.serviceFase.guardarFase(this.item).subscribe(
             (response: Response) => {
                 if (response.estado == 'OK') {
