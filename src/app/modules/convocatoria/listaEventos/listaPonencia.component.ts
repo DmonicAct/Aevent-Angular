@@ -58,4 +58,5 @@ export class ListaPonenciaComponent implements OnInit {
     }
     OnRowClick(i:number,item:any) {
     }
+    buscarEvento(){}
 }

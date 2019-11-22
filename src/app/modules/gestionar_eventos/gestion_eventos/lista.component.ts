@@ -22,7 +22,7 @@ export class ListaEventosOrganizador implements OnInit {
     public rolOrga: Boolean;
     private eventoDes: Evento;
     private seCambioActivo: Boolean;
-    private tipoEvento: String;
+    public tipoEvento: String;
     @ViewChild('autoShownModal')
     autoShownModal: ModalDirective;
 

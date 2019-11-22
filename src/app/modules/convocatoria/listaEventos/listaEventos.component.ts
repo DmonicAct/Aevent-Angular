@@ -60,4 +60,5 @@ export class ListaEventos implements OnInit {
 
   OnRowClick(i:number,item:any) {
   }
+  buscarEvento(){}
 }

@@ -282,4 +282,5 @@ export class FaseEventoPresidente implements OnInit {
 
     this.isNewFormModalShown = true;
   }
+  OnCancelar(){}
 }

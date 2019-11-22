@@ -26,6 +26,7 @@ export class GestionCategoriaListaComponent implements OnInit  {
   public loading: Boolean = false;
   public descripcionModal : String;
   public paginacion: Paginacion;
+  public tipoActivo: String;
   @ViewChild('autoShownModal') 
   autoShownModal: ModalDirective;
   @ViewChild('autoNewShownModal')

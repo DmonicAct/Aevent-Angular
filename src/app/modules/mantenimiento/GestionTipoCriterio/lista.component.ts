@@ -25,6 +25,7 @@ export class GestionTipoCriterioListaComponent implements OnInit  {
   public estado: Boolean;
   public loading: Boolean = false;
   public descripcionModal : String;
+  public tipoActivo:String;
   public paginacion: Paginacion;
   @ViewChild('autoShownModal') 
   autoShownModal: ModalDirective;

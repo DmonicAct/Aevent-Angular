@@ -15,7 +15,7 @@ export class GestionUsuarioListaComponent implements OnInit {
   public items: Array<Persona>;
   public paginacion: Paginacion;
   public loading: Boolean = false;
-  private tipoUsuarios: String;
+  public tipoUsuarios: String;
   constructor(private toastr: ToastrService,
     private router: Router,
     private service: UsuarioService,

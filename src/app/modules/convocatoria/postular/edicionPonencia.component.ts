@@ -30,9 +30,9 @@ export class EdicionPonenciaComponent implements OnInit {
      */
     private path: number;
     private estadoPropuesta: String;
-    private propuesta: Propuesta = null;
+    public propuesta: Propuesta = null;
     private listaRespuestaPostulacion: Array<RespuestaPostulacion>;
-    private evento: Evento = null;
+    public evento: Evento = null;
 
     @ViewChild('detallePropuesta') detallePropuesta: EdicionPropuestaComponent;
     @ViewChildren('fasePropuesta') fasesPropuestas:QueryList<FasePropuestaComponent>;

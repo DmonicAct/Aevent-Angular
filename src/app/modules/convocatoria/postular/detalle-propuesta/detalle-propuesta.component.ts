@@ -21,6 +21,7 @@ export class EdicionPropuestaComponent implements OnInit{
     @Output() 
     itemCodigo = new EventEmitter<any>();
 
+    public loading:Boolean=false;
     constructor(
         private toastr: ToastrService,
         private servicePropuesta: PropuestaService,

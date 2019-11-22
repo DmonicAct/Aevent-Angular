@@ -47,6 +47,7 @@ export class FasePropuestaComponent implements OnInit{
         this.postulacion = new Postulacion();
     }
     ngOnInit(){
+        
         console.log(this.items);
         this.items.forEach((e,i)=>{
             let conjuntoRpta = new Array<RespuestaFormulario>();
@@ -125,6 +126,8 @@ export class FasePropuestaComponent implements OnInit{
         }
        
     }
+    OnAdjuntar(){}
+    VerObservaciones(){}
 } 
 
 

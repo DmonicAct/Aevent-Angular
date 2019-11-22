@@ -26,6 +26,7 @@ export class GestionTipoEventoListaComponent implements OnInit  {
 
   public descripcionModal : String;
   public paginacion: Paginacion;
+  public tipoActivo:String;
   public loading: Boolean = false;
   @ViewChild('autoShownModal') 
   autoShownModal: ModalDirective;

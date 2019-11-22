@@ -26,6 +26,7 @@ export class GestionLugarListaComponent implements OnInit  {
 
   public descripcionModal : String;
   public paginacion: Paginacion;
+  public tipoActivo:String;
   public loading: Boolean = false;
   @ViewChild('autoShownModal') 
   autoShownModal: ModalDirective;
@@ -299,5 +300,5 @@ export class GestionLugarListaComponent implements OnInit  {
       this.itemsFiltrados = this.items;
     }
   }
-
+  buscarLugares(){}
 }
