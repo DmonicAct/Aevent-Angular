@@ -28,6 +28,9 @@ export class FasePropuestaComponent implements OnInit{
     @Input('fase')
     public fase:Fase;
 
+    public fechaInicio:String;
+    public fechaFin:String ;
+
     @Input("index")
     public  index: number;
 
@@ -63,7 +66,9 @@ export class FasePropuestaComponent implements OnInit{
             });
             this.itemsRepuesta.push(conjuntoRpta);
         });
-      
+    /*     this.fechaInicio = this.fase.fechaInicial.toISOString();
+        this.fechaFin = this.fase.fechaFin.toISOString(); */
+/*         console.log(this.fase.fechaInicial.toISOString); */
         this.respuestaFase = new RespuestaPostulacion();
     }
     ngAfterViewInit() {

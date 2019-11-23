@@ -33,11 +33,10 @@ export class EdicionPonenciaComponent implements OnInit {
     public propuesta: Propuesta = null;
     private listaRespuestaPostulacion: Array<RespuestaPostulacion>;
     public evento: Evento = null;
-
     @ViewChild('detallePropuesta') detallePropuesta: EdicionPropuestaComponent;
-    @ViewChildren('fasePropuesta') fasesPropuestas:QueryList<FasePropuestaComponent>;
+    @ViewChildren('fasePropuesta') fasesPropuestas: QueryList<FasePropuestaComponent>;
     @ViewChild('tabsPropuesta') tabset: TabsetComponent;
-    
+
     constructor(
         private _location: Location,
         private route: ActivatedRoute,
@@ -90,38 +89,44 @@ export class EdicionPonenciaComponent implements OnInit {
             (response: Response) => {
                 if (response && response.resultado != null) {
                     this.listaRespuestaPostulacion = response.resultado;
-                    this.listaRespuestaPostulacion.forEach((e,i)=>{
-                        this.fasesPropuestas.forEach((child) => { 
-                            child.cargarDatosFormulario(e,i);
+                    this.listaRespuestaPostulacion.forEach((e, i) => {
+                        this.fasesPropuestas.forEach((child) => {
+                            child.cargarDatosFormulario(e, i);
                         });
                     });
-                   
+
                 }
             }
         );
     }
     onGuardar() {
-        this.detallePropuesta.OnGuardarDetalle();
-        if(this.estadoPropuesta=="NUEVO"){
-            this.tabset.tabs[1].active = true;
-            this.estadoPropuesta = 'EDICION';
-        }
-        let index = 0;
-        this.tabset.tabs.forEach((e,i)=>{
-            if(e.active==true){
-                index = i;
+        if (!this.detallePropuesta.getLoading()) {
+            this.detallePropuesta.OnGuardarDetalle();
+
+
+            if (this.estadoPropuesta == "NUEVO") {
+                this.tabset.tabs[1].active = true;
+                this.estadoPropuesta = 'EDICION';
             }
-        });
-        if(index>0){
-            //guardado de fase
-            this.fasesPropuestas.forEach((child) => { child.OnGuardarFase(index - 1,this.codigo_propuesta) });
+            let index = 0;
+            this.tabset.tabs.forEach((e, i) => {
+                if (e.active == true) {
+                    index = i;
+                }
+            });
+            if (index > 0) {
+                //guardado de fase
+                this.fasesPropuestas.forEach((child) => { child.OnGuardarFase(index - 1, this.codigo_propuesta) });
+            }
+        }else{
+           return;
         }
-        
+
     }
     OnRegresar() {
         this._location.back();
     }
-    displayItem(propuesta: Propuesta){
+    displayItem(propuesta: Propuesta) {
         this.propuesta = propuesta;
         this.codigo_propuesta = this.propuesta.idPropuesta;
     }

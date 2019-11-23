@@ -31,8 +31,8 @@ export class EdicionPropuestaComponent implements OnInit{
     ngOnInit(){
 
     }
-
-    async OnGuardarDetalle(){
+    
+    OnGuardarDetalle(){
         if(!this.propuesta.titulo || this.propuesta.titulo.trim()==""){
             this.toastr.warning('Titulo de propuesta vacío', 'Aviso', {closeButton: true});
             return;
@@ -42,11 +42,16 @@ export class EdicionPropuestaComponent implements OnInit{
         if(this.propuesta.idPropuesta==null){
             this.propuesta.estado = EstadoPropuesta.PROPUESTA_BORRADOR;
         }
-        await this.servicePropuesta.guardarPropuesta(this.propuesta,username, idEvento).subscribe(
+        this.loading = true;
+        this.servicePropuesta.guardarPropuesta(this.propuesta,username, idEvento).subscribe(
             (response:Response)=>{
                 this.toastr.success('Se ha guardado la propuesta con exito', 'Aviso', {closeButton: true});
                 this.itemCodigo.emit(response.resultado);
+                this.loading = false;
             }
         );
+    }
+    getLoading():Boolean{
+        return this.loading;
     }
 }

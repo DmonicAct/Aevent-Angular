@@ -10,14 +10,14 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+   <!--  <div class="col-md-4">
         <div class="pull-right">
             <span class="m-r-xl"></span>
             <strong class="small">Estado: </strong>
-            <span class="label label-primary" *ngIf="fase.fechaInicial.toISOString()>now_date">En Proceso de Evaluacion</span>
-            <span class="label label-yellow" *ngIf="now_date>fase.fechaFin.toISOString()">Fuera de Tiempo</span>
+            <span class="label label-primary" *ngIf="fechaInicio!=null && fechaInicio>now_date">En Proceso de Evaluacion</span>
+            <span class="label label-yellow" *ngIf="fechaFin!=null && now_date>fechaFin">Fuera de Tiempo</span>
         </div>
-    </div>
+    </div> -->
 </div>
 <div class="row">
     <div class="col-lg-12">
