@@ -1,5 +1,5 @@
 import { OnInit, Component, Input } from "@angular/core";
-import { Division } from "../../../../../../../../models";
+import { Division } from "../../../../models";
 declare var jQuery: any;
 @Component({
     selector:'call-for-paper-view-organizador',
