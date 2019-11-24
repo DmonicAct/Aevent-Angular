@@ -42,6 +42,8 @@ export class ComiteEventoVer implements OnInit {
 
   public evaluadoresDisponibles: Array<Persona>;
   public evElegidos: Array<Persona>;
+  public tipo:String;
+  public numeroTipo:number;
   public loading: boolean;
   public paginacion: Paginacion;
   public paginacionPropuestas: Paginacion;
@@ -49,6 +51,7 @@ export class ComiteEventoVer implements OnInit {
   public quitar: Array<Persona>; //Para ver que preferencias quitar
   public maestraAgregar: Array<Persona>;
   public nuevasPreferencias: Array<Preferencia>;
+  public itemsFiltro = ["Nombre", "Usuario", "Correo"];
   public pref;
   public propuestas: Array<Propuesta>;
   constructor(private toastr: ToastrService,
@@ -83,7 +86,7 @@ export class ComiteEventoVer implements OnInit {
     this.nuevos = new Array<Persona>();
     this.quitar = new Array<Persona>();
     this.propuestas = new Array<Propuesta>();
-    //HARDCODEADO WTF
+    
 
   }
   getEvaluadoresDisponibles() {
@@ -97,6 +100,55 @@ export class ComiteEventoVer implements OnInit {
       }
     )
 
+  }
+  
+  cambioFiltro(){
+    if (this.tipo == "Nombre"){
+        this.numeroTipo = 1;
+    }
+    if (this.tipo == "Usuario"){
+        this.numeroTipo = 2;
+    }
+    if (this.tipo == "Correo"){
+        this.numeroTipo = 3;
+    }/*
+    if (this.tipo == "Codigo"){
+        this.numeroTipo = 4;
+    }*/
+  }
+
+  filtro: String;
+  enFiltro: Boolean;
+  //eventoFiltro: Evento;
+  maestroComiteFilter: Array<Evento>;
+
+  buscarUsuario() {
+    this.cambioFiltro();
+    //console.log("numTipo: ",this.numeroTipo);
+    //console.log("filtro length: ",this.filtro.length);
+    //console.log("evaDisp: ",this.evaluadoresDisponibles);
+    if (this.filtro.length > 0) {
+      if (this.numeroTipo == 1) {
+          this.maestroComiteFilter = this.evaluadoresDisponibles.filter(
+              item => item.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+          )
+          console.log("maestroDisp: ",this.maestroComiteFilter);
+      }
+      if (this.numeroTipo == 2) {
+          this.maestroComiteFilter = this.evaluadoresDisponibles.filter(
+              item => item.username.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+          )
+          console.log("maestro: ",this.maestroComiteFilter);
+      }
+      if (this.numeroTipo == 3) {
+          this.maestroComiteFilter = this.evaluadoresDisponibles.filter(
+              item => item.email.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+          )
+          console.log("maestroDisp: ",this.maestroComiteFilter);
+      }
+      
+
+  }
   }
 
   OnPageChanged(event): void {

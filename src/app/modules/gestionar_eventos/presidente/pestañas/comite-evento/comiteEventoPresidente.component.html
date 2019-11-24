@@ -98,8 +98,12 @@
           </div>
           <div class="col-md-6">
             <input type="text" autocomplete="off" class="form-control" name="filtro" maxlength="30" [(ngModel)]="filtro"
-              (input)="buscarUsuario()" onkeypress="return /^[a-zA-Z_0-9\s]*$/i.test(event.key)">
+               onkeypress="return /^[a-zA-Z_0-9\s]*$/i.test(event.key)">
           </div>
+          <div class="col-md-2">
+            <button type="button"  class="btn btn-primary container-button" (click)="buscarUsuario()">Buscar</button>
+          </div>
+
         </div>
       </div>
       <div class="modal-body" style="overflow: hidden; ">
