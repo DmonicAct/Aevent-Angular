@@ -251,10 +251,12 @@ export class AsignarPropuestasVer implements OnInit {
         return i;
       }
     }
+    if (this.propElegida.postulante.idUsuario == id)
+      return 50;
     return -1;
 
   }
-  public posQ:number;
+  public posQ: number;
   OnGuardarEvaluadores() {
     for (var i = 0; i < this.quitar.length; i++) {
       var indComite = this.propElegida.evaluadoresAsignados.lastIndexOf(this.quitar[i]);
@@ -297,30 +299,30 @@ export class AsignarPropuestasVer implements OnInit {
         this.serviceEvaluacion.obtenerPropuestas(evalProp.evaluador.idUsuario, 1, 50).subscribe(
           (response: Response) => {
             console.log(response)
-            let localProp :Array<Evaluacion> = response.resultado;
-            let  posQ1:number;
-            for(var j=0;j<localProp.length;j++){
-              if(localProp[j].propuesta.idPropuesta==evalProp.propuesta.idPropuesta){
-              posQ1=<number>localProp[j].idEvaluacion;
-              break;
+            let localProp: Array<Evaluacion> = response.resultado;
+            let posQ1: number;
+            for (var j = 0; j < localProp.length; j++) {
+              if (localProp[j].propuesta.idPropuesta == evalProp.propuesta.idPropuesta) {
+                posQ1 = <number>localProp[j].idEvaluacion;
+                break;
               }
             }
             let evQuitar: Evaluacion = new Evaluacion();
-              //evQuitar.idEvaluacion=this.posQ;
-              console.log("BEFORE DESASIGNAR: ", posQ1)
-              this.serviceEvaluacion.desasignarEvaluadorPropuesta(posQ1).subscribe(
-                (response:Response)=>{
-                  console.log(response.resultado)
-                }
-              )
+            //evQuitar.idEvaluacion=this.posQ;
+            console.log("BEFORE DESASIGNAR: ", posQ1)
+            this.serviceEvaluacion.desasignarEvaluadorPropuesta(posQ1).subscribe(
+              (response: Response) => {
+                console.log(response.resultado)
+              }
+            )
           }
         )
 
       }
     }
-    this.nuevos=new Array<Persona>();
-    this.quitar=new Array<Persona>();
-    this.maestraAgregarProp=new Array<Persona>();
+    this.nuevos = new Array<Persona>();
+    this.quitar = new Array<Persona>();
+    this.maestraAgregarProp = new Array<Persona>();
 
 
 
@@ -595,7 +597,7 @@ export class AsignarPropuestasVer implements OnInit {
     this.servicePreferencia.consultarPreferenciasComite(<number>this.propElegida.idPropuesta, this.paginacionEval.pagina, this.paginacionEval.registros).subscribe(
       (response: Response) => {
         console.log(response);
-        this.prefComite=new Array<Preferencia>();
+        this.prefComite = new Array<Preferencia>();
         this.prefComite = response.resultado;
         this.paginacionEval = response.paginacion;
         this.isModalShownEvaluadores = true;

@@ -5,7 +5,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { esLocale } from 'ngx-bootstrap/locale';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { Location } from '@angular/common';
-import { PersonaService, CategoriaService, LugarService, EventoService, TipoEventoServices } from '../../../../../services';
+import { PersonaService, CategoriaService, LugarService, EventoService, TipoEventoServices, EvaluacionService } from '../../../../../services';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { AuthService as AeventAuthService } from '../../../../../auth/service/auth.service';
 
@@ -53,6 +53,7 @@ export class ComiteEventoVer implements OnInit {
   public propuestas: Array<Propuesta>;
   constructor(private toastr: ToastrService,
     private servicePersonas: PersonaService,
+    private serviceEvaluacion: EvaluacionService,
     private authService: AeventAuthService,
     private servicePreferencia: PreferenciaService,
     private serviceEvento: EventoService,
@@ -201,6 +202,34 @@ export class ComiteEventoVer implements OnInit {
           for (let persona of this.quitar) {
             this.pref = new Preferencia();
             for (let prop of this.propuestas) {
+              this.serviceEvaluacion.obtenerPropuestas(persona.idUsuario, 1, 50).subscribe(
+                (response: Response) => {
+                  console.log(response)
+                  let localProp: Array<Evaluacion> = response.resultado;
+                  let verProp: Array<boolean>= new Array<boolean>(localProp.length);
+                  for(var i=0;i<verProp.length;i++)
+                    verProp[i]=false;
+                  //let posQ1: number;
+                  for (var j = 0; j < localProp.length; j++) {
+                    //console.log("BEFORE DESASIGNAR: ", posQ1)
+                    
+
+                    debugger;
+                    if (localProp[j].fase.idEvento == this.itemEventoParent.idEvento && verProp[j]==false) {
+                      verProp[j]=true;
+                      this.serviceEvaluacion.desasignarEvaluadorPropuesta(<number>localProp[j].idEvaluacion).subscribe(
+                        (response: Response) => {
+                          console.log(response.resultado)
+                        }
+                      )
+                    }
+                  }
+
+
+                }
+              )
+
+
               this.servicePreferencia.consultarByUsuarioAndPropuesta(persona.idUsuario, prop.idPropuesta.valueOf()).subscribe(
                 (response: Response) => {
                   this.pref = response.resultado;
