@@ -68,11 +68,12 @@ export class AsignarPropuestasVer implements OnInit {
   //public evaluadoresDisponibles:Array<Persona>;
 
   public loading: boolean;
-  public paginacion: Paginacion;
+  //public paginacion: Paginacion;
 
   public isModalShownPropuestaDetalle: boolean;
   public isModalShownEvaluadores: boolean;
   public paginacionComite: Paginacion;
+  //public paginacionPropuestas: Paginacion;
   public paginacionEval: Paginacion;
   public actualPropuesta: Propuesta;
   public prefComite: Array<Preferencia>;
@@ -91,9 +92,10 @@ export class AsignarPropuestasVer implements OnInit {
     private _location: Location,
     private serviceEvento: EventoService, ) {
     this.comiteElegido = new Array<Usuario>();
-    this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
+    //this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
     this.paginacionEval = new Paginacion({ pagina: 1, registros: 10 });
     this.paginacionComite = new Paginacion({ pagina: 1, registros: 10 });
+    //this.pagPropuestas = new Paginacion({ pagina: 1, registros: 10 });
     this.evaluadoresDisponibles = new Array<Usuario>();
     this.maestraAgregar = new Array<Evaluacion>();
     this.prefComite = new Array<Preferencia>();
@@ -120,6 +122,7 @@ export class AsignarPropuestasVer implements OnInit {
   @ViewChild(`visorAgregarEvaluador`) private swalComponent: SwalComponent;
 
   ngOnInit() {
+    this.pagPropuestas = new Paginacion({ pagina: 1, registros: 10 });
   }
 
   getList(valueChange) {
@@ -294,29 +297,31 @@ export class AsignarPropuestasVer implements OnInit {
         evalProp.propuesta = this.propElegida;
         evalProp.evaluador = this.quitar[i];
         evalProp.fase = new Fase();
+        if (this.enNuevos(this.quitar[i].idUsuario) == -1) {
 
-        evalProp.fase = Object.assign([], this.asignarFase(this.itemEventoParent.fases));
-        this.serviceEvaluacion.obtenerPropuestas(evalProp.evaluador.idUsuario, 1, 50).subscribe(
-          (response: Response) => {
-            console.log(response)
-            let localProp: Array<Evaluacion> = response.resultado;
-            let posQ1: number;
-            for (var j = 0; j < localProp.length; j++) {
-              if (localProp[j].propuesta.idPropuesta == evalProp.propuesta.idPropuesta) {
-                posQ1 = <number>localProp[j].idEvaluacion;
-                break;
+          evalProp.fase = Object.assign([], this.asignarFase(this.itemEventoParent.fases));
+          this.serviceEvaluacion.obtenerPropuestas(evalProp.evaluador.idUsuario, 1, 50).subscribe(
+            (response: Response) => {
+              console.log(response)
+              let localProp: Array<Evaluacion> = response.resultado;
+              let posQ1: number;
+              for (var j = 0; j < localProp.length; j++) {
+                if (localProp[j].propuesta.idPropuesta == evalProp.propuesta.idPropuesta) {
+                  posQ1 = <number>localProp[j].idEvaluacion;
+                  break;
+                }
               }
+              let evQuitar: Evaluacion = new Evaluacion();
+              //evQuitar.idEvaluacion=this.posQ;
+              console.log("BEFORE DESASIGNAR: ", posQ1)
+              this.serviceEvaluacion.desasignarEvaluadorPropuesta(posQ1).subscribe(
+                (response: Response) => {
+                  console.log(response.resultado)
+                }
+              )
             }
-            let evQuitar: Evaluacion = new Evaluacion();
-            //evQuitar.idEvaluacion=this.posQ;
-            console.log("BEFORE DESASIGNAR: ", posQ1)
-            this.serviceEvaluacion.desasignarEvaluadorPropuesta(posQ1).subscribe(
-              (response: Response) => {
-                console.log(response.resultado)
-              }
-            )
-          }
-        )
+          )
+        }
 
       }
     }
@@ -342,6 +347,10 @@ export class AsignarPropuestasVer implements OnInit {
 
   OnAceptarEvaluadores() {
     var verFor: boolean;
+    if(this.prefComite.length>10){
+      this.toastr.warning('No se puede tener más de 10 usuarios en una propuesta!', 'Error', { closeButton: true });
+      return;
+    }
 
     for (var i = 0; i < this.evElegidos.length; i++) {
       verFor = false;
@@ -536,6 +545,7 @@ export class AsignarPropuestasVer implements OnInit {
   }
 
   onQuitar(index, i) {
+    //debugger;
     //console.log(this.nuevos)
     var enNuevos: number = this.enNuevos(index.idUsuario);
     if (enNuevos == -1) {
@@ -551,12 +561,14 @@ export class AsignarPropuestasVer implements OnInit {
       if (ind > -1) {
         this.maestraAgregarProp.splice(ind, 1);
       }
+
       this.quitar.push(index);
     }
 
   }
 
   estadoRegistro(id) {
+
     var enNuevos: number = this.enNuevos(id);
     var enQuitar: number = this.enQuitar(id);
     if (enNuevos > -1 && enQuitar == -1)
@@ -609,6 +621,14 @@ export class AsignarPropuestasVer implements OnInit {
 
   hideModalPresidente() {
     this.autoShownModal.hide();
+  }
+
+  OnPageChangedPropuesta(event) {
+
+  }
+
+  OnPageOptionChangedPropuesta(event) {
+
   }
 
 }

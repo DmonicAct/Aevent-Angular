@@ -33,6 +33,9 @@ export class ComiteEventoVer implements OnInit {
   @Input('item-evento')
   public itemEventoParent: Evento;
 
+  @Input('pag-comite')
+  public paginacionComite: Paginacion;
+
 
   @Input('item-comite')
   public comiteElegido: Array<Usuario>;
@@ -47,6 +50,7 @@ export class ComiteEventoVer implements OnInit {
   public loading: boolean;
   public paginacion: Paginacion;
   public paginacionPropuestas: Paginacion;
+  
   public nuevos: Array<Persona>; //Para ver que preferencias agregar
   public quitar: Array<Persona>; //Para ver que preferencias quitar
   public maestraAgregar: Array<Persona>;
@@ -60,10 +64,12 @@ export class ComiteEventoVer implements OnInit {
     private authService: AeventAuthService,
     private servicePreferencia: PreferenciaService,
     private serviceEvento: EventoService,
-    private _location: Location) {
+    private _location: Location,
+    private personaService: PersonaService) {
     this.comiteElegido = new Array<Usuario>();
     this.maestraAgregar = new Array<Persona>();
     this.paginacionPropuestas = new Paginacion({ pagina: 1, registros: 10 });
+    
     this.evElegidos = new Array<Persona>();
     this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
     this.itemEvento = new Evento();
@@ -81,7 +87,7 @@ export class ComiteEventoVer implements OnInit {
 
     //this.getEvaluadoresDisponibles();
 
-
+    this.paginacionComite = new Paginacion({ pagina: 1, registros: 10 });
 
     //this.loadComite();  
     this.nuevos = new Array<Persona>();
@@ -102,7 +108,9 @@ export class ComiteEventoVer implements OnInit {
     )
 
   }
-  
+  OnPageOptionChangedComite(event){
+
+  }
   cambioFiltro(){
     if (this.tipo == "Nombre"){
         this.numeroTipo = 1;
@@ -155,6 +163,18 @@ export class ComiteEventoVer implements OnInit {
   OnPageChanged(event): void {
     this.paginacion.pagina = event.page;
     this.getListaActivos();
+  }
+
+  OnPageChangedComite(event):void {
+    this.paginacionComite.pagina = event.page;
+    this.personaService.getComite(this.itemEventoParent.idEvento,this.paginacionComite.pagina,this.paginacionComite.registros).subscribe(
+      (response: Response)=>{
+          console.log(response)
+          this.comiteElegido=response.resultado;
+          this.paginacionComite=response.paginacion;
+      }
+  )    
+
   }
 
   OnPageOptionChanged(event): void {
@@ -266,7 +286,7 @@ export class ComiteEventoVer implements OnInit {
                     //console.log("BEFORE DESASIGNAR: ", posQ1)
                     
 
-                    debugger;
+                    //debugger;
                     if (localProp[j].fase.idEvento == this.itemEventoParent.idEvento && verProp[j]==false) {
                       verProp[j]=true;
                       this.serviceEvaluacion.desasignarEvaluadorPropuesta(<number>localProp[j].idEvaluacion).subscribe(
@@ -310,10 +330,19 @@ export class ComiteEventoVer implements OnInit {
     );
   }
 
-  onGuardarCambiosEvento() {
+  enComite(id){
 
+    for (var i = 0; i < this.comiteElegido.length; i++) {
+      if (this.comiteElegido[i].idUsuario == id) {
+        return i;
+      }
+    }
+    return -1;
+}
+  onGuardarCambiosEvento() {
+//debugger;
     for (var i = 0; i < this.quitar.length; i++) {
-      var indComite = this.comiteElegido.lastIndexOf(this.quitar[i]);
+      var indComite = this.enComite(this.quitar[i].idUsuario);
       if (indComite > -1) {
         this.comiteElegido.splice(indComite, 1);
       }
