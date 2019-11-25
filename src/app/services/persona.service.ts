@@ -39,6 +39,23 @@ export class PersonaService{
           }));
     }
 
+    getComite(idEvento:number,pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+      return this.http.get(`${environment.serviceEndpoint}/persona/comite/${idEvento}`,{params}).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+  }
+
 
     obtenerEvaluadoresDisponibles(idEvento:number,pagina:number, registros:number):Observable<any> {
       let params:HttpParams = new HttpParams()
@@ -55,5 +72,65 @@ export class PersonaService{
           }
           return throwError(e);
         }));
-  }
+    }
+
+    obtenerEvaluadoresByNombre(id:number,nombre:string ,pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('id', id.toString())
+      .set('nombre', nombre)
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+      return this.http.get(this.apiEndpoint+'/nombreLikePaginado',{params}).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
+
+    obtenerEvaluadoresByEmail(id:number,email:string ,pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('id', id.toString())
+      .set('email', email)
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+      return this.http.get(this.apiEndpoint+'/emailLikePaginado',{params}).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
+
+
+    obtenerEvaluadoresByUsername(id:number,username:string ,pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('id', id.toString())
+      .set('username', username)
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+      return this.http.get(this.apiEndpoint+'/usernameLikePaginado',{params}).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
+
+
 }

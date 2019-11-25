@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core'
 import { TabsetComponent } from 'ngx-bootstrap';
 import { Evento, Response, Persona, FormularioCFP, Division, Paginacion, Usuario } from '../../../../models';
 import { Router, ActivatedRoute } from '@angular/router';
-import { EventoService } from '../../../../services';
+import { EventoService, PersonaService } from '../../../../services';
 import { DetalleEventoVer } from './detalle-evento/detalleEventoPresidente.component';
 
 import { ComiteEventoVer } from './comite-evento/comiteEventoPresidente.component';
@@ -45,7 +45,8 @@ export class VerEventoPresidenteComponent implements OnInit {
     public divisiones: Array<Division>
     //public serviceEvento: EventoService;
     constructor(private route: ActivatedRoute,
-        private service: EventoService) {
+        private service: EventoService,
+        private personaService: PersonaService) {
 
         //debugger
         this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
@@ -133,6 +134,26 @@ export class VerEventoPresidenteComponent implements OnInit {
         //debugger
         //this.comite1=this.item.comite;
         //this.comite2=this.comite1;
+
+    }
+    public pagComite: Paginacion;
+    selectTabComite(){
+        
+        //this.obtenerEvento();
+        this.personaService.getComite(this.itemCodigo,this.paginacion.pagina,this.paginacion.registros).subscribe(
+            (response: Response)=>{
+                console.log(response)
+                this.comite1=response.resultado;
+                this.pagComite=response.paginacion;
+            }
+        )
+
+    }
+
+
+    selectTab(){
+        console.log("TAB SELECCIONADAAAAA")
+        this.obtenerEvento();
 
     }
 }

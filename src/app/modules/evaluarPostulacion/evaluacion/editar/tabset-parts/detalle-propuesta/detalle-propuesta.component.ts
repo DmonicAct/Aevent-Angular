@@ -13,6 +13,7 @@ export class DetallePropuestaComponent implements OnInit {
 
   @Input('item-division')
   public items: Array<Division>;
+  public acumulador :number;
 
   @Input('item-respuesta')
   public respuesta: Array<RespuestaFormulario>;
@@ -21,18 +22,19 @@ export class DetallePropuestaComponent implements OnInit {
   ) {
     this.items = new Array<Division>();
     this.respuesta = new Array<RespuestaFormulario>();
+    this.acumulador = 0;
 
     this.respuesta.forEach(element => {
       element.respuesta = "";
     });
   }
 
-  onButton() {
-    console.log(this.items);
-    console.log(this.respuesta);
-  }
-
   ngOnInit(): void {
 
+  }
+
+  onFunction(){
+    console.log('entra a funcion');
+    this.acumulador = this.acumulador + 1 ;
   }
 }

@@ -54,6 +54,9 @@ import { Evaluacion } from "../models/evaluacion";
               if (e.status == 400) {
                 return throwError(e);
               }
+              if (e.status == 500) {
+                console.log("CACHED ERROR! VALUES: ", idEvaluacion)
+              }
               if (e.error.mensaje) {
                 console.error(e.error.mensaje);
               }

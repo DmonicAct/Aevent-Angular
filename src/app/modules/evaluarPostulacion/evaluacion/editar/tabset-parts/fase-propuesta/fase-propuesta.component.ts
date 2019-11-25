@@ -76,7 +76,8 @@ export class FasePropuestaComponent implements OnInit {
     this.OnGuardar();
 
     this.modalRespuestas.forEach(respuesta => {
-      if (respuesta == "") {
+      console.log(respuesta);
+      if (!respuesta) {
         this.isCriterioVacio = true;
       }
     });

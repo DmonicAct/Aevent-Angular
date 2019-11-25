@@ -5,7 +5,6 @@
                 <div class="full-height" style="overflow: auto">
                     <div class="full-height-scroll white-bg">
                         <div class="ibox-content">
-                            <button class="button" (click)="onButton()">Prueba</button>
                             <div *ngFor="let division of items; let divIndex = index">
                                 <div class="form-group">
                                     <div class="text-center">
@@ -19,15 +18,17 @@
                                                 <div class="row">
                                                     <div class="col-lg-9">
                                                         <div
-                                                            *ngFor="let pregunta of seccion.preguntaList; let i = index">
+                                                            *ngFor="let pregunta of seccion.preguntaList; let i = index;">
+                                                            
                                                             <div class="row m-b-sm">
                                                                 <label class="col-sm-4"
-                                                                    style="text-align: right;">{{pregunta.descripcion}}</label>
+                                                                    style="text-align: right;">{{pregunta.descripcion}}
+                                                                </label>
                                                                 <div class="col-sm-8">
                                                                     <input class="form-control"
                                                                         name="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}"
-                                                                        value="{{this.respuesta[i].respuesta}}"
-                                                                        [disabled]="true">
+                                                                        value="{{this.respuesta[acumulador].respuesta}}"
+                                                                        [disabled]="true">{{onFunction()}}
                                                                 </div>
                                                             </div>
                                                         </div>
