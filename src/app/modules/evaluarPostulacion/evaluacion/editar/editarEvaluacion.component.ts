@@ -31,6 +31,7 @@ export class EditarEvaluacionComponent implements OnInit {
     public codigo: number;
     public respuestaCriterio: Array<RespuestaCriterio>;
     public respuestaFormulario: Array<RespuestaFormulario>;
+
     constructor(private route: ActivatedRoute,
         private service: EventoService,
         private serviceEvaluacion: EvaluacionService,
@@ -75,7 +76,6 @@ export class EditarEvaluacionComponent implements OnInit {
         await this.serviceEvaluacion.obtenerPropuesta(this.codigo).subscribe(
             (response: Response) => {
                 this.itemEvaluacion = response.resultado;
-                console.log('IMPRIMIENDO EVALUACION',this.itemEvaluacion);
                 this.itemEvaluacion.fase.criterios.forEach((e) => {
                     this.serviceRespuestaCriterio.obtenerRespuestaCriterio(e.idCriterio).subscribe(
                         (response: Response) => {
@@ -91,6 +91,7 @@ export class EditarEvaluacionComponent implements OnInit {
                 this.servicePropuesta.obtenerPostulaciones(this.itemEvaluacion.propuesta.idPropuesta).subscribe(
                     (response: Response) => {
                         this.respuestaFormulario = response.resultado[0].listaFormulario;
+                        console.log(this.respuestaFormulario)
                     }
                 );
             }
