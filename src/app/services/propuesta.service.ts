@@ -129,4 +129,65 @@ export class PropuestaService{
             return throwError(e);
         }));
     }
+
+    obtenerFasePropuesta(idPresidente:number):Observable<any>{
+        let params:HttpParams = new HttpParams()
+        .set('idPresidente', idPresidente.toString());
+      return this.http.get(this.apiEndpointPropuesta+'/espera/',{params}).pipe(
+      catchError(e => {
+          if (e.status == 400) {
+          return throwError(e);
+          }
+          if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+          }
+          return throwError(e);
+      }));
+    }
+
+    obtenerFasePropuestaPaginada(idPresidente:number, pagina:number, registros:number):Observable<any>{
+        let params:HttpParams = new HttpParams()
+        .set('idPresidente', idPresidente.toString())
+        .set('pagina', pagina.toString())
+        .set('registros', registros.toString());
+      return this.http.get(this.apiEndpointPropuesta+'/esperaPaginadas/',{params}).pipe(
+      catchError(e => {
+          if (e.status == 400) {
+          return throwError(e);
+          }
+          if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+          }
+          return throwError(e);
+      }));
+    }
+
+    aprobarPropuesta(idPropuesta:number):Observable<any>{
+        let url=this.apiEndpointPropuesta + `/aprobar/${idPropuesta}`;
+        return this.http.get(url).pipe(
+        catchError(e => {
+            if (e.status == 400) {
+                return throwError(e);
+            }
+            if (e.error.mensaje) {
+                console.error(e.error.mensaje);
+            }
+            return throwError(e);
+        }));
+    }
+
+    desaprobarPropuesta(idPropuesta:number):Observable<any>{
+        let url=this.apiEndpointPropuesta + `/desaprobar/${idPropuesta}`;
+        return this.http.get(url).pipe(
+        catchError(e => {
+            if (e.status == 400) {
+                return throwError(e);
+            }
+            if (e.error.mensaje) {
+                console.error(e.error.mensaje);
+            }
+            return throwError(e);
+        }));
+    }
+
 }

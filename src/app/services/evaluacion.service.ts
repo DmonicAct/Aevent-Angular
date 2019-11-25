@@ -90,4 +90,21 @@ import { Evaluacion } from "../models/evaluacion";
           return throwError(e);
         }));
     }
+
+
+    obtenerEvaluacionesPropuesta(idPropuesta: number){
+      let params:HttpParams = new HttpParams()
+      .set('idPropuesta', idPropuesta.toString());     
+          return this.http.get(this.apiEndpoint + '/propuesta', {params}).pipe(
+            catchError(e => {
+              if (e.status == 400) {
+                return throwError(e);
+              }
+              if (e.error.mensaje) {
+                console.error(e.error.mensaje);
+              }
+              return throwError(e);
+            }));
+
+    }
 }

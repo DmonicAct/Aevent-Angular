@@ -1,0 +1,13 @@
+table {
+    tr{
+      td[data-col='editar'] {width: 5%;}
+      td[data-col='tituloEvento'] {width: 25%;}
+      td[data-col='titulo'] {width: 15%;}
+      td[data-col='nombrePostulante'] {width: 10%;}
+      td[data-col='fechaPostulación'] {width: 10%;}
+      td[data-col='faseDescripcion'] {width: 10%;}
+      td[data-col='fechaInicio'] {width: 10%;}
+      td[data-col='fechaLimite'] {width: 10%;}
+      td[data-col='estado'] {width: 5%;}
+    }
+  }

@@ -1,0 +1,92 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <h2>Gestión de Evaluaciones Finales</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a>Inicio</a>
+      </li>
+      <li class="active">
+        <strong>Evaluaciones Finales</strong>
+      </li>
+    </ol>
+  </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row m-b-sm">
+    <div class="col-md-2">
+      <ng-select [items]="itemsFiltro" (input)="cambioFiltro()" placeholder="Seleccionar Filtro" name="filtroEvento"
+        autocomplete="off" [clearable]="false" [(ngModel)]="tipo">
+      </ng-select>
+    </div>
+    <div class="col-md-4">
+      <input type="text" autocomplete="off" class="form-control" name="filtro" maxlength="30" [(ngModel)]="filtro"
+        (input)="buscarEvento()" onkeypress="return /^[a-zA-Z0-9,.*-\s]*$/i.test(event.key)">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox-content" [ngClass]="{'sk-loading': loading}">
+        <sk-three-bounce></sk-three-bounce>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover issue-tracker">
+            <thead>
+              <tr>
+                <th class="text-center">Evaluar</th>
+                <th class="text-left">Evento</th>
+                <th class="text-left">Título</th>
+                <th class="text-left">Postulante</th>
+                <th class="text-left">Fecha Postulación</th>
+                <th class="text-left">Fase</th>
+                <th class="text-left">Fecha Inicio</th>
+                <th class="text-left">Fecha Límite</th>
+                <th class="text-left">Estado</th>
+              </tr>
+            </thead>
+            <tr *ngFor="let item of evaluaciones; let i = index" [class.selected]="i == selectedRow">
+              <td class="text-center" data-col="evaluar" (click)="OnEvaluar(item)"><button class="btn btn-success"><i
+                    class="fa fa-edit"></i></button></td>
+              <td class="text-left" data-col="tituloEvento"
+                style="display:block;text-overflow: ellipsis;width: 350px;overflow: hidden; white-space: nowrap;">
+                {{item.propuesta.evento.titulo}}</td>
+              <!--Corregir esto, debe buscar datos de la fase-->
+              <td class="text-left" data-col="titulo">{{item.propuesta.titulo}}</td>
+              <td class="text-left" data-col="nombrePostulante">{{item.propuesta.postulante.nombreCompleto}}</td>
+              <td class="text-left" data-col="fechaPostulación">
+                {{item.propuesta.fecha_postulacion  | date:'dd/MM/yyyy'}}</td>
+              <td class="text-left" data-col="faseDescripcion">{{item.fase.descripcion}}</td>
+              <td class="text-left" data-col="fechaInicio">
+                {{item.fase.fechaInicial  | date:'dd/MM/yyyy'}}</td>
+              <td class="text-left" data-col="fechaLimite">
+                {{item.fase.fechaFin  | date:'dd/MM/yyyy'}}</td>
+                <!--CAMBIAR EL ESTADO-->
+              <td class="text-center" data-col="estado" style="padding-left: 0">
+                <span *ngIf="item.estado==='ASIGNADO'" class="label"
+                  [class.label-success]="item.estado=='ASIGNADO'">POR EVALUAR</span>
+                <span *ngIf="item.estado=='EVALUADO'" class="label"
+                  [class.label-default]="item.estado=='EVALUADO'">EVALUADO</span>
+              </td>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-sm-12 col-xs-12">
+            <pagination [(ngModel)]="paginacion.pagina" (pageChanged)="OnPageChanged($event)"
+              [totalItems]="paginacion.totalRegistros" [itemsPerPage]="paginacion.registros" [boundaryLinks]="true"
+              [maxSize]="5" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+            </pagination>
+          </div>
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="text-center m-a-sm">
+              <pagination-info [totalItems]="paginacion.totalRegistros" [itemsPerPage]="paginacion.registros"
+                [page]="paginacion.pagina"></pagination-info>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="text-right m-a-sm">
+              <pagination-set (optionChanged)="OnPageOptionChanged($event)"></pagination-set>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

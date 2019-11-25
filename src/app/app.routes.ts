@@ -95,6 +95,10 @@ export const ROUTES:Routes = [
         path: 'preferencias-evaluacion', component: BlankLayoutComponent,
         children: GestionEvaluacionRoutes,
 /*         canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ORGANIZER' }  */
+      },
+      {
+        path: 'evaluacion-final', component: BlankLayoutComponent,
+        children: GestionEvaluacionRoutes,
       }
     ],
   },

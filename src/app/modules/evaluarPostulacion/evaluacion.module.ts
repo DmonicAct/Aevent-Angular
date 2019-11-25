@@ -20,15 +20,19 @@ import {ListaPreferenciasComponent} from './preferencias-evaluacion/listaPrefere
 import {DetallePropuestaComponent} from './evaluacion/editar/tabset-parts/detalle-propuesta/detalle-propuesta.component';
 import {FasePropuestaComponent} from './evaluacion/editar/tabset-parts/fase-propuesta/fase-propuesta.component';
 import { ComentarioComponent } from './evaluacion/editar/tabset-parts/comentario-propuesta/comentario.component';
+import { ListaEvaluacionFinalComponent } from './evaluacionFinal/listaEvaluacionFinal.component';
+import { DetalleEvaluacionFinal } from './evaluacionFinal/detalles/detalle.component';
 
 @NgModule({
   declarations: [
     ListaEvaluacionComponent,
+    ListaEvaluacionFinalComponent,
     EditarEvaluacionComponent,
     ListaPreferenciasComponent,
     DetallePropuestaComponent,
     FasePropuestaComponent,
     ComentarioComponent,
+    DetalleEvaluacionFinal
   ],
   imports: [
     CommonModule,

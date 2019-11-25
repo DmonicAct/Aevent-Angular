@@ -33,6 +33,7 @@
         <a href="#"><i class="fa fa-file"></i> <span class="nav-label">Evaluaciones</span> <span class="fa arrow"></span> </a>
         <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('gestionPresidenteEvento')}">
           <li [ngClass]="{active: activeRoute('eventos-postulante')}"><a [routerLink]="['/gestionEvaluacionEvento/eventos-postulante']">Evaluar Ponencias</a></li>
+          <li [ngClass]="{active: activeRoute('evaluacion-final')}"><a [routerLink]="['/gestionEvaluacionEvento/evaluacion-final/lista']">Evaluaciones Finales</a></li>
           <li [ngClass]="{active: activeRoute('preferencias-evaluacion')}"><a [routerLink]="['/gestionEvaluacionEvento/preferencias-evaluacion/preferencias']">Preferencias</a></li>
         </ul>
       </li>
