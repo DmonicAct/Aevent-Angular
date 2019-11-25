@@ -58,6 +58,8 @@ export class ComiteEventoVer implements OnInit {
   public itemsFiltro = ["Nombre", "Usuario", "Correo"];
   public pref;
   public propuestas: Array<Propuesta>;
+  public comiteFiltrado: Array<Persona>;
+  public filtro: String;
   constructor(private toastr: ToastrService,
     private servicePersonas: PersonaService,
     private serviceEvaluacion: EvaluacionService,
@@ -115,49 +117,75 @@ export class ComiteEventoVer implements OnInit {
     if (this.tipo == "Nombre"){
         this.numeroTipo = 1;
     }
-    if (this.tipo == "Usuario"){
+    else if (this.tipo == "Usuario"){
         this.numeroTipo = 2;
     }
-    if (this.tipo == "Correo"){
+    else if (this.tipo == "Correo"){
         this.numeroTipo = 3;
-    }/*
+    }
+    else{
+      this.numeroTipo=-1;
+    }
+    /*
     if (this.tipo == "Codigo"){
         this.numeroTipo = 4;
     }*/
   }
 
-  filtro: String;
   enFiltro: Boolean;
   //eventoFiltro: Evento;
-  maestroComiteFilter: Array<Evento>;
-
+  maestroComiteFilter: Array<Persona>;
   buscarUsuario() {
     this.cambioFiltro();
     //console.log("numTipo: ",this.numeroTipo);
-    //console.log("filtro length: ",this.filtro.length);
+    console.log("filtro length: ",this.filtro.length);
     //console.log("evaDisp: ",this.evaluadoresDisponibles);
-    if (this.filtro.length > 0) {
-      if (this.numeroTipo == 1) {
-          this.maestroComiteFilter = this.evaluadoresDisponibles.filter(
-              item => item.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
-          )
-          console.log("maestroDisp: ",this.maestroComiteFilter);
-      }
-      if (this.numeroTipo == 2) {
-          this.maestroComiteFilter = this.evaluadoresDisponibles.filter(
-              item => item.username.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
-          )
-          console.log("maestro: ",this.maestroComiteFilter);
-      }
-      if (this.numeroTipo == 3) {
-          this.maestroComiteFilter = this.evaluadoresDisponibles.filter(
-              item => item.email.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
-          )
-          console.log("maestroDisp: ",this.maestroComiteFilter);
-      }
-      
+    if(this.numeroTipo!=-1){
+      if (this.filtro.length > 0) {
+        if (this.numeroTipo == 1) {
+            this.servicePersonas.obtenerEvaluadoresByNombre(this.itemEventoParent.idEvento,this.filtro.toString(), this.paginacion.pagina, this.paginacion.registros).subscribe(
+              (response: Response) => {
+                //       console.log(response.resultado)
+                this.comiteFiltrado = response.resultado;
+                this.paginacion = response.paginacion;
+                console.log("comiteFiltrado: ",this.comiteFiltrado);
+                //     console.log(response.paginacion)
+                //debugger
+              }
+            )
+        }
+        if (this.numeroTipo == 2) {
+            this.servicePersonas.obtenerEvaluadoresByUsername(this.itemEventoParent.idEvento , this.filtro.toString(), this.paginacion.pagina, this.paginacion.registros).subscribe(
+              (response: Response) => {
+                //       console.log(response.resultado)
+                this.comiteFiltrado = response.resultado;
+                this.paginacion = response.paginacion;
+                console.log("comiteFiltrado: ",this.comiteFiltrado);
+                //     console.log(response.paginacion)
+                //debugger
+              }
+            )
+        }
+        if (this.numeroTipo == 3) {
+            this.servicePersonas.obtenerEvaluadoresByEmail(this.itemEventoParent.idEvento,this.filtro.toString(), this.paginacion.pagina, this.paginacion.registros).subscribe(
+              (response: Response) => {
+                //       console.log(response.resultado)
+                this.comiteFiltrado = response.resultado;
+                this.paginacion = response.paginacion;
+                console.log("comiteFiltrado: ",this.comiteFiltrado);
+                //     console.log(response.paginacion)
+                //debugger
+              }
+            )
+        }
+        
 
-  }
+    }
+      else{
+        this.comiteFiltrado = this.evaluadoresDisponibles;
+        console.log("comiteFiltrado: ",this.comiteFiltrado);
+      }
+    }
   }
 
   OnPageChanged(event): void {
