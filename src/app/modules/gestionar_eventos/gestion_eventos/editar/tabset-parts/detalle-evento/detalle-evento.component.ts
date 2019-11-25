@@ -250,16 +250,9 @@ export class DetalleEventoConfiguracion implements OnInit {
 
         this.item.organizador = this.authService.persona;
         this.item.enabled = true;
-        let flag = this.item.idEvento == null;
         //this.item.formulario==null ||
         //this.item.formulario.idFormularioFCP == null;
         let evento = JSON.parse(JSON.stringify(this.item));
-
-        if (flag) {
-            //this.item.formulario = null;
-            // this.item.formulario = new FormularioCFP();
-            evento.formulario = null;
-        }
         this.serviceEvento.guardarEvento(evento).subscribe(
             (response: Response) => {
                 this.item.idEvento = response.resultado.idEvento;

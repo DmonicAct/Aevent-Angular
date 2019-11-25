@@ -24,30 +24,35 @@ export class UtilFormulario{
         pregunta.indice = 1;
         pregunta.tipoSeccion =  TipoSeccion.PREGUNTA_ABIERTA;
         pregunta.descripcion = "Nombre";
+        pregunta.maxCaracteres = 30;
         seccion.preguntaList.push(pregunta);
 
         pregunta = new Pregunta();
         pregunta.indice = 2;
         pregunta.tipoSeccion =  TipoSeccion.PREGUNTA_ABIERTA;
         pregunta.descripcion = "Apellido Paterno";
+        pregunta.maxCaracteres = 30;
         seccion.preguntaList.push(pregunta);
 
         pregunta = new Pregunta();
         pregunta.indice = 3;
         pregunta.tipoSeccion =  TipoSeccion.PREGUNTA_ABIERTA;
         pregunta.descripcion = "Apellido Materno";
+        pregunta.maxCaracteres = 30;
         seccion.preguntaList.push(pregunta);
 
         pregunta = new Pregunta();
         pregunta.indice = 4;
         pregunta.tipoSeccion =  TipoSeccion.PREGUNTA_ABIERTA;
         pregunta.descripcion = "Direccion";
+        pregunta.maxCaracteres = 50;
         seccion.preguntaList.push(pregunta);
 
         pregunta = new Pregunta();
         pregunta.indice = 5;
         pregunta.tipoSeccion =  TipoSeccion.PREGUNTA_ABIERTA;
         pregunta.descripcion = "Telefono";
+        pregunta.maxCaracteres = 20;
         seccion.preguntaList.push(pregunta);
 
         division.seccionList.push(seccion);
@@ -68,18 +73,21 @@ export class UtilFormulario{
         pregunta.indice = 1;
         pregunta.tipoSeccion =  TipoSeccion.PREGUNTA_ABIERTA;
         pregunta.descripcion = "Ocupacion Actual";
+        pregunta.maxCaracteres = 100;
         seccion.preguntaList.push(pregunta);
 
         pregunta = new Pregunta();
         pregunta.indice = 2;
         pregunta.tipoSeccion =  TipoSeccion.PREGUNTA_ABIERTA;
         pregunta.descripcion = "Puesto";
+        pregunta.maxCaracteres = 100;
         seccion.preguntaList.push(pregunta);
 
         pregunta = new Pregunta();
         pregunta.indice = 3;
         pregunta.tipoSeccion =  TipoSeccion.PREGUNTA_ABIERTA;
         pregunta.descripcion = "Especialidad";
+        pregunta.maxCaracteres = 100;
         seccion.preguntaList.push(pregunta);
 
         division.seccionList.push(seccion);

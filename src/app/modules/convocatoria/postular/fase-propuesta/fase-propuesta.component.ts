@@ -1,5 +1,5 @@
 import { OnInit, Component, Input } from "@angular/core";
-import { Division, RespuestaFormulario, TipoSeccion, Fase, Postulacion } from "../../../../models";
+import { Division, RespuestaFormulario, TipoSeccion, Fase, Postulacion, Response } from "../../../../models";
 import { RespuestaPostulacion } from "../../../../models/respuesta_postulacion";
 import { TabDirective } from "ngx-bootstrap";
 import { PropuestaService } from "../../../../services/propuesta.service";
@@ -106,7 +106,15 @@ export class FasePropuestaComponent implements OnInit{
         this.itemsRepuesta.forEach((e,i)=>{
             this.respuestaFase.listaFormulario = this.respuestaFase.listaFormulario.concat(e);
         });
-        
+        this.propuestaService.onEnviarPostulacion(this.postulacion.idPostulacion).subscribe(
+            (response:Response)=>{
+                if(response.estado=="OK"){
+                    this.postulacion = response.resultado;
+                    this.toastr.success(`Se ha enviado el formulario correctamente`, 'Aviso', { closeButton: true });
+                }
+                
+            }
+        );
     }
     OnGuardarFase(outer_index: number,codigoPropuesta:number){
         if(this.index == outer_index){

@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { FaseService, CriterioService, EventoService, TipoCriterioService } from '../../../../../../services/index';
 import { Location } from '@angular/common';
-import { ModalDirective } from 'ngx-bootstrap';
+import { ModalDirective, TabsetComponent } from 'ngx-bootstrap';
 import { UtilFormulario } from 'src/app/util/util_formulario';
 import * as moment from 'moment';
 import { a } from "@angular/core/src/render3";
@@ -17,6 +17,7 @@ import { a } from "@angular/core/src/render3";
 export class FaseEventoComponent implements OnInit {
 
   public loading: Boolean = false;
+  @ViewChild('tabsFase') tabset: TabsetComponent;
 
   public isNewModalShown: Boolean;
   public isNewCriterioModalShown: Boolean;
@@ -50,12 +51,18 @@ export class FaseEventoComponent implements OnInit {
   //Evento de Padre
   @Input('item-evento')
   public item: Evento;
+  
+  @Input('item-fases')
+  public fases: Array<Fase>;
+
   public arrayCriterios: Array<Criterio>;
   public criterio: Criterio;
   public fase: Fase;
   public tipoCriterios: Array<TipoCriterio>;
   private utilForm: UtilFormulario;
   public formulario: FormularioCFP;
+
+  private index:number = 0;
   constructor(private toastr: ToastrService,
     private router: Router,
     private faseService: FaseService,
@@ -72,6 +79,7 @@ export class FaseEventoComponent implements OnInit {
     this.utilForm = new UtilFormulario();
     this.fase.formulario = new FormularioCFP();
     this.fase.formulario.divisionList = this.utilForm.inicializarFormulario();
+
   }
 
   ngOnInit(): void {
@@ -79,18 +87,24 @@ export class FaseEventoComponent implements OnInit {
   }
 
   obtenerTipoCriterio() {
+    this.loading = true;
     this.tipoCriterioService.obtenerTipoCriterios().subscribe(
       (response: Response) => {
         this.tipoCriterios = response.resultado;
+        this.loading = false;
        // console.log(this.item.fases[0].criterios);
       }
     );
   }
 
   getEventoActualizado() {
+    this.loading = true;
     this.eventoService.obtenerEvento(this.item.idEvento).subscribe(
       (response: Response) => {
         this.item = response.resultado;
+        this.fases = this.item.fases;
+        this.tabset.tabs[this.index].active = true;
+        this.loading= false;
       }
     );
   }
@@ -104,6 +118,7 @@ export class FaseEventoComponent implements OnInit {
     this.isNewFormModalShown = false;
     this.isNewFaseModalShown = false;
     this.editCriterioModalShown = false;
+   
   }
   onHiddenEditarFase(): void {
     this.isNewFaseModalShown = false;
@@ -130,6 +145,18 @@ export class FaseEventoComponent implements OnInit {
   }
 
   OnNuevo() {
+    this.loading = true;
+    
+    this.tabset.tabs.forEach((e,i)=>{
+      if(e.active==true){
+        this.index = i;
+        console.log("this.index:",this.index);
+      }
+    });
+    if(!this.tipoCriterioModal || this.tipoCriterioModal.descripcion==""){
+      this.toastr.warning(`se debe de elegir un tipo de criterio`, 'Aviso', { closeButton: true });
+      return;
+    }
     if (this.esNuevo) { //Creando criterio
       this.criterio.descripcion = this.descripcionModal;
       this.criterio.idFase = this.fase.idFase;
@@ -142,8 +169,9 @@ export class FaseEventoComponent implements OnInit {
         (response: Response) => {
           if (response.estado == "OK") {
             this.toastr.success(`Se ha guardado el criterio con exito`, 'Aviso', { closeButton: true });
+            this.onHidden(); 
             this.getEventoActualizado();
-            this.onHidden()
+           
           }
         }
       );
@@ -162,8 +190,8 @@ export class FaseEventoComponent implements OnInit {
           if (response.estado == "OK") {
             console.log(this.criterio.idFase);
             this.toastr.success(`Se ha editado el criterio con éxito`, 'Aviso', { closeButton: true });
+            this.onHidden();
             this.getEventoActualizado();
-            this.onHidden()
           }
         }
       );
@@ -176,8 +204,7 @@ export class FaseEventoComponent implements OnInit {
     this.fase = fase;
     this.arrayCriterios = this.fase.criterios;
     this.descripcionModal = "";
-    this.tipoCriterioModal = new TipoCriterio();
-
+    this.tipoCriterioModal = this.tipoCriterios[this.tipoCriterios.length-1];
     this.esNuevo = true;
     this.isNewCriterioModalShown = true;
   }
