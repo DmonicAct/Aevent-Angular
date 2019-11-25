@@ -77,10 +77,12 @@
                 <td class="text-left" data-col="nombrePostulante">{{item.postulante.nombreCompleto}}</td>
                 <td class="text-left" data-col="tituloPropuesta">{{item.titulo}}</td>
                 <td class="text-left" data-col="fechaPostulación">{{item.fecha_postulacion | date:'dd/MM/yyyy'}}</td>
-                <td *ngIf="getEstadoPropuesta(item)==0" class="text-left" data-col="estadoPropuesta">Propuesta sin
-                  evaluador</td>
-                <td *ngIf="getEstadoPropuesta(item)>0" class="text-left" data-col="estadoPropuesta">Propuesta con
-                  {{item.evaluadoresAsignados.length}} evaluadores asignados</td>
+                <td class="text-left" data-col="estado" style="padding-left: 0">
+                  <span *ngIf="getEstadoPropuesta(item)==0" class="label" [class.label-danger]="getEstadoPropuesta(item)==0">Propuesta sin
+                  evaluador</span>
+                  <span *ngIf="getEstadoPropuesta(item)>0" class="label" [class.label-success]="getEstadoPropuesta(item)>0">Propuesta con
+                    {{item.evaluadoresAsignados.length}} evaluadores asignados</span></td>
+                
                 <!--
                   <td class="text-left" data-col="fechaPostulación">
                     <pre
@@ -308,61 +310,64 @@
               <tr *ngFor="let data of prefComite;let i = index" 
                 [class.selected]="i == selectedRow" ng-style="selected(i)">
                 <td
-                  *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregar(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregarProp(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
                   class="text-center" data-col="idUsuario">{{data.usuario.idUsuario}}</td>
                 <td
-                  *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 || enMaestraAgregar(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 || enMaestraAgregarProp(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
                   bgcolor="#c3e8f0" class="text-center" data-col="idUsuario">{{data.usuario.idUsuario}}</td>
                 <td *ngIf="enPropuesta(data.usuario.idUsuario)!=-1" bgcolor="#d4d4d4" class="text-center"
                   data-col="idUsuario">{{data.usuario.idUsuario}}</td>
 
 
                 <td
-                  *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregar(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregarProp(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
                   class="text-left" data-col="nombreCompleto">{{data.usuario.nombreCompleto}}</td>
                 <td
-                  *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 || enMaestraAgregar(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 || enMaestraAgregarProp(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
                   bgcolor="#c3e8f0" class="text-left" data-col="nombreCompleto">{{data.usuario.nombreCompleto}}</td>
                 <td *ngIf="enPropuesta(data.usuario.idUsuario)!=-1" bgcolor="#d4d4d4" class="text-left"
                   data-col="nombreCompleto">{{data.usuario.nombreCompleto}}</td>
 
                 <td
-                  *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregar(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregarProp(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
                   class="text-left" data-col="username">{{data.usuario.username}}</td>
                 <td
-                  *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 || enMaestraAgregar(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 || enMaestraAgregarProp(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
                   bgcolor="#c3e8f0" class="text-left" data-col="username">{{data.usuario.username}}</td>
                 <td *ngIf="enPropuesta(data.usuario.idUsuario)!=-1" bgcolor="#d4d4d4" class="text-left"
                   data-col="username">{{data.usuario.username}}</td>
 
                 <td
-                  *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregar(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregarProp(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
                   class="text-left" data-col="email">{{data.usuario.email}}</td>
                 <td
-                  *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 || enMaestraAgregar(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 || enMaestraAgregarProp(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
                   bgcolor="#c3e8f0" class="text-left" data-col="email">{{data.usuario.email}}</td>
                 <td *ngIf="enPropuesta(data.usuario.idUsuario)!=-1" bgcolor="#d4d4d4" class="text-left"
                   data-col="email">{{data.usuario.email}}</td>
 
                 <td
-                  *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregar(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregarProp(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
                   class="text-left" data-col="preferencia">{{data.descripcion}}</td>
                 <td
-                  *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 || enMaestraAgregar(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 || enMaestraAgregarProp(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
                   bgcolor="#c3e8f0" class="text-left" data-col="preferencia">{{data.descripcion}}</td>
                 <td *ngIf="enPropuesta(data.usuario.idUsuario)!=-1" bgcolor="#d4d4d4" class="text-left"
                   data-col="preferencia">{{data.descripcion}}</td>
 
 
                 <td
-                  *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregar(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregarProp(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
                   class="text-center" data-col="agregar"><button class="btn btn-info" (click)="ElegirEvaluador(data,i)"><i
                       class="fa fa-plus"></i></button></td>
 
                 <td
-                  *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 || enMaestraAgregar(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  *ngIf="enEvElegidos(data.usuario.idUsuario)!=-1 && enMaestraAgregarProp(data.usuario.idUsuario)==-1 && enPropuesta(data.usuario.idUsuario)==-1"
                   bgcolor="#c3e8f0" class="text-center" data-col="agregar"><button class="btn btn-info" (click)="ElegirEvaluador(data,i)"><i
                       class="fa fa-minus"></i></button></td>
+                <td
+                  *ngIf="enEvElegidos(data.usuario.idUsuario)==-1 && enMaestraAgregarProp(data.usuario.idUsuario)!=-1 && enPropuesta(data.usuario.idUsuario)==-1"
+                  bgcolor="#c3e8f0" class="text-center" data-col="agregar"></td>
                 <td *ngIf="enPropuesta(data.usuario.idUsuario)!=-1" bgcolor="#d4d4d4" class="text-center"
                   data-col="agregar"></td>
               </tr>

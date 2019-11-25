@@ -138,11 +138,39 @@ export class AsignarPropuestasVer implements OnInit {
     }
   }
 
+  actualizarQuitar() {
+    for (var i = 0; i < this.nuevos.length; i++) {
+      var pos = this.enQuitar(this.nuevos[i].idUsuario);
+      if (pos != -1) {//si está en quitar...
+        this.quitar.splice(pos, 1);
+      }
+    }
+  }
+
+  actualizarEvalProp() {
+    //se agrega los de MaestraAgregar
+    for (var i = 0; i < this.maestraAgregarProp.length; i++) {
+      this.evalOrig.push(this.maestraAgregarProp[i]);
+    }
+
+    //se quita lo de quitar
+    for (var i = 0; i < this.quitar.length; i++) {
+      var pos = this.enEvalOrig(this.quitar[i].idUsuario);
+      if (pos != -1)
+        this.evalOrig.splice(pos, 1);
+    }
+
+  }
+public evalOrig:Array<Persona>;
   public ver: boolean;
   onGuardarCambiosPropuestas() {
     //this.itemEventoParent.comite=this.listaEvAgregar;
     //console.log(this.itemEventoParent);
     this.ver = false;
+    this.evalOrig = Object.assign([], this.propElegida.evaluadoresAsignados);
+    this.actualizarQuitar();
+    this.actualizarEvalProp();
+    
     console.log("MAESTRAAA ", this.maestraAgregar)
     for (var i = 0; i < this.maestraAgregar.length; i++) {
       console.log(this.maestraAgregar[i])
@@ -189,87 +217,22 @@ export class AsignarPropuestasVer implements OnInit {
     return faseMin;
   }
 
-  enEvElegidos(id) {
-    for (var i = 0; i < this.evElegidos.length; i++) {
-      if (this.evElegidos[i].idUsuario == id) {
-        return i;
-      }
-    }
-    return -1;
-
-
-  }
-
-  enMaestraAgregar(id) {
-    for (var i = 0; i < this.maestraAgregarProp.length; i++) {
-      if (this.maestraAgregarProp[i].idUsuario == id) {
-        return i;
-      }
-    }
-    return -1;
-
-
-  }
-
-
-
-  enNuevos(id) {
-    for (var i = 0; i < this.nuevos.length; i++) {
-      if (this.nuevos[i].idUsuario == id) {
-        return i;
-      }
-    }
-    return -1;
-
-
-  }
-
-  enQuitar(id) {
-    for (var i = 0; i < this.quitar.length; i++) {
-      if (this.quitar[i].idUsuario == id) {
-        return i;
-      }
-    }
-    return -1;
-
-
-  }
-  ElegirEvaluador(data, i) {
-    if (this.enPropuesta(data.usuario.idUsuario) == -1) {
-      var pos = this.enEvElegidos(data.usuario.idUsuario);
-      if (pos == -1)
-        this.evElegidos.push(data.usuario);
-      else
-        this.evElegidos.splice(pos, 1);
-    }
-
-  }
 
 
 
 
-  enPropuesta(id) {
-    for (var i = 0; i < this.evalOriginales.length; i++) {
-      if (this.evalOriginales[i].idUsuario == id) {
-        return i;
-      }
-    }
-    if (this.propElegida.postulante.idUsuario == id)
-      return 50;
-    return -1;
 
-  }
+
   public posQ: number;
   OnGuardarEvaluadores() {
+    //quitar
     for (var i = 0; i < this.quitar.length; i++) {
-      var indComite = this.propElegida.evaluadoresAsignados.lastIndexOf(this.quitar[i]);
+      var indComite = this.enPropElegida(this.quitar[i].idUsuario)
       if (indComite > -1) {
         this.propElegida.evaluadoresAsignados.splice(indComite, 1);
       }
     }
-
-
-
+    debugger;
     for (var i = 0; i < this.maestraAgregarProp.length; i++) {
       //console.log(this.propElegida.evaluadoresAsignados[i])
       if (!this.ver) {
@@ -325,6 +288,7 @@ export class AsignarPropuestasVer implements OnInit {
 
       }
     }
+
     this.nuevos = new Array<Persona>();
     this.quitar = new Array<Persona>();
     this.maestraAgregarProp = new Array<Persona>();
@@ -340,45 +304,60 @@ export class AsignarPropuestasVer implements OnInit {
     } else {
       this.toastr.warning('Error al asignar evaluadores', 'Error', { closeButton: true });
     }
+    this.pagPropuestas.pagina = 1;
+    this.pagPropuestas.registros = 10;
+    //this.getPropuestas();
 
 
+
+  }
+
+  getPropuestas() {
+    this.serviceEvento.obtenerPropuestas(this.itemEventoParent.idEvento, this.pagPropuestas.pagina, this.pagPropuestas.registros).subscribe(
+      (response: Response) => {
+        this.propuestasEvento = response.resultado;
+        this.pagPropuestas = response.paginacion;
+
+
+
+        /*
+        for(var i=0;i<this.item.comite.length;i++){
+            this.comite1.push(this.item.comite[i]);
+            this.comite2.push(this.item.comite[i]);
+        }*/
+        //console.log(response);
+        //console.log("EvaluadoresDisponibles");
+      }
+    );
 
   }
 
   OnAceptarEvaluadores() {
-    var verFor: boolean;
-    if(this.prefComite.length>10){
+    //var verFor: boolean;
+    //console.log("GG DEBUGER XD")
+    if (this.prefComite.length + this.evElegidos.length > 10) {
       this.toastr.warning('No se puede tener más de 10 usuarios en una propuesta!', 'Error', { closeButton: true });
       return;
     }
-
     for (var i = 0; i < this.evElegidos.length; i++) {
-      verFor = false;
-
-      for (var j = 0; j < this.maestraAgregarProp.length; j++)
-        if (this.evElegidos[i].idUsuario == this.maestraAgregarProp[j].idUsuario)
-          verFor = true;
-      if (!verFor) {
+      //verFor = false;
+      if (this.enMaestraAgregarProp(this.evElegidos[i].idUsuario) == -1)
         this.maestraAgregarProp.unshift(this.evElegidos[i]);
-        if (this.enNuevos(this.evElegidos[i].idUsuario) == -1)
-          this.nuevos.push(this.evElegidos[i]);
-      }
-
+      if (this.enNuevos(this.evElegidos[i].idUsuario) == -1)
+        this.nuevos.push(this.evElegidos[i]);
     }
     //debugger;
     for (var i = 0; i < this.maestraAgregarProp.length; i++) {
-      verFor = false;
-      for (var j = 0; j < this.propElegida.evaluadoresAsignados.length; j++)
-        if (this.maestraAgregarProp[i].idUsuario == this.propElegida.evaluadoresAsignados[j].idUsuario)
-          verFor = true;
-      if (!verFor)
-        this.propElegida.evaluadoresAsignados.unshift(this.maestraAgregarProp[i]);
-
+      //verFor = false;
+      //for (var j = 0; j < this.propElegida.evaluadoresAsignados.length; j++)
+        if (this.enPropElegida(this.maestraAgregarProp[i].idUsuario) == -1)
+          this.propElegida.evaluadoresAsignados.unshift(this.maestraAgregarProp[i]);
     }
     this.evElegidos = new Array<Persona>();
     this.isModalShownEvaluadores = false;
-
   }
+
+
   getMaxFecha(fases: Array<Fase>): Fase {
     let fechaBase: string = '1990-10-10';
     let fechaMax = new Date(fechaBase);
@@ -480,10 +459,11 @@ export class AsignarPropuestasVer implements OnInit {
   }
   public evalOriginales: Array<Persona>;
   onAgregarEvaluadores(item, i) {
+    //this.propElegida = Object.assign([], item);
     this.propElegida = item;
     this.evalOriginales = new Array<Persona>();
     this.evalOriginales = Object.assign([], this.propElegida.evaluadoresAsignados);
-    console.log("PROPELEGIDA", this.propElegida)
+    //console.log("PROPELEGIDA", this.propElegida)
     this.isModalShownPropuestaDetalle = true;
 
   }
@@ -624,10 +604,108 @@ export class AsignarPropuestasVer implements OnInit {
   }
 
   OnPageChangedPropuesta(event) {
+    this.pagPropuestas.pagina = event.page;
+    this.getPropuestas();
 
   }
 
   OnPageOptionChangedPropuesta(event) {
+    this.pagPropuestas.registros = event.rows;
+    this.pagPropuestas.pagina = 1;
+    this.getPropuestas();
+
+  }
+
+  ElegirEvaluador(data, i) {
+    if (this.enPropuesta(data.usuario.idUsuario) == -1) {
+      var pos = this.enEvElegidos(data.usuario.idUsuario);
+      if (pos == -1)
+        this.evElegidos.push(data.usuario);
+      else
+        this.evElegidos.splice(pos, 1);
+    }
+
+  }
+  /*BUSQUEDA*/
+  enEvElegidos(id) {
+    for (var i = 0; i < this.evElegidos.length; i++) {
+      if (this.evElegidos[i].idUsuario == id) {
+        return i;
+      }
+    }
+    return -1;
+
+
+  }
+  enEvalOrig(id){
+    for (var i = 0; i < this.evalOrig.length; i++) {
+      if (this.evalOrig[i].idUsuario == id) {
+        return i;
+      }
+    }
+    return -1;
+
+
+  }
+
+  /*
+    enMaestraAgregar(id) {
+      for (var i = 0; i < this.maestraAgregarProp.length; i++) {
+        if (this.maestraAgregarProp[i].idUsuario == id) {
+          return i;
+        }
+      }
+      return -1;
+    }*/
+  enMaestraAgregarProp(id) {
+    for (var i = 0; i < this.maestraAgregarProp.length; i++) {
+      if (this.maestraAgregarProp[i].idUsuario == id) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+
+
+  enNuevos(id) {
+    for (var i = 0; i < this.nuevos.length; i++) {
+      if (this.nuevos[i].idUsuario == id) {
+        return i;
+      }
+    }
+    return -1;
+
+
+  }
+
+  enQuitar(id) {
+    for (var i = 0; i < this.quitar.length; i++) {
+      if (this.quitar[i].idUsuario == id) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  enPropElegida(id) {
+    for (var i = 0; i < this.propElegida.evaluadoresAsignados.length; i++) {
+      if (this.propElegida.evaluadoresAsignados[i].idUsuario == id) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  enPropuesta(id) {
+    for (var i = 0; i < this.evalOriginales.length; i++) {
+      if (this.evalOriginales[i].idUsuario == id) {
+        return i;
+      }
+    }
+    if (this.propElegida.postulante.idUsuario == id)
+      return 50;
+    return -1;
 
   }
 

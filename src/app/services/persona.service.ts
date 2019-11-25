@@ -44,7 +44,7 @@ export class PersonaService{
       .set('pagina', pagina.toString())
       .set('registros', registros.toString());
 
-      return this.http.get(`${environment.serviceEndpoint}/persona/comite/${idEvento}`,{params}).pipe(
+      return this.http.get(`${environment.serviceEndpoint}/personas/comite/${idEvento}`,{params}).pipe(
         catchError(e => {
           if (e.status == 400) {
             return throwError(e);

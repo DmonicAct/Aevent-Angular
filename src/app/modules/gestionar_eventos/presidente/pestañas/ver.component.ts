@@ -112,7 +112,7 @@ export class VerEventoPresidenteComponent implements OnInit {
                     this.comite1.push(this.item.comite[i]);
                     this.comite2.push(this.item.comite[i]);
                 }*/
-                console.log(response);
+                //console.log(response);
                 //console.log("EvaluadoresDisponibles");
             }
         );
@@ -142,7 +142,7 @@ export class VerEventoPresidenteComponent implements OnInit {
         //this.obtenerEvento();
         this.personaService.getComite(this.itemCodigo,this.paginacion.pagina,this.paginacion.registros).subscribe(
             (response: Response)=>{
-                console.log(response)
+                //console.log(response)
                 this.comite1=response.resultado;
                 this.pagComite=response.paginacion;
             }
@@ -152,7 +152,7 @@ export class VerEventoPresidenteComponent implements OnInit {
 
 
     selectTab(){
-        console.log("TAB SELECCIONADAAAAA")
+        //console.log("TAB SELECCIONADAAAAA")
         this.obtenerEvento();
 
     }
