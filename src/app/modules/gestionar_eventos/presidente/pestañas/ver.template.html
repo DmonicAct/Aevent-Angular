@@ -23,13 +23,13 @@
         </tab>
 
 
-        <tab #tabsComite heading="Comité" (changed)="tabClick($event)">
+        <tab #tabsComite heading="Comité" (changed)="tabClick($event)" (select) = "selectTabComite($event)">
             <div class="mail-box-header">
-                <comiteEventoPresidente  (click)="refreshComite()" [(item-evento)]="item" [item-presidente]="item.presidente" [(item-comite)]="comite1"  (savedItem)="displayItem($event)" ></comiteEventoPresidente>
+                <comiteEventoPresidente  (click)="refreshComite()" [(item-evento)]="item" [item-presidente]="item.presidente" [(item-comite)]="comite1"  [(pag-comite)]="pagComite"  (savedItem)="displayItem($event)" ></comiteEventoPresidente>
               </div>
         </tab>
 
-        <tab #tabsPropuestas heading="Propuestas" (changed)="tabClick($event)">
+        <tab #tabsPropuestas heading="Propuestas" (changed)="tabClick($event)" (select) = "selectTab($event)">
           <div class="mail-box-header">
               <asignar-propuestas  (click)="refreshComite()" [(item-comite-propuesta)]="comite2" [(item-evento)]="item" [(item-propuestas)]="propuestas" [(item-pag)]="pagAsignar"></asignar-propuestas>
             </div>

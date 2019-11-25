@@ -50,6 +50,7 @@ export class ListaEventosPresidente implements OnInit {
       (response: Response) => {
         this.items = response.resultado;
         this.maestroEventoFilter = this.items;
+        this.paginacion=response.paginacion;
       }
     );
   }

@@ -14,7 +14,8 @@
       <tabset #tabsDetalle>
         <tab heading="Detalle">
           <div class="mail-box-header">
-            <detalle-propuesta [(item-division)]="itemEvaluacion.fase.formulario.divisionList" [(item-respuesta)]="respuestaFormulario"></detalle-propuesta>
+            <detalle-propuesta [(item-division)]="itemEvaluacion.fase.formulario.divisionList"
+              [(item-respuesta)]="respuestaFormulario"></detalle-propuesta>
           </div>
         </tab>
         <tab #tabsFases heading="Criterios de Evaluación" (select)="onSelect()">

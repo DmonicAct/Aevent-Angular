@@ -86,8 +86,10 @@ export class DetalleEventoConfiguracion implements OnInit {
 
 
     getAllUsuariosActivos() {
+        this.loading = true;
         this.serviceUsuario.obtenerTodosUsuariosActivos().subscribe(
             (response: Response) => {
+                this.loading = false;
                 this.itemsPersona = response.resultado;
                 this.maestroUsuariosFilter = this.itemsPersona;
             }
@@ -95,8 +97,10 @@ export class DetalleEventoConfiguracion implements OnInit {
     }
 
     getListaActivos() {
+        this.loading = true;
         this.serviceUsuario.obtenerUsuariosActivos(this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
+                this.loading =false;
                 this.itemsPersona = response.resultado;
                 this.paginacion = response.paginacion;
                 this.maestroUsuariosFilter = this.itemsPersona;
@@ -121,8 +125,10 @@ export class DetalleEventoConfiguracion implements OnInit {
     }
 
     obtenerUsuarios() {
+        this.loading = true;
         this.servicePersonas.obtenerPersonas().subscribe(
             (response: Response) => {
+                this.loading = false;
                 this.itemsPersona = response.resultado;
                 this.maestroUsuariosFilter = this.itemsPersona;
 
@@ -151,8 +157,10 @@ export class DetalleEventoConfiguracion implements OnInit {
 
 
     obtenerTipoEventos() {
+        this.loading = true;
         this.serviceTipoEvento.obtenerTipoEventos().subscribe(
             (response: Response) => {
+                this.loading = false;
                 this.itemsTipoEvento = response.resultado;
             }
         );
@@ -255,6 +263,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         let evento = JSON.parse(JSON.stringify(this.item));
         this.serviceEvento.guardarEvento(evento).subscribe(
             (response: Response) => {
+                this.loading= false;
                 this.item.idEvento = response.resultado.idEvento;
                 this.item.fechaInicio = response.resultado.fechaInicio;
                 this.item.fechaFin = response.resultado.fechaFin;
