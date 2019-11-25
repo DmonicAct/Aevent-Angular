@@ -5,7 +5,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { esLocale } from 'ngx-bootstrap/locale';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { Location } from '@angular/common';
-import { PersonaService, CategoriaService, LugarService, EventoService, TipoEventoServices } from '../../../../../services';
+import { PersonaService, CategoriaService, LugarService, EventoService, TipoEventoServices, EvaluacionService } from '../../../../../services';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { AuthService as AeventAuthService } from '../../../../../auth/service/auth.service';
 
@@ -42,6 +42,8 @@ export class ComiteEventoVer implements OnInit {
 
   public evaluadoresDisponibles: Array<Persona>;
   public evElegidos: Array<Persona>;
+  public tipo:String;
+  public numeroTipo:number;
   public loading: boolean;
   public paginacion: Paginacion;
   public paginacionPropuestas: Paginacion;
@@ -49,10 +51,12 @@ export class ComiteEventoVer implements OnInit {
   public quitar: Array<Persona>; //Para ver que preferencias quitar
   public maestraAgregar: Array<Persona>;
   public nuevasPreferencias: Array<Preferencia>;
+  public itemsFiltro = ["Nombre", "Usuario", "Correo"];
   public pref;
   public propuestas: Array<Propuesta>;
   constructor(private toastr: ToastrService,
     private servicePersonas: PersonaService,
+    private serviceEvaluacion: EvaluacionService,
     private authService: AeventAuthService,
     private servicePreferencia: PreferenciaService,
     private serviceEvento: EventoService,
@@ -83,7 +87,7 @@ export class ComiteEventoVer implements OnInit {
     this.nuevos = new Array<Persona>();
     this.quitar = new Array<Persona>();
     this.propuestas = new Array<Propuesta>();
-    //HARDCODEADO WTF
+    
 
   }
   getEvaluadoresDisponibles() {
@@ -97,6 +101,55 @@ export class ComiteEventoVer implements OnInit {
       }
     )
 
+  }
+  
+  cambioFiltro(){
+    if (this.tipo == "Nombre"){
+        this.numeroTipo = 1;
+    }
+    if (this.tipo == "Usuario"){
+        this.numeroTipo = 2;
+    }
+    if (this.tipo == "Correo"){
+        this.numeroTipo = 3;
+    }/*
+    if (this.tipo == "Codigo"){
+        this.numeroTipo = 4;
+    }*/
+  }
+
+  filtro: String;
+  enFiltro: Boolean;
+  //eventoFiltro: Evento;
+  maestroComiteFilter: Array<Evento>;
+
+  buscarUsuario() {
+    this.cambioFiltro();
+    //console.log("numTipo: ",this.numeroTipo);
+    //console.log("filtro length: ",this.filtro.length);
+    //console.log("evaDisp: ",this.evaluadoresDisponibles);
+    if (this.filtro.length > 0) {
+      if (this.numeroTipo == 1) {
+          this.maestroComiteFilter = this.evaluadoresDisponibles.filter(
+              item => item.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+          )
+          console.log("maestroDisp: ",this.maestroComiteFilter);
+      }
+      if (this.numeroTipo == 2) {
+          this.maestroComiteFilter = this.evaluadoresDisponibles.filter(
+              item => item.username.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+          )
+          console.log("maestro: ",this.maestroComiteFilter);
+      }
+      if (this.numeroTipo == 3) {
+          this.maestroComiteFilter = this.evaluadoresDisponibles.filter(
+              item => item.email.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+          )
+          console.log("maestroDisp: ",this.maestroComiteFilter);
+      }
+      
+
+  }
   }
 
   OnPageChanged(event): void {
@@ -201,6 +254,34 @@ export class ComiteEventoVer implements OnInit {
           for (let persona of this.quitar) {
             this.pref = new Preferencia();
             for (let prop of this.propuestas) {
+              this.serviceEvaluacion.obtenerPropuestas(persona.idUsuario, 1, 50).subscribe(
+                (response: Response) => {
+                  console.log(response)
+                  let localProp: Array<Evaluacion> = response.resultado;
+                  let verProp: Array<boolean>= new Array<boolean>(localProp.length);
+                  for(var i=0;i<verProp.length;i++)
+                    verProp[i]=false;
+                  //let posQ1: number;
+                  for (var j = 0; j < localProp.length; j++) {
+                    //console.log("BEFORE DESASIGNAR: ", posQ1)
+                    
+
+                    debugger;
+                    if (localProp[j].fase.idEvento == this.itemEventoParent.idEvento && verProp[j]==false) {
+                      verProp[j]=true;
+                      this.serviceEvaluacion.desasignarEvaluadorPropuesta(<number>localProp[j].idEvaluacion).subscribe(
+                        (response: Response) => {
+                          console.log(response.resultado)
+                        }
+                      )
+                    }
+                  }
+
+
+                }
+              )
+
+
               this.servicePreferencia.consultarByUsuarioAndPropuesta(persona.idUsuario, prop.idPropuesta.valueOf()).subscribe(
                 (response: Response) => {
                   this.pref = response.resultado;

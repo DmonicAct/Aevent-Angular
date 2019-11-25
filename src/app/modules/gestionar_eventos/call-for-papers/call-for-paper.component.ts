@@ -1,10 +1,10 @@
 import { OnInit, Component, ViewChild, Input } from "@angular/core";
-import { Response, Parametro, TipoSeccion, FormularioCFP, Division, Pregunta, Seccion, Evento, Fase } from "../../../../../../../models";
+import { Response, Parametro, TipoSeccion, FormularioCFP, Division, Pregunta, Seccion, Evento, Fase } from "../../../models";
 import { ModalDirective } from "ngx-bootstrap";
 import { Location } from '@angular/common';
-import { FaseService } from '../../../../../../../services/fase.service';
+import { FaseService } from '../../../services/fase.service';
 import { ToastRef, ToastrService } from "ngx-toastr";
-import { FormularioService } from "../../../../../../../services/formulario.service";
+import { FormularioService } from "../../../services/formulario.service";
 import { Observable } from "rxjs";
 
 declare var jQuery: any;

@@ -26,6 +26,19 @@ export class EventoService{
       this.config_password = environment.APP_CONFIG_PASSWORD;
   
     }
+
+    guardarComite(evento: Evento):Observable<any>{
+      return this.http.post(this.apiEndpoint, evento).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+  }
     
     guardarEvento(evento: Evento):Observable<any>{
         return this.http.post(this.apiEndpoint, evento).pipe(
