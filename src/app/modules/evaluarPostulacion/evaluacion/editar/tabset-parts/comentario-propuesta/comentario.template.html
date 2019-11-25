@@ -21,31 +21,39 @@
               <h4><strong>Comentarios</strong></h4>
             </div>
           </div>
-          <div *ngIf="this.evaluacion">
-            <div class="ibox-content">
-              <div class="row">
-                <div class="col-lg-3">
-                  <label style="text-align: right;">
-                    Comentario para Presidente</label>
-                </div>
-                <div class="col-lg-9">
-                  <textarea type="text" rows="3" style="resize: none;" class="form-control"
-                    [(ngModel)]="this.modalComentarioPresidente"
-                    [disabled]="this.evaluacion.estado=='EVALUADO'"></textarea>
-                </div>
+          <div class="ibox-content">
+            <div class="row">
+              <label class="col-sm-3 control-label">Nivel de Confianza: </label>
+              <div class="col-sm-7">
+                <ng-select [items]="itemsCategorias" bindLabel="descripcion" placeholder="Seleccionar Categorias"
+                  name="Categorias" [clearable]="false" [(ngModel)]="categoriaSeleccionada">
+                </ng-select>
               </div>
             </div>
-            <div class="ibox-content">
-              <div class="row">
-                <div class="col-lg-3">
-                  <label style="text-align: right;">
-                    Comentario para Participante</label>
-                </div>
-                <div class="col-lg-9">
-                  <textarea type="text" rows="3" style="resize: none;" class="form-control"
-                    [(ngModel)]="this.modalComentarioParticipante"
-                    [disabled]="this.evaluacion.estado=='EVALUADO'"></textarea>
-                </div>
+          </div>
+          <div class="ibox-content">
+            <div class="row">
+              <div class="col-lg-3">
+                <label style="text-align: right;">
+                  Comentario para Presidente</label>
+              </div>
+              <div class="col-lg-9">
+                <textarea type="text" rows="3" style="resize: none;" class="form-control"
+                  [(ngModel)]="this.modalComentarioPresidente"
+                  [disabled]="this.evaluacion.estado=='EVALUADO'"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="ibox-content">
+            <div class="row">
+              <div class="col-lg-3">
+                <label style="text-align: right;">
+                  Comentario para Participante</label>
+              </div>
+              <div class="col-lg-9">
+                <textarea type="text" rows="3" style="resize: none;" class="form-control"
+                  [(ngModel)]="this.modalComentarioParticipante"
+                  [disabled]="this.evaluacion.estado=='EVALUADO'"></textarea>
               </div>
             </div>
           </div>
