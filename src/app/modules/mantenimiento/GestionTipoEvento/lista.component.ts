@@ -142,7 +142,6 @@ export class GestionTipoEventoListaComponent implements OnInit  {
       );
     }else{ //editando tipo de evento
       this.item.nombre=this.descripcionModal;
-      this.item.enabled = this.estado?1:0;
       this.service.guardarTipoEvento(this.item).subscribe(
         (response: Response)=>{
           if(response.estado=="OK"){
@@ -172,7 +171,7 @@ export class GestionTipoEventoListaComponent implements OnInit  {
   
   OnEditar(index:number){
 
-    this.item = this.items[index];
+    this.item = this.itemsFiltrados[index];
     this.estado = this.item.enabled==1;
     this.descripcionModal = this.item.nombre;
 
@@ -237,6 +236,15 @@ export class GestionTipoEventoListaComponent implements OnInit  {
     } else{
       this.getListaInactivos();
     }
+  }
+  OnCambiarEstado(index:number){
+    this.item = this.itemsFiltrados[index];
+    this.item.enabled = this.item.enabled==1?0:1;
+    this.estado = this.item.enabled==1;
+    this.esNuevo = false;
+    this.descripcionModal = this.item.nombre;
+    this.OnNuevo();
+
   }
 
   OnDeshabilitar(item: TipoEvento){

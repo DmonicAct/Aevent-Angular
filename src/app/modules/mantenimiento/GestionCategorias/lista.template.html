@@ -53,14 +53,17 @@
               <th class="text-center">Editar</th>
               <th class="text-center">Código</th>
               <th class="text-center">Categoría</th>
+              <th class="text-center" *ngIf="activos">Inhabilitar</th>
+              <th class="text-center" *ngIf="!activos">Habilitar</th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let item of itemsFiltrados; let i = index" (click)="OnRowClick(i, item)" [class.selected]="i == selectedRow">
-                <td class="text-center" data-col="editar" (click)="OnEditar(i)"><button class="btn btn-success"><i class="fa fa-edit"></i></button></td>
+              <td class="text-center" data-col="editar" (click)="OnEditar(i)"><button class="btn btn-success"><i class="fa fa-edit"></i></button></td>
               <td class="text-center"  data-col="codigo"><code>{{item.id}}</code></td>
               <td class="text-center" data-col="nombre">{{item.descripcion}}</td>
-
+              <td *ngIf="activos" class="text-center" data-col="editar" (click)="OnCambiarEstado(i)"><button class="btn btn-warning"><i class="fa fa-ban"></i></button></td>
+              <td *ngIf="!activos" class="text-center" data-col="editar" (click)="OnCambiarEstado(i)"><button class="btn btn-success"><i class="fa fa-check"></i></button></td>
               <!-- <td class="text-center" disabled="disabled" data-col="fecha">{{item.fechaRegistro | date:'dd/MM/yyyy'}}</td> -->
             </tr>
             </tbody>
@@ -107,12 +110,12 @@
                         name="subitulo">
                       </div>
                   </div>
-                  <div class="row m-t-sm">
+                  <!-- <div class="row m-t-sm">
                       <label class="col-sm-2 text-left">Estado</label>
                         <div class="col-sm-8 text-left">
                           <ui-switch [(ngModel)]="estado"></ui-switch>
                         </div>
-                  </div>
+                  </div> -->
               </div>
               </div>
               <div class="form-group">

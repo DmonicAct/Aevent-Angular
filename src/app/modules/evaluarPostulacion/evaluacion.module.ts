@@ -22,6 +22,7 @@ import {FasePropuestaComponent} from './evaluacion/editar/tabset-parts/fase-prop
 import { ComentarioComponent } from './evaluacion/editar/tabset-parts/comentario-propuesta/comentario.component';
 import { ListaEvaluacionFinalComponent } from './evaluacionFinal/listaEvaluacionFinal.component';
 import { DetalleEvaluacionFinal } from './evaluacionFinal/detalles/detalle.component';
+import { DetalleCFPComponent } from './evaluacionFinal/detalles/detalle-propuesta/detallecfp.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { DetalleEvaluacionFinal } from './evaluacionFinal/detalles/detalle.compo
     DetallePropuestaComponent,
     FasePropuestaComponent,
     ComentarioComponent,
-    DetalleEvaluacionFinal
+    DetalleEvaluacionFinal,
+    DetalleCFPComponent,
   ],
   imports: [
     CommonModule,

@@ -1,5 +1,5 @@
 import { OnInit, Component, ViewChild } from "@angular/core";
-import { Evento, Paginacion, Usuario, Postulacion } from '../../../../models'
+import { Evento, Paginacion, Usuario, Postulacion, Fase, RespuestaFormulario } from '../../../../models'
 import { AuthService as AeventAuthService } from '../../../../auth/service/auth.service'
 import { EventoService } from '../../../../services'
 import { ToastrService } from "ngx-toastr";
@@ -8,6 +8,7 @@ import { Estado, Response } from '../../../../models';
 import { Propuesta } from "src/app/models/propuesta";
 import { Evaluacion } from "src/app/models/evaluacion";
 import { EvaluacionService } from "src/app/services/evaluacion.service";
+import { FaseService } from "src/app/services/fase.service";
 import { UsuarioService } from "src/app/services/usuario.service";
 import { PropuestaService } from "src/app/services/propuesta.service";
 
@@ -22,13 +23,14 @@ export class DetalleEvaluacionFinal implements OnInit {
     public propuesta: Propuesta;
     public postulacion: Postulacion;
     public evaluaciones: Array<Evaluacion>
-    public fasesFiltro: Array<String>
-    public fase: String
-
+    public fasesFiltro: Array<Fase>
+    public fase: Fase
+    public respuestaFormulario: Array<RespuestaFormulario>;
     constructor(private toastr: ToastrService,
         private authService: AeventAuthService,
         private usrService: UsuarioService,
         private router: Router,
+        private serviceFase: FaseService,
         private servicePropuesta: PropuestaService,
         private serviceEvaluacion: EvaluacionService) {
         this.propuesta = new Propuesta();
@@ -38,9 +40,12 @@ export class DetalleEvaluacionFinal implements OnInit {
         this.seleccionadoDetalle = false;
         this.fasesFiltro = [];
         this.items = [];
+        this.respuestaFormulario = new Array<RespuestaFormulario>();
+        this.verFormulario = false;
         var url = window.location.href;
         var res = url.split("/");
         var id = parseInt(res[res.length - 1]);
+
 
         this.servicePropuesta.obtenerPropuesta(id).subscribe(
             (response: Response) => {
@@ -51,9 +56,15 @@ export class DetalleEvaluacionFinal implements OnInit {
                         this.postulacion = response.resultado;
                         this.serviceEvaluacion.obtenerEvaluacionesPropuesta(id).subscribe(
                             (response: Response) => {
+                                debugger
                                 this.evaluaciones = response.resultado;
                                 this.lista = this.groupBy(this.evaluaciones,"fase");
                                 this.fase = this.fasesFiltro[0];
+                                this.servicePropuesta.obtenerPostulaciones(this.propuesta.idPropuesta).subscribe(
+                                    (response: Response) => {
+                                        this.respuestaFormulario = response.resultado[0].listaFormulario;
+                                    }
+                                );
                                 this.cambioFase();
                             }
                         );
@@ -77,7 +88,7 @@ export class DetalleEvaluacionFinal implements OnInit {
                 
             }
             else {
-                this.fasesFiltro.push(val);
+                this.fasesFiltro.push(collection[i][property]);
                 values.push(val);
                 result.push([collection[i]]);
             }
@@ -95,7 +106,7 @@ export class DetalleEvaluacionFinal implements OnInit {
     cambioFase(){
         this.seleccionado = true;
         this.items = this.evaluaciones.filter(
-            item => item.fase.descripcion.toLowerCase().indexOf(this.fase.toLowerCase()) > -1
+            item => item.fase.descripcion.toLowerCase().indexOf(this.fase.descripcion.toLowerCase()) > -1
         )    
     }
 
@@ -118,6 +129,12 @@ export class DetalleEvaluacionFinal implements OnInit {
                 console.log(response);
             }
         );
+    }
+
+    public verFormulario: Boolean;
+
+    VerFormulario(){
+        this.verFormulario = !this.verFormulario;
     }
 
     VerDetalle(){

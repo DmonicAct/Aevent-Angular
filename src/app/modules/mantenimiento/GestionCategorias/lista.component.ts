@@ -129,7 +129,6 @@ export class GestionCategoriaListaComponent implements OnInit  {
       );
     }else{ //editando lugar
       this.item.descripcion=this.descripcionModal;
-      this.item.enabled = this.estado?1:0;
       this.service.guardarCategoria(this.item).subscribe(
         (response: Response)=>{
           if(response.estado=="OK"){
@@ -154,7 +153,7 @@ export class GestionCategoriaListaComponent implements OnInit  {
   
   OnEditar(index:number){
 
-    this.item = this.items[index];
+    this.item = this.itemsFiltrados[index];
     this.estado = this.item.enabled==1;
     this.descripcionModal = this.item.descripcion;
 
@@ -207,6 +206,16 @@ export class GestionCategoriaListaComponent implements OnInit  {
     this.paginacion.registros = event.rows;
     this.paginacion.pagina = 1;
     this.getLista();
+  }
+
+
+  OnCambiarEstado(index:number){
+    this.item = this.itemsFiltrados[index];
+    this.item.enabled = this.item.enabled==1?0:1;
+    this.estado = this.item.enabled==1;
+    this.esNuevo = false;
+    this.descripcionModal = this.item.descripcion;
+    this.OnNuevo();
   }
 
   OnDeshabilitar(item: Categoria){
