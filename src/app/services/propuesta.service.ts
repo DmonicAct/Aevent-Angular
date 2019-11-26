@@ -89,7 +89,7 @@ export class PropuestaService{
         }));
     }
     onEnviarPostulacion(idPostulacion:number){
-        let url=this.apiEndpoint + `/enviar/${idPostulacion}`;
+        let url=this.apiEndpointPropuesta + `/enviar/${idPostulacion}`;
         return this.http.get(url).pipe(
         catchError(e => {
             if (e.status == 400) {

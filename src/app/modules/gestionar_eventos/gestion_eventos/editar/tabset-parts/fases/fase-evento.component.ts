@@ -8,6 +8,8 @@ import { ModalDirective, TabsetComponent } from 'ngx-bootstrap';
 import { UtilFormulario } from 'src/app/util/util_formulario';
 import * as moment from 'moment';
 import { a } from "@angular/core/src/render3";
+import { of } from "rxjs";
+import { delay, flatMap } from "rxjs/operators";
 
 @Component({
   selector: 'fase-evento-organizador',
@@ -51,9 +53,6 @@ export class FaseEventoComponent implements OnInit {
   //Evento de Padre
   @Input('item-evento')
   public item: Evento;
-  
-  @Input('item-fases')
-  public fases: Array<Fase>;
 
   public arrayCriterios: Array<Criterio>;
   public criterio: Criterio;
@@ -62,7 +61,7 @@ export class FaseEventoComponent implements OnInit {
   private utilForm: UtilFormulario;
   public formulario: FormularioCFP;
 
-  private index:number = 0;
+  private index:number = -1;
   constructor(private toastr: ToastrService,
     private router: Router,
     private faseService: FaseService,
@@ -99,11 +98,14 @@ export class FaseEventoComponent implements OnInit {
 
   getEventoActualizado() {
     this.loading = true;
+    debugger;
     this.eventoService.obtenerEvento(this.item.idEvento).subscribe(
       (response: Response) => {
         this.item = response.resultado;
-        this.fases = this.item.fases;
-        this.tabset.tabs[this.index].active = true;
+        /* if(this.index!=-1){
+            this.tabset.tabs[this.index].active = true;
+            this.index = -1;
+        } */
         this.loading= false;
       }
     );
@@ -147,12 +149,11 @@ export class FaseEventoComponent implements OnInit {
   OnNuevo() {
     this.loading = true;
     
-    this.tabset.tabs.forEach((e,i)=>{
+   /*  this.tabset.tabs.forEach((e,i)=>{
       if(e.active==true){
         this.index = i;
-        console.log("this.index:",this.index);
       }
-    });
+    }); */
     if(!this.tipoCriterioModal || this.tipoCriterioModal.descripcion==""){
       this.toastr.warning(`se debe de elegir un tipo de criterio`, 'Aviso', { closeButton: true });
       return;
