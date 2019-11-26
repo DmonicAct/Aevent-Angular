@@ -1,11 +1,12 @@
 import { OnInit, Component, Input } from "@angular/core";
-import { Division, RespuestaFormulario, TipoSeccion, Fase, Postulacion } from "../../../../models";
+import { Division, RespuestaFormulario, TipoSeccion, Fase, Postulacion, Response } from "../../../../models";
 import { RespuestaPostulacion } from "../../../../models/respuesta_postulacion";
 import { TabDirective } from "ngx-bootstrap";
 import { PropuestaService } from "../../../../services/propuesta.service";
 import { EstadoPropuesta } from "src/app/models/enums/estadoPropuesta";
 import { AuthService as AeventAuthService } from '../../../../auth/service/auth.service';
 import { ToastrService } from "ngx-toastr";
+import { estadoPostulacion } from "src/app/models/enums/estadoPostulacion";
 declare var jQuery: any;
 @Component({
     selector:'fase-propuesta',
@@ -42,6 +43,7 @@ export class FasePropuestaComponent implements OnInit{
     public postulacion: Postulacion;
     private respuestaFase : RespuestaPostulacion;
     public seleccionados: any[];
+    public loading: Boolean=false;
     constructor(
         private propuestaService:PropuestaService,
         private authService: AeventAuthService,
@@ -98,18 +100,39 @@ export class FasePropuestaComponent implements OnInit{
                     index_pregunta++;
                 }
            });
+           if(this.loading) this.loading = false;
            
         }
     }
     OnEnviar(){
         this.respuestaFase.listaFormulario = new Array<RespuestaFormulario>();
+        if(this.postulacion.estado == estadoPostulacion.POSTULACION_EN_ESPERA){
+                this.toastr.success(`El formulario ya ha sido enviado`, 'Aviso', { closeButton: true });
+                return;
+        }
+        if(this.postulacion.estado == estadoPostulacion.POSTULACION_APROBADA){
+            this.toastr.success(`El formulario ya ha sido aprobado`, 'Aviso', { closeButton: true });
+                return;
+        }
         this.itemsRepuesta.forEach((e,i)=>{
             this.respuestaFase.listaFormulario = this.respuestaFase.listaFormulario.concat(e);
         });
-        
+        this.propuestaService.onEnviarPostulacion(this.postulacion.idPostulacion).subscribe(
+            (response:Response)=>{
+                if(response.estado=="OK"){
+                    this.postulacion = response.resultado;
+                    this.toastr.success(`Se ha enviado el formulario correctamente`, 'Aviso', { closeButton: true });
+                }
+                
+            }
+        );
     }
     OnGuardarFase(outer_index: number,codigoPropuesta:number){
         if(this.index == outer_index){
+            if(this.postulacion.estado == estadoPostulacion.POSTULACION_EN_ESPERA ||
+                this.postulacion.estado == estadoPostulacion.POSTULACION_APROBADA){
+                    return;
+                }
             if(!this.postulacion.idPropuesta){
                 this.postulacion.idPropuesta = codigoPropuesta;
                 this.postulacion.idEvento = this.idEvento;
@@ -123,8 +146,12 @@ export class FasePropuestaComponent implements OnInit{
             this.itemsRepuesta.forEach((e,i)=>{
                 this.respuestaFase.listaFormulario = this.respuestaFase.listaFormulario.concat(e);
             });
+            this.loading = true;
             this.propuestaService.guardarPostulacion(this.respuestaFase,username).subscribe(
                 (response:Response)=>{
+                    let respuesta : RespuestaPostulacion;
+                    respuesta = response.resultado;
+                    this.cargarDatosFormulario(respuesta,this.index);
                     this.toastr.info(`Se guardo el formulario correctamente`, 'Aviso', { closeButton: true });
                 }
             );

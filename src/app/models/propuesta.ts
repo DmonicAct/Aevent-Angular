@@ -6,6 +6,7 @@ export class Propuesta{
     public postulante: Persona;
     public fecha_postulacion: Date;
     public titulo:string; 
+    public fase_actual: number;
     public evaluadoresAsignados: Array<Persona>;  
     public estado: string;  
 }

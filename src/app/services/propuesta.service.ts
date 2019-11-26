@@ -88,7 +88,19 @@ export class PropuestaService{
             return throwError(e);
         }));
     }
-
+    onEnviarPostulacion(idPostulacion:number){
+        let url=this.apiEndpointPropuesta + `/enviar/${idPostulacion}`;
+        return this.http.get(url).pipe(
+        catchError(e => {
+            if (e.status == 400) {
+                return throwError(e);
+            }
+            if (e.error.mensaje) {
+                console.error(e.error.mensaje);
+            }
+            return throwError(e);
+        }));
+    }
     guardarPropuesta(propuesta: Propuesta, username:string, idEvento:number):Observable<any>{
         let url=this.apiEndpoint + `/propuesta/${username}/${idEvento}`;
         return this.http.post(url,propuesta).pipe(

@@ -1,11 +1,11 @@
 <div class="row  m-b-sm m-l-sm">
     <div class="col-md-8">
         <div class="pull-left">
-            <button type="button" class="btn btn-primary m-r" (click)="OnEnviar()"><i class="fa fa-send"></i>
+            <button type="button" class="btn btn-primary m-r" (click)="OnEnviar()" [disabled]="postulacion.idPostulacion==null || this.postulacion.estado == 'POSTULACION_EN_ESPERA' || this.postulacion.estado == 'POSTULACION_APROBADA'"><i class="fa fa-send"></i>
                 Enviar Formulario</button>
-            <button type="button" class="btn btn-primary m-r" (click)="OnAdjuntar()"><i class="fa fa-file"></i>
+            <button type="button" class="btn btn-primary m-r" (click)="OnAdjuntar()" [disabled]="postulacion.idPostulacion==null"><i class="fa fa-file"></i>
                 Adjuntar Documento</button>
-            <button type="button" class="btn btn-danger m-r" (click)="VerObservaciones()"><i class="fa fa-eye"></i>
+            <button type="button" class="btn btn-danger m-r" (click)="VerObservaciones()" [disabled]="postulacion.idPostulacion==null"><i class="fa fa-eye"></i>
                 Observaciones</button>
         </div>
     </div>
@@ -21,7 +21,8 @@
 </div>
 <div class="row">
     <div class="col-lg-12">
-        <div class="ibox-content">
+        <div class="ibox-content" [ngClass]="{'sk-loading': loading}">
+            <sk-three-bounce></sk-three-bounce>
             <div class="fh-breadcrumb">
                 <div class="full-height">
                     <div class="full-height-scroll white-bg">
@@ -57,7 +58,9 @@
                                                                         [(ngModel)]="itemsRepuesta[divIndex][i].respuesta"
                                                                         name="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}"
                                                                         placeholder="Máximo {{pregunta.maxCaracteres}} caracteres"
-                                                                        maxlength="{{pregunta.maxCaracteres}}">
+                                                                        maxlength="{{pregunta.maxCaracteres}}"
+                                                                        [disabled]="postulacion.estado=='POSTULACION_EN_ESPERA' || postulacion.estado=='POSTULACION_RECHAZADA'"
+                                                                        >
                                                                 </div>
                                                             </div>
                                                         </div>

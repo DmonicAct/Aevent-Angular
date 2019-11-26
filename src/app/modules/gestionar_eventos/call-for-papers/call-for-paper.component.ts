@@ -354,6 +354,7 @@ export class CallForPaperComponent implements OnInit {
             (this.listaSeccionEliminadas && this.listaSeccionEliminadas.length > 0)     ||
             (this.listaDivisionesEliminadas && this.listaDivisionesEliminadas.length > 0)
             ){
+                this.loading = true;
                 this.serviceFormulario.elimiar(this.listaPreguntasEliminadas,this.listaSeccionEliminadas,this.listaDivisionesEliminadas).subscribe(
                     (response:Response)=>{
                         if(response.estado=="OK"){
@@ -362,6 +363,7 @@ export class CallForPaperComponent implements OnInit {
                     }
                 );
             }else{
+                this.loading = true;
                 this.GuardarFormulario();
             }
     }
