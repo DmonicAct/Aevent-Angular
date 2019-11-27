@@ -1,18 +1,15 @@
 import { OnInit, Component, Input, ViewChild } from "@angular/core";
-import { Fase, Evento, Criterio, Response, TipoCriterio, FormularioCFP, } from "../../../../../../models";
+import { Fase, Evento, Criterio, Response, TipoCriterio, FormularioCFP, } from "../../../models";
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { FaseService, CriterioService, EventoService, TipoCriterioService } from '../../../../../../services/index';
+import { FaseService, CriterioService, EventoService, TipoCriterioService } from '../../../services/index';
 import { Location } from '@angular/common';
 import { ModalDirective, TabsetComponent } from 'ngx-bootstrap';
 import { UtilFormulario } from 'src/app/util/util_formulario';
 import * as moment from 'moment';
-import { a } from "@angular/core/src/render3";
-import { of } from "rxjs";
-import { delay, flatMap } from "rxjs/operators";
 
 @Component({
-  selector: 'fase-evento-organizador',
+  selector: 'fase-evento',
   templateUrl: 'fase-evento.template.html',
   styleUrls: ['fase-evento.template.scss']
 })

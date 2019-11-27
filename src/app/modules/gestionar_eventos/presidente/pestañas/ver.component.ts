@@ -7,7 +7,7 @@ import { DetalleEventoVer } from './detalle-evento/detalleEventoPresidente.compo
 
 import { ComiteEventoVer } from './comite-evento/comiteEventoPresidente.component';
 
-import { FaseEventoPresidente } from './fases/fase-evento.component';
+import { FaseEventoComponent } from '../../fases/fase-evento.component';
 
 import { AsignarPropuestasVer } from './asignar-propuestas/asignar-propuestas.component';
 import { Propuesta } from 'src/app/models/propuesta';
@@ -25,7 +25,7 @@ export class VerEventoPresidenteComponent implements OnInit {
     @ViewChild('tabsDetalle') tabsDetalle: DetalleEventoVer;
     @ViewChild('tabsComite') tabsComite: ComiteEventoVer;
     @ViewChild('tabsPropuestas') tabsPropuestas: AsignarPropuestasVer;
-    @ViewChild(FaseEventoPresidente) tabsFases: FaseEventoPresidente;
+    @ViewChild(FaseEventoComponent) tabsFases: FaseEventoComponent;
     /*
   
     @ViewChild('tabsDetalle') tabsDetalle: DetalleEventoVer; 

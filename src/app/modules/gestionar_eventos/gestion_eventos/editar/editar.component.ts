@@ -4,7 +4,7 @@ import {DetalleEventoConfiguracion} from './tabset-parts/detalle-evento/detalle-
 import { Evento, Response, Persona, FormularioCFP, Fase } from '../../../../models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventoService } from '../../../../services';
-import { FaseEventoComponent } from './tabset-parts/fases/fase-evento.component';
+import { FaseEventoComponent } from '../../fases/fase-evento.component';
 
 @Component({
     selector:'editar-gestion-eventos',
