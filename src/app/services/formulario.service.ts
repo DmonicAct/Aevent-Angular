@@ -23,7 +23,6 @@ export class FormularioService{
       listas.listaPregunta = listPregunta;
       listas.listaSeccion = listSeccion;
       listas.listaDivision = listDivision;
-      debugger;
       let url =  this.apiEndpoint + `/eliminar`;
       return this.http.post(url,listas).pipe(
         catchError(e => {

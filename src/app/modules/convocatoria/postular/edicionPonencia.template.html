@@ -29,7 +29,8 @@
             <detalle-propuesta #detallePropuesta *ngIf="propuesta && evento" [evento]="evento" [propuesta]="propuesta" (itemCodigo)="displayItem($event)"></detalle-propuesta>
           </div>
         </tab>
-            <tab *ngFor="let fase of evento.fases; let i = index" [heading]="fase.descripcion" style="margin-top: 0;" [disabled]="!propuesta.idPropuesta">
+            <tab *ngFor="let fase of evento.fases; let i = index" [heading]="fase.descripcion" style="margin-top: 0;" [disabled]="listaBoolean[i] || propuesta.idPropuesta==null">
+              <!-- &&  (i==0 || (listaRespuestaPostulacion!=null && listaRespuestaPostulacion[i-1].postulacion.estado=='POSTULACION_APROBADA')) -->
                 <div class="mail-box-header" >
                   <fase-propuesta #fasePropuesta *ngIf="fase.formulario"
                   [fase]="fase"

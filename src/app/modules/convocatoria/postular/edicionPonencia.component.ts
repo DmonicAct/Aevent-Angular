@@ -33,6 +33,7 @@ export class EdicionPonenciaComponent implements OnInit {
     public propuesta: Propuesta = null;
     private listaRespuestaPostulacion: Array<RespuestaPostulacion>;
     public evento: Evento = null;
+    public listaBoolean: Array<Boolean>;
     @ViewChild('detallePropuesta') detallePropuesta: EdicionPropuestaComponent;
     @ViewChildren('fasePropuesta') fasesPropuestas: QueryList<FasePropuestaComponent>;
     @ViewChild('tabsPropuesta') tabset: TabsetComponent;
@@ -46,6 +47,7 @@ export class EdicionPonenciaComponent implements OnInit {
         private servicePropuesta: PropuestaService,
         private authService: AeventAuthService) {
         this.listaRespuestaPostulacion = new Array<RespuestaPostulacion>();
+        this.listaBoolean = new Array<Boolean>();
     }
     async ngOnInit() {
         this.sub = await this.route.params.subscribe(params => {
@@ -70,6 +72,14 @@ export class EdicionPonenciaComponent implements OnInit {
             (response: Response) => {
                 this.evento = response.resultado;
                 this.propuesta = new Propuesta();
+                this.listaBoolean = new Array<Boolean>();
+                this.evento.fases.forEach((e,i)=>{
+                    let element: Boolean;
+                    if(i==0) element = false;
+                    else element = true;        
+                    this.listaBoolean.push(element);            
+                });
+                console.log(this.listaBoolean);
             }
         );
     }
@@ -79,6 +89,7 @@ export class EdicionPonenciaComponent implements OnInit {
             (response: Response) => {
                 this.propuesta = response.resultado;
                 this.evento = this.propuesta.evento;
+                this.listaBoolean = new Array<Boolean>();
                 this.codigo_propuesta = this.propuesta.idPropuesta;
                 this.obtenerPostulaciones();
             }
@@ -88,13 +99,50 @@ export class EdicionPonenciaComponent implements OnInit {
         this.servicePropuesta.obtenerPostulaciones(this.propuesta.idPropuesta).subscribe(
             (response: Response) => {
                 if (response && response.resultado != null) {
+                    console.log(this.propuesta.idPropuesta==null);
+                    this.evento.fases.forEach((e,i)=>{
+                        let element: Boolean;
+                        if(i==0) element = false;
+                        else element = true;     
+                        console.log("disabled:",this.listaBoolean[i] && !this.propuesta.idPropuesta);
+                        this.listaBoolean.push(element);                  
+                    });
+                    console.log(this.listaBoolean);
                     this.listaRespuestaPostulacion = response.resultado;
                     this.listaRespuestaPostulacion.forEach((e, i) => {
+                        if(i!=0){
+                            let estado = this.listaRespuestaPostulacion[i-1].postulacion.estado;
+                            if(estado == 'POSTULACION_APROBADA'){
+                                this.listaBoolean[i] = true;
+
+                            }else{
+                                this.listaBoolean[i]= false;
+                            }
+                          /*   this.listaBoolean[i] = (
+                                e.postulacion.estado == 'POSTULACION_APROBADA' ||
+                                e.postulacion.estado == 'POSTULACION_BORRADOR' ||
+                                e.postulacion.estado == 'POSTULACION_RECHAZADA' ||
+                                e.postulacion.estado == 'POSTULACION_EN_ESPERA'
+                                ) ? false : true; */
+                        }
+                        
+                        else
+                            this.listaBoolean[i]=false;
+
+                        console.log(this.listaBoolean[i]);
                         this.fasesPropuestas.forEach((child) => {
                             child.cargarDatosFormulario(e, i);
                         });
                     });
 
+                }else{
+                    this.evento.fases.forEach((e,i)=>{
+                        let element: Boolean;
+                        if(i==0) element = false;
+                        else element = true;     
+                        this.listaBoolean.push(element);                  
+                    });
+                    console.log(this.listaBoolean);
                 }
             }
         );
@@ -118,8 +166,8 @@ export class EdicionPonenciaComponent implements OnInit {
                 //guardado de fase
                 this.fasesPropuestas.forEach((child) => { child.OnGuardarFase(index - 1, this.codigo_propuesta) });
             }
-        }else{
-           return;
+        } else {
+            return;
         }
 
     }

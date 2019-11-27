@@ -99,7 +99,6 @@ export class FaseEventoComponent implements OnInit {
 
   getEventoActualizado() {
     this.loading = true;
-    debugger;
     this.eventoService.obtenerEvento(this.item.idEvento).subscribe(
       (response: Response) => {
         this.item = response.resultado;

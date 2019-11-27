@@ -82,6 +82,7 @@ export class FasePropuestaComponent implements OnInit{
         if(this.index == outer_index){
            this.respuestaPostulacion = respuestas;
            this.postulacion = this.respuestaPostulacion.postulacion;
+           console.log(this.postulacion);
            let divArray: number[];
            let index:number = 0;
            let index_prev:number = -1;
