@@ -33,6 +33,9 @@ export class DetalleEventoConfiguracion implements OnInit {
     //Evento de Padre
     @Input('item-evento')
     public item: Evento;
+
+    public minDate: Date;
+    public maxDate: Date;
     constructor(
         private authService: AeventAuthService,
         private _location: Location,
@@ -45,6 +48,9 @@ export class DetalleEventoConfiguracion implements OnInit {
         private serviceLugar: LugarService,
         private toastr: ToastrService) {
         //this.item = new Evento();
+        this.minDate = new Date();
+        this.maxDate = new Date();
+        this.minDate.setDate(this.minDate.getDate() + 1);
         this.itemsCategorias = new Array<Categoria>();
         this.itemsLugar = new Array<Lugar>();
         this.itemPresidente = new Persona();

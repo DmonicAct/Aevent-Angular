@@ -63,7 +63,10 @@
               <label class="col-sm-3 control-label">Fecha Inicio (*)</label>
               <div class="col-sm-8">
                 <div class="input-group date">
-                  <input bsDatepicker #dp1="bsDatepicker" name='fechaInicio' [(bsValue)]="item.fechaInicio"
+                  <input bsDatepicker 
+                  [minDate]="minDate"
+                  #dp1="bsDatepicker" name='fechaInicio' 
+                  [(bsValue)]="item.fechaInicio"
                     autocomplete="off" (bsValueChange)="DetectInicio()"
                     [disabled]="this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE'"
                     value="{{ item.fechaInicio | date:'dd/MM/yyyy' }}" type="text" class="form-control">
@@ -77,7 +80,9 @@
               <label class="col-sm-3 control-label">Fecha Fin (*)</label>
               <div class="col-sm-8">
                 <div class="input-group date">
-                  <input bsDatepicker #dp2="bsDatepicker" name='fechaFin' [(bsValue)]="item.fechaFin" autocomplete="off"
+                  <input bsDatepicker 
+                  [minDate]="minDate"
+                  #dp2="bsDatepicker" name='fechaFin' [(bsValue)]="item.fechaFin" autocomplete="off"
                     (bsValueChange)="DetectFin()" value="{{ item.fechaFin | date:'dd/MM/yyyy' }}" type="text"
                     class="form-control"
                     [disabled]="this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE'">
