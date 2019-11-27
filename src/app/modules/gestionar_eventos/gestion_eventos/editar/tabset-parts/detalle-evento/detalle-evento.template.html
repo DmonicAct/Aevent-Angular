@@ -194,12 +194,17 @@
               <tbody>
                 <tr *ngFor="let data of maestroUsuariosFilter;let i = index" [class.selected]="i == selectedRow"
                   ng-style="selected(i)">
-                  <td class="text-center" data-col="idUsuario"><code>{{data.idUsuario}}</code></td>
-                  <td class="text-left" data-col="nombreCompleto">{{data.nombreCompleto}}</td>
-                  <td class="text-left" data-col="username">{{data.username}}</td>
-                  <td class="text-left" data-col="email">{{data.email}}</td>
-                  <td class="text-center" data-col="agregar"><button class="btn btn-primary"
-                      (click)="ElegirPresidente(data,i)"><i class="fa fa-check"></i></button></td>
+                  <td *ngIf="data.idUsuario == item.presidente.idUsuario" bgcolor="#c3e8f0" class="text-center" data-col="idUsuario">{{data.idUsuario}}</td>
+                  <td *ngIf="data.idUsuario != item.presidente.idUsuario"  class="text-center" data-col="idUsuario">{{data.idUsuario}}</td>
+                  <td *ngIf="data.idUsuario == item.presidente.idUsuario" bgcolor="#c3e8f0" class="text-left" data-col="nombreCompleto">{{data.nombreCompleto}}</td>
+                  <td *ngIf="data.idUsuario != item.presidente.idUsuario" class="text-left" data-col="nombreCompleto">{{data.nombreCompleto}}</td>
+                  <td *ngIf="data.idUsuario == item.presidente.idUsuario" bgcolor="#c3e8f0" class="text-left" data-col="username">{{data.username}}</td>
+                  <td *ngIf="data.idUsuario != item.presidente.idUsuario" class="text-left" data-col="username">{{data.username}}</td>
+                  <td *ngIf="data.idUsuario == item.presidente.idUsuario" bgcolor="#c3e8f0" class="text-left" data-col="email">{{data.email}}</td>
+                  <td *ngIf="data.idUsuario != item.presidente.idUsuario" class="text-left" data-col="email">{{data.email}}</td>
+                  <td *ngIf="data.idUsuario == item.presidente.idUsuario" bgcolor="#c3e8f0" class="text-center" data-col="agregar"></td>
+                      <td *ngIf="data.idUsuario != item.presidente.idUsuario" class="text-center" data-col="agregar"><button class="btn btn-primary"
+                        (click)="ElegirPresidente(data,i)"><i class="fa fa-check"></i></button></td>
                 </tr>
               </tbody>
             </table>
