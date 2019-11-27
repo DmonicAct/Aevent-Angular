@@ -34,6 +34,8 @@ export class EdicionPonenciaComponent implements OnInit {
     private listaRespuestaPostulacion: Array<RespuestaPostulacion>;
     public evento: Evento = null;
     public listaBoolean: Array<Boolean>;
+    public listaBoolean_fecha_fase: Array<Boolean>;
+    public today: Date;
     @ViewChild('detallePropuesta') detallePropuesta: EdicionPropuestaComponent;
     @ViewChildren('fasePropuesta') fasesPropuestas: QueryList<FasePropuestaComponent>;
     @ViewChild('tabsPropuesta') tabset: TabsetComponent;
@@ -47,7 +49,9 @@ export class EdicionPonenciaComponent implements OnInit {
         private servicePropuesta: PropuestaService,
         private authService: AeventAuthService) {
         this.listaRespuestaPostulacion = new Array<RespuestaPostulacion>();
+        this.today = new Date();
         this.listaBoolean = new Array<Boolean>();
+        this.listaBoolean_fecha_fase = new Array<Boolean>();
     }
     async ngOnInit() {
         this.sub = await this.route.params.subscribe(params => {
@@ -77,7 +81,14 @@ export class EdicionPonenciaComponent implements OnInit {
                     let element: Boolean;
                     if(i==0) element = false;
                     else element = true;        
-                    this.listaBoolean.push(element);            
+                    this.listaBoolean.push(element);  
+                    
+                    let element_date: Boolean;
+                    if(this.today>=e.fechaInicial && this.today<=e.fechaFin){
+                        element_date=false;
+                    }else
+                        element_date = true;
+                    this.listaBoolean_fecha_fase.push(element_date);
                 });
                 console.log(this.listaBoolean);
             }
@@ -109,26 +120,23 @@ export class EdicionPonenciaComponent implements OnInit {
                     });
                     console.log(this.listaBoolean);
                     this.listaRespuestaPostulacion = response.resultado;
+                    if(this.listaRespuestaPostulacion.length<this.evento.fases.length){
+                        if(this.listaRespuestaPostulacion[this.listaRespuestaPostulacion.length-1].postulacion.estado=='POSTULACION_APROBADA')
+                            this.listaBoolean[this.listaRespuestaPostulacion.length] = false;
+                    }
                     this.listaRespuestaPostulacion.forEach((e, i) => {
                         if(i!=0){
                             let estado = this.listaRespuestaPostulacion[i-1].postulacion.estado;
                             if(estado == 'POSTULACION_APROBADA'){
-                                this.listaBoolean[i] = true;
+                                this.listaBoolean[i] = false;
 
                             }else{
-                                this.listaBoolean[i]= false;
+                                this.listaBoolean[i]= true;
                             }
-                          /*   this.listaBoolean[i] = (
-                                e.postulacion.estado == 'POSTULACION_APROBADA' ||
-                                e.postulacion.estado == 'POSTULACION_BORRADOR' ||
-                                e.postulacion.estado == 'POSTULACION_RECHAZADA' ||
-                                e.postulacion.estado == 'POSTULACION_EN_ESPERA'
-                                ) ? false : true; */
                         }
                         
                         else
                             this.listaBoolean[i]=false;
-
                         console.log(this.listaBoolean[i]);
                         this.fasesPropuestas.forEach((child) => {
                             child.cargarDatosFormulario(e, i);
