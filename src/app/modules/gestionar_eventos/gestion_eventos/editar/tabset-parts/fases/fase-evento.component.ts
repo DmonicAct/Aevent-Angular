@@ -62,6 +62,8 @@ export class FaseEventoComponent implements OnInit {
   public formulario: FormularioCFP;
 
   private index:number = -1;
+  public minDate: Date;
+  public maxDate: Date;
   constructor(private toastr: ToastrService,
     private router: Router,
     private faseService: FaseService,
@@ -70,7 +72,9 @@ export class FaseEventoComponent implements OnInit {
     private tipoCriterioService: TipoCriterioService,
     private _location: Location
   ) {
-
+    this.minDate = new Date();
+    this.maxDate = new Date();
+    this.minDate.setDate(this.minDate.getDate() + 1);
     this.criterio = new Criterio;
     this.fase = new Fase;
     this.tipoCriterios = new Array<TipoCriterio>();
@@ -145,15 +149,30 @@ export class FaseEventoComponent implements OnInit {
       this.autoEditCriterioShownModal.hide();
     }
   }
-
+  onGetCriterios(fase:Fase){
+    let index = -1;
+    this.tabset.tabs.forEach((e,i)=>{
+      if(e.active){
+        index = i;
+      }
+    });
+    if(index == -1) return;
+    this.criterioService.obtenerCriterios(fase.idFase).subscribe(
+      (response:Response)=>{
+        this.item.fases[index].criterios = response.resultado;
+        if(this.loading) this.loading = false;
+      }
+    );
+  }
   OnNuevo() {
     this.loading = true;
     
-   /*  this.tabset.tabs.forEach((e,i)=>{
+    this.tabset.tabs.forEach((e,i)=>{
       if(e.active==true){
         this.index = i;
       }
-    }); */
+    });
+    if(this.index==-1) return;
     if(!this.tipoCriterioModal || this.tipoCriterioModal.descripcion==""){
       this.toastr.warning(`se debe de elegir un tipo de criterio`, 'Aviso', { closeButton: true });
       return;
@@ -171,8 +190,7 @@ export class FaseEventoComponent implements OnInit {
           if (response.estado == "OK") {
             this.toastr.success(`Se ha guardado el criterio con exito`, 'Aviso', { closeButton: true });
             this.onHidden(); 
-            this.getEventoActualizado();
-           
+            this.onGetCriterios(this.item.fases[this.index]);
           }
         }
       );
@@ -192,7 +210,7 @@ export class FaseEventoComponent implements OnInit {
             console.log(this.criterio.idFase);
             this.toastr.success(`Se ha editado el criterio con éxito`, 'Aviso', { closeButton: true });
             this.onHidden();
-            this.getEventoActualizado();
+            this.onGetCriterios(this.item.fases[this.index]);
           }
         }
       );
@@ -237,11 +255,22 @@ export class FaseEventoComponent implements OnInit {
   fechaHoy: Date;
   
 
-  async OnGuardarFase(fase: Fase) {//en el formulario grande de fase, donde va CFP ya esta validado el nombre de la fase
-    let fechaFin = new Date(fase.fechaFin);
-    let fechaInicial = new Date(fase.fechaInicial)
-    fase.fechaFin = fechaFin;
-    fase.fechaInicial = fechaInicial;
+  OnGuardarFase(fase_out:Fase) {//en el formulario grande de fase, donde va CFP ya esta validado el nombre de la fase
+    let index = -1;
+    let fase: Fase;
+    this.tabset.tabs.forEach((e,i)=>{
+      if(e.active){
+        index = i;
+      }
+    });
+    if(index==-1){
+      return;
+    }
+    fase = this.item.fases[index];
+    if(!fase.fechaFin)
+      fase.fechaFin = fase_out.fechaFin;
+    if(!fase.fechaInicial)
+      fase.fechaInicial = fase_out.fechaInicial;
     this.fechaHoy = new Date();
     console.log(this.fechaHoy);
 
@@ -270,40 +299,21 @@ export class FaseEventoComponent implements OnInit {
       this.toastr.warning(`Se necesita agregar un informe Call for Paper`, 'Aviso', { closeButton: true });
       return;
     }
-    /**
-     * Error de Recursion / Parche...
-     */
-    this.fase = JSON.parse(JSON.stringify(fase));
 
-    let itemsCriterios = new Array<Criterio>();
-    /*fase.criterios.forEach((e) => {
-      e.idFase = null;
-    });*/
-    itemsCriterios = JSON.parse(JSON.stringify(fase.criterios));
-    //fase.criterios = null;
-    this.arrayCriterios.forEach(e=>{
-      e.idFase = fase.idFase;
-    })
-    fase.criterios = this.arrayCriterios; 
-    console.log(fase);
-    await this.faseService.guardarFase(fase).subscribe(
+    this.faseService.guardarFase(fase).subscribe(
       (response: Response) => {
-        /*this.arrayCriterios.forEach((e) => {
-          this.criterioService.guardarCriterio(e).subscribe(
-            (response: Response) => {
-              if (response.estado == "OK") {
-                console.log(response);
-              }
-            }
-          );
-        });*/
+        let fase: Fase = response.resultado;
+        this.item.fases[index].fechaInicial=moment(fase.fechaInicial).toDate();
+        this.item.fases[index].fechaFin=moment(fase.fechaFin).toDate();
+        this.item.fases[index].formulario=fase.formulario;
+        this.item.fases[index].criterios= fase.criterios;
         this.toastr.success(`Se ha guardado la fase con exito`, 'Aviso', { closeButton: true });
-        this.getEventoActualizado();
+
         this.onHidden();
       }
     );
 
-    this.fase.criterios = itemsCriterios;
+    //this.fase.criterios = itemsCriterios;
     /**
      * Fin del parche ...
      */
@@ -340,6 +350,7 @@ export class FaseEventoComponent implements OnInit {
       this.faseService.guardarFase(faseNueva).subscribe(
         (response: Response) => {
           this.toastr.success(`Se ha guardado la fase con exito`, 'Aviso', { closeButton: true });
+          this.descripcionModal = "";
           this.getEventoActualizado();
         }
       )
@@ -392,12 +403,18 @@ export class FaseEventoComponent implements OnInit {
   }
 
   OnConfirmarCriterio() {
+    let index = -1;
+    this.tabset.tabs.forEach((e,i)=>{
+      if(e.active)
+        index = i;
+    });
+    if(index==-1) return;
     this.criterioService.eliminarCriterio(this.criterio).subscribe(
       (response: Response) => {
         console.log(response);
         if (response.estado == "OK") {
           this.toastr.success(`Se ha eliminado el criterio con éxito`, 'Aviso', { closeButton: true });
-          this.getEventoActualizado();
+          this.onGetCriterios(this.item.fases[index]);
           this.onHidden();
         }
       }

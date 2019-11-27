@@ -39,11 +39,9 @@ export class CriterioService{
           );
     }
 
-    obtenerCriterios(fase: Fase):Observable<any>{
-        let params:HttpParams = new HttpParams()
-        .set('idFase', fase.idFase.toString());
-        
-          return this.http.get(this.apiEndpoint, {params}).pipe(
+    obtenerCriterios(idFase: number):Observable<any>{
+      let url = `${this.apiEndpoint}/${idFase}`;
+      return this.http.get(url).pipe(
             catchError(e => {
               if (e.status == 400) {
                 return throwError(e);

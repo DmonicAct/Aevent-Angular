@@ -101,8 +101,11 @@
                         <label class="col-sm-3 control-label">Fecha Inicio (*)</label>
                         <div class="col-sm-3">
                           <div class="input-group date">
-                            <input bsDatepicker #dp3="bsDatepicker" name='fechaInicio' [(bsValue)]="fase.fechaInicial"
+                            <input bsDatepicker #dp3="bsDatepicker"
+                            [minDate]="minDate"
+                            name='fechaInicio' [(bsValue)]="fase.fechaInicial"
                               autocomplete="off" (bsValueChange)="DetectInicio(fase)"
+                            
                               value="{{ fase.fechaInicial | date:'dd/MM/yyyy' }}" type="text" class="form-control"
                               [disabled]="this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE'">
                             <span class="input-group-addon" (click)="dp3.toggle()" [attr.aria-expanded]="dp3.isOpen"
@@ -115,8 +118,10 @@
                         <label class="col-sm-3 control-label">Fecha Fin (*)</label>
                         <div class="col-sm-3">
                           <div class="input-group date">
-                            <input bsDatepicker #dp4="bsDatepicker" name='fechaFin' [(bsValue)]="fase.fechaFin"
-                              autocomplete="off" (bsValueChange)="DetectFin(fase)"
+                            <input bsDatepicker
+                            [minDate]="minDate"
+                            #dp4="bsDatepicker" name='fechaFin' [(bsValue)]="fase.fechaFin"
+                             autocomplete="off" (bsValueChange)="DetectFin(fase)"
                               [disabled]="this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE'"
                               value="{{ fase.fechaFin | date:'dd/MM/yyyy' }}" type="text" class="form-control">
                             <span class="input-group-addon" (click)="dp4.toggle()" [attr.aria-expanded]="dp4.isOpen"
