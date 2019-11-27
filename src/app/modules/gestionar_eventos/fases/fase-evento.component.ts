@@ -188,6 +188,7 @@ export class FaseEventoComponent implements OnInit {
             this.toastr.success(`Se ha guardado el criterio con exito`, 'Aviso', { closeButton: true });
             this.onHidden(); 
             this.onGetCriterios(this.item.fases[this.index]);
+            this.loading = false;
           }
         }
       );
@@ -208,6 +209,7 @@ export class FaseEventoComponent implements OnInit {
             this.toastr.success(`Se ha editado el criterio con éxito`, 'Aviso', { closeButton: true });
             this.onHidden();
             this.onGetCriterios(this.item.fases[this.index]);
+            this.loading = false;
           }
         }
       );
