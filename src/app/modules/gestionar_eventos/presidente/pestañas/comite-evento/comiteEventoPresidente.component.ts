@@ -138,9 +138,10 @@ export class ComiteEventoVer implements OnInit {
   buscarUsuario() {
     this.cambioFiltro();
     //console.log("numTipo: ",this.numeroTipo);
-    console.log("filtro length: ", this.filtro.length);
+    
     //console.log("evaDisp: ",this.evaluadoresDisponibles);
     if (this.numeroTipo != -1) {
+      console.log("filtro length: ", this.filtro.length);
       if (this.filtro.length > 0) {
         if (this.numeroTipo == 1) {
           this.servicePersonas.obtenerEvaluadoresByNombre(this.itemEventoParent.idEvento, this.filtro.toString(), this.paginacion.pagina, this.paginacion.registros).subscribe(
@@ -148,7 +149,7 @@ export class ComiteEventoVer implements OnInit {
               //       console.log(response.resultado)
               this.comiteFiltrado = response.resultado;
               this.paginacion = response.paginacion;
-              //console.log("comiteFiltrado: ",this.comiteFiltrado);
+              console.log("comiteFiltrado: ",this.comiteFiltrado);
               //     console.log(response.paginacion)
               //debugger
             }
@@ -160,7 +161,7 @@ export class ComiteEventoVer implements OnInit {
               //       console.log(response.resultado)
               this.comiteFiltrado = response.resultado;
               this.paginacion = response.paginacion;
-              //console.log("comiteFiltrado: ",this.comiteFiltrado);
+              console.log("comiteFiltrado: ",this.comiteFiltrado);
               //     console.log(response.paginacion)
               //debugger
             }
@@ -172,7 +173,7 @@ export class ComiteEventoVer implements OnInit {
               //       console.log(response.resultado)
               this.comiteFiltrado = response.resultado;
               this.paginacion = response.paginacion;
-              //console.log("comiteFiltrado: ",this.comiteFiltrado);
+              console.log("comiteFiltrado: ",this.comiteFiltrado);
               //     console.log(response.paginacion)
               //debugger
             }
