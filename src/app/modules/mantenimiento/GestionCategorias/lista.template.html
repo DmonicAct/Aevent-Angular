@@ -51,7 +51,7 @@
             <thead>
             <tr>
               <th class="text-center">Editar</th>
-              <th class="text-center">Código</th>
+              <th class="text-center">Código</th> 
               <th class="text-center">Categoría</th>
               <th class="text-center" *ngIf="activos">Inhabilitar</th>
               <th class="text-center" *ngIf="!activos">Habilitar</th>
@@ -62,7 +62,7 @@
               <td class="text-center" data-col="editar" (click)="OnEditar(i)"><button class="btn btn-success"><i class="fa fa-edit"></i></button></td>
               <td class="text-center"  data-col="codigo"><code>{{item.id}}</code></td>
               <td class="text-center" data-col="nombre">{{item.descripcion}}</td>
-              <td *ngIf="activos" class="text-center" data-col="editar" (click)="OnCambiarEstado(i)"><button class="btn btn-warning"><i class="fa fa-ban"></i></button></td>
+              <td *ngIf="activos" class="text-center" data-col="editar" (click)="OnCambiarEstado(i)"><button class="btn btn-danger"><i class="fa fa-ban"></i></button></td>
               <td *ngIf="!activos" class="text-center" data-col="editar" (click)="OnCambiarEstado(i)"><button class="btn btn-success"><i class="fa fa-check"></i></button></td>
               <!-- <td class="text-center" disabled="disabled" data-col="fecha">{{item.fechaRegistro | date:'dd/MM/yyyy'}}</td> -->
             </tr>
