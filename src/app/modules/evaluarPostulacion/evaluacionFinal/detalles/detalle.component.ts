@@ -49,12 +49,12 @@ export class DetalleEvaluacionFinal implements OnInit {
             debugger
         this.servicePropuesta.obtenerPropuesta(id).subscribe(
             (response: Response) => {
-                debugger
+                
                 this.propuesta = response.resultado;
-                console.log(this.propuesta);
+                console.log("Propuesta:",this.propuesta);
                 this.servicePropuesta.obtenerPostulaciones(id).subscribe(
                     (response: Response) => {
-                        debugger
+                        
                         this.postulacion = response.resultado;
                         this.serviceEvaluacion.obtenerEvaluacionesPropuesta(id).subscribe(
                             (response: Response) => {

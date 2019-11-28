@@ -84,7 +84,7 @@ export class EdicionPonenciaComponent implements OnInit {
                     this.listaBoolean.push(element);  
                     
                     let element_date: Boolean;
-                    if(this.today>=e.fechaInicial && this.today<=e.fechaFin){
+                    if(this.today>=e.fechaInicial){
                         element_date=false;
                     }else
                         element_date = true;
@@ -116,7 +116,14 @@ export class EdicionPonenciaComponent implements OnInit {
                         if(i==0) element = false;
                         else element = true;     
                         console.log("disabled:",this.listaBoolean[i] && !this.propuesta.idPropuesta);
-                        this.listaBoolean.push(element);                  
+                        this.listaBoolean.push(element);  
+                        
+                        let element_date: Boolean;
+                        if(this.today>=e.fechaInicial){
+                            element_date=false;
+                        }else
+                            element_date = true;
+                        this.listaBoolean_fecha_fase.push(element_date);
                     });
                     console.log(this.listaBoolean);
                     this.listaRespuestaPostulacion = response.resultado;
@@ -148,7 +155,14 @@ export class EdicionPonenciaComponent implements OnInit {
                         let element: Boolean;
                         if(i==0) element = false;
                         else element = true;     
-                        this.listaBoolean.push(element);                  
+                        this.listaBoolean.push(element);   
+                        
+                        let element_date: Boolean;
+                        if(this.today>=e.fechaInicial){
+                            element_date=false;
+                        }else
+                            element_date = true;
+                        this.listaBoolean_fecha_fase.push(element_date);
                     });
                     console.log(this.listaBoolean);
                 }

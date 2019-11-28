@@ -21,7 +21,11 @@
           </div>
 
         </tab>
-
+        <tab #tabsFases heading="Fases" [disabled]="false">
+            <div class="mail-box-header">
+              <fase-evento [(item-evento)]="item"></fase-evento>
+            </div>
+        </tab>
 
         <tab #tabsComite heading="Comité" (changed)="tabClick($event)" (select) = "selectTabComite($event)">
             <div class="mail-box-header">
@@ -36,11 +40,7 @@
       </tab>
         
 
-      <tab #tabsFases heading="Fases" [disabled]="false">
-          <div class="mail-box-header">
-            <fase-evento [(item-evento)]="item"></fase-evento>
-          </div>
-      </tab>
+      
 
 
 <!-- 
