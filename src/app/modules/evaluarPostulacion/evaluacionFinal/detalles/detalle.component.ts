@@ -11,6 +11,7 @@ import { EvaluacionService } from "src/app/services/evaluacion.service";
 import { FaseService } from "src/app/services/fase.service";
 import { UsuarioService } from "src/app/services/usuario.service";
 import { PropuestaService } from "src/app/services/propuesta.service";
+import { PresidenteService } from "src/app/services/presidente.service";
 
 @Component({
     selector: 'detalleEvaluacion',
@@ -32,7 +33,8 @@ export class DetalleEvaluacionFinal implements OnInit {
         private router: Router,
         private serviceFase: FaseService,
         private servicePropuesta: PropuestaService,
-        private serviceEvaluacion: EvaluacionService) {
+        private serviceEvaluacion: EvaluacionService,
+        private servicePresidente: PresidenteService) {
         this.propuesta = new Propuesta();
         this.postulacion = new Postulacion();
         this.usr = new Usuario();
@@ -54,11 +56,11 @@ export class DetalleEvaluacionFinal implements OnInit {
                 console.log("Propuesta:",this.propuesta);
                 this.servicePropuesta.obtenerPostulaciones(id).subscribe(
                     (response: Response) => {
-                        
+                        debugger
                         this.postulacion = response.resultado;
                         this.serviceEvaluacion.obtenerEvaluacionesPropuesta(id).subscribe(
                             (response: Response) => {
-                                debugger
+                                
                                 this.evaluaciones = response.resultado;
                                 this.lista = this.groupBy(this.evaluaciones,"fase");
                                 this.fase = this.fasesFiltro[0];
@@ -118,7 +120,10 @@ export class DetalleEvaluacionFinal implements OnInit {
     }
 
     OnAprobar(){
-        this.servicePropuesta.aprobarPropuesta(this.propuesta.idPropuesta).subscribe(
+        //SE HA CAMBIADO EL SERVICIO Y YA NO VIENE ASÍ, HABLAR CON ALVARO DE COMO VIENE AHORA
+        debugger
+
+        this.servicePresidente.aprobar(this.postulacion.idPostulacion).subscribe(
             (response: Response) => {
                 console.log(response);
             }
@@ -126,7 +131,9 @@ export class DetalleEvaluacionFinal implements OnInit {
     }
 
     OnDesaprobar(){
-        this.servicePropuesta.desaprobarPropuesta(this.propuesta.idPropuesta).subscribe(
+        //SE HA CAMBIADO EL SERVICIO Y YA NO VIENE ASÍ, HABLAR CON ALVARO DE COMO VIENE AHORA
+        debugger
+        this.servicePresidente.desaprobar(this.postulacion.idPostulacion).subscribe(
             (response: Response) => {
                 console.log(response);
             }
