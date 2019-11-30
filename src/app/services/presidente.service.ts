@@ -27,7 +27,7 @@ export class PresidenteService {
     let params: HttpParams = new HttpParams()
       .set('idPresidente', idPresidente.toString());
 
-    let url = `${this.apiEndpoint + '/revisiones'}`;
+    let url = `${this.apiEndpoint + '/revisiones/'}`;
 
     return this.http.get(url, { params }).pipe(
       catchError(e => {
@@ -41,40 +41,35 @@ export class PresidenteService {
       }));
   }
 
-  aprobar(idPostulacion: number): Observable<any> {
-    let params: HttpParams = new HttpParams()
-      .set('idPostulacion', idPostulacion.toString());
 
-    let url = `${this.apiEndpoint + '/aprobar'}`;
-
-    return this.http.post(url, { params }).pipe(
-      catchError(e => {
+  aprobar(idPostulacion: number):Observable<any>{
+    //SE LO QUE PARECE, NO LO CAMBIEN POR FA XD
+    let url=this.apiEndpoint + `/aprobar?idPostulacion=` + idPostulacion;
+    return this.http.post(url,'').pipe(
+    catchError(e => {
         if (e.status == 400) {
-          return throwError(e);
+            return throwError(e);
         }
         if (e.error.mensaje) {
-          console.error(e.error.mensaje);
+            console.error(e.error.mensaje);
         }
         return throwError(e);
-      }));
+    }));
   }
-
-  desaprobar(idPostulacion: number): Observable<any> {
-    let params: HttpParams = new HttpParams()
-      .set('idPostulacion', idPostulacion.toString());
-
-    let url = `${this.apiEndpoint + '/desaprobar'}`;
-
-    return this.http.post(url, { params }).pipe(
-      catchError(e => {
+  desaprobar(idPostulacion: number):Observable<any>{
+    //SE LO QUE PARECE, NO LO CAMBIEN POR FA XD
+    let url=this.apiEndpoint + `/desaprobar?idPostulacion=` + idPostulacion;
+    return this.http.post(url,'').pipe(
+    catchError(e => {
         if (e.status == 400) {
-          return throwError(e);
+            return throwError(e);
         }
         if (e.error.mensaje) {
-          console.error(e.error.mensaje);
+            console.error(e.error.mensaje);
         }
         return throwError(e);
-      }));
+    }));
   }
+ 
 
 }

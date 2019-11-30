@@ -50,7 +50,6 @@ export class ListaEvaluacionFinalComponent implements OnInit{
                 this.usr = response.resultado;
                 this.servicePresidente.obtenerPostulacionesEnEspera(this.usr.idUsuario).subscribe(
                     (response: Response) => {
-                        debugger
                         this.respuesta = response.resultado;
                         this.propuestas = this.respuesta.propuesta;
                         this.postulaciones = this.respuesta.postulacion;

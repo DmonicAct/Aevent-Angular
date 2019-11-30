@@ -48,15 +48,15 @@ export class DetalleEvaluacionFinal implements OnInit {
         var res = url.split("/");
         var id = parseInt(res[res.length - 1]);
 
-        debugger
+        //debugger
         this.servicePropuesta.obtenerPropuesta(id).subscribe(
             (response: Response) => {
-                debugger
+                //debugger
                 this.propuesta = response.resultado;
                 console.log("Propuesta:",this.propuesta);
                 this.servicePropuesta.obtenerPostulaciones(id).subscribe(
                     (response: Response) => {
-                        debugger
+                        //debugger
                         this.postulacion = response.resultado;
                         this.serviceEvaluacion.obtenerEvaluacionesPropuesta(id).subscribe(
                             (response: Response) => {
@@ -122,12 +122,18 @@ export class DetalleEvaluacionFinal implements OnInit {
     OnAprobar(){
         //SE HA CAMBIADO EL SERVICIO Y YA NO VIENE ASÍ, HABLAR CON ALVARO DE COMO VIENE AHORA
         debugger
-
         this.servicePresidente.aprobar(this.postulacion.idPostulacion).subscribe(
             (response: Response) => {
                 console.log(response);
             }
         );
+            // para probar a hardcodeo que funciona el aprobar
+        /* var aux = 3;
+        this.servicePresidente.aprobar(aux).subscribe(
+            (response: Response) => {
+                console.log(response);
+            }
+        ); */
     }
 
     OnDesaprobar(){
@@ -138,6 +144,13 @@ export class DetalleEvaluacionFinal implements OnInit {
                 console.log(response);
             }
         );
+        // para probar a hardcodeo que funciona el desaprobar
+        /* var aux = 3;
+        this.servicePresidente.desaprobar(aux).subscribe(
+            (response: Response) => {
+                console.log(response);
+            }
+        ); */
     }
 
     public verFormulario: Boolean;
