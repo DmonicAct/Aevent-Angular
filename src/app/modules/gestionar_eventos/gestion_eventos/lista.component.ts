@@ -182,7 +182,7 @@ export class ListaEventosOrganizador implements OnInit {
     OnDeshabilitar(item: Evento) {
         item.motivoFin = this.motivoDeshabilitar; 
         item.enabled = false;
-        item.estado_evento = "EVENTO_CANCELADO";
+        item.estadoEvento = "EVENTO_CANCELADO";
         this.service.guardarEvento(item).subscribe(
             (response: Response) => {
                 if (response.estado == "OK") {

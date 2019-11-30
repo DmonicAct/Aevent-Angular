@@ -24,7 +24,7 @@
               </div>
               <div class=" pull-right">
                 <button class="btn btn-success" (click)="OnEnviarPresidente()"
-                  [disabled]="this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE'"><i
+                  [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE'"><i
                     class="fa fa-send  "></i>
                   Enviar a Presidente</button>
               </div>
@@ -104,7 +104,7 @@
                         </div>
                         <div class="col-sm-2">
                             <button *ngIf="fase.formulario" class="btn btn-success" [swal]="visorCallForPaperSwalOut"
-                            [disabled]="this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE'"><i
+                            [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE'"><i
                               class="fa fa-eye"></i>
                               Vista Previa </button>
                         </div>
