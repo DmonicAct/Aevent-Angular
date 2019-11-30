@@ -131,6 +131,241 @@ export class PersonaService{
           return throwError(e);
         }));
     }
+    obtenerEvaluadoresComiteByNombre(id:number,nombre:string ,pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('id', id.toString())
+      .set('nombre', nombre)
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+      return this.http.get(this.apiEndpoint+'/nombreComiteLikePaginado',{params}).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
+
+    obtenerEvaluadoresComiteByEmail(id:number,email:string ,pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('id', id.toString())
+      .set('email', email)
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+      return this.http.get(this.apiEndpoint+'/emailComiteLikePaginado',{params}).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
 
 
+    obtenerEvaluadoresComiteByUsername(id:number,username:string ,pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('id', id.toString())
+      .set('username', username)
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+      return this.http.get(this.apiEndpoint+'/usernameComiteLikePaginado',{params}).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
+
+
+
+
+
+
+
+
+    obtenerEvaluadoresAsignadosAPropuestaByNombre(id:number,nombre:string ,pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('id', id.toString())
+      .set('nombre', nombre)
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+      return this.http.get(this.apiEndpoint+'/nombreEvaluadoresAsignadosLikePaginado',{params}).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
+
+    obtenerEvaluadoresAsignadosAPropuestaByEmail(id:number,email:string ,pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('id', id.toString())
+      .set('email', email)
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+      return this.http.get(this.apiEndpoint+'/emailEvaluadoresAsignadosLikePaginado',{params}).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
+
+
+    obtenerEvaluadoresAsignadosAPropuestaByUsername(id:number,username:string ,pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('id', id.toString())
+      .set('username', username)
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+      return this.http.get(this.apiEndpoint+'/usernameEvaluadoresAsignadosLikePaginado',{params}).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
+
+    obtenerEvaluadoresDisponiblesAPropuestaByNombre(id:number,nombre:string ,pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('id', id.toString())
+      .set('nombre', nombre)
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+      return this.http.get(this.apiEndpoint+'/nombreEvaluadoresDisponiblesLikePaginado',{params}).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
+
+    obtenerEvaluadoreDisponiblesAPropuestasByEmail(id:number,email:string ,pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('id', id.toString())
+      .set('email', email)
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+      return this.http.get(this.apiEndpoint+'/emailEvaluadoresDisponiblesLikePaginado',{params}).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
+
+
+    obtenerEvaluadoresDisponiblesAPropuestaByUsername(id:number,username:string ,pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('id', id.toString())
+      .set('username', username)
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+      return this.http.get(this.apiEndpoint+'/usernameEvaluadoresDisponiblesLikePaginado',{params}).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
+
+    obtenerFiltroNombre(nombre:String,enabled:boolean,pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('nombre', nombre.toString())
+      .set('enabled', enabled.toString())
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+        return this.http.get(this.apiEndpoint + '/filtroNombre', {params}).pipe(
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
+            return throwError(e);
+          }));
+    }
+
+    obtenerFiltroEmail(email:String,enabled:boolean,pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('email', email.toString())
+      .set('enabled', enabled.toString())
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+        return this.http.get(this.apiEndpoint+ '/filtroEmail', {params}).pipe(
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
+            return throwError(e);
+          }));
+    }
+
+    obtenerFiltroUsername(username:String,enabled:boolean,pagina:number, registros:number):Observable<any> {
+      let params:HttpParams = new HttpParams()
+      .set('username', username.toString())
+      .set('enabled', enabled.toString())
+      .set('pagina', pagina.toString())
+      .set('registros', registros.toString());
+
+        return this.http.get(this.apiEndpoint+'/filtroUsername', {params}).pipe(
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
+            return throwError(e);
+          }));
+    }
 }

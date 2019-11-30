@@ -86,6 +86,28 @@ export class CategoriaService{
               }));
         }
   
+        obtenerFiltradoNombre(descripcion:string,enabled:boolean,pagina:number, registros:number):Observable<any> {
+          let params:HttpParams = new HttpParams()
+          .set('descripcion', descripcion)
+          .set('enabled', enabled.toString())
+          .set('pagina', pagina.toString())
+          .set('registros', registros.toString());
+  
+          let url = `${this.apiEndpoint + '/filtroNombre'}`;
+    
+            return this.http.get(url, {params}).pipe(
+              catchError(e => {
+                if (e.status == 400) {
+                  return throwError(e);
+                }
+                if (e.error.mensaje) {
+                  console.error(e.error.mensaje);
+                }
+                return throwError(e);
+              }));
+        }
+
+
 
     guardarCategoria(categoria:Categoria){
       return this.http.post(this.apiEndpoint, categoria).pipe(

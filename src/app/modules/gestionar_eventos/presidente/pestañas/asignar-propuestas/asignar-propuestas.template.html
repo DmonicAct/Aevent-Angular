@@ -167,15 +167,21 @@
 
           <div class="row m-b-sm">
             <div class="col-md-3">
-              <ng-select [items]="itemsFiltro" (ngModelChange)="cambioFiltro()" placeholder="Seleccionar Filtro"
-                name="filtroUsuario" autocomplete="off" [clearable]="false" [(ngModel)]="tipo">
+              <ng-select [items]="itemsFiltroEvaluadoresAsignados" (ngModelChange)="cambioFiltroEvaluadoresAsignados()" placeholder="Seleccionar Filtro"
+                name="filtroUsuario" autocomplete="off" [clearable]="false" [(ngModel)]="tipoEvaluadoresAsignados">
               </ng-select>
             </div>
             <div class="col-md-6">
               <input type="text" autocomplete="off" class="form-control" name="filtro" maxlength="30"
-                [(ngModel)]="filtro" (input)="buscarUsuario()" onkeypress="return /^[a-zA-Z_0-9\s]*$/i.test(event.key)">
+                [(ngModel)]="filtroEvaluadoresAsignados" onkeypress="return /^[a-zA-Z_0-9\s]*$/i.test(event.key)">
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="btn btn-primary container-button" (click)="buscarUsuarioEvaluadoresAsignados()">Buscar</button>
             </div>
           </div>
+
+          
+
 
         </div>
         <div class="modal-body" style="overflow: hidden; ">
@@ -283,13 +289,17 @@
         <br>
         <div class="row m-b-sm">
           <div class="col-md-3">
-            <ng-select [items]="itemsFiltro" (ngModelChange)="cambioFiltro()" placeholder="Seleccionar Filtro"
-              name="filtroUsuario" autocomplete="off" [clearable]="false" [(ngModel)]="tipo">
+            <ng-select [items]="itemsFiltroEvaluadoresDisponibles" (ngModelChange)="cambioFiltroEvaluadoresDisponibles()" placeholder="Seleccionar Filtro"
+              name="filtroUsuario" autocomplete="off" [clearable]="false" [(ngModel)]="tipoEvaluadoresDisponibles">
             </ng-select>
           </div>
           <div class="col-md-6">
-            <input type="text" autocomplete="off" class="form-control" name="filtro" maxlength="30" [(ngModel)]="filtro"
-              (input)="buscarUsuario()" onkeypress="return /^[a-zA-Z_0-9\s]*$/i.test(event.key)">
+            <input type="text" autocomplete="off" class="form-control" name="filtro" maxlength="30" [(ngModel)]="filtroEvaluadoresDisponibles"
+              onkeypress="return /^[a-zA-Z_0-9\s]*$/i.test(event.key)">
+          </div>
+          
+          <div class="col-md-2">
+            <button type="button" class="btn btn-primary container-button" (click)="buscarUsuarioEvaluadoresDisponibles()">Buscar</button>
           </div>
         </div>
       </div>

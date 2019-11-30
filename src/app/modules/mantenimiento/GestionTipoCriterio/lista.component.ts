@@ -37,7 +37,8 @@ export class GestionTipoCriterioListaComponent implements OnInit  {
               private service: TipoCriterioService,
               private _location:Location
               ) {
-    this.newItem = new TipoCriterio;    
+    this.newItem = new TipoCriterio;   
+    this.tipoActivo="Activos"; 
     this.items = new Array<TipoCriterio>();
     this.paginacion = new Paginacion({pagina:0,registros: 10});
     this.enFiltro = false;
@@ -226,19 +227,11 @@ export class GestionTipoCriterioListaComponent implements OnInit  {
       this.numeroTipo = 1;
     }
   }
-  activos: Boolean;
+  activos: boolean;
   seCambioActivo: Boolean;
   cambioTipoActivo() {
-    debugger
     this.activos = !this.activos;
     this.seCambioActivo = true;
-    if (this.enFiltro == true){
-      if (this.activos == true){
-        this.getTodosActivos();
-      } else{
-        this.getTodosInactivos();
-      }
-    }
     this.buscarTipos();
   }
 
@@ -248,25 +241,34 @@ export class GestionTipoCriterioListaComponent implements OnInit  {
     this.cambioFiltro();
     if (this.filtro.length > 0){
       if (this.enFiltro == false){
-        this.enFiltro = true;
         if (this.activos == true){
           this.getTodosActivos();
         } else{
           this.getTodosInactivos();
         }
       }
+      this.enFiltro = true;
       if (this.numeroTipo == 1){
-        this.itemsFiltrados = this.items.filter(
-          item => item.descripcion.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+        this.service.obtenerFiltradoNombre(this.filtro.toString(),this.activos, this.paginacion.pagina, this.paginacion.registros).subscribe(
+          (response: Response) => {
+            this.itemsFiltrados = response.resultado;
+            this.paginacion = response.paginacion;
+            console.log("activo: ",this.activos);
+            console.log("filtro nombre: ",this.filtro);
+            console.log("usuariosfiltrados: ",this.itemsFiltrados);
+          }
         )
       }
     }else{
-      this.enFiltro = false;
-      if (this.activos == true){
-        this.getListaActivos();
-      } else{
-        this.getListaInactivos();
-      }
+      if (this.seCambioActivo == true){
+        if (this.activos){
+          this.getListaActivos();
+        } else {
+          this.getListaInactivos();
+        }
+        this.seCambioActivo = false;
+      } 
+      this.enFiltro = false; 
       this.itemsFiltrados = this.items;
     }
   }

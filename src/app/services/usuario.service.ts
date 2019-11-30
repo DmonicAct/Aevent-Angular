@@ -232,4 +232,8 @@ export class UsuarioService{
           return throwError(e);
         }));
     }
+
+ 
+
+    
 }

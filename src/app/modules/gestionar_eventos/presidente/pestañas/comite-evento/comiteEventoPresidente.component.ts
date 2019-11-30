@@ -56,6 +56,7 @@ export class ComiteEventoVer implements OnInit {
   public maestraAgregar: Array<Persona>;
   public nuevasPreferencias: Array<Preferencia>;
   public itemsFiltro = ["Nombre", "Usuario", "Correo"];
+  public itemsFiltroComite = ["Nombre", "Usuario", "Correo"];
   public pref;
   public propuestas: Array<Propuesta>;
   public comiteFiltrado: Array<Persona>;
@@ -76,6 +77,7 @@ export class ComiteEventoVer implements OnInit {
     this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
     this.itemEvento = new Evento();
     this.itemComite = new Array<Usuario>();
+    this.filtro ='';
     //console.log(this.itemEventoParent);
     //this.itemComite = this.itemEventoParent.comite;
   }
@@ -133,8 +135,8 @@ export class ComiteEventoVer implements OnInit {
   }
 
   enFiltro: Boolean;
+  public disponibles:Array<Persona>;
   //eventoFiltro: Evento;
-  maestroComiteFilter: Array<Persona>;
   buscarUsuario() {
     this.cambioFiltro();
     //console.log("numTipo: ",this.numeroTipo);
@@ -147,9 +149,9 @@ export class ComiteEventoVer implements OnInit {
           this.servicePersonas.obtenerEvaluadoresByNombre(this.itemEventoParent.idEvento, this.filtro.toString(), this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
               //       console.log(response.resultado)
-              this.comiteFiltrado = response.resultado;
+              this.disponibles = response.resultado;
               this.paginacion = response.paginacion;
-              console.log("comiteFiltrado: ",this.comiteFiltrado);
+              console.log("disponibles: ",this.disponibles);
               //     console.log(response.paginacion)
               //debugger
             }
@@ -157,6 +159,71 @@ export class ComiteEventoVer implements OnInit {
         }
         if (this.numeroTipo == 2) {
           this.servicePersonas.obtenerEvaluadoresByUsername(this.itemEventoParent.idEvento, this.filtro.toString(), this.paginacion.pagina, this.paginacion.registros).subscribe(
+            (response: Response) => {
+              //       console.log(response.resultado)
+              this.disponibles = response.resultado;
+              this.paginacion = response.paginacion;
+              console.log("disponibles: ",this.disponibles);
+              //     console.log(response.paginacion)
+              //debugger
+            }
+          )
+        }
+        if (this.numeroTipo == 3) {
+          this.servicePersonas.obtenerEvaluadoresByEmail(this.itemEventoParent.idEvento, this.filtro.toString(), this.paginacion.pagina, this.paginacion.registros).subscribe(
+            (response: Response) => {
+              //       console.log(response.resultado)
+              this.disponibles = response.resultado;
+              this.paginacion = response.paginacion;
+              console.log("disponibles: ",this.disponibles);
+              //     console.log(response.paginacion)
+              //debugger
+            }
+          )
+        }
+
+
+      }
+      else {
+        this.disponibles = this.evaluadoresDisponibles;
+        //console.log("comiteFiltrado: ",this.comiteFiltrado);
+      }
+    }
+  }
+
+
+  cambioFiltroComite() {
+    if (this.tipoComite == "Nombre") {
+      this.numeroTipoComite = 1;
+    }
+    else if (this.tipoComite == "Usuario") {
+      this.numeroTipoComite = 2;
+    }
+    else if (this.tipoComite == "Correo") {
+      this.numeroTipoComite = 3;
+    }
+    else {
+      this.numeroTipoComite = -1;
+    }
+    /*
+    if (this.tipo == "Codigo"){
+        this.numeroTipo = 4;
+    }*/
+  }
+  public tipoComite:String;
+  public numeroTipoComite:number;
+  public filtroComite: String;
+  public maestroComiteFilter: Array<Persona>;
+  buscarUsuarioComite() {
+    this.cambioFiltroComite();
+    //console.log("numTipo: ",this.numeroTipo);
+    
+    //console.log("evaDisp: ",this.evaluadoresDisponibles);
+    if (this.numeroTipoComite != -1) {
+      console.log("filtro length: ", this.filtroComite.length);
+      if (this.filtroComite.length > 0) {
+        if (this.numeroTipoComite == 1) {
+          this.servicePersonas.obtenerEvaluadoresComiteByNombre(this.itemEventoParent.idEvento, this.filtroComite.toString(), this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
               //       console.log(response.resultado)
               this.comiteFiltrado = response.resultado;
@@ -167,8 +234,20 @@ export class ComiteEventoVer implements OnInit {
             }
           )
         }
-        if (this.numeroTipo == 3) {
-          this.servicePersonas.obtenerEvaluadoresByEmail(this.itemEventoParent.idEvento, this.filtro.toString(), this.paginacion.pagina, this.paginacion.registros).subscribe(
+        if (this.numeroTipoComite == 2) {
+          this.servicePersonas.obtenerEvaluadoresComiteByUsername(this.itemEventoParent.idEvento, this.filtroComite.toString(), this.paginacion.pagina, this.paginacion.registros).subscribe(
+            (response: Response) => {
+              //       console.log(response.resultado)
+              this.comiteFiltrado = response.resultado;
+              this.paginacion = response.paginacion;
+              console.log("comiteFiltrado: ",this.comiteFiltrado);
+              //     console.log(response.paginacion)
+              //debugger
+            }
+          )
+        }
+        if (this.numeroTipoComite == 3) {
+          this.servicePersonas.obtenerEvaluadoresComiteByEmail(this.itemEventoParent.idEvento, this.filtroComite.toString(), this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
               //       console.log(response.resultado)
               this.comiteFiltrado = response.resultado;
@@ -183,7 +262,7 @@ export class ComiteEventoVer implements OnInit {
 
       }
       else {
-        this.comiteFiltrado = this.evaluadoresDisponibles;
+        this.comiteFiltrado = <Array<Persona>>this.comiteElegido;
         //console.log("comiteFiltrado: ",this.comiteFiltrado);
       }
     }

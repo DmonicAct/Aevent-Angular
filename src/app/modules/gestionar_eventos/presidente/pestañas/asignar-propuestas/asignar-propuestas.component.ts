@@ -63,7 +63,7 @@ export class AsignarPropuestasVer implements OnInit {
     @Input('listaEvAgregar')
     public listaEvAgregar:Array<Persona>;
   */
-
+  public listaEvaluadoresDisponibles:Array<Persona>;
   public propuestasEvento2: Array<Propuesta>;
   //public evaluadoresDisponibles:Array<Persona>;
 
@@ -81,7 +81,8 @@ export class AsignarPropuestasVer implements OnInit {
   public quitar: Array<Persona>;
   public maestraAgregarProp: Array<Persona>;
   public evElegidos: Array<Persona>;
-
+  public itemsFiltroEvaluadoresAsignados = ["Nombre", "Usuario", "Correo"];
+  public itemsFiltroEvaluadoresDisponibles= ["Nombre", "Usuario", "Correo"];
 
   constructor(
     private servicePreferencia: PreferenciaService,
@@ -113,6 +114,11 @@ export class AsignarPropuestasVer implements OnInit {
     this.itemComite = new Array<Usuario>();
 
     this.actualPropuesta = new Propuesta();
+
+    this.filtroEvaluadoresAsignados= '';
+    this.filtroEvaluadoresDisponibles = '';
+
+
     //console.log(this.itemEventoParent);
     //this.itemComite = this.itemEventoParent.comite;
   }
@@ -124,6 +130,173 @@ export class AsignarPropuestasVer implements OnInit {
   ngOnInit() {
     this.pagPropuestas = new Paginacion({ pagina: 1, registros: 10 });
   }
+
+  cambioFiltroEvaluadoresAsignados() {
+    if (this.tipoEvaluadoresAsignados == "Nombre") {
+      this.numeroTipoEvaluadoresAsignados = 1;
+    }
+    else if (this.tipoEvaluadoresAsignados == "Usuario") {
+      this.numeroTipoEvaluadoresAsignados = 2;
+    }
+    else if (this.tipoEvaluadoresAsignados == "Correo") {
+      this.numeroTipoEvaluadoresAsignados = 3;
+    }
+    else {
+      this.numeroTipoEvaluadoresAsignados = -1;
+    }
+    /*
+    if (this.tipo == "Codigo"){
+        this.numeroTipo = 4;
+    }*/
+  }
+  public tipoEvaluadoresAsignados:String;
+  public numeroTipoEvaluadoresAsignados:number;
+  public evAsignadosFiltrados:Array<Persona>;
+  public filtroEvaluadoresAsignados:String;
+  enFiltro: Boolean;
+  //eventoFiltro: Evento;
+  public maestroEvaluadoresAsignados: Array<Persona>;
+  buscarUsuarioEvaluadoresAsignados() {
+    this.cambioFiltroEvaluadoresAsignados();
+    //console.log("numTipo: ",this.numeroTipo);
+    
+    //console.log("evaDisp: ",this.evaluadoresDisponibles);
+    if (this.numeroTipoEvaluadoresAsignados != -1) {
+      console.log("filtro length: ", this.filtroEvaluadoresAsignados.length);
+      if (this.filtroEvaluadoresAsignados.length > 0) {
+        if (this.numeroTipoEvaluadoresAsignados == 1) {
+          this.servicePersonas.obtenerEvaluadoresAsignadosAPropuestaByNombre(this.propElegida.idPropuesta, this.filtroEvaluadoresAsignados.toString(), this.paginacionEval.pagina, this.paginacionEval.registros).subscribe(
+            (response: Response) => {
+              //       console.log(response.resultado)
+              this.evAsignadosFiltrados = response.resultado;
+              this.paginacionEval = response.paginacion;
+              console.log("evaluadores Asignados: ",this.evAsignadosFiltrados);
+              this.propElegida.evaluadoresAsignados=this.evAsignadosFiltrados;
+              //     console.log(response.paginacion)
+              //debugger
+            }
+          )
+        }
+        if (this.numeroTipoEvaluadoresAsignados == 2) {
+          this.servicePersonas.obtenerEvaluadoresAsignadosAPropuestaByUsername(this.propElegida.idPropuesta, this.filtroEvaluadoresAsignados.toString(), this.paginacionEval.pagina, this.paginacionEval.registros).subscribe(
+            (response: Response) => {
+              //       console.log(response.resultado)
+              this.evAsignadosFiltrados = response.resultado;
+              this.paginacionEval = response.paginacion;
+              console.log("evaluadores Asignados: ",this.evAsignadosFiltrados);
+              this.propElegida.evaluadoresAsignados=this.evAsignadosFiltrados;
+              //     console.log(response.paginacion)
+              //debugger
+            }
+          )
+        }
+        if (this.numeroTipoEvaluadoresAsignados == 3) {
+          this.servicePersonas.obtenerEvaluadoresAsignadosAPropuestaByEmail(this.propElegida.idPropuesta, this.filtroEvaluadoresAsignados.toString(), this.paginacionEval.pagina, this.paginacionEval.registros).subscribe(
+            (response: Response) => {
+              //       console.log(response.resultado)
+              this.evAsignadosFiltrados = response.resultado;
+              this.paginacionEval = response.paginacion;
+              console.log("evaluadores Asignados: ",this.evAsignadosFiltrados);
+              this.propElegida.evaluadoresAsignados=this.evAsignadosFiltrados;
+              //     console.log(response.paginacion)
+              //debugger
+            }
+          )
+        }
+
+
+      }
+      else {
+        this.propElegida.evaluadoresAsignados = this.evalOriginales;
+        //console.log("comiteFiltrado: ",this.comiteFiltrado);
+      }
+    }
+  }
+
+
+
+  cambioFiltroEvaluadoresDisponibles() {
+    if (this.tipoEvaluadoresDisponibles == "Nombre") {
+      this.numeroTipoEvaluadoresDisponibles = 1;
+    }
+    else if (this.tipoEvaluadoresDisponibles == "Usuario") {
+      this.numeroTipoEvaluadoresDisponibles = 2;
+    }
+    else if (this.tipoEvaluadoresDisponibles == "Correo") {
+      this.numeroTipoEvaluadoresDisponibles = 3;
+    }
+    else {
+      this.numeroTipoEvaluadoresDisponibles = -1;
+    }
+    /*
+    if (this.tipo == "Codigo"){
+        this.numeroTipo = 4;
+    }*/
+  }
+  public tipoEvaluadoresDisponibles:String;
+  public numeroTipoEvaluadoresDisponibles:number;
+  public prefDisponiblesFiltrados:Array<Preferencia>;
+  public filtroEvaluadoresDisponibles:String;
+  enFiltroEvaluadoresDisponibles: Boolean;
+  public maestraEvaluadoresDisponibles: Array<Persona>;
+  //eventoFiltro: Evento;
+  buscarUsuarioEvaluadoresDisponibles() {
+    this.cambioFiltroEvaluadoresDisponibles();
+    //console.log("numTipo: ",this.numeroTipo);
+    
+    //console.log("evaDisp: ",this.evaluadoresDisponibles);
+    if (this.numeroTipoEvaluadoresDisponibles != -1) {
+      console.log("filtro length: ", this.filtroEvaluadoresDisponibles.length);
+      if (this.filtroEvaluadoresDisponibles.length > 0) {
+        if (this.numeroTipoEvaluadoresDisponibles == 1) {
+          this.servicePreferencia.obtenerPreferenciasByNombreEvaluador(this.itemEventoParent.idEvento,this.propElegida.idPropuesta, this.filtroEvaluadoresDisponibles.toString(), this.paginacionEval.pagina, this.paginacionEval.registros).subscribe(
+            (response: Response) => {
+              //       console.log(response.resultado)
+              this.prefDisponiblesFiltrados = response.resultado;
+              this.paginacionEval = response.paginacion;
+              console.log("evaluadores Disp: ",this.prefDisponiblesFiltrados);
+              this.prefComite = this.prefDisponiblesFiltrados;
+              //     console.log(response.paginacion)
+              //debugger
+            }
+          )
+        }
+        if (this.numeroTipoEvaluadoresDisponibles == 2) {
+          this.servicePreferencia.obtenerPreferenciasByUsernameEvaluador(this.itemEventoParent.idEvento,this.propElegida.idPropuesta, this.filtroEvaluadoresDisponibles.toString(), this.paginacionEval.pagina, this.paginacionEval.registros).subscribe(
+            (response: Response) => {
+              //       console.log(response.resultado)
+              this.prefDisponiblesFiltrados = response.resultado;
+              this.paginacionEval = response.paginacion;
+              console.log("evaluadores Disp: ",this.prefDisponiblesFiltrados);
+              this.prefComite = this.prefDisponiblesFiltrados;
+              //     console.log(response.paginacion)
+              //debugger
+            }
+          )
+        }
+        if (this.numeroTipoEvaluadoresDisponibles == 3) {
+          this.servicePreferencia.obtenerPreferenciasByEmailEvaluador(this.itemEventoParent.idEvento,this.propElegida.idPropuesta, this.filtroEvaluadoresDisponibles.toString(), this.paginacionEval.pagina, this.paginacionEval.registros).subscribe(
+            (response: Response) => {
+              //       console.log(response.resultado)
+              this.prefDisponiblesFiltrados = response.resultado;
+              this.paginacionEval = response.paginacion;
+              console.log("evaluadores Disp: ",this.prefDisponiblesFiltrados);
+              this.prefComite = this.prefDisponiblesFiltrados;
+              //     console.log(response.paginacion)
+              //debugger
+            }
+          )
+        }
+
+
+      }
+      else {
+        this.prefComite = this.prefOriginales;
+        //console.log("comiteFiltrado: ",this.comiteFiltrado);
+      }
+    }
+  }
+
 
   getList(valueChange) {
     var lista = <Array<Persona>>valueChange;
@@ -465,6 +638,7 @@ public evalOrig:Array<Persona>;
   onAgregarEvaluadores(item, i) {
     //this.propElegida = Object.assign([], item);
     this.propElegida = item;
+    this.maestroEvaluadoresAsignados = this.propElegida.evaluadoresAsignados;
     this.evalOriginales = new Array<Persona>();
     this.evalOriginales = Object.assign([], this.propElegida.evaluadoresAsignados);
     //console.log("PROPELEGIDA", this.propElegida)
@@ -588,13 +762,14 @@ public evalOrig:Array<Persona>;
   OnHiddenEvaluadores() {
     this.isModalShownEvaluadores = false;
   }
-
+public prefOriginales:Array<Preferencia>;
   onAsignarNuevosEvaluadores() {
     this.servicePreferencia.consultarPreferenciasComite(<number>this.propElegida.idPropuesta, this.paginacionEval.pagina, this.paginacionEval.registros).subscribe(
       (response: Response) => {
         console.log(response);
         this.prefComite = new Array<Preferencia>();
         this.prefComite = response.resultado;
+        this.prefOriginales = this.prefComite;
         this.paginacionEval = response.paginacion;
         this.isModalShownEvaluadores = true;
       }
