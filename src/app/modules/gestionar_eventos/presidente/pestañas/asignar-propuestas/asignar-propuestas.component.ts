@@ -213,7 +213,7 @@ public evalOrig:Array<Persona>;
         faseMin = fases[i];
       }
     }
-    //console.log("fechaMin FINAL: ", fechaMin);
+    console.log("fechaMin FINAL: ", fechaMin);
     return faseMin;
   }
 

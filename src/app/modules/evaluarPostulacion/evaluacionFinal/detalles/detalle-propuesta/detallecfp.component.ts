@@ -34,7 +34,6 @@ export class DetalleCFPComponent implements OnInit {
   }
 
   onFunction(){
-    console.log('entra a funcion');
     this.acumulador = this.acumulador + 1 ;
   }
 }
