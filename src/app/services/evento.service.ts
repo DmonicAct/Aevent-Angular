@@ -318,5 +318,17 @@ export class EventoService{
           return throwError(e);
         }));
 }
-
+  setEstadoPorAprobacion(id:number){
+    let url = this.apiEndpoint + `/permitir/${id}`;
+    return this.http.get(url).pipe(
+      catchError(e => {
+        if (e.status == 400) {
+          return throwError(e);
+        }
+        if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
+        return throwError(e);
+      }));
+  }
 }

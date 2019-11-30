@@ -491,13 +491,17 @@ export class FaseEventoComponent implements OnInit {
     });
     if(str!=""){
       str.slice(0,str.length-2);
-      this.toastr.warning("Las fases " +str+ " no han sido guardadas","Aviso",{closeButton:true});
+      this.toastr.warning("Las fases " +str+ " no han sido editadas","Aviso",{closeButton:true});
       return;
     }
     this.swalEnviarEvento.show();
   }
   OnFinalizarEnvio(){
-    console.log("show show");
+    this.eventoService.setEstadoPorAprobacion(this.item.idEvento).subscribe(
+      (response:Response)=>{
+        this.toastr.success("Se ha enviado el evento al presidente","Aviso",{closeButton:true});
+        this.item = response.resultado;
+      });
   }
  
 }
