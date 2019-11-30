@@ -5,6 +5,8 @@ import { Evento, Response, Persona, FormularioCFP, Fase } from '../../../../mode
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventoService } from '../../../../services';
 import { FaseEventoComponent } from '../../fases/fase-evento.component';
+import * as moment from 'moment';
+
 
 @Component({
     selector:'editar-gestion-eventos',
@@ -41,6 +43,10 @@ export class EditarGestionarEventoComponent implements OnInit{
         this.service.obtenerEvento(this.itemCodigo).subscribe(
             (response: Response)=>{
                 this.item=response.resultado;
+                this.item.fases.forEach((e,i)=>{
+                    e.fechaFin = moment(e.fechaFin).toDate();
+                    e.fechaInicial = moment(e.fechaInicial).toDate();
+                });
                 this.flagEvento = false;
             }
         );

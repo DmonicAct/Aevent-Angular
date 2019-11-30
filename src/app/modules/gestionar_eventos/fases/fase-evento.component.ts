@@ -71,7 +71,7 @@ export class FaseEventoComponent implements OnInit {
   ) {
     this.minDate = new Date();
     this.maxDate = new Date();
-    this.minDate.setDate(this.minDate.getDate() + 1);
+   
     this.criterio = new Criterio;
     this.fase = new Fase;
     this.tipoCriterios = new Array<TipoCriterio>();
@@ -84,8 +84,15 @@ export class FaseEventoComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerTipoCriterio();
+    
   }
-
+  ngOnChanges(){
+    if(this.item.fechaInicio && this.item.fechaFin){
+      this.maxDate = new Date(this.item.fechaInicio.toString().substr(0,10));
+      this.maxDate.setDate(this.maxDate.getDate() - 1);
+      this.minDate.setDate(this.minDate.getDate() + 1);
+    }
+  }
   obtenerTipoCriterio() {
     this.loading = true;
     this.tipoCriterioService.obtenerTipoCriterios().subscribe(
@@ -252,7 +259,16 @@ export class FaseEventoComponent implements OnInit {
   }
   fechaHoy: Date;
   
+  private getDate(date:Date):Date{
+    debugger;
+    let day = date.getDate();
+    let month = date.getMonth() -1 ;
+    let year = date.getFullYear();
 
+    let str = day + "-" + month + "-" + year;
+
+    return new Date(str);
+  }
   OnGuardarFase(fase_out:Fase) {//en el formulario grande de fase, donde va CFP ya esta validado el nombre de la fase
     let index = -1;
     let fase: Fase;
@@ -270,7 +286,6 @@ export class FaseEventoComponent implements OnInit {
     if(!fase.fechaInicial)
       fase.fechaInicial = fase_out.fechaInicial;
     this.fechaHoy = new Date();
-    console.log(this.fechaHoy);
 
 
     if (!fase.fechaFin) {
@@ -297,7 +312,23 @@ export class FaseEventoComponent implements OnInit {
       this.toastr.warning(`Se necesita agregar un informe Call for Paper`, 'Aviso', { closeButton: true });
       return;
     }
+    if(index!=0){
+      let fechaInicio : Date;
+      let fechaFin: Date;
+      fechaInicio = this.item.fases[index-1].fechaInicial;
+      fechaFin = this.item.fases[index-1].fechaFin;
 
+   /*    fase.fechaInicial = moment(fase.fechaInicial).toDate();
+      fase.fechaFin = moment(fase.fechaFin).toDate(); */
+
+      if((fase.fechaInicial <= fechaInicio && fase.fechaInicial >= fechaInicio) ||
+          (fase.fechaInicial <= fechaFin && fase.fechaFin >= fechaFin)){
+            this.toastr.warning("Las fechas dentro de la fase: " + this.item.fases[index].descripcion + " interfieren con la fase anterior","Aviso",{closeButton:true});
+            return;
+      }
+      
+    }
+    fase.fase_guardada = true;
     this.faseService.guardarFase(fase).subscribe(
       (response: Response) => {
         let fase: Fase = response.resultado;
@@ -305,6 +336,7 @@ export class FaseEventoComponent implements OnInit {
         this.item.fases[index].fechaFin=moment(fase.fechaFin).toDate();
         this.item.fases[index].formulario=fase.formulario;
         this.item.fases[index].criterios= fase.criterios;
+        this.item.fases[index].fase_guardada = fase.fase_guardada;
         this.toastr.success(`Se ha guardado la fase con exito`, 'Aviso', { closeButton: true });
 
         this.onHidden();

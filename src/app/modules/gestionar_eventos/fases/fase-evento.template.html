@@ -7,8 +7,8 @@
           <div class="form-group">
             <div class="row col-md-12">
               <div class="col-md-2">
-                <button type="button" class="btn btn-primary m-r" (click)="OnGuardarFase(fase)"
-                  [disabled]="this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE'"><i
+                <button type="button" class="btn btn-primary m-r"
+                  [disabled]="this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE'" [swal]="guardarFase"><i
                     class="fa fa-check"></i>
                   Guardar</button>
               </div>
@@ -22,6 +22,12 @@
                     class="fa fa-plus"></i>
                   Gestionar Fases</button>
               </div>
+              <div class=" pull-right">
+                <button class="btn btn-success" (click)="OnEnviarPresidente()"
+                  [disabled]="this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE'"><i
+                    class="fa fa-send  "></i>
+                  Enviar a Presidente</button>
+              </div>
             </div>
           </div>
           <div class="form-group">
@@ -29,7 +35,7 @@
               <div class="cfp-height">
                 <div *ngIf="item.fases" class="row" >
                   <tabset #tabsFase>
-                    <tab *ngFor="let fase of item.fases; let i = index" [heading]="fase.descripcion">
+                    <tab *ngFor="let fase of item.fases; let i = index" [disabled]="i!=0 && !item.fases[i-1].fase_guardada" [heading]="fase.descripcion">
                       <div class="form-group">
                         <div class="col-lg-1">
                           <button class="btn btn-primary" (click)="OnAgregarCriterio(fase)"
@@ -97,32 +103,34 @@
                           </label>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" *ngIf="item">
                         <label class="col-sm-3 control-label">Fecha Inicio (*)</label>
                         <div class="col-sm-3">
                           <div class="input-group date">
                             <input bsDatepicker #dp3="bsDatepicker"
                             [minDate]="minDate"
+                            [maxDate]="maxDate"
                             name='fechaInicio' [(bsValue)]="fase.fechaInicial"
                               autocomplete="off" (bsValueChange)="DetectInicio(fase)"
                             
                               value="{{ fase.fechaInicial | date:'dd/MM/yyyy' }}" type="text" class="form-control"
-                              [disabled]="this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE'">
+                              [disabled]="(this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE') || fase.fase_guardada">
                             <span class="input-group-addon" (click)="dp3.toggle()" [attr.aria-expanded]="dp3.isOpen"
                               disabled="this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE'"><i
                                 class="fa fa-calendar"></i></span>
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" *ngIf="item">
                         <label class="col-sm-3 control-label">Fecha Fin (*)</label>
                         <div class="col-sm-3">
                           <div class="input-group date">
                             <input bsDatepicker
                             [minDate]="minDate"
+                            [maxDate]="maxDate"
                             #dp4="bsDatepicker" name='fechaFin' [(bsValue)]="fase.fechaFin"
                              autocomplete="off" (bsValueChange)="DetectFin(fase)"
-                              [disabled]="this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE'"
+                              [disabled]="(this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE') || fase.fase_guardada"
                               value="{{ fase.fechaFin | date:'dd/MM/yyyy' }}" type="text" class="form-control">
                             <span class="input-group-addon" (click)="dp4.toggle()" [attr.aria-expanded]="dp4.isOpen"
                               disabled="this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE'"><i
@@ -370,3 +378,20 @@
     </div>
   </div>
 </div>
+
+
+
+
+<swal
+  #guardarFase
+  type="question"
+  title="¿Está seguro que desea terminar de editar la fase actual? Recuerde que no se podra volver a editar las fechas ingresadas"
+  confirmButtonText="Sí"
+  cancelButtonText="Cancelar"
+  [allowOutsideClick]="false"
+  [showCancelButton]="true"
+  [focusCancel]="true"
+  (confirm)="OnGuardarFase(fase)"
+></swal>
+
+<!--   //(confirm)="OnEnviar()" -->

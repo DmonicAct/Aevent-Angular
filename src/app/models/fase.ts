@@ -8,4 +8,5 @@ export class Fase{
     public criterios: Array<Criterio>;
     public idEvento: number;
     public formulario: FormularioCFP;
+    public fase_guardada:boolean = false;
 }

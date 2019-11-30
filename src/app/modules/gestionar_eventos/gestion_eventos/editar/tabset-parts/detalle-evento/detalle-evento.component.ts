@@ -51,6 +51,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.minDate = new Date();
         this.maxDate = new Date();
         this.minDate.setDate(this.minDate.getDate() + 1);
+        console.log(this.minDate);
         this.itemsCategorias = new Array<Categoria>();
         this.itemsLugar = new Array<Lugar>();
         this.itemPresidente = new Persona();
