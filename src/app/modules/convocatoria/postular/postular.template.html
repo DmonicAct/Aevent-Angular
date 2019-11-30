@@ -19,17 +19,8 @@
           <div class="mail-box-header" style="border-top: 0;">
             <div class="row m-b-sm">
               <div class="col-md-8">
-                <a class="btn btn-primary m-r-xs" [swal]="postularswal"><i class="fa fa-check"></i> Participar</a>
+                <a class="btn btn-primary m-r-xs" [swal]="postularswal"><i class="fa fa-check"></i> Postular</a>
                 <a class="btn btn-default m-r-xs" (click)="OnRegresar()"><i class="fa fa-arrow-left"></i> Regresar</a>
-              </div>
-              <div class="col-md-4">
-                <div class="pull-right">
-                  <span class="m-r-xl"></span>
-                  <strong class="small">Estado: </strong>
-                  <span class="label label-primary" *ngIf="item.fechaInicio>now_date">En Proceso de Eleccion</span>
-                  <span class="label label-red" *ngIf="!item.enabled">Cancelado</span>
-                  <span class="label label-green" *ngIf="now_date>item.fechaInicio">Evento en Curso</span>
-                </div>
               </div>
             </div>
             <div class="mail-tools">
@@ -75,35 +66,7 @@
           <div class="mail-box">
             <div class="mail-body">
               <div class="row">
-                <div class="col-md-6">
-                  <dl>
-                    <!-- <dt>Organizado Por:</dt>
-                    <dd class="project-people">
-                      <ul class="list-group">
-                        <span>
-                          <li class="list-group-item">
-                            Responsable
-                            <i class="fa fa-chevron-right text-muted m-l-sm m-r-sm"></i>
-                            {{item.organizador.nombreCompleto}}
-                          </li>
-                        </span>
-                      </ul>
-                    </dd> -->
-                    <dt>Presidente Asignado:</dt>
-                    <dd class="project-people">
-                      <ul class="list-group">
-                        <span>
-                          <li class="list-group-item">
-                            Responsable
-                            <i class="fa fa-chevron-right text-muted m-l-sm m-r-sm"></i>
-                            {{item.presidente.nombreCompleto}}
-                          </li>
-                        </span>
-                      </ul>
-                    </dd>
-                  </dl>
-                </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <dl>
                     <dt>Fases de Aprobación:</dt>
                     <dd class="project-people">
@@ -112,10 +75,12 @@
                           <strong>Fase {{i+1}}</strong>
                           <i class="fa fa-chevron-right text-muted m-l-sm m-r-sm"></i>
                           {{e.descripcion}}
-                          <span class="badge badge-green" *ngIf="e.fechaInicial>now_date">Sin Iniciar</span>
+                          <span class="badge badge-navy">{{e.fechaInicial | date:'dd/MM/yyyy'}}</span>
+                          <span class="badge badge-navy">{{e.fechaInicial | date:'dd/MM/yyyy'}}</span>
+                          <!-- <span class="badge badge-green" *ngIf="e.fechaInicial>now_date">Sin Iniciar</span>
                           <span class="badge badge-primary" *ngIf="e.fechaFin>=now_date && now_date>=e.fechaInicial">En
                             Curso</span>
-                          <span class="badge badge-orange" *ngIf="now_date>e.fechaFin">Fuera de Fecha</span>
+                          <span class="badge badge-orange" *ngIf="now_date>e.fechaFin">Fuera de Fecha</span> -->
                         </li>
                       </ul>
                     </dd>

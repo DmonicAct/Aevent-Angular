@@ -46,13 +46,15 @@ export class DetalleEvaluacionFinal implements OnInit {
         var res = url.split("/");
         var id = parseInt(res[res.length - 1]);
 
-
+            debugger
         this.servicePropuesta.obtenerPropuesta(id).subscribe(
             (response: Response) => {
+                
                 this.propuesta = response.resultado;
-                console.log(this.propuesta);
+                console.log("Propuesta:",this.propuesta);
                 this.servicePropuesta.obtenerPostulaciones(id).subscribe(
                     (response: Response) => {
+                        
                         this.postulacion = response.resultado;
                         this.serviceEvaluacion.obtenerEvaluacionesPropuesta(id).subscribe(
                             (response: Response) => {

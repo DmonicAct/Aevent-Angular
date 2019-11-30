@@ -357,7 +357,7 @@ export class ComiteEventoVer implements OnInit {
             this.pref = new Preferencia();
             console.log(this.propuestas)
             for (let prop of this.propuestas) {
-              this.pref.descripcion = "Sin Determinar";
+              this.pref.descripcion = "SIN DETERMINAR";
               this.pref.propuesta = prop;
               this.pref.usuario = persona;
               //console.log("PREFERENCIA A GUARDAR", this.pref)
@@ -370,7 +370,7 @@ export class ComiteEventoVer implements OnInit {
           }
           for (let persona of this.quitar) {
             this.pref = new Preferencia();
-            this.serviceEvaluacion.obtenerPropuestas(persona.idUsuario, 1, 50).subscribe(
+            this.serviceEvaluacion.obtenerPropuestas(persona.idUsuario, 1, 100).subscribe(
               (response: Response) => {
                 console.log(response)
                 let localProp: Array<Evaluacion> = response.resultado;

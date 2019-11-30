@@ -405,7 +405,7 @@ public evalOrig:Array<Persona>;
         this.propElegida.evaluadoresAsignados.splice(indComite, 1);
       }
     }
-    debugger;
+    //debugger;
     for (var i = 0; i < this.maestraAgregarProp.length; i++) {
       //console.log(this.propElegida.evaluadoresAsignados[i])
       if (!this.ver) {
@@ -507,11 +507,15 @@ public evalOrig:Array<Persona>;
 
   OnAceptarEvaluadores() {
     //var verFor: boolean;
-    //console.log("GG DEBUGER XD")
-    if (this.prefComite.length + this.evElegidos.length > 10) {
+    console.log("GG DEBUGER XD")
+    //debugger
+    if (this.propElegida.evaluadoresAsignados.length + this.evElegidos.length > 10) {
       this.toastr.warning('No se puede tener más de 10 usuarios en una propuesta!', 'Error', { closeButton: true });
       return;
     }
+
+    console.log(this.propElegida.evaluadoresAsignados)
+    console.log(this.evElegidos)
     for (var i = 0; i < this.evElegidos.length; i++) {
       //verFor = false;
       if (this.enMaestraAgregarProp(this.evElegidos[i].idUsuario) == -1)

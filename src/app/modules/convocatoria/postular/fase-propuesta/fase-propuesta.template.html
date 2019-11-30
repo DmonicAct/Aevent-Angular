@@ -10,14 +10,17 @@
         </div>
     </div>
 
-   <!--  <div class="col-md-4">
+    <div class="col-md-4">
         <div class="pull-right">
             <span class="m-r-xl"></span>
             <strong class="small">Estado: </strong>
-            <span class="label label-primary" *ngIf="fechaInicio!=null && fechaInicio>now_date">En Proceso de Evaluacion</span>
-            <span class="label label-yellow" *ngIf="fechaFin!=null && now_date>fechaFin">Fuera de Tiempo</span>
+            <span class="label label-disable" *ngIf="postulacion.estado==null">Fase Sin Guardar</span>
+            <span class="label label-disable" *ngIf="postulacion.estado!='POSTULACION_EN_ESPERA' && postulacion.estado!='POSTULACION_EN_ESPERA' && postulacion.estado!='POSTULACION_APROBADA' && postulacion.estado!='POSTULACION_RECHAZADA' && postulacion.estado!=null" >Fase Sin Enviar</span>
+            <span class="label label-primary" *ngIf="postulacion.estado=='POSTULACION_EN_ESPERA'">Fase En Evaluación</span>
+            <span class="label label-green" *ngIf="postulacion.estado=='POSTULACION_APROBADA'">Fase Aprobada</span>
+            <span class="label label-red" *ngIf="postulacion.estado=='POSTULACION_RECHAZADA'">Fase Rechazada</span>
         </div>
-    </div> -->
+    </div>
 </div>
 <div class="row">
     <div class="col-lg-12">
@@ -59,7 +62,7 @@
                                                                         name="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}"
                                                                         placeholder="Máximo {{pregunta.maxCaracteres}} caracteres"
                                                                         maxlength="{{pregunta.maxCaracteres}}"
-                                                                        [disabled]="postulacion.estado=='POSTULACION_EN_ESPERA' || postulacion.estado=='POSTULACION_RECHAZADA' || postulacion.estado == 'POSTULACION_APROBADA'"
+                                                                        [disabled]="postulacion.estado=='POSTULACION_EN_ESPERA' || postulacion.estado == 'POSTULACION_APROBADA'"
                                                                         >
                                                                 </div>
                                                             </div>

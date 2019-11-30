@@ -99,7 +99,6 @@ export class FaseEventoComponent implements OnInit {
 
   getEventoActualizado() {
     this.loading = true;
-    debugger;
     this.eventoService.obtenerEvento(this.item.idEvento).subscribe(
       (response: Response) => {
         this.item = response.resultado;
@@ -188,6 +187,7 @@ export class FaseEventoComponent implements OnInit {
             this.toastr.success(`Se ha guardado el criterio con exito`, 'Aviso', { closeButton: true });
             this.onHidden(); 
             this.onGetCriterios(this.item.fases[this.index]);
+            this.loading = false;
           }
         }
       );
@@ -208,6 +208,7 @@ export class FaseEventoComponent implements OnInit {
             this.toastr.success(`Se ha editado el criterio con éxito`, 'Aviso', { closeButton: true });
             this.onHidden();
             this.onGetCriterios(this.item.fases[this.index]);
+            this.loading = false;
           }
         }
       );
