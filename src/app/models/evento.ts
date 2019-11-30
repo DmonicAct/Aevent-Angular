@@ -17,9 +17,9 @@ export class Evento{
     public enabled?:Boolean;
     public fases?: Array<Fase>;
     public motivoFin?: string;
-    public estado_evento?: string;
+    public estadoEvento?: string;
     constructor(){
-        this.estado_evento = 'EVENTO_BORRADOR';
+        this.estadoEvento = 'EVENTO_BORRADOR';
         this.idEvento = null;
         this.fases=new Array<Fase>();
         this.categorias = new Array<Categoria>();
