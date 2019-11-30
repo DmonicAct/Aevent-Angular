@@ -120,7 +120,7 @@
                               autocomplete="off" (bsValueChange)="DetectInicio(fase)"
                             
                               value="{{ fase.fechaInicial | date:'dd/MM/yyyy' }}" type="text" class="form-control"
-                              [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE'">
+                              [disabled]="(this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE') || fase.fase_guardada">
                             <span class="input-group-addon" (click)="dp3.toggle()" [attr.aria-expanded]="dp3.isOpen"
                               disabled="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE'"><i
                                 class="fa fa-calendar"></i></span>
@@ -136,7 +136,7 @@
                             [maxDate]="maxDate"
                             #dp4="bsDatepicker" name='fechaFin' [(bsValue)]="fase.fechaFin"
                              autocomplete="off" (bsValueChange)="DetectFin(fase)"
-                              [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE'"
+                              [disabled]="(this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE') || fase.fase_guardada"
                               value="{{ fase.fechaFin | date:'dd/MM/yyyy' }}" type="text" class="form-control">
                             <span class="input-group-addon" (click)="dp4.toggle()" [attr.aria-expanded]="dp4.isOpen"
                               disabled="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE'"><i

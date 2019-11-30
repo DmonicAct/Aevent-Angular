@@ -258,17 +258,6 @@ export class FaseEventoComponent implements OnInit {
     this.isNewModalShown = true;
   }
   fechaHoy: Date;
-  
-  private getDate(date:Date):Date{
-    debugger;
-    let day = date.getDate();
-    let month = date.getMonth() -1 ;
-    let year = date.getFullYear();
-
-    let str = day + "-" + month + "-" + year;
-
-    return new Date(str);
-  }
   OnGuardarFase(fase_out:Fase) {//en el formulario grande de fase, donde va CFP ya esta validado el nombre de la fase
     let index = -1;
     let fase: Fase;
