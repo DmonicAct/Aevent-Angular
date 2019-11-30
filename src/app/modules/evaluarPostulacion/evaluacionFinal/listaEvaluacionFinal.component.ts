@@ -52,8 +52,8 @@ export class ListaEvaluacionFinalComponent implements OnInit{
                     (response: Response) => {
                         debugger
                         this.respuesta = response.resultado;
-                        this.propuestas = this.respuesta.propuestas;
-                        this.postulaciones = this.respuesta.postulaciones;
+                        this.propuestas = this.respuesta.propuesta;
+                        this.postulaciones = this.respuesta.postulacion;
                       }
                 )
             }
@@ -64,9 +64,8 @@ export class ListaEvaluacionFinalComponent implements OnInit{
         
     }
 
-    OnEvaluar(i: number) {
-        var aux = this.propuestas[i].idPropuesta;
-        this.router.navigate([`gestionEvaluacionEvento/evaluacion-final/lista/evaluar/${aux}`]);
+    OnEvaluar(item: Propuesta) {
+        this.router.navigate([`gestionEvaluacionEvento/evaluacion-final/lista/evaluar/${item.idPropuesta}`]);
     }
 
     OnPageChanged(event): void {
@@ -89,18 +88,15 @@ export class ListaEvaluacionFinalComponent implements OnInit{
         if (this.tipo == "Evento"){
             this.numeroTipo = 1;
         }
-        if (this.tipo == "Fase"){
+        if (this.tipo == "Título"){
             this.numeroTipo = 2;
         }
-        if (this.tipo == "Título"){
-            this.numeroTipo = 3;
-        }
         if (this.tipo == "Postulante"){
-            this.numeroTipo = 4;
+            this.numeroTipo = 3;
         }
     }
 
-    public itemsFiltro = ["Evento", "Fase", "Título","Postulante"];
+    public itemsFiltro = ["Evento", "Título","Postulante"];
 
     buscarEvento() {
         this.cambioFiltro();
