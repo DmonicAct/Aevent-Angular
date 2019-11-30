@@ -3,6 +3,7 @@ import { Persona, Paginacion, Estado, Response, Usuario } from '../../../models'
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UsuarioService } from '../../../services/usuario.service';
+import { PersonaService } from '../../../services/persona.service';
 import { Location } from '@angular/common';
 @Component({
   selector: 'usuarios-lista',
@@ -14,11 +15,12 @@ export class GestionUsuarioListaComponent implements OnInit {
 
   public items: Array<Persona>;
   public paginacion: Paginacion;
-  public loading: Boolean = false;
+  public loading: boolean = false;
   public tipoUsuarios: String;
   constructor(private toastr: ToastrService,
     private router: Router,
     private service: UsuarioService,
+    private servicePersonas: PersonaService,
     private _location: Location
   ) {
     this.items = new Array<Persona>();
@@ -33,7 +35,7 @@ export class GestionUsuarioListaComponent implements OnInit {
   ngOnInit(): any {
     this.cargarLista();
   }
-  activos: Boolean;
+  activos: boolean;
   cambioTipoUsuario() {
     this.activos = !this.activos;
     this.seCambioActivo = true;
@@ -117,7 +119,7 @@ export class GestionUsuarioListaComponent implements OnInit {
     }
   }
 
-  enFiltro: Boolean;
+  enFiltro: boolean;
   OnPageOptionChanged(event): void {
     this.paginacion.registros = event.rows;
     this.paginacion.pagina = 1;
@@ -162,7 +164,7 @@ export class GestionUsuarioListaComponent implements OnInit {
   tipo: String;
   numeroTipo: number;
   usuariosFiltrados: Array<Usuario>;
-  seCambioActivo: Boolean;
+  seCambioActivo: boolean;
 
   cambioFiltro() {
     if (this.tipo == "Nombre") {
@@ -191,21 +193,40 @@ export class GestionUsuarioListaComponent implements OnInit {
       }
       this.enFiltro = true;
       if (this.numeroTipo == 1) {
-        this.usuariosFiltrados = this.items.filter(
-          item => item.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+        this.servicePersonas.obtenerFiltroNombre(this.filtro,this.activos, this.paginacion.pagina, this.paginacion.registros).subscribe(
+          (response: Response) => {
+            this.usuariosFiltrados = response.resultado;
+            this.paginacion = response.paginacion;
+            console.log("activo: ",this.activos);
+            console.log("filtro nombre: ",this.filtro);
+            console.log("usuariosfiltrados: ",this.usuariosFiltrados);
+          }
         )
       }
       if (this.numeroTipo == 2) { 
-        this.usuariosFiltrados = this.items.filter(
-          item => item.username.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+        this.servicePersonas.obtenerFiltroUsername(this.filtro,this.activos, this.paginacion.pagina, this.paginacion.registros).subscribe(
+          (response: Response) => {
+            this.usuariosFiltrados = response.resultado;
+            this.paginacion = response.paginacion;
+            console.log("activo: ",this.activos);
+            console.log("filtro username: ",this.filtro);
+            console.log("usuariosfiltrados: ",this.usuariosFiltrados);
+          }
         )
       }
       if (this.numeroTipo == 3) {
-        this.usuariosFiltrados = this.items.filter(
-          item => item.email.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+        this.servicePersonas.obtenerFiltroEmail(this.filtro,this.activos, this.paginacion.pagina, this.paginacion.registros).subscribe(
+          (response: Response) => {
+            this.usuariosFiltrados = response.resultado;
+            this.paginacion = response.paginacion;
+            console.log("activo: ",this.activos);
+            console.log("filtro email: ",this.filtro);
+            console.log("usuariosfiltrados: ",this.usuariosFiltrados);
+          }
         )
       }
     } else {
+      
       if (this.seCambioActivo == true){
         if (this.activos){
           this.getListaActivos();

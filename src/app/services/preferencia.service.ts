@@ -105,4 +105,67 @@ export class PreferenciaService {
         return throwError(e);
       }));
   }
+
+
+
+  obtenerPreferenciasByNombreEvaluador(idEvento:number,idPropuesta:number,nombre:string ,pagina:number, registros:number):Observable<any> {
+    let params:HttpParams = new HttpParams()
+    .set('idEvento', idEvento.toString())
+    .set('idPropuesta', idPropuesta.toString())
+    .set('nombre', nombre)
+    .set('pagina', pagina.toString())
+    .set('registros', registros.toString());
+
+    return this.http.get(this.apiEndpoint+'/filtroByNombre',{params}).pipe(
+      catchError(e => {
+        if (e.status == 400) {
+          return throwError(e);
+        }
+        if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
+        return throwError(e);
+      }));
+  }
+
+  obtenerPreferenciasByEmailEvaluador(idEvento:number,idPropuesta:number,email:string ,pagina:number, registros:number):Observable<any> {
+    let params:HttpParams = new HttpParams()
+    .set('idEvento', idEvento.toString())
+    .set('idPropuesta', idPropuesta.toString())
+    .set('email', email)
+    .set('pagina', pagina.toString())
+    .set('registros', registros.toString());
+
+    return this.http.get(this.apiEndpoint+'/filtroByEmail',{params}).pipe(
+      catchError(e => {
+        if (e.status == 400) {
+          return throwError(e);
+        }
+        if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
+        return throwError(e);
+      }));
+  }
+
+
+  obtenerPreferenciasByUsernameEvaluador(idEvento:number,idPropuesta:number,username:string ,pagina:number, registros:number):Observable<any> {
+    let params:HttpParams = new HttpParams()
+    .set('idEvento', idEvento.toString())
+    .set('idPropuesta', idPropuesta.toString())
+    .set('username', username)
+    .set('pagina', pagina.toString())
+    .set('registros', registros.toString());
+
+    return this.http.get(this.apiEndpoint+'/filtroByUsername',{params}).pipe(
+      catchError(e => {
+        if (e.status == 400) {
+          return throwError(e);
+        }
+        if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
+        return throwError(e);
+      }));
+  }
 }
