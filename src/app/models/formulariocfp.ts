@@ -5,5 +5,5 @@ export class FormularioCFP{
     public titulo?: string;
     public divisionList?: Array<Division>;
     public idFase?: number;
-
+    
 }
