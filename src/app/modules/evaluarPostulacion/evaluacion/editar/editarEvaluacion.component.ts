@@ -75,6 +75,8 @@ export class EditarEvaluacionComponent implements OnInit {
     async obtenerEvaluacion() {
         await this.serviceEvaluacion.obtenerPropuesta(this.codigo).subscribe(
             (response: Response) => {
+                console.log(response);
+                //debugger;
                 this.itemEvaluacion = response.resultado;
                 this.itemEvaluacion.fase.criterios.forEach((e) => {
                     this.serviceRespuestaCriterio.obtenerRespuestaCriterio(e.idCriterio).subscribe(
