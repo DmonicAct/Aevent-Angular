@@ -9,6 +9,7 @@ import { defineLocale } from 'ngx-bootstrap/chronos';
 import { AuthService as AeventAuthService } from '../../../../../../auth/service/auth.service';
 import * as moment from 'moment';
 import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
 @Component({
     selector: 'detalle-evento',
     templateUrl: 'detalle-evento.template.html',
@@ -29,7 +30,7 @@ export class DetalleEventoConfiguracion implements OnInit {
     nombrePresidente: String;
 
     @Output() savedItem = new EventEmitter<any>();
-
+    @Output() savedData = new EventEmitter<Evento>();
     //Evento de Padre
     @Input('item-evento')
     public item: Evento;
@@ -37,6 +38,7 @@ export class DetalleEventoConfiguracion implements OnInit {
     public minDate: Date;
     public maxDate: Date;
     constructor(
+        private router: Router,
         private authService: AeventAuthService,
         private _location: Location,
         private localeService: BsLocaleService,
@@ -50,7 +52,8 @@ export class DetalleEventoConfiguracion implements OnInit {
         //this.item = new Evento();
         this.minDate = new Date();
         this.maxDate = new Date();
-        this.minDate.setDate(this.minDate.getDate() + 2);
+        this.minDate.setDate(this.minDate.getDate() + 1);
+        console.log(this.minDate);
         this.itemsCategorias = new Array<Categoria>();
         this.itemsLugar = new Array<Lugar>();
         this.itemPresidente = new Persona();
@@ -72,7 +75,6 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.getListaActivos();
         this.obtenerUsuarios();
         this.buscarUsuario();
-        
     }
     public datos: boolean = true;
     public call: boolean = false;
@@ -102,12 +104,11 @@ export class DetalleEventoConfiguracion implements OnInit {
             }
         );
     }
-    
+
     getListaActivos() {
         this.loading = true;
         this.serviceUsuario.obtenerUsuariosActivos(this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
-                
                 this.loading =false;
                 this.itemsPersona = response.resultado;
                 this.paginacion = response.paginacion;
@@ -275,8 +276,8 @@ export class DetalleEventoConfiguracion implements OnInit {
                 this.item.idEvento = response.resultado.idEvento;
                 this.item.fechaInicio = response.resultado.fechaInicio;
                 this.item.fechaFin = response.resultado.fechaFin;
-                this.item.fechaInicio = this.item.fechaInicio = moment(this.item.fechaInicio).toDate();
-                this.item.fechaFin = this.item.fechaFin = moment(this.item.fechaFin).toDate();
+                this.item.fechaInicio = moment(this.item.fechaInicio).toDate();
+                this.item.fechaFin = moment(this.item.fechaFin).toDate();
                 this.toastr.success(`Se ha guardado con exito`, 'Aviso', { closeButton: true });
                 for (let i = 0; i < this.itemsPersona.length; i++) {
                     if (this.itemsPersona[i].idUsuario == this.item.presidente.idUsuario) {
@@ -285,6 +286,8 @@ export class DetalleEventoConfiguracion implements OnInit {
                     }
                 }
                 this.savedItem.emit(false);
+                this.router.navigate([`Eventos/MisEventos/organizador/editar/${this.item.idEvento}`]);
+           /*      this.savedData.emit(this.item); */
             }
         );
 

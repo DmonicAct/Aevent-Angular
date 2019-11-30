@@ -44,10 +44,13 @@ export class EditarGestionarEventoComponent implements OnInit{
             (response: Response)=>{
                 this.item=response.resultado;
                 this.item.fases.forEach((e,i)=>{
-                    e.fechaFin = moment(e.fechaFin).toDate();
-                    e.fechaInicial = moment(e.fechaInicial).toDate();
+                    if(e.fechaFin)
+                        e.fechaFin = moment(e.fechaFin).toDate();
+                    if(e.fechaInicial)
+                        e.fechaInicial = moment(e.fechaInicial).toDate();
                 });
                 this.flagEvento = false;
+               
             }
         );
     }
@@ -59,6 +62,7 @@ export class EditarGestionarEventoComponent implements OnInit{
          if(!this.item.fases){
             this.item.fases = new Array<Fase>();
         }
+      
         this.flagEvento = flag; 
     }
 }

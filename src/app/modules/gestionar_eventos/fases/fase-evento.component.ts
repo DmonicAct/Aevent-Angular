@@ -7,6 +7,8 @@ import { Location } from '@angular/common';
 import { ModalDirective, TabsetComponent } from 'ngx-bootstrap';
 import { UtilFormulario } from 'src/app/util/util_formulario';
 import * as moment from 'moment';
+import Swal from 'sweetalert2'
+import { SwalComponent } from "@toverux/ngx-sweetalert2";
 
 @Component({
   selector: 'fase-evento',
@@ -18,6 +20,9 @@ export class FaseEventoComponent implements OnInit {
   public loading: Boolean = false;
   @ViewChild('tabsFase') tabset: TabsetComponent;
 
+  
+  @ViewChild('visorCallForPaperSwalOut') private swalViewCFP: SwalComponent;
+  @ViewChild('enviarEvento') private swalEnviarEvento: SwalComponent;
   public isNewModalShown: Boolean;
   public isNewCriterioModalShown: Boolean;
   public isDeleteModalShown: Boolean;
@@ -87,8 +92,9 @@ export class FaseEventoComponent implements OnInit {
     
   }
   ngOnChanges(){
-    if(this.item.fechaInicio && this.item.fechaFin){
-      this.maxDate = new Date(this.item.fechaInicio.toString().substr(0,10));
+    if(this.item.fechaInicio && this.item.fechaFin && this.item.idEvento){
+      debugger;
+     this.maxDate = new Date(this.item.fechaInicio.toString().substr(0,10));
       this.maxDate.setDate(this.maxDate.getDate() - 1);
       this.minDate.setDate(this.minDate.getDate() + 1);
     }
@@ -249,11 +255,11 @@ export class FaseEventoComponent implements OnInit {
     this.isNewFaseModalShown = true;
     this.esNuevo = false;
     this.tempDescModal = fase.descripcion;
-    this.descripcionFaseModal= fase.descripcion;
 
   }
   OnGestionarFases() {
     this.descripcionModal = "";
+
     this.esNuevo = true;
     this.isNewModalShown = true;
   }
@@ -366,7 +372,6 @@ export class FaseEventoComponent implements OnInit {
       }
       faseNueva.descripcion = this.descripcionModal;
       faseNueva.idEvento = evento.idEvento;
-      this.descripcionModal ="";
       this.faseService.guardarFase(faseNueva).subscribe(
         (response: Response) => {
           this.toastr.success(`Se ha guardado la fase con exito`, 'Aviso', { closeButton: true });
@@ -444,7 +449,7 @@ export class FaseEventoComponent implements OnInit {
   DetectFin(fase: Fase) {
     if (fase.fechaFin && (fase.fechaFin.toString() == 'Invalid Date' || fase.fechaFin.toString() == '')) {
       fase.fechaFin = new Date();
-      this.toastr.warning('Fecha ingresada no valida', 'Advertencia', { closeButton: true });
+      this.toastr.warning('Fecha ingresada no valida', 'Aviso', { closeButton: true });
       return;
     }
   }
@@ -452,7 +457,7 @@ export class FaseEventoComponent implements OnInit {
   DetectInicio(fase: Fase) {
     if (fase.fechaInicial && (fase.fechaInicial.toString() == 'Invalid Date' || fase.fechaInicial.toString() == '')) {
       fase.fechaInicial = new Date();
-      this.toastr.warning('Fecha ingresada no valida', 'Advertencia', { closeButton: true });
+      this.toastr.warning('Fecha ingresada no valida', 'Aviso', { closeButton: true });
       return;
     }
   }
@@ -467,10 +472,32 @@ export class FaseEventoComponent implements OnInit {
     if (!this.formulario) {
       this.formulario = new FormularioCFP();
       this.formulario.divisionList = this.utilForm.inicializarFormulario();
-      this.fase.formulario =new FormularioCFP();
-      this.fase.formulario = this.formulario;
     }
 
     this.isNewFormModalShown = true;
   }
+  test(fase:Fase){
+    if(fase.formulario){
+      this.swalViewCFP.title = fase.formulario.titulo?fase.formulario.titulo:"";
+      this.swalViewCFP.show();
+    }
+  }
+  OnEnviarPresidente(){
+    let str = "";
+    this.item.fases.forEach((e,i)=>{
+      if(e.idFase!=null){
+        str+= e.descripcion + ", ";
+      }
+    });
+    if(str!=""){
+      str.slice(0,str.length-2);
+      this.toastr.warning("Las fases " +str+ " no han sido guardadas","Aviso",{closeButton:true});
+      return;
+    }
+    this.swalEnviarEvento.show();
+  }
+  OnFinalizarEnvio(){
+    console.log("show show");
+  }
+ 
 }

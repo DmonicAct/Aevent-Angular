@@ -8,9 +8,9 @@
             <div class="row col-md-12">
               <div class="col-md-2">
                 <button type="button" class="btn btn-primary m-r"
-                  [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE'" [swal]="guardarFase"><i
+                  [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_POR_APROBACION'" [swal]="guardarFase"><i
                     class="fa fa-check"></i>
-                  Guardar</button>
+                  Guardar Fase</button>
               </div>
               <div class="col-md-2">
                 <a class="btn btn-default m-r" (click)="OnCancelar()"><i class="fa fa-arrow-left"></i>
@@ -18,13 +18,13 @@
               </div>
               <div class=" pull-right">
                 <button class="btn btn-primary" (click)="OnGestionarFases()"
-                  [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE'"><i
+                  [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_POR_APROBACION'"><i
                     class="fa fa-plus"></i>
                   Gestionar Fases</button>
               </div>
               <div class=" pull-right">
                 <button class="btn btn-success" (click)="OnEnviarPresidente()"
-                  [disabled]="this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE'"><i
+                  [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_POR_APROBACION'"><i
                     class="fa fa-send  "></i>
                   Enviar a Presidente</button>
               </div>
@@ -39,7 +39,7 @@
                       <div class="form-group">
                         <div class="col-lg-1">
                           <button class="btn btn-primary" (click)="OnAgregarCriterio(fase)"
-                            [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE'"><i
+                            [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_POR_APROBACION'"><i
                               class="fa fa-plus"></i>
                             Agregar Criterio </button>
                         </div>
@@ -72,13 +72,13 @@
                                     <td class="text-center" style="width:10%;" data-col="editar"
                                       (click)="OnEditarCriterio(criterio,fase)">
                                       <button class="btn btn-success"
-                                        [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE'"><i
+                                        [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_POR_APROBACION'"><i
                                           class="fa fa-edit"></i></button>
                                     </td>
                                     <td class="text-center" style="width:10%;" data-col="eliminar"
                                       (click)="OnEliminarCriterio(criterio,fase)">
                                       <button class="btn btn-danger"
-                                        [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE'"><i
+                                        [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_POR_APROBACION'"><i
                                           class="fa fa-trash"></i></button>
                                     </td>
                                   </tr>
@@ -89,24 +89,24 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-sm-3 control-label">Formulario (*) </label>
+                        <label class="col-sm-2 control-label">Formulario (*) </label>
                         <div class="col-sm-2">
                           <button *ngIf="!fase.formulario" class="btn btn-primary" (click)="OnCrearFormulario(fase)"
-                            [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE'"><i
+                            [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_POR_APROBACION'"><i
                               class="fa fa-plus"></i>
                             Crear Formulario CFP </button>
                           <button *ngIf="fase.formulario" class="btn btn-primary" (click)="OnCrearFormulario(fase)"
-                            [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE'"><i
+                            [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_POR_APROBACION'"><i
                               class="fa fa-plus"></i>
                             Editar Formulario CFP </button>
                           <label *ngIf="fase.formulario"> Título: {{fase.formulario.titulo}}
                           </label>
                         </div>
                         <div class="col-sm-2">
-                            <button *ngIf="fase.formulario" class="btn btn-success" [swal]="visorCallForPaperSwalOut"
-                            [disabled]="this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE'"><i
-                              class="fa fa-eye"></i>
-                              Vista Previa </button>
+                          <!-- [swal]="visorCallForPaperSwalOut" -->
+                          <button class="btn btn-success" (click)="test(fase)" [disabled]="!fase.formulario"><i
+                            class="fa fa-eye"></i>
+                            Vista Previa </button>
                         </div>
                       </div>
                       <div class="form-group" *ngIf="item">
@@ -120,9 +120,9 @@
                               autocomplete="off" (bsValueChange)="DetectInicio(fase)"
                             
                               value="{{ fase.fechaInicial | date:'dd/MM/yyyy' }}" type="text" class="form-control"
-                              [disabled]="(this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE') || fase.fase_guardada">
+                              [disabled]="(this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_POR_APROBACION') || fase.fase_guardada">
                             <span class="input-group-addon" (click)="dp3.toggle()" [attr.aria-expanded]="dp3.isOpen"
-                              disabled="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE'"><i
+                              disabled="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_POR_APROBACION'"><i
                                 class="fa fa-calendar"></i></span>
                           </div>
                         </div>
@@ -136,10 +136,10 @@
                             [maxDate]="maxDate"
                             #dp4="bsDatepicker" name='fechaFin' [(bsValue)]="fase.fechaFin"
                              autocomplete="off" (bsValueChange)="DetectFin(fase)"
-                              [disabled]="(this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE') || fase.fase_guardada"
+                              [disabled]="(this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_POR_APROBACION') || fase.fase_guardada"
                               value="{{ fase.fechaFin | date:'dd/MM/yyyy' }}" type="text" class="form-control">
                             <span class="input-group-addon" (click)="dp4.toggle()" [attr.aria-expanded]="dp4.isOpen"
-                              disabled="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_PRESIDENTE'"><i
+                              disabled="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_POR_APROBACION'"><i
                                 class="fa fa-calendar"></i></span>
                           </div>
                         </div>
@@ -400,9 +400,23 @@
   (confirm)="OnGuardarFase(fase)"
 ></swal>
 
-<swal #visorCallForPaperSwalOut title="{{this.fase.formulario.titulo}}" customClass="visor-call-for-paper"
+
+<swal
+  #enviarEvento
+  type="question"
+  title="¿Esta seguro de pasar a la siguiente etapa del evento?"
+  confirmButtonText="Sí"
+  cancelButtonText="Cancelar"
+  [allowOutsideClick]="false"
+  [showCancelButton]="true"
+  [focusCancel]="true"
+  (confirm)="OnFinalizarEnvio()"
+></swal>
+<!--   //(confirm)="OnEnviar()" -->
+
+<swal #visorCallForPaperSwalOut customClass="visor-call-for-paper"
     [showCancelButton]="false" [focusConfirm]="true" [allowOutsideClick]="true" confirmButtonText="Aceptar">
     <div *swalPartial>
-        <call-for-paper-view-organizador [items]="this.fase.formulario.divisionList"></call-for-paper-view-organizador>
+        <call-for-paper-view-organizador [items]="fase.formulario.divisionList"></call-for-paper-view-organizador>
     </div>
 </swal>
