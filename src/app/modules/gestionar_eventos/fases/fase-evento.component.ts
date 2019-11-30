@@ -242,11 +242,11 @@ export class FaseEventoComponent implements OnInit {
     this.isNewFaseModalShown = true;
     this.esNuevo = false;
     this.tempDescModal = fase.descripcion;
+    this.descripcionFaseModal= fase.descripcion;
 
   }
   OnGestionarFases() {
     this.descripcionModal = "";
-
     this.esNuevo = true;
     this.isNewModalShown = true;
   }
@@ -345,6 +345,7 @@ export class FaseEventoComponent implements OnInit {
       }
       faseNueva.descripcion = this.descripcionModal;
       faseNueva.idEvento = evento.idEvento;
+      this.descripcionModal ="";
       this.faseService.guardarFase(faseNueva).subscribe(
         (response: Response) => {
           this.toastr.success(`Se ha guardado la fase con exito`, 'Aviso', { closeButton: true });
@@ -445,6 +446,8 @@ export class FaseEventoComponent implements OnInit {
     if (!this.formulario) {
       this.formulario = new FormularioCFP();
       this.formulario.divisionList = this.utilForm.inicializarFormulario();
+      this.fase.formulario =new FormularioCFP();
+      this.fase.formulario = this.formulario;
     }
 
     this.isNewFormModalShown = true;

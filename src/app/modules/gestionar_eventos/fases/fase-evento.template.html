@@ -84,7 +84,7 @@
                       </div>
                       <div class="form-group">
                         <label class="col-sm-3 control-label">Formulario (*) </label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                           <button *ngIf="!fase.formulario" class="btn btn-primary" (click)="OnCrearFormulario(fase)"
                             [disabled]="this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE'"><i
                               class="fa fa-plus"></i>
@@ -95,6 +95,12 @@
                             Editar Formulario CFP </button>
                           <label *ngIf="fase.formulario"> Título: {{fase.formulario.titulo}}
                           </label>
+                        </div>
+                        <div class="col-sm-2">
+                            <button *ngIf="fase.formulario" class="btn btn-success" [swal]="visorCallForPaperSwalOut"
+                            [disabled]="this.item.estado_evento!='EVENTO_BORRADOR' && this.item.estado_evento!='EVENTO_PRESIDENTE'"><i
+                              class="fa fa-eye"></i>
+                              Vista Previa </button>
                         </div>
                       </div>
                       <div class="form-group">
@@ -370,3 +376,10 @@
     </div>
   </div>
 </div>
+
+<swal #visorCallForPaperSwalOut title="{{this.fase.formulario.titulo}}" customClass="visor-call-for-paper"
+    [showCancelButton]="false" [focusConfirm]="true" [allowOutsideClick]="true" confirmButtonText="Aceptar">
+    <div *swalPartial>
+        <call-for-paper-view-organizador [items]="this.fase.formulario.divisionList"></call-for-paper-view-organizador>
+    </div>
+</swal>

@@ -14,12 +14,15 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row m-b-sm">
         <div class="col-md-2">
-            <ng-select [items]="filtroActivo" (ngModelChange)="cambioTipoEvento()" placeholder="Activos"
+            <ng-select  [items]="filtroActivo" (ngModelChange)="cambioTipoEvento()" placeholder="Activos"
                 name="filtroActivo" autocomplete="off" [clearable]="false" [(ngModel)]="tipoEvento">
             </ng-select>
         </div>
         <div class="col-md-2">
-            <ng-select [items]="itemsFiltro" (input)="cambioFiltro()" placeholder="Seleccionar Filtro"
+            <ng-select *ngIf="activos" [items]="itemsFiltro" (input)="cambioFiltro()" placeholder="Seleccionar Filtro"
+                name="filtroEvento" autocomplete="off" [clearable]="false" [(ngModel)]="tipo">
+            </ng-select>
+            <ng-select *ngIf="!activos" [items]="itemsFiltroInactivo" (input)="cambioFiltro()" placeholder="Seleccionar Filtro"
                 name="filtroEvento" autocomplete="off" [clearable]="false" [(ngModel)]="tipo">
             </ng-select>
         </div>
