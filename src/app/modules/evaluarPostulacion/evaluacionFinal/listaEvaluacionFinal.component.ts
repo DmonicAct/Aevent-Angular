@@ -1,5 +1,5 @@
 import { OnInit, Component, ViewChild } from "@angular/core";
-import { Evento, Paginacion, Usuario } from '../../../models'
+import { Evento, Paginacion, Usuario, Postulacion } from '../../../models'
 import {AuthService as AeventAuthService} from  '../../../auth/service/auth.service'
 import { EventoService } from  '../../../services'
 import { ToastrService } from "ngx-toastr";
@@ -10,6 +10,8 @@ import { Evaluacion } from "src/app/models/evaluacion";
 import { EvaluacionService } from "src/app/services/evaluacion.service";
 import { UsuarioService } from "src/app/services/usuario.service";
 import { DetalleEvaluacionFinal } from "./detalles/detalle.component";
+import { PresidenteService } from "src/app/services/presidente.service";
+import { PostulacionPropuestaRequest } from "src/app/models/postulacionPropuestaRequest";
 @Component({
     selector:'listaEvaluacionFinal',
     templateUrl:'listaEvaluacionFinal.template.html',
@@ -20,9 +22,10 @@ export class ListaEvaluacionFinalComponent implements OnInit{
     public item : Evento;
     public items: Array<Evento>;
     public paginacion: Paginacion;
-    public evaluaciones: Array<Evaluacion>;
-    public usr: Usuario;
+    public respuesta: PostulacionPropuestaRequest;
     public propuestas: Array<Propuesta>;
+    public postulaciones: Array<Postulacion>;
+    public usr: Usuario;
     public loading: Boolean = false;
 
     @ViewChild('DetalleEvaluacionFinal')
@@ -33,7 +36,8 @@ export class ListaEvaluacionFinalComponent implements OnInit{
         private authService: AeventAuthService,
         private usrService: UsuarioService,
         private router: Router,
-        private service: EvaluacionService) {
+        private service: EvaluacionService,
+        private servicePresidente: PresidenteService) {
         this.item = new Evento();
         this.usr= new Usuario();
         this.items = new Array<Evento>();
@@ -44,9 +48,12 @@ export class ListaEvaluacionFinalComponent implements OnInit{
         this.usrService.obtenerUsuarioUs(this.authService.usuario.username).subscribe(
             (response:Response)=>{
                 this.usr = response.resultado;
-                this.service.obtenerPropuestas(this.usr.idUsuario, this.paginacion.pagina, this.paginacion.registros).subscribe(
+                this.servicePresidente.obtenerPostulacionesEnEspera(this.usr.idUsuario).subscribe(
                     (response: Response) => {
-                        this.evaluaciones = response.resultado;
+                        debugger
+                        this.respuesta = response.resultado;
+                        this.propuestas = this.respuesta.propuestas;
+                        this.postulaciones = this.respuesta.postulaciones;
                       }
                 )
             }
@@ -57,8 +64,9 @@ export class ListaEvaluacionFinalComponent implements OnInit{
         
     }
 
-    OnEvaluar(item: Evaluacion) {
-        this.router.navigate([`gestionEvaluacionEvento/evaluacion-final/lista/evaluar/${item.idEvaluacion}`]);
+    OnEvaluar(i: number) {
+        var aux = this.propuestas[i].idPropuesta;
+        this.router.navigate([`gestionEvaluacionEvento/evaluacion-final/lista/evaluar/${aux}`]);
     }
 
     OnPageChanged(event): void {
