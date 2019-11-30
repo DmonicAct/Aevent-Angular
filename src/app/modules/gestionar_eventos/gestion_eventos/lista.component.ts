@@ -182,6 +182,7 @@ export class ListaEventosOrganizador implements OnInit {
     OnDeshabilitar(item: Evento) {
         item.motivoFin = this.motivoDeshabilitar; 
         item.enabled = false;
+        item.estado_evento = "EVENTO_CANCELADO";
         this.service.guardarEvento(item).subscribe(
             (response: Response) => {
                 if (response.estado == "OK") {
@@ -227,9 +228,14 @@ export class ListaEventosOrganizador implements OnInit {
         if (this.tipo == "Presidente") {
             this.numeroTipo = 3;
         }
+        if (this.tipo == "Motivo") {
+            this.numeroTipo = 4;
+        }
+        
     }
 
     public itemsFiltro = ["Título", "Tipo", "Presidente"];
+    public itemsFiltroInactivo = ["Título", "Tipo", "Presidente", "Motivo"];
     enFiltro: Boolean;
 
 
@@ -254,6 +260,11 @@ export class ListaEventosOrganizador implements OnInit {
             if (this.numeroTipo == 3) {
                 this.maestroEventoFilter = this.items.filter(
                     item => item.presidente.nombreCompleto.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
+                )
+            }
+            if (this.numeroTipo == 4) {
+                this.maestroEventoFilter = this.items.filter(
+                    item => item.motivoFin.toLowerCase().indexOf(this.filtro.toLowerCase()) > -1
                 )
             }
 

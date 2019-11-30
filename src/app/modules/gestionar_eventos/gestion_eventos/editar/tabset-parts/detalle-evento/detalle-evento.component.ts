@@ -50,8 +50,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         //this.item = new Evento();
         this.minDate = new Date();
         this.maxDate = new Date();
-        this.minDate.setDate(this.minDate.getDate() + 1);
-        console.log(this.minDate);
+        this.minDate.setDate(this.minDate.getDate() + 2);
         this.itemsCategorias = new Array<Categoria>();
         this.itemsLugar = new Array<Lugar>();
         this.itemPresidente = new Persona();
@@ -73,6 +72,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.getListaActivos();
         this.obtenerUsuarios();
         this.buscarUsuario();
+        
     }
     public datos: boolean = true;
     public call: boolean = false;
@@ -102,11 +102,12 @@ export class DetalleEventoConfiguracion implements OnInit {
             }
         );
     }
-
+    
     getListaActivos() {
         this.loading = true;
         this.serviceUsuario.obtenerUsuariosActivos(this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
+                
                 this.loading =false;
                 this.itemsPersona = response.resultado;
                 this.paginacion = response.paginacion;
