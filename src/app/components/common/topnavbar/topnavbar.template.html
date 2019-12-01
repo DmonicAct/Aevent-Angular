@@ -20,7 +20,7 @@
       <li class="dropdown" dropdown>
         <a dropdownToggle>
           <i *ngIf = "usr.evaluacionSinLeer == 1" class="fa fa-envelope" > 1</i>
-          <i *ngIf = "usr.evaluacionSinLeer == 0" class="fa fa-envelope-open" > 0</i>
+          <i *ngIf = "usr.evaluacionSinLeer == 0 ||usr.evaluacionSinLeer == null" class="fa fa-envelope-open" > 0</i>
         </a>
         <ul class="dropdown-menu animated fadeInRight" *dropdownMenu>
 
