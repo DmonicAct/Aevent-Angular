@@ -316,8 +316,7 @@ export class FaseEventoComponent implements OnInit {
    /*    fase.fechaInicial = moment(fase.fechaInicial).toDate();
       fase.fechaFin = moment(fase.fechaFin).toDate(); */
 
-      if((fase.fechaInicial <= fechaInicio && fase.fechaInicial >= fechaInicio) ||
-          (fase.fechaInicial <= fechaFin && fase.fechaFin >= fechaFin)){
+      if((fase.fechaInicial <= fechaFin) || (fase.fechaFin <= fechaFin)){
             this.toastr.warning("Las fechas dentro de la fase: " + this.item.fases[index].descripcion + " interfieren con la fase anterior","Aviso",{closeButton:true});
             return;
       }
