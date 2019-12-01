@@ -20,7 +20,7 @@ export class FaseEventoComponent implements OnInit {
   public loading: Boolean = false;
   @ViewChild('tabsFase') tabset: TabsetComponent;
 
-  
+
   @ViewChild('visorCallForPaperSwalOut') private swalViewCFP: SwalComponent;
   @ViewChild('enviarEvento') private swalEnviarEvento: SwalComponent;
   public isNewModalShown: Boolean;
@@ -55,6 +55,8 @@ export class FaseEventoComponent implements OnInit {
   //Evento de Padre
   @Input('item-evento')
   public item: Evento;
+  @Input('modulo')
+  public modulo: string;
 
   public arrayCriterios: Array<Criterio>;
   public criterio: Criterio;
@@ -63,7 +65,7 @@ export class FaseEventoComponent implements OnInit {
   private utilForm: UtilFormulario;
   public formulario: FormularioCFP;
 
-  private index:number = -1;
+  private index: number = -1;
   public minDate: Date;
   public maxDate: Date;
   constructor(private toastr: ToastrService,
@@ -76,7 +78,7 @@ export class FaseEventoComponent implements OnInit {
   ) {
     this.minDate = new Date();
     this.maxDate = new Date();
-   
+
     this.criterio = new Criterio;
     this.fase = new Fase;
     this.tipoCriterios = new Array<TipoCriterio>();
@@ -89,12 +91,12 @@ export class FaseEventoComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerTipoCriterio();
-    
+
   }
-  ngOnChanges(){
-    if(this.item.fechaInicio && this.item.fechaFin && this.item.idEvento){
+  ngOnChanges() {
+    if (this.item.fechaInicio && this.item.fechaFin && this.item.idEvento) {
       debugger;
-     this.maxDate = new Date(this.item.fechaInicio.toString().substr(0,10));
+      this.maxDate = new Date(this.item.fechaInicio.toString().substr(0, 10));
       this.maxDate.setDate(this.maxDate.getDate() - 1);
       this.minDate.setDate(this.minDate.getDate() + 1);
     }
@@ -105,7 +107,7 @@ export class FaseEventoComponent implements OnInit {
       (response: Response) => {
         this.tipoCriterios = response.resultado;
         this.loading = false;
-       // console.log(this.item.fases[0].criterios);
+        // console.log(this.item.fases[0].criterios);
       }
     );
   }
@@ -119,7 +121,7 @@ export class FaseEventoComponent implements OnInit {
             this.tabset.tabs[this.index].active = true;
             this.index = -1;
         } */
-        this.loading= false;
+        this.loading = false;
       }
     );
   }
@@ -133,7 +135,7 @@ export class FaseEventoComponent implements OnInit {
     this.isNewFormModalShown = false;
     this.isNewFaseModalShown = false;
     this.editCriterioModalShown = false;
-   
+
   }
   onHiddenEditarFase(): void {
     this.isNewFaseModalShown = false;
@@ -152,37 +154,37 @@ export class FaseEventoComponent implements OnInit {
       this.autoNewFormShownModal.hide();
     } else if (this.isNewCriterioModalShown) {
       this.autoNewCriterioShownModal.hide();
-    } else if (this.isNewFaseModalShown){
+    } else if (this.isNewFaseModalShown) {
       this.autoNewFaseShownModal.hide();
-    } else if (this.editCriterioModalShown){
+    } else if (this.editCriterioModalShown) {
       this.autoEditCriterioShownModal.hide();
     }
   }
-  onGetCriterios(fase:Fase){
+  onGetCriterios(fase: Fase) {
     let index = -1;
-    this.tabset.tabs.forEach((e,i)=>{
-      if(e.active){
+    this.tabset.tabs.forEach((e, i) => {
+      if (e.active) {
         index = i;
       }
     });
-    if(index == -1) return;
+    if (index == -1) return;
     this.criterioService.obtenerCriterios(fase.idFase).subscribe(
-      (response:Response)=>{
+      (response: Response) => {
         this.item.fases[index].criterios = response.resultado;
-        if(this.loading) this.loading = false;
+        if (this.loading) this.loading = false;
       }
     );
   }
   OnNuevo() {
     this.loading = true;
-    
-    this.tabset.tabs.forEach((e,i)=>{
-      if(e.active==true){
+
+    this.tabset.tabs.forEach((e, i) => {
+      if (e.active == true) {
         this.index = i;
       }
     });
-    if(this.index==-1) return;
-    if(!this.tipoCriterioModal || this.tipoCriterioModal.descripcion==""){
+    if (this.index == -1) return;
+    if (!this.tipoCriterioModal || this.tipoCriterioModal.descripcion == "") {
       this.toastr.warning(`se debe de elegir un tipo de criterio`, 'Aviso', { closeButton: true });
       return;
     }
@@ -198,19 +200,19 @@ export class FaseEventoComponent implements OnInit {
         (response: Response) => {
           if (response.estado == "OK") {
             this.toastr.success(`Se ha guardado el criterio con exito`, 'Aviso', { closeButton: true });
-            this.onHidden(); 
+            this.onHidden();
             this.onGetCriterios(this.item.fases[this.index]);
             this.loading = false;
           }
         }
       );
     } else { //editando criterio
-      let nuevoCriterio = new Criterio ();
+      let nuevoCriterio = new Criterio();
       nuevoCriterio.idCriterio = this.criterio.idCriterio;
       nuevoCriterio.descripcion = this.descripcionModal;
       nuevoCriterio.idFase = this.fase.idFase;
       nuevoCriterio.tipoCriterio = this.tipoCriterioModal;
-      this.arrayCriterios.forEach(e=>{
+      this.arrayCriterios.forEach(e => {
         if (e.idCriterio == nuevoCriterio.idCriterio)
           e.descripcion = nuevoCriterio.descripcion;
       })
@@ -229,12 +231,12 @@ export class FaseEventoComponent implements OnInit {
   }
 
   OnAgregarCriterio(fase: Fase) {
-    
+
 
     this.fase = fase;
     this.arrayCriterios = this.fase.criterios;
     this.descripcionModal = "";
-    this.tipoCriterioModal = this.tipoCriterios[this.tipoCriterios.length-1];
+    this.tipoCriterioModal = this.tipoCriterios[this.tipoCriterios.length - 1];
     this.esNuevo = true;
     this.isNewCriterioModalShown = true;
   }
@@ -251,7 +253,7 @@ export class FaseEventoComponent implements OnInit {
     this.esNuevo = false;
     this.editCriterioModalShown = true;
   }
-  OnEditarFase(fase: Fase){
+  OnEditarFase(fase: Fase) {
     this.isNewFaseModalShown = true;
     this.esNuevo = false;
     this.tempDescModal = fase.descripcion;
@@ -264,21 +266,25 @@ export class FaseEventoComponent implements OnInit {
     this.isNewModalShown = true;
   }
   fechaHoy: Date;
-  OnGuardarFase(fase_out:Fase) {//en el formulario grande de fase, donde va CFP ya esta validado el nombre de la fase
+  private convertirFecha(date:string):Number{
+    let arr=date.split('-');
+    return Number.parseInt(arr[0]+arr[1]+arr[2]);
+  }
+  OnGuardarFase(fase_out: Fase) {//en el formulario grande de fase, donde va CFP ya esta validado el nombre de la fase
     let index = -1;
     let fase: Fase;
-    this.tabset.tabs.forEach((e,i)=>{
-      if(e.active){
+    this.tabset.tabs.forEach((e, i) => {
+      if (e.active) {
         index = i;
       }
     });
-    if(index==-1){
+    if (index == -1) {
       return;
     }
     fase = this.item.fases[index];
-    if(!fase.fechaFin)
+    if (!fase.fechaFin)
       fase.fechaFin = fase_out.fechaFin;
-    if(!fase.fechaInicial)
+    if (!fase.fechaInicial)
       fase.fechaInicial = fase_out.fechaInicial;
     this.fechaHoy = new Date();
 
@@ -307,29 +313,34 @@ export class FaseEventoComponent implements OnInit {
       this.toastr.warning(`Se necesita agregar un informe Call for Paper`, 'Aviso', { closeButton: true });
       return;
     }
-    if(index!=0){
-      let fechaInicio : Date;
+    if (index != 0) {
+      let fechaInicio: Date;
       let fechaFin: Date;
-      fechaInicio = this.item.fases[index-1].fechaInicial;
-      fechaFin = this.item.fases[index-1].fechaFin;
+      fechaInicio = this.item.fases[index - 1].fechaInicial;
+      fechaFin = this.item.fases[index - 1].fechaFin;
 
-   /*    fase.fechaInicial = moment(fase.fechaInicial).toDate();
-      fase.fechaFin = moment(fase.fechaFin).toDate(); */
+      /*    fase.fechaInicial = moment(fase.fechaInicial).toDate();
+         fase.fechaFin = moment(fase.fechaFin).toDate(); */
 
-      if((fase.fechaInicial <= fechaFin) || (fase.fechaFin <= fechaFin)){
+      let fechaInicioIn = this.convertirFecha(JSON.stringify(fechaInicio).toString().substr(1,10));
+      let fechaFinIn = this.convertirFecha(JSON.stringify(fechaFin).toString().substr(1,10));
+      let faseInicio = this.convertirFecha(JSON.stringify(fase.fechaInicial).toString().substr(1,10));
+      let faseFin = this.convertirFecha(JSON.stringify(fase.fechaFin).toString().substr(1,10));
+      
+      if(faseInicio <= fechaFinIn || faseFin <= fechaFinIn){
             this.toastr.warning("Las fechas dentro de la fase: " + this.item.fases[index].descripcion + " interfieren con la fase anterior","Aviso",{closeButton:true});
             return;
       }
-      
+
     }
     fase.fase_guardada = true;
     this.faseService.guardarFase(fase).subscribe(
       (response: Response) => {
         let fase: Fase = response.resultado;
-        this.item.fases[index].fechaInicial=moment(fase.fechaInicial).toDate();
-        this.item.fases[index].fechaFin=moment(fase.fechaFin).toDate();
-        this.item.fases[index].formulario=fase.formulario;
-        this.item.fases[index].criterios= fase.criterios;
+        this.item.fases[index].fechaInicial = moment(fase.fechaInicial).toDate();
+        this.item.fases[index].fechaFin = moment(fase.fechaFin).toDate();
+        this.item.fases[index].formulario = fase.formulario;
+        this.item.fases[index].criterios = fase.criterios;
         this.item.fases[index].fase_guardada = fase.fase_guardada;
         this.toastr.success(`Se ha guardado la fase con exito`, 'Aviso', { closeButton: true });
 
@@ -378,27 +389,27 @@ export class FaseEventoComponent implements OnInit {
           this.getEventoActualizado();
         }
       )
-    }else{ //modificar fase
+    } else { //modificar fase
       let faseNueva = new Fase();
 
       evento.fases.forEach(element => {
         if (element.descripcion == this.tempDescModal) { // encontro la se
-            faseNueva = element;
-            faseNueva.descripcion = this.descripcionFaseModal;
+          faseNueva = element;
+          faseNueva.descripcion = this.descripcionFaseModal;
           return;
         }
-    });
-    this.faseService.guardarFase(faseNueva).subscribe(
-      (response: Response) => {
-        this.toastr.success(`Se ha actualizado la fase con exito`, 'Aviso', { closeButton: true });
-        this.getEventoActualizado();
-        this.onHiddenEditarFase();  
-      }
-    )
-    
+      });
+      this.faseService.guardarFase(faseNueva).subscribe(
+        (response: Response) => {
+          this.toastr.success(`Se ha actualizado la fase con exito`, 'Aviso', { closeButton: true });
+          this.getEventoActualizado();
+          this.onHiddenEditarFase();
+        }
+      )
 
+
+    }
   }
-}
 
   OnEliminar(fase: Fase, evento: Evento) {
     this.fase = fase;
@@ -428,11 +439,11 @@ export class FaseEventoComponent implements OnInit {
 
   OnConfirmarCriterio() {
     let index = -1;
-    this.tabset.tabs.forEach((e,i)=>{
-      if(e.active)
+    this.tabset.tabs.forEach((e, i) => {
+      if (e.active)
         index = i;
     });
-    if(index==-1) return;
+    if (index == -1) return;
     this.criterioService.eliminarCriterio(this.criterio).subscribe(
       (response: Response) => {
         console.log(response);
@@ -475,32 +486,34 @@ export class FaseEventoComponent implements OnInit {
 
     this.isNewFormModalShown = true;
   }
-  test(fase:Fase){
-    if(fase.formulario){
-      this.swalViewCFP.title = fase.formulario.titulo?fase.formulario.titulo:"";
+  test(fase: Fase) {
+    if (fase.formulario) {
+      this.swalViewCFP.title = fase.formulario.titulo ? fase.formulario.titulo : "";
       this.swalViewCFP.show();
     }
   }
-  OnEnviarPresidente(){
+  OnEnviarPresidente() {
     let str = "";
-    this.item.fases.forEach((e,i)=>{
-      if(e.idFase==null || !e.formulario || !e.fase_guardada ){
-        str+= e.descripcion + ", ";
+    this.item.fases.forEach((e, i) => {
+      if (e.idFase == null || !e.formulario || !e.fase_guardada) {
+        str += e.descripcion + ", ";
       }
     });
-    if(str!=""){
-      str.slice(0,str.length-2);
-      this.toastr.warning("Las fases " +str+ " no han sido editadas","Aviso",{closeButton:true});
+    if (str != "") {
+      str.slice(0, str.length - 2);
+      this.toastr.warning("Las fases " + str + " no han sido editadas", "Aviso", { closeButton: true });
       return;
     }
     this.swalEnviarEvento.show();
   }
-  OnFinalizarEnvio(){
+  OnFinalizarEnvio() {
     this.eventoService.setEstadoPorAprobacion(this.item.idEvento).subscribe(
-      (response:Response)=>{
-        this.toastr.success("Se ha enviado el evento al presidente","Aviso",{closeButton:true});
+      (response: Response) => {
+        this.toastr.success("Se ha enviado el evento al presidente", "Aviso", { closeButton: true });
         this.item = response.resultado;
       });
   }
- 
+  OnEnviarFormulario() {
+
+  }
 }

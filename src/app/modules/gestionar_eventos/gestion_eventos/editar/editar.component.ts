@@ -22,6 +22,7 @@ export class EditarGestionarEventoComponent implements OnInit{
     public item: Evento = new Evento();
     public itemCodigo: number = null;
     public flagEvento:Boolean;
+    public modulo: string = 'ORGANIZADOR';
     constructor(private route: ActivatedRoute,
         private service: EventoService){
 

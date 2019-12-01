@@ -43,6 +43,7 @@ export class VerEventoPresidenteComponent implements OnInit {
     public formulario: FormularioCFP;
     public paginacion: Paginacion;
     public divisiones: Array<Division>
+    public modulo:string = 'PRESIDENTE';
     //public serviceEvento: EventoService;
     constructor(private route: ActivatedRoute,
         private service: EventoService,

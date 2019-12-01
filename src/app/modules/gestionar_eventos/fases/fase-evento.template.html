@@ -23,10 +23,14 @@
                   Gestionar Fases</button>
               </div>
               <div class=" pull-right">
-                <button class="btn btn-success" (click)="OnEnviarPresidente()"
+                <button *ngIf="modulo == 'ORGANIZADOR'"class="btn btn-success" (click)="OnEnviarPresidente()"
                   [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_POR_APROBACION'"><i
                     class="fa fa-send  "></i>
                   Enviar a Presidente</button>
+                <button *ngIf="modulo == 'PRESIDENTE'"class="btn btn-success" (click)="OnEnviarFormulario()"
+                  [disabled]="this.item.estadoEvento!='EVENTO_BORRADOR' && this.item.estadoEvento!='EVENTO_POR_APROBACION'"><i
+                    class="fa fa-send"></i>
+                  Finalizar Edicion</button>
               </div>
             </div>
           </div>

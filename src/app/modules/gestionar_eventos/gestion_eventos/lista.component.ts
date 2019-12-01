@@ -235,7 +235,7 @@ export class ListaEventosOrganizador implements OnInit {
     }
 
     public itemsFiltro = ["Título", "Tipo", "Presidente"];
-    public itemsFiltroInactivo = ["Título", "Tipo", "Presidente", "Motivo"];
+    public itemsFiltroInactivo = ["Título", "Tipo", "Presidente", " "];
     enFiltro: Boolean;
 
 
@@ -285,6 +285,6 @@ export class ListaEventosOrganizador implements OnInit {
     OnRowClick(i:number,item:any) {
     }
     OnBuscar(){
-        
+
     }
 }
