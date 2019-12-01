@@ -173,7 +173,6 @@ export class AsignarPropuestasVer implements OnInit {
               console.log("evaluadores Asignados: ",this.evAsignadosFiltrados);
               this.propElegida.evaluadoresAsignados=this.evAsignadosFiltrados;
               //     console.log(response.paginacion)
-              //debugger
             }
           )
         }
@@ -186,7 +185,6 @@ export class AsignarPropuestasVer implements OnInit {
               console.log("evaluadores Asignados: ",this.evAsignadosFiltrados);
               this.propElegida.evaluadoresAsignados=this.evAsignadosFiltrados;
               //     console.log(response.paginacion)
-              //debugger
             }
           )
         }
@@ -199,7 +197,6 @@ export class AsignarPropuestasVer implements OnInit {
               console.log("evaluadores Asignados: ",this.evAsignadosFiltrados);
               this.propElegida.evaluadoresAsignados=this.evAsignadosFiltrados;
               //     console.log(response.paginacion)
-              //debugger
             }
           )
         }
@@ -257,7 +254,6 @@ export class AsignarPropuestasVer implements OnInit {
               console.log("evaluadores Disp: ",this.prefDisponiblesFiltrados);
               this.prefComite = this.prefDisponiblesFiltrados;
               //     console.log(response.paginacion)
-              //debugger
             }
           )
         }
@@ -270,7 +266,6 @@ export class AsignarPropuestasVer implements OnInit {
               console.log("evaluadores Disp: ",this.prefDisponiblesFiltrados);
               this.prefComite = this.prefDisponiblesFiltrados;
               //     console.log(response.paginacion)
-              //debugger
             }
           )
         }
@@ -283,7 +278,6 @@ export class AsignarPropuestasVer implements OnInit {
               console.log("evaluadores Disp: ",this.prefDisponiblesFiltrados);
               this.prefComite = this.prefDisponiblesFiltrados;
               //     console.log(response.paginacion)
-              //debugger
             }
           )
         }
@@ -405,7 +399,6 @@ public evalOrig:Array<Persona>;
         this.propElegida.evaluadoresAsignados.splice(indComite, 1);
       }
     }
-    //debugger;
     for (var i = 0; i < this.maestraAgregarProp.length; i++) {
       //console.log(this.propElegida.evaluadoresAsignados[i])
       if (!this.ver) {
@@ -507,8 +500,6 @@ public evalOrig:Array<Persona>;
 
   OnAceptarEvaluadores() {
     //var verFor: boolean;
-    console.log("GG DEBUGER XD")
-    //debugger
     if (this.propElegida.evaluadoresAsignados.length + this.evElegidos.length > 10) {
       this.toastr.warning('No se puede tener más de 10 usuarios en una propuesta!', 'Error', { closeButton: true });
       return;
@@ -523,7 +514,6 @@ public evalOrig:Array<Persona>;
       if (this.enNuevos(this.evElegidos[i].idUsuario) == -1)
         this.nuevos.push(this.evElegidos[i]);
     }
-    //debugger;
     for (var i = 0; i < this.maestraAgregarProp.length; i++) {
       //verFor = false;
       //for (var j = 0; j < this.propElegida.evaluadoresAsignados.length; j++)
@@ -696,14 +686,12 @@ public evalOrig:Array<Persona>;
         this.evaluadoresDisponibles = response.resultado;
         this.paginacionEval = response.paginacion;
         console.log(response.paginacion)
-        //debugger
       }
     )
 
   }
 
   onQuitar(index, i) {
-    //debugger;
     //console.log(this.nuevos)
     var enNuevos: number = this.enNuevos(index.idUsuario);
     if (enNuevos == -1) {

@@ -107,7 +107,6 @@ export class ComiteEventoVer implements OnInit {
         this.evaluadoresDisponibles = response.resultado;
         this.paginacion = response.paginacion;
         //     console.log(response.paginacion)
-        //debugger
       }
     )
 
@@ -153,7 +152,6 @@ export class ComiteEventoVer implements OnInit {
               this.paginacion = response.paginacion;
               console.log("disponibles: ",this.disponibles);
               //     console.log(response.paginacion)
-              //debugger
             }
           )
         }
@@ -165,7 +163,6 @@ export class ComiteEventoVer implements OnInit {
               this.paginacion = response.paginacion;
               console.log("disponibles: ",this.disponibles);
               //     console.log(response.paginacion)
-              //debugger
             }
           )
         }
@@ -177,7 +174,6 @@ export class ComiteEventoVer implements OnInit {
               this.paginacion = response.paginacion;
               console.log("disponibles: ",this.disponibles);
               //     console.log(response.paginacion)
-              //debugger
             }
           )
         }
@@ -230,7 +226,6 @@ export class ComiteEventoVer implements OnInit {
               this.paginacion = response.paginacion;
               console.log("comiteFiltrado: ",this.comiteFiltrado);
               //     console.log(response.paginacion)
-              //debugger
             }
           )
         }
@@ -242,7 +237,6 @@ export class ComiteEventoVer implements OnInit {
               this.paginacion = response.paginacion;
               console.log("comiteFiltrado: ",this.comiteFiltrado);
               //     console.log(response.paginacion)
-              //debugger
             }
           )
         }
@@ -254,7 +248,6 @@ export class ComiteEventoVer implements OnInit {
               this.paginacion = response.paginacion;
               console.log("comiteFiltrado: ",this.comiteFiltrado);
               //     console.log(response.paginacion)
-              //debugger
             }
           )
         }
@@ -350,7 +343,6 @@ export class ComiteEventoVer implements OnInit {
           this.propuestas = response.resultado;
           this.nuevasPreferencias = new Array<Preferencia>();
           //Insertar Preferencias
-          //debugger
           //console.log("MAESTRA AGREGAR - AGREGAR PREFERENCIAS", this.maestraAgregar)
           for (let persona of this.maestraAgregar) {
             console.log(this.maestraAgregar)
@@ -380,7 +372,6 @@ export class ComiteEventoVer implements OnInit {
                 //let posQ1: number;
                 for (var j = 0; j < localProp.length; j++) {
                   //console.log("BEFORE DESASIGNAR: ", posQ1)
-                  //debugger;
                   if (localProp[j].fase.idEvento == this.itemEventoParent.idEvento && verProp[j] == false) {
                     verProp[j] = true;
                     this.serviceEvaluacion.desasignarEvaluadorPropuesta(<number>localProp[j].idEvaluacion).subscribe(
@@ -447,7 +438,6 @@ export class ComiteEventoVer implements OnInit {
 
   public comiteOrig: Array<Persona>;
   onGuardarCambiosEvento() {
-    //debugger;
     /*
     for (var i = 0; i < this.quitar.length; i++) {
       var indComite = this.enComite(this.quitar[i].idUsuario);
@@ -456,11 +446,9 @@ export class ComiteEventoVer implements OnInit {
       }
     }
     */
-    //debugger;
     this.comiteOrig = Object.assign([], this.itemEventoParent.comite);
     this.actualizarQuitar();
 
-    //debugger;
     if (this.comiteElegido != undefined || this.comiteElegido || this.comiteElegido != null) {
       //this.itemEventoParent.comite = this.comiteElegido;
       this.actualizarComiteEvento();
@@ -540,7 +528,6 @@ export class ComiteEventoVer implements OnInit {
   }
 
   ElegirEvaluador(data, i) {//agrega o quita de evElegidos
-    //debugger
     this.maestraAgregar;
     //var verComite = false;
     var pos = this.enEvElegidos(data.idUsuario)

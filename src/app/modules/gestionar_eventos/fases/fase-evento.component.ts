@@ -95,7 +95,6 @@ export class FaseEventoComponent implements OnInit {
   }
   ngOnChanges() {
     if (this.item.fechaInicio && this.item.fechaFin && this.item.idEvento) {
-      debugger;
       this.maxDate = new Date(this.item.fechaInicio.toString().substr(0, 10));
       this.maxDate.setDate(this.maxDate.getDate() - 1);
       this.minDate.setDate(this.minDate.getDate() + 1);

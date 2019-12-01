@@ -49,7 +49,6 @@ export class VerEventoPresidenteComponent implements OnInit {
         private service: EventoService,
         private personaService: PersonaService) {
 
-        //debugger
         this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
 
         this.comite1 = new Array<Usuario>();
@@ -60,9 +59,6 @@ export class VerEventoPresidenteComponent implements OnInit {
         this.item.idEvento = null;
         this.formulario = new FormularioCFP();
         this.sub = this.route.params.subscribe(params => {
-
-            //debugger
-
 
             this.itemCodigo = +params['id'];
             if (this.itemCodigo) {
@@ -132,7 +128,6 @@ export class VerEventoPresidenteComponent implements OnInit {
     }
     refreshComite() {
 
-        //debugger
         //this.comite1=this.item.comite;
         //this.comite2=this.comite1;
 
