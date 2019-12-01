@@ -125,6 +125,7 @@ export class DetalleEvaluacionFinal implements OnInit {
         this.servicePresidente.aprobar(this.postulacion.idPostulacion).subscribe(
             (response: Response) => {
                 console.log(response);
+                this.toastr.success(`Se ha APROBADO con éxito`, 'Aviso', { closeButton: true });
             }
         );
             // para probar a hardcodeo que funciona el aprobar
@@ -132,6 +133,7 @@ export class DetalleEvaluacionFinal implements OnInit {
         this.servicePresidente.aprobar(aux).subscribe(
             (response: Response) => {
                 console.log(response);
+                this.toastr.success(`Se ha APROBADO con éxito`, 'Aviso', { closeButton: true });
             }
         ); */
     }
@@ -142,6 +144,7 @@ export class DetalleEvaluacionFinal implements OnInit {
         this.servicePresidente.desaprobar(this.postulacion.idPostulacion).subscribe(
             (response: Response) => {
                 console.log(response);
+                this.toastr.success(`Se ha DESAPROBADO con éxito`, 'Aviso', { closeButton: true });
             }
         );
         // para probar a hardcodeo que funciona el desaprobar
@@ -149,6 +152,7 @@ export class DetalleEvaluacionFinal implements OnInit {
         this.servicePresidente.desaprobar(aux).subscribe(
             (response: Response) => {
                 console.log(response);
+                this.toastr.success(`Se ha DESAPROBADO con éxito`, 'Aviso', { closeButton: true });
             }
         ); */
     }
