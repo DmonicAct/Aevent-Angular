@@ -484,7 +484,7 @@ export class FaseEventoComponent implements OnInit {
   OnEnviarPresidente(){
     let str = "";
     this.item.fases.forEach((e,i)=>{
-      if(e.idFase!=null){
+      if(e.idFase==null){
         str+= e.descripcion + ", ";
       }
     });
