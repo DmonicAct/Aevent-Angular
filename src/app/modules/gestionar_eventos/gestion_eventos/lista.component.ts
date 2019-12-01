@@ -284,4 +284,7 @@ export class ListaEventosOrganizador implements OnInit {
     }
     OnRowClick(i:number,item:any) {
     }
+    OnBuscar(){
+        
+    }
 }
