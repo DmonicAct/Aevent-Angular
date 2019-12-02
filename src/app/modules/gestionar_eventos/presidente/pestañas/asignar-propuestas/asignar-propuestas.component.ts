@@ -507,12 +507,14 @@ public evalOrig:Array<Persona>;
 
   OnAceptarEvaluadores() {
     //var verFor: boolean;
-    console.log("GG DEBUGER XD")
+    //console.log("GG DEBUGER XD")
     //debugger
+
     if (this.propElegida.evaluadoresAsignados.length + this.evElegidos.length > 10) {
       this.toastr.warning('No se puede tener más de 10 usuarios en una propuesta!', 'Error', { closeButton: true });
       return;
     }
+
 
     console.log(this.propElegida.evaluadoresAsignados)
     console.log(this.evElegidos)
@@ -522,6 +524,9 @@ public evalOrig:Array<Persona>;
         this.maestraAgregarProp.unshift(this.evElegidos[i]);
       if (this.enNuevos(this.evElegidos[i].idUsuario) == -1)
         this.nuevos.push(this.evElegidos[i]);
+      let verQuitar:number = this.enQuitar(this.evElegidos[i].idUsuario);
+        if(verQuitar!=-1)
+        this.quitar.splice(verQuitar,1);
     }
     //debugger;
     for (var i = 0; i < this.maestraAgregarProp.length; i++) {
@@ -704,23 +709,29 @@ public evalOrig:Array<Persona>;
 
   onQuitar(index, i) {
     //debugger;
-    //console.log(this.nuevos)
+    //console.log("ON QUITAR!!")
+    
     var enNuevos: number = this.enNuevos(index.idUsuario);
+    //console.log(enNuevos)
     if (enNuevos == -1) {
       if (this.estadoRegistro(index.idUsuario) == 4) {
-        var indQuitar = this.quitar.lastIndexOf(index);
+        //var indQuitar = this.quitar.lastIndexOf(index);
+        var indQuitar = this.enQuitar(index.idUsuario);
         this.quitar.splice(indQuitar, 1);
 
       } else if (this.estadoRegistro(index.idUsuario) == 3)
         this.quitar.push(index);
     }
     else {
-      var ind = this.maestraAgregarProp.lastIndexOf(index);
+      //var ind = this.maestraAgregarProp.lastIndexOf(index);
+      var ind= this.enMaestraAgregarProp(index.idUsuario);
+      //console.log(ind)
+      //console.log(this.enQuitar(index.idUsuario))
       if (ind > -1) {
         this.maestraAgregarProp.splice(ind, 1);
       }
-
-      this.quitar.push(index);
+      if(this.enQuitar(index.idUsuario)==-1)
+            this.quitar.push(index);
     }
 
   }
