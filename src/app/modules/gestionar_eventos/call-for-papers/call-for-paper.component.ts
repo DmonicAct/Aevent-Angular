@@ -372,7 +372,7 @@ export class CallForPaperComponent implements OnInit {
             (response: Response) => {
                 if (response.estado == 'OK') {
                     this.itemFormulario = response.resultado.formulario;
-                    this.toastr.success(`Se ha guardado formulario con exito`, 'Aviso', { closeButton: true });
+                    this.toastr.success(`Se ha guardado formulario con éxito`, 'Aviso', { closeButton: true });
                     this.loading=false;
                 }
             },

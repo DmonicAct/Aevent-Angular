@@ -68,7 +68,6 @@ export class EditarUsuarioComponent implements OnInit {
   ObtenerUsuario() {
     this.service.obtenerUsuario(this.itemCodigo).subscribe(
       (response: Response) => {
-        debugger
         this.item = response.resultado;
         this.item.roles.forEach((e) => {
           this.boolean_flags[e.idRol - 1] = true;

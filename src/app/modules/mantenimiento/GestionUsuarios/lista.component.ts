@@ -134,7 +134,7 @@ export class GestionUsuarioListaComponent implements OnInit {
     this.service.eliminarUsuario(item.idUsuario).subscribe(
       (response: Response) => {
         if (response.estado == "OK") {
-          this.toastr.success(`Se ha deshabilitado con exito`, 'Aviso', { closeButton: true });
+          this.toastr.success(`Se ha deshabilitado con éxito`, 'Aviso', { closeButton: true });
           if (this.activos){
             this.getListaActivos();
           } else {
@@ -149,7 +149,7 @@ export class GestionUsuarioListaComponent implements OnInit {
     this.service.habilitarUsuario(item.idUsuario).subscribe(
       (response: Response) => {
         if (response.estado == "OK") {
-          this.toastr.success(`Se ha habilitado con exito`, 'Aviso', { closeButton: true });
+          this.toastr.success(`Se ha habilitado con éxito`, 'Aviso', { closeButton: true });
           if (this.activos){
             this.getListaActivos();
           } else {

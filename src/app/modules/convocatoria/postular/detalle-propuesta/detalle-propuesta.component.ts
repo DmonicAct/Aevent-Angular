@@ -45,7 +45,7 @@ export class EdicionPropuestaComponent implements OnInit{
         this.loading = true;
         this.servicePropuesta.guardarPropuesta(this.propuesta,username, idEvento).subscribe(
             (response:Response)=>{
-                this.toastr.success('Se ha guardado la propuesta con exito', 'Aviso', {closeButton: true});
+                this.toastr.success('Se ha guardado la propuesta con éxito', 'Aviso', {closeButton: true});
                 this.itemCodigo.emit(response.resultado);
                 this.loading = false;
             }

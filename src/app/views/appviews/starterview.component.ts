@@ -18,8 +18,7 @@ public ngOnInit():any {
 
 
 public ngOnDestroy():any {
-/*   debugger;
-  this.nav.classList.remove("white-bg"); */
+  /*this.nav.classList.remove("white-bg"); */
 }
 
 }

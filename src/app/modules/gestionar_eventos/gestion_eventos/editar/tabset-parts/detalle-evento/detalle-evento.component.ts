@@ -64,6 +64,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
         this.nombreUsuario = "";
         this.filtro = "";
+        this.loading = false;
     };
     @ViewChild('autoShownModal') autoShownModal: ModalDirective;
     isModalShownPresidente = false;
@@ -223,6 +224,7 @@ export class DetalleEventoConfiguracion implements OnInit {
     }
     fechaHoy: Date;
     OnGuardar() {
+        this.loading = true;
         this.fechaHoy = new Date();
         if (!this.item.titulo) {
             this.toastr.warning(`Se necesita colocar un Título`, 'Aviso', { closeButton: true });
@@ -278,7 +280,7 @@ export class DetalleEventoConfiguracion implements OnInit {
                 this.item.fechaFin = response.resultado.fechaFin;
                 this.item.fechaInicio = moment(this.item.fechaInicio).toDate();
                 this.item.fechaFin = moment(this.item.fechaFin).toDate();
-                this.toastr.success(`Se ha guardado con exito`, 'Aviso', { closeButton: true });
+                this.toastr.success(`Se ha guardado con éxito`, 'Aviso', { closeButton: true });
                 for (let i = 0; i < this.itemsPersona.length; i++) {
                     if (this.itemsPersona[i].idUsuario == this.item.presidente.idUsuario) {
                         this.item.presidente.fullName = this.itemsPersona[i].nombre + ' ' + this.itemsPersona[i].appaterno + ' ' + this.itemsPersona[i].apmaterno;

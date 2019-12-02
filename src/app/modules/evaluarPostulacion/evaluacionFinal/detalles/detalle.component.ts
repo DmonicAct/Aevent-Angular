@@ -54,6 +54,7 @@ export class DetalleEvaluacionFinal implements OnInit {
         var url = window.location.href;
         var res = url.split("/");
         var id = parseInt(res[res.length - 1]);
+
         this.servicePropuesta.obtenerPropuesta(id).subscribe(
             (response: Response) => {
                 this.propuesta = response.resultado;
@@ -132,7 +133,6 @@ export class DetalleEvaluacionFinal implements OnInit {
 
     OnAprobar(){
         //SE HA CAMBIADO EL SERVICIO Y YA NO VIENE ASÍ, HABLAR CON ALVARO DE COMO VIENE AHORA
-        debugger
         this.servicePresidente.aprobar(this.postulacion.idPostulacion).subscribe(
             (response: Response) => {
                 console.log(response);
@@ -151,7 +151,6 @@ export class DetalleEvaluacionFinal implements OnInit {
 
     OnDesaprobar(){
         //SE HA CAMBIADO EL SERVICIO Y YA NO VIENE ASÍ, HABLAR CON ALVARO DE COMO VIENE AHORA
-        debugger
         this.servicePresidente.desaprobar(this.postulacion.idPostulacion).subscribe(
             (response: Response) => {
                 console.log(response);
@@ -171,8 +170,6 @@ export class DetalleEvaluacionFinal implements OnInit {
     public verFormulario: Boolean;
 
     VerFormulario(){
-        console.log(this.listaRespuestaPostulacion);
-        console.log(this.fase);
         this.verFormulario = !this.verFormulario;
     }
 

@@ -90,7 +90,6 @@ export class EdicionPonenciaComponent implements OnInit {
                         element_date = true;
                     this.listaBoolean_fecha_fase.push(element_date);
                 });
-                console.log(this.listaBoolean);
             }
         );
     }
@@ -110,12 +109,10 @@ export class EdicionPonenciaComponent implements OnInit {
         this.servicePropuesta.obtenerPostulaciones(this.propuesta.idPropuesta).subscribe(
             (response: Response) => {
                 if (response && response.resultado != null) {
-                    console.log(this.propuesta.idPropuesta==null);
                     this.evento.fases.forEach((e,i)=>{
                         let element: Boolean;
                         if(i==0) element = false;
                         else element = true;     
-                        console.log("disabled:",this.listaBoolean[i] && !this.propuesta.idPropuesta);
                         this.listaBoolean.push(element);  
                         
                         let element_date: Boolean;
@@ -125,7 +122,6 @@ export class EdicionPonenciaComponent implements OnInit {
                             element_date = true;
                         this.listaBoolean_fecha_fase.push(element_date);
                     });
-                    console.log(this.listaBoolean);
                     this.listaRespuestaPostulacion = response.resultado;
                     if(this.listaRespuestaPostulacion.length<this.evento.fases.length){
                         if(this.listaRespuestaPostulacion[this.listaRespuestaPostulacion.length-1].postulacion.estado=='POSTULACION_APROBADA')
@@ -144,7 +140,6 @@ export class EdicionPonenciaComponent implements OnInit {
                         
                         else
                             this.listaBoolean[i]=false;
-                        console.log(this.listaBoolean[i]);
                         this.fasesPropuestas.forEach((child) => {
                             child.cargarDatosFormulario(e, i);
                         });
@@ -164,7 +159,6 @@ export class EdicionPonenciaComponent implements OnInit {
                             element_date = true;
                         this.listaBoolean_fecha_fase.push(element_date);
                     });
-                    console.log(this.listaBoolean);
                 }
             }
         );

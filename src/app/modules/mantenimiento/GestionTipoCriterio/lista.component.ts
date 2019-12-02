@@ -127,7 +127,7 @@ export class GestionTipoCriterioListaComponent implements OnInit  {
       this.service.guardarTipoCriterio(this.newItem).subscribe(
         (response: Response)=>{
           if(response.estado=="OK"){
-            this.toastr.success(`Se ha creado el tipo de criterio con exito`, 'Aviso', {closeButton: true});
+            this.toastr.success(`Se ha creado el tipo de criterio con éxito`, 'Aviso', {closeButton: true});
             if (this.activos == true){
               this.getListaActivos();
             } else{

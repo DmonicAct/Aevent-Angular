@@ -214,7 +214,7 @@ export class DetalleEventoVer implements OnInit {
                 this.item = response.resultado;
                 this.item.fechaInicio = this.item.fechaInicio = moment(this.item.fechaInicio).toDate();
                 this.item.fechaFin = this.item.fechaFin = moment(this.item.fechaFin).toDate();
-                this.toastr.success(`Se ha guardado con exito`, 'Aviso', { closeButton: true });
+                this.toastr.success(`Se ha guardado con éxito`, 'Aviso', { closeButton: true });
                 for(let i=0;i<this.itemsPersona.length;i++){
                     if(this.itemsPersona[i].idUsuario==this.item.presidente.idUsuario){
                         this.item.presidente.fullName = this.itemsPersona[i].nombre + ' ' + this.itemsPersona[i].appaterno + ' ' + this.itemsPersona[i].apmaterno ;
