@@ -632,7 +632,7 @@ public evalOrig:Array<Persona>;
             let e1: Evaluacion = new Evaluacion();
             e1.evaluador = Object.assign([], nuevoComiteDisp[i]);
             e1.propuesta = Object.assign([], this.actualPropuesta);
-            e1.estado = 'ASIGNADO';
+            e1.estado = 'EVALUACION_ASIGNADA';
             e1.fase = new Fase();
             e1.fase = Object.assign([], this.asignarFase(this.itemEventoParent.fases));
 

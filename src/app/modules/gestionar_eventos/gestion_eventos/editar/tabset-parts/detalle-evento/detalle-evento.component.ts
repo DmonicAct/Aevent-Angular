@@ -224,7 +224,6 @@ export class DetalleEventoConfiguracion implements OnInit {
     }
     fechaHoy: Date;
     OnGuardar() {
-        this.loading = true;
         this.fechaHoy = new Date();
         if (!this.item.titulo) {
             this.toastr.warning(`Se necesita colocar un Título`, 'Aviso', { closeButton: true });
@@ -272,6 +271,7 @@ export class DetalleEventoConfiguracion implements OnInit {
         //this.item.formulario==null ||
         //this.item.formulario.idFormularioFCP == null;
         let evento = JSON.parse(JSON.stringify(this.item));
+        this.loading = true;
         this.serviceEvento.guardarEvento(evento).subscribe(
             (response: Response) => {
                 this.loading= false;

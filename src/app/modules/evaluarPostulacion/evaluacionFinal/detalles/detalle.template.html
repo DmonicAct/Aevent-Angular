@@ -8,126 +8,148 @@
   <detalle-propuesta [(item-division)]="fase.formulario.divisionList" [(item-respuesta)]="listaRespuestaPostulacion">
   </detalle-propuesta>
 </div>
-<div *ngIf="!verFormulario">
-  <div class="row wrapper border-bottom white-bg page-heading">
+<div *ngIf="verEvaluacion">
+  <div class="row">
     <div class="col-lg-12">
-      <h2>Gestión de Evaluaciones Finales</h2>
-      <ol class="breadcrumb">
-        <li>
-          <a>Inicio</a>
-        </li>
-        <li>
-          <a>Evaluar Propuestas</a>
-        </li>
-        <li class="active">
-          <strong>Detalle de Postulación</strong>
-        </li>
-      </ol>
+      <tabset #tabsDetalle>
+        <tab #tabsFases heading="Criterios de Evaluación" (select)="onSelect()">
+          <div class="mail-box-header">
+            <fase-propuesta [(item-evaluacion)]="evaluacionSeleccionada" [(item-respuesta)]="respuestaCriterio">
+            </fase-propuesta>
+          </div>
+        </tab>
+        <tab #tabsFases heading="Evaluación General" (select)="onSelectComentario()">
+          <div class="mail-box-header">
+            <comentario [(item-evaluacion)]="evaluacionSeleccionada">
+            </comentario>
+          </div>
+        </tab>
+      </tabset>
     </div>
   </div>
-  <div class="ibox-content">
-    <div class="wrapper wrapper-content animated fadeInRight">
-      <div class="row col-md-12">
-        <h1>{{propuesta.titulo}}</h1>
+</div>
+<div *ngIf="!verFormulario">
+  <div *ngIf="!verEvaluacion">
+    <div class="row wrapper border-bottom white-bg page-heading">
+      <div class="col-lg-12">
+        <h2>Gestión de Evaluaciones Finales</h2>
+        <ol class="breadcrumb">
+          <li>
+            <a>Inicio</a>
+          </li>
+          <li>
+            <a>Evaluar Propuestas</a>
+          </li>
+          <li class="active">
+            <strong>Detalle de Postulación</strong>
+          </li>
+        </ol>
       </div>
-      <br>
-      <div class="row">&nbsp;</div>
-      <div class="row col-md-12">
-        <div class="row col-md-6">
-          <h3><strong><u>Datos:</u></strong></h3>
-          <br>
-          <div class="row">&nbsp;</div><br>
-          <div class="row col-md-12">
-            <div class="col-md-4">Estado: </div>
-            <div class="col-md-6">{{propuesta.estado}}</div>
-          </div>
-          <br>
-          <div class="row">&nbsp;</div>
-          <div class="row col-md-12">
-            <div class="col-md-4">Postulante: </div>
-            <div class="col-md-6">{{propuesta.postulante.nombreCompleto}}</div>
-          </div>
-          <div>
+    </div>
+    <div class="ibox-content">
+      <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row col-md-12">
+          <h1>{{propuesta.titulo}}</h1>
+        </div>
+        <br>
+        <div class="row">&nbsp;</div>
+        <div class="row col-md-12">
+          <div class="row col-md-6">
+            <h3><strong><u>Datos:</u></strong></h3>
+            <br>
+            <div class="row">&nbsp;</div><br>
+            <div class="row col-md-12">
+              <div class="col-md-4">Estado: </div>
+              <div class="col-md-6">{{propuesta.estado}}</div>
+            </div>
             <br>
             <div class="row">&nbsp;</div>
-          </div>
-          <div class="row col-md-12">
-            <div class="col-md-4"><a (click)="VerFormulario()">Ver Formulario de Postulante</a></div>
-          </div>
-          <br>
-          <div class="row">&nbsp;</div>
-          <br>
-          <div class="row col-md-12">
-            <div class="col-md-1"></div>
-            <div class="col-md-4"><button type="button" class="btn btn-success" (click)="OnAprobar()">Aprobar</button>
+            <div class="row col-md-12">
+              <div class="col-md-4">Postulante: </div>
+              <div class="col-md-6">{{propuesta.postulante.nombreCompleto}}</div>
             </div>
-            <div class="col-md-4"><button type="button" class="btn btn-warning"
-                (click)="OnDesaprobar()">Desaprobar</button></div>
+            <div>
+              <br>
+              <div class="row">&nbsp;</div>
+            </div>
+            <div class="row col-md-12">
+              <div class="col-md-4"><a (click)="VerFormulario()">Ver Formulario de Postulante</a></div>
+            </div>
+            <br>
+            <div class="row">&nbsp;</div>
+            <br>
+            <div class="row col-md-12">
+              <div class="col-md-1"></div>
+              <div class="col-md-4"><button type="button" class="btn btn-success" (click)="OnAprobar()">Aprobar</button>
+              </div>
+              <div class="col-md-4"><button type="button" class="btn btn-warning"
+                  (click)="OnDesaprobar()">Desaprobar</button></div>
+            </div>
           </div>
-        </div>
-        <div class="row col-md-6">
-          <div class="form-group">
-            <h3><strong><u>Evaluaciones:</u></strong></h3>
-            <div class="row col-md-12" style="background-color: white;">
-              <br>
-              <div class="row">&nbsp;</div>
-              <div class="row col-md-12">
-                <div class="col-md-4">Fase de Evaluación: </div>
-                <div class="col-md-6">
-                  <ng-select [items]="fasesFiltro" bindLabel="descripcion" (input)="cambioFase()"
-                    placeholder="Seleccionar Fase" name="fases" autocomplete="off" [clearable]="false"
-                    [(ngModel)]="fase">
-                  </ng-select>
-                </div>
-              </div>
-              <br>
-              <div class="row">&nbsp;</div>
-              <br>
-              <div class="row col-md-12">
-                <div class="col-md-1"></div>
-                <div class="col-md-10">
-                  <div class="table-responsive">
-                    <table class="table table-striped table-hover issue-tracker">
-                      <thead>
-                        <tr>
-                          <th class="text-center">Evaluador</th>
-                          <th class="text-center">Estado</th>
-                        </tr>
-                      </thead>
-                      <tbody *ngIf="seleccionado">
-                        <tr *ngFor="let item of items; let i = index" (click)="OnSeleccionado(item)"
-                          [class.selected]="i == selectedRow">
-                          <td class="text-center" data-col="lugar">{{item.evaluador.nombreCompleto}}</td>
-                          <td class="text-center" data-col="lugar">{{item.estado}}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-
-              <div *ngIf="seleccionadoDetalle">
-                <div class="row col-md-12">
-                  <h3><strong><u>Resumen de la evaluación:</u></strong></h3>
-                </div>
-                <div class="row col-md-12">
-                  <div class="col-md-2"></div>
-                  <div class="col-md-4">Evaluación General: </div>
-                  <div class="col-md-4">{{evaGeneral}}</div>
-                </div>
-                <br>
-                <div class="row">&nbsp;</div><br>
-                <div class="row col-md-12">
-                  <div class="col-md-2"></div>
-                  <div class="col-md-4">Nivel de Confianza: </div>
-                  <div class="col-md-4">{{confianza}}</div>
-                </div>
+          <div class="row col-md-6">
+            <div class="form-group">
+              <h3><strong><u>Evaluaciones:</u></strong></h3>
+              <div class="row col-md-12" style="background-color: white;">
                 <br>
                 <div class="row">&nbsp;</div>
                 <div class="row col-md-12">
-                  <div class="col-md-2"></div>
-                  <div class="col-md-4">Detalle de Evaluación: </div>
-                  <div class="col-md-4"><a (click)="VerDetalle()">Ver Detalle</a></div>
+                  <div class="col-md-4">Fase de Evaluación: </div>
+                  <div class="col-md-6">
+                    <ng-select [items]="fasesFiltro" bindLabel="descripcion" (input)="cambioFase()"
+                      placeholder="Seleccionar Fase" name="fases" autocomplete="off" [clearable]="false"
+                      [(ngModel)]="fase">
+                    </ng-select>
+                  </div>
+                </div>
+                <br>
+                <div class="row">&nbsp;</div>
+                <br>
+                <div class="row col-md-12">
+                  <div class="col-md-1"></div>
+                  <div class="col-md-10">
+                    <div class="table-responsive">
+                      <table class="table table-striped table-hover issue-tracker">
+                        <thead>
+                          <tr>
+                            <th class="text-center">Evaluador</th>
+                            <th class="text-center">Estado</th>
+                          </tr>
+                        </thead>
+                        <tbody *ngIf="seleccionado">
+                          <tr *ngFor="let item of items; let i = index" (click)="OnSeleccionado(item)"
+                            [class.selected]="i == selectedRow">
+                            <td class="text-center" data-col="lugar">{{item.evaluador.nombreCompleto}}</td>
+                            <td class="text-center" data-col="lugar">{{item.estado}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="seleccionadoDetalle">
+                  <div class="row col-md-12">
+                    <h3><strong><u>Resumen de la evaluación:</u></strong></h3>
+                  </div>
+                  <div class="row col-md-12">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4">Evaluación General: </div>
+                    <div class="col-md-4">{{evaGeneral}}</div>
+                  </div>
+                  <br>
+                  <div class="row">&nbsp;</div><br>
+                  <div class="row col-md-12">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4">Nivel de Confianza: </div>
+                    <div class="col-md-4">{{confianza}}</div>
+                  </div>
+                  <br>
+                  <div class="row">&nbsp;</div>
+                  <div class="row col-md-12">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4">Detalle de Evaluación: </div>
+                    <div class="col-md-4"><a (click)="VerDetalle()">Ver Detalle</a></div>
+                  </div>
                 </div>
               </div>
             </div>

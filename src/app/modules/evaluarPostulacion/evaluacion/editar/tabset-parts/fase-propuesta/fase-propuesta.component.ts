@@ -57,7 +57,7 @@ export class FasePropuestaComponent implements OnInit {
   }
 
   OnConfirmar() {
-    this.evaluacion.estado = "EVALUADO";
+    this.evaluacion.estado = "EVALUACION_CORREGIDA";
 
     console.log(this.evaluacion);
 

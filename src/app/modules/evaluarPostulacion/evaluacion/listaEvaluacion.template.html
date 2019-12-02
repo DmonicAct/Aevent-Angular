@@ -59,10 +59,10 @@
               <td class="text-left" data-col="fechaLimite">
                 {{item.fase.fechaFin  | date:'dd/MM/yyyy'}}</td>
               <td class="text-center" data-col="estado" style="padding-left: 0">
-                <span *ngIf="item.estado==='ASIGNADO'" class="label"
-                  [class.label-success]="item.estado=='ASIGNADO'">ASIGNADO</span>
-                <span *ngIf="item.estado=='EVALUADO'" class="label"
-                  [class.label-default]="item.estado=='EVALUADO'">EVALUADO</span>
+                <span *ngIf="item.estado==='EVALUACION_ASIGNADA'" class="label"
+                  [class.label-success]="item.estado=='EVALUACION_ASIGNADA'">ASIGNADA</span>
+                <span *ngIf="item.estado=='EVALUACION_CORREGIDA'" class="label"
+                  [class.label-default]="item.estado=='EVALUACION_CORREGIDA'">CORREGIDA</span>
               </td>
           </table>
         </div>

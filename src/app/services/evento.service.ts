@@ -178,7 +178,7 @@ export class EventoService{
       .set('pagina', pagina.toString())
       .set('registros', registros.toString());
 
-        return this.http.get(this.apiEndpoint + '/presidente', {params}).pipe(
+        return this.http.get(this.apiEndpoint + '/porAprobacionYLanzamiento', {params}).pipe(
           catchError(e => {
             if (e.status == 400) {
               return throwError(e);

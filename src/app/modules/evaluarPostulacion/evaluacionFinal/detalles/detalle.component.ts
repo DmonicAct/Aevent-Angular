@@ -1,7 +1,7 @@
 import { OnInit, Component, ViewChild } from "@angular/core";
 import { Evento, Paginacion, Usuario, Postulacion, Fase, RespuestaFormulario } from '../../../../models'
 import { AuthService as AeventAuthService } from '../../../../auth/service/auth.service'
-import { EventoService } from '../../../../services'
+import { EventoService, RespuestaCriterioService } from '../../../../services'
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { Estado, Response } from '../../../../models';
@@ -13,6 +13,7 @@ import { UsuarioService } from "src/app/services/usuario.service";
 import { PropuestaService } from "src/app/services/propuesta.service";
 import { PresidenteService } from "src/app/services/presidente.service";
 import { RespuestaPostulacion } from "src/app/models/respuesta_postulacion";
+import { RespuestaCriterio } from "src/app/models/respuesta_criterio";
 
 @Component({
     selector: 'detalleEvaluacion',
@@ -28,7 +29,9 @@ export class DetalleEvaluacionFinal implements OnInit {
     public fasesFiltro: Array<Fase>
     public fase: Fase
     public respuestaFormulario: Array<RespuestaFormulario>;
+    public respuestaCriterio : Array<RespuestaCriterio>
     private listaRespuestaPostulacion: Array<RespuestaPostulacion>;
+    public verEvaluacion : Boolean;
     constructor(private toastr: ToastrService,
         private authService: AeventAuthService,
         private usrService: UsuarioService,
@@ -36,7 +39,8 @@ export class DetalleEvaluacionFinal implements OnInit {
         private serviceFase: FaseService,
         private servicePropuesta: PropuestaService,
         private serviceEvaluacion: EvaluacionService,
-        private servicePresidente: PresidenteService) {
+        private servicePresidente: PresidenteService,
+        private serviceRespuestaCriterio: RespuestaCriterioService) {
         this.propuesta = new Propuesta();
         this.postulacion = new Postulacion();
         this.usr = new Usuario();
@@ -45,10 +49,9 @@ export class DetalleEvaluacionFinal implements OnInit {
         this.fasesFiltro = [];
         this.items = [];
         this.respuestaFormulario = new Array<RespuestaFormulario>();
-        this.verFormulario = false;
-        
-
-        
+        this.respuestaCriterio = new Array<RespuestaCriterio>();
+        this.verFormulario = false;         
+        this.verEvaluacion = false;   
     }
     ngOnInit() {
         var url = window.location.href;
@@ -119,7 +122,7 @@ export class DetalleEvaluacionFinal implements OnInit {
     public evaluacionSeleccionada: Evaluacion;
     public evaGeneral: string;
     public confianza: string;
-    
+
     cambioFase(){
         this.seleccionado = true;
         this.items = this.evaluaciones.filter(
@@ -132,6 +135,18 @@ export class DetalleEvaluacionFinal implements OnInit {
         this.seleccionadoDetalle = true;
         this.confianza = item.nivelConfianza;
         this.evaGeneral = item.evaluacionGeneral;
+
+        this.evaluacionSeleccionada.fase.criterios.forEach((e) => {
+            this.serviceRespuestaCriterio.obtenerRespuestaCriterio(e.idCriterio).subscribe(
+                (response: Response) => {
+                    if (response.estado == "OK") {
+                        if (response.resultado[0] != null) {
+                            this.respuestaCriterio.push(response.resultado[0]);
+                        }
+                    }
+                }
+            );
+        });
     }
 
     OnAprobar(){
@@ -177,6 +192,6 @@ export class DetalleEvaluacionFinal implements OnInit {
     }
 
     VerDetalle(){
-
+        this.verEvaluacion = !this.verEvaluacion;
     }
 }
