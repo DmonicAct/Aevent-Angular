@@ -43,6 +43,7 @@ export class ListaPreferenciasComponent implements OnInit{
                 this.service.obtenerPreferencias(this.usr.idUsuario,this.paginacion.pagina,this.paginacion.registros).subscribe(
                     (response: Response) => {
                         this.preferencias = response.resultado;
+                        this.paginacion=response.paginacion;
                         console.log(response);
                         console.log(this.authService.usuario.idUsuario);
                       }
