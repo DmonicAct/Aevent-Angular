@@ -7,7 +7,7 @@
           <a class="btn btn-default m-r" (click)="VerFormulario()"><i class="fa fa-arrow-left"></i> Regresar</a>
       </div>
     </div>
-    <detalle-propuesta [(item-division)]="fase.formulario.divisionList" [(item-respuesta)]="respuestaFormulario"></detalle-propuesta>
+    <detalle-propuesta [(item-division)]="fase.formulario.divisionList" [(item-respuesta)]="listaRespuestaPostulacion"></detalle-propuesta>
   </div>
   <div *ngIf="!verFormulario">
       <div class="row wrapper border-bottom white-bg page-heading">
@@ -39,7 +39,7 @@
                 <br><div class="row">&nbsp;</div><br>
                 <div class="row col-md-12">
                   <div class="col-md-4">Estado: </div>
-                  <div class="col-md-6">Cambiar Estado</div>
+                  <div class="col-md-6">{{propuesta.estado}}</div>
                 </div>
                 <br>
                 <div class="row">&nbsp;</div>

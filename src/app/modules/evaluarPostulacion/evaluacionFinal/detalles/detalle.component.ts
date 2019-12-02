@@ -12,6 +12,7 @@ import { FaseService } from "src/app/services/fase.service";
 import { UsuarioService } from "src/app/services/usuario.service";
 import { PropuestaService } from "src/app/services/propuesta.service";
 import { PresidenteService } from "src/app/services/presidente.service";
+import { RespuestaPostulacion } from "src/app/models/respuesta_postulacion";
 
 @Component({
     selector: 'detalleEvaluacion',
@@ -27,6 +28,7 @@ export class DetalleEvaluacionFinal implements OnInit {
     public fasesFiltro: Array<Fase>
     public fase: Fase
     public respuestaFormulario: Array<RespuestaFormulario>;
+    private listaRespuestaPostulacion: Array<RespuestaPostulacion>;
     constructor(private toastr: ToastrService,
         private authService: AeventAuthService,
         private usrService: UsuarioService,
@@ -44,29 +46,28 @@ export class DetalleEvaluacionFinal implements OnInit {
         this.items = [];
         this.respuestaFormulario = new Array<RespuestaFormulario>();
         this.verFormulario = false;
+        
+
+        
+    }
+    ngOnInit() {
         var url = window.location.href;
         var res = url.split("/");
         var id = parseInt(res[res.length - 1]);
-
-        //debugger
         this.servicePropuesta.obtenerPropuesta(id).subscribe(
             (response: Response) => {
-                //debugger
                 this.propuesta = response.resultado;
-                console.log("Propuesta:",this.propuesta);
                 this.servicePropuesta.obtenerPostulaciones(id).subscribe(
                     (response: Response) => {
-                        //debugger
-                        this.postulacion = response.resultado;
+                        //console.log("Response: ", response.resultado);
+                        this.postulacion = response.resultado[0].postulacion;
                         this.serviceEvaluacion.obtenerEvaluacionesPropuesta(id).subscribe(
                             (response: Response) => {
-                                
                                 this.evaluaciones = response.resultado;
-                                this.lista = this.groupBy(this.evaluaciones,"fase");
-                                this.fase = this.fasesFiltro[0];
+                                this.fase = this.sacarFase(this.evaluaciones,this.postulacion.idFase);
                                 this.servicePropuesta.obtenerPostulaciones(this.propuesta.idPropuesta).subscribe(
                                     (response: Response) => {
-                                        this.respuestaFormulario = response.resultado[0].listaFormulario;
+                                        this.listaRespuestaPostulacion = response.resultado[0].listaFormulario;
                                     }
                                 );
                                 this.cambioFase();
@@ -78,7 +79,17 @@ export class DetalleEvaluacionFinal implements OnInit {
             }
         );
     }
-    ngOnInit() {
+
+    sacarFase(lista: Array<Evaluacion>, idFase:number){
+        
+        let faseAux : Fase;
+        faseAux = new Fase;
+        lista.forEach(element => {
+            if (element.fase.idFase == idFase){
+                faseAux =  element.fase;
+            }
+        });
+        return faseAux;
     }
 
     groupBy(collection, property) {
@@ -160,6 +171,8 @@ export class DetalleEvaluacionFinal implements OnInit {
     public verFormulario: Boolean;
 
     VerFormulario(){
+        console.log(this.listaRespuestaPostulacion);
+        console.log(this.fase);
         this.verFormulario = !this.verFormulario;
     }
 
