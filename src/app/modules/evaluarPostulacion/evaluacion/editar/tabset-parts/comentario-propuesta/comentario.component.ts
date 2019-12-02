@@ -21,12 +21,16 @@ export class ComentarioComponent implements OnInit {
 
   public modalComentarioPresidente: string;
   public modalComentarioParticipante: string;
+  public itemNivelDeConfianza: Array<String>;
+  public itemEvaluacionGeneral: Array<String>;
 
   constructor(private toastr: ToastrService,
     private router: Router,
     private service: EvaluacionService,
   ) {
     this.evaluacion = new Evaluacion;
+    this.itemNivelDeConfianza = ['1 (Bajo)','2','3','4','5 (Alto)'];
+    this.itemEvaluacionGeneral = ['1 (Bajo)','2','3','4','5 (Alto)'];
   }
 
   ngOnInit(): void {
@@ -43,8 +47,6 @@ export class ComentarioComponent implements OnInit {
 
     this.evaluacion.comentarioPresidente = this.modalComentarioPresidente;
     this.evaluacion.comentarioParticipante = this.modalComentarioParticipante;
-
-    console.log(this.evaluacion);
 
     this.service.guardarRespuestaCriterio(this.evaluacion).subscribe(
       (response: Response) => {
