@@ -131,6 +131,15 @@ export class AsignarPropuestasVer implements OnInit {
     this.pagPropuestas = new Paginacion({ pagina: 1, registros: 10 });
   }
 
+  agregarMaestraEvDisponibles() {
+    for (var i = 0; i < this.maestraAgregarProp.length; i++) {
+      if (this.enPropElegida(this.maestraAgregarProp[i].idUsuario) == -1){
+        console.log(this.enPropElegida(this.maestraAgregarProp[i].idUsuario))
+        console.log("PRE ESTADO", this.estadoRegistro(this.maestraAgregarProp[i].idUsuario))
+        this.propElegida.evaluadoresAsignados.unshift(this.maestraAgregarProp[i]);}
+    }
+  }
+
   cambioFiltroEvaluadoresAsignados() {
     if (this.tipoEvaluadoresAsignados == "Nombre") {
       this.numeroTipoEvaluadoresAsignados = 1;
@@ -157,14 +166,17 @@ export class AsignarPropuestasVer implements OnInit {
   //eventoFiltro: Evento;
   public maestroEvaluadoresAsignados: Array<Persona>;
   buscarUsuarioEvaluadoresAsignados() {
+    console.log("PRE ASIG:",this.evAsignadosFiltrados);
+    console.log("PRE MAEST;",this.maestraAgregarProp);
+    
     this.cambioFiltroEvaluadoresAsignados();
     //console.log("numTipo: ",this.numeroTipo);
     
     //console.log("evaDisp: ",this.evaluadoresDisponibles);
     if (this.numeroTipoEvaluadoresAsignados != -1) {
       console.log("filtro length: ", this.filtroEvaluadoresAsignados.length);
-      if (this.filtroEvaluadoresAsignados.length > 0) {
-        if (this.numeroTipoEvaluadoresAsignados == 1) {
+      if (this.filtroEvaluadoresAsignados.length >= 0) {
+        if (this.numeroTipoEvaluadoresAsignados == 1 ) {
           this.servicePersonas.obtenerEvaluadoresAsignadosAPropuestaByNombre(this.propElegida.idPropuesta, this.filtroEvaluadoresAsignados.toString(), this.paginacionEval.pagina, this.paginacionEval.registros).subscribe(
             (response: Response) => {
               //       console.log(response.resultado)
@@ -172,6 +184,10 @@ export class AsignarPropuestasVer implements OnInit {
               this.paginacionEval = response.paginacion;
               console.log("evaluadores Asignados: ",this.evAsignadosFiltrados);
               this.propElegida.evaluadoresAsignados=this.evAsignadosFiltrados;
+              this.agregarMaestraEvDisponibles();
+              this.propElegida.evaluadoresAsignados = this.propElegida.evaluadoresAsignados.filter(
+                item => item.nombreCompleto.toLowerCase().indexOf(this.filtroEvaluadoresAsignados.toLowerCase()) > -1
+              )  
               //     console.log(response.paginacion)
               //debugger
             }
@@ -185,6 +201,14 @@ export class AsignarPropuestasVer implements OnInit {
               this.paginacionEval = response.paginacion;
               console.log("evaluadores Asignados: ",this.evAsignadosFiltrados);
               this.propElegida.evaluadoresAsignados=this.evAsignadosFiltrados;
+              this.agregarMaestraEvDisponibles();
+              
+              console.log("MID ASIG:",this.evAsignadosFiltrados);
+              console.log("MID MAEST;",this.maestraAgregarProp);
+              this.propElegida.evaluadoresAsignados = this.propElegida.evaluadoresAsignados.filter(
+                item => item.username.toLowerCase().indexOf(this.filtroEvaluadoresAsignados.toLowerCase()) > -1
+              )  
+              
               //     console.log(response.paginacion)
               //debugger
             }
@@ -198,6 +222,10 @@ export class AsignarPropuestasVer implements OnInit {
               this.paginacionEval = response.paginacion;
               console.log("evaluadores Asignados: ",this.evAsignadosFiltrados);
               this.propElegida.evaluadoresAsignados=this.evAsignadosFiltrados;
+              this.agregarMaestraEvDisponibles();
+              this.propElegida.evaluadoresAsignados = this.propElegida.evaluadoresAsignados.filter(
+                item => item.email.toLowerCase().indexOf(this.filtroEvaluadoresAsignados.toLowerCase()) > -1
+              )  
               //     console.log(response.paginacion)
               //debugger
             }
@@ -205,11 +233,12 @@ export class AsignarPropuestasVer implements OnInit {
         }
 
 
-      }
+      }/*
       else {
         this.propElegida.evaluadoresAsignados = this.evalOriginales;
+        this.agregarMaestraEvDisponibles();
         //console.log("comiteFiltrado: ",this.comiteFiltrado);
-      }
+      }*/
     }
   }
 
@@ -490,16 +519,6 @@ public evalOrig:Array<Persona>;
       (response: Response) => {
         this.propuestasEvento = response.resultado;
         this.pagPropuestas = response.paginacion;
-
-
-
-        /*
-        for(var i=0;i<this.item.comite.length;i++){
-            this.comite1.push(this.item.comite[i]);
-            this.comite2.push(this.item.comite[i]);
-        }*/
-        //console.log(response);
-        //console.log("EvaluadoresDisponibles");
       }
     );
 
@@ -718,9 +737,18 @@ public evalOrig:Array<Persona>;
       var ind = this.maestraAgregarProp.lastIndexOf(index);
       if (ind > -1) {
         this.maestraAgregarProp.splice(ind, 1);
+      }/*
+      if(enNuevos>-1){
+        this.nuevos.splice(enNuevos,1);
       }
+      else{
+        this.quitar.push(index);
 
-      this.quitar.push(index);
+      }*/if (this.enQuitar(index.idUsuario) == -1)
+        this.quitar.push(index);//necesario para el tema de visualización
+        //MAESTRA nunca tendrá algo mas alla de lo que se agregué pero quitar si tendrá una recopilación de lo que se quitó de maestra
+      
+      
     }
 
   }
