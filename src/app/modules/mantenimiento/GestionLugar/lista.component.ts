@@ -313,5 +313,4 @@ export class GestionLugarListaComponent implements OnInit  {
       this.itemsFiltrados = this.items;
     }
   }
-  buscarLugares(){}
 }

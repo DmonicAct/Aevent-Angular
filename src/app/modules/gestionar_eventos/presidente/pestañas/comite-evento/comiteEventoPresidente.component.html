@@ -21,7 +21,7 @@
     </div>
     <div class="col-md-4">
       <input type="text" autocomplete="off" class="form-control" name="filtro" maxlength="30" [(ngModel)]="filtroComite"
-        (input)="buscarUsuarioComite()" onkeypress="return /^[a-zA-Z_0-9\s]*$/i.test(event.key)">
+         onkeypress="return /^[a-zA-Z_0-9\s]*$/i.test(event.key)">
     </div>
     
     <div class="col-md-2">
@@ -154,16 +154,16 @@
         <br>
         <div class="row m-b-sm">
           <div class="col-md-3">
-            <ng-select [items]="itemsFiltro" (ngModelChange)="cambioFiltro()" placeholder="Seleccionar Filtro"
-              name="filtroUsuario" autocomplete="off" [clearable]="false" [(ngModel)]="tipo">
+            <ng-select [items]="itemsFiltro" (ngModelChange)="cambioFiltroEvDisponibles()" placeholder="Seleccionar Filtro"
+              name="filtroUsuario" autocomplete="off" [clearable]="false" [(ngModel)]="tipoEvDispo">
             </ng-select>
           </div>
           <div class="col-md-6">
-            <input type="text" autocomplete="off" class="form-control" name="filtro" maxlength="30" [(ngModel)]="filtro"
+            <input type="text" autocomplete="off" class="form-control" name="filtro" maxlength="30" [(ngModel)]="filtroEvDisponibles"
               onkeypress="return /^[a-zA-Z_0-9\s]*$/i.test(event.key)">
           </div>
           <div class="col-md-2">
-            <button type="button" class="btn btn-primary container-button" (click)="buscarUsuario()">Buscar</button>
+            <button type="button" class="btn btn-primary container-button" (click)="buscarUsuarioEvaluador()">Buscar</button>
           </div>
 
         </div>

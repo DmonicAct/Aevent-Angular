@@ -77,6 +77,8 @@ export class ComiteEventoVer implements OnInit {
     this.paginacion = new Paginacion({ pagina: 1, registros: 10 });
     this.itemEvento = new Evento();
     this.itemComite = new Array<Usuario>();
+    this.filtroEvDisponibles="";
+    this.filtroComite="";
     this.filtro ='';
     //console.log(this.itemEventoParent);
     //this.itemComite = this.itemEventoParent.comite;
@@ -217,7 +219,7 @@ export class ComiteEventoVer implements OnInit {
   buscarUsuarioComite() {
     this.cambioFiltroComite();
     //console.log("numTipo: ",this.numeroTipo);
-    
+    //debugger;
     //console.log("evaDisp: ",this.evaluadoresDisponibles);
     if (this.numeroTipoComite != -1) {
       console.log("filtro length: ", this.filtroComite.length);
@@ -229,6 +231,11 @@ export class ComiteEventoVer implements OnInit {
               this.comiteFiltrado = response.resultado;
               this.paginacion = response.paginacion;
               console.log("comiteFiltrado: ",this.comiteFiltrado);
+              this.comiteElegido=this.comiteFiltrado;
+              this.agregarComiteFiltrado();
+              this.comiteElegido = this.comiteElegido.filter(
+                item => item.nombreCompleto.toLowerCase().indexOf(this.filtroComite.toLowerCase()) > -1
+              )  
               //     console.log(response.paginacion)
               //debugger
             }
@@ -237,12 +244,17 @@ export class ComiteEventoVer implements OnInit {
         if (this.numeroTipoComite == 2) {
           this.servicePersonas.obtenerEvaluadoresComiteByUsername(this.itemEventoParent.idEvento, this.filtroComite.toString(), this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
+              debugger
               //       console.log(response.resultado)
               this.comiteFiltrado = response.resultado;
               this.paginacion = response.paginacion;
               console.log("comiteFiltrado: ",this.comiteFiltrado);
+              this.comiteElegido=this.comiteFiltrado;
+              this.agregarComiteFiltrado();
+              this.comiteElegido = this.comiteElegido.filter(
+                item => item.username.toLowerCase().indexOf(this.filtroComite.toLowerCase()) > -1
+              )  
               //     console.log(response.paginacion)
-              //debugger
             }
           )
         }
@@ -253,7 +265,12 @@ export class ComiteEventoVer implements OnInit {
               this.comiteFiltrado = response.resultado;
               this.paginacion = response.paginacion;
               console.log("comiteFiltrado: ",this.comiteFiltrado);
-              //     console.log(response.paginacion)
+              this.comiteElegido=this.comiteFiltrado;
+              this.agregarComiteFiltrado();
+              this.comiteElegido = this.comiteElegido.filter(
+                item => item.email.toLowerCase().indexOf(this.filtroComite.toLowerCase()) > -1
+              )   
+
               //debugger
             }
           )
@@ -262,9 +279,17 @@ export class ComiteEventoVer implements OnInit {
 
       }
       else {
-        this.comiteFiltrado = <Array<Persona>>this.comiteElegido;
+        this.obtenerComite();
         //console.log("comiteFiltrado: ",this.comiteFiltrado);
       }
+    }
+  }
+
+  
+  agregarComiteFiltrado() {
+    for (var i = 0; i < this.maestraAgregar.length; i++) {
+      if (this.enComite(this.maestraAgregar[i].idUsuario) == -1)
+        this.comiteElegido.unshift(this.maestraAgregar[i]);
     }
   }
 
@@ -639,6 +664,85 @@ export class ComiteEventoVer implements OnInit {
       }
     }
     return -1;
+  }
+
+
+  cambioFiltroEvDisponibles() {
+    if (this.tipoEvDispo == "Nombre") {
+      this.numeroTipoEvDispo = 1;
+    }
+    else if (this.tipoEvDispo == "Usuario") {
+      this.numeroTipoEvDispo = 2;
+    }
+    else if (this.tipoEvDispo == "Correo") {
+      this.numeroTipoEvDispo = 3;
+    }
+    else {
+      this.numeroTipoEvDispo = -1;
+    }
+    /*
+    if (this.tipo == "Codigo"){
+        this.numeroTipo = 4
+    }*/
+  }
+
+
+  public numeroTipoEvDispo:number;
+  public evaluadoresFiltrados:Array<Persona>;
+  public filtroEvDisponibles:string;
+  public tipoEvDispo:string;
+  buscarUsuarioEvaluador() {
+    this.cambioFiltroEvDisponibles();
+    //console.log("numTipo: ",this.numeroTipo);
+    //debugger;
+    //console.log("evaDisp: ",this.evaluadoresDisponibles);
+    if (this.numeroTipoEvDispo != -1) {
+      console.log("filtro length: ", this.filtroEvDisponibles.length);
+      if (this.filtroEvDisponibles.length > 0) {
+        if (this.numeroTipoEvDispo == 1) {
+          this.servicePersonas.obtenerEvaluadoresDisponiblesAPropuestaByNombre(this.itemEventoParent.idEvento, this.filtroEvDisponibles.toString(), this.paginacion.pagina, this.paginacion.registros).subscribe(
+            (response: Response) => {
+              //       console.log(response.resultado)
+              this.evaluadoresFiltrados = response.resultado;
+              this.paginacion = response.paginacion;
+              console.log("evaluadoresFiltrados: ",this.evaluadoresFiltrados);
+              this.evaluadoresDisponibles = this.evaluadoresFiltrados;
+              //     console.log(response.paginacion)
+              //debugger
+            }
+          )
+        }
+        if (this.numeroTipoEvDispo == 2) {
+          this.servicePersonas.obtenerEvaluadoresDisponiblesAPropuestaByUsername(this.itemEventoParent.idEvento, this.filtroEvDisponibles.toString(), this.paginacion.pagina, this.paginacion.registros).subscribe(
+            (response: Response) => {
+              //       console.log(response.resultado)
+              this.evaluadoresFiltrados = response.resultado;
+              this.paginacion = response.paginacion;
+              console.log("evaluadoresFiltrados: ",this.evaluadoresFiltrados);
+              this.evaluadoresDisponibles = this.evaluadoresFiltrados;
+              //     console.log(response.paginacion)
+            }
+          )
+        }
+        if (this.numeroTipoEvDispo == 3) {
+          this.servicePersonas.obtenerEvaluadoreDisponiblesAPropuestasByEmail(this.itemEventoParent.idEvento, this.filtroEvDisponibles.toString(), this.paginacion.pagina, this.paginacion.registros).subscribe(
+            (response: Response) => {
+              this.evaluadoresFiltrados = response.resultado;
+              this.paginacion = response.paginacion;
+              console.log("evaluadoresFiltrados: ",this.evaluadoresFiltrados);
+              this.evaluadoresDisponibles = this.evaluadoresFiltrados;
+              //debugger
+            }
+          )
+        }
+
+
+      }
+      else {
+        this.getEvaluadoresDisponibles();
+        //console.log("comiteFiltrado: ",this.comiteFiltrado);
+      }
+    }
   }
 
 }
