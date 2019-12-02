@@ -133,7 +133,7 @@ export class VerEventoPresidenteComponent implements OnInit {
 
     }
     public pagComite: Paginacion;
-    selectTabComite(){
+    selectTabComite($event){
         
         //this.obtenerEvento();
         this.personaService.getComite(this.itemCodigo,this.paginacion.pagina,this.paginacion.registros).subscribe(
@@ -147,7 +147,7 @@ export class VerEventoPresidenteComponent implements OnInit {
     }
 
 
-    selectTab(){
+    selectTab($event){
         //console.log("TAB SELECCIONADAAAAA")
         this.obtenerEvento();
 
