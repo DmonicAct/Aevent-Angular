@@ -318,6 +318,22 @@ export class EventoService{
           return throwError(e);
         }));
 }
+obtenerEventoLanzamiento(pagina:number, registros:number):Observable<any>{
+  let url = this.apiEndpoint + `/lanzamiento`;
+  let params:HttpParams = new HttpParams()
+  .set('pagina', pagina.toString())
+  .set('registros', registros.toString());
+  return this.http.get(url, {params}).pipe(
+    catchError(e => {
+      if (e.status == 400) {
+        return throwError(e);
+      }
+      if (e.error.mensaje) {
+        console.error(e.error.mensaje);
+      }
+      return throwError(e);
+    }));
+}
   setEstadoPorAprobacion(id:number):Observable<any>{
     let url = this.apiEndpoint + `/permitir/${id}`;
     return this.http.get(url).pipe(

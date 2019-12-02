@@ -34,7 +34,7 @@ export class ListaEventos implements OnInit {
   }
 
   getEventosConvocatoria() {
-    this.serviceEvento.consultarAllEventoEnabled(this.paginacion.pagina, this.paginacion.registros).subscribe(
+    this.serviceEvento.obtenerEventoLanzamiento(this.paginacion.pagina, this.paginacion.registros).subscribe(
       (response: Response) => {
         this.items = response.resultado;
         this.paginacion = response.paginacion;
@@ -59,6 +59,7 @@ export class ListaEventos implements OnInit {
   }
 
   OnRowClick(i:number,item:any) {
+    
   }
   buscarEvento(){}
 }
