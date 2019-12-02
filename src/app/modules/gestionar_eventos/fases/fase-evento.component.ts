@@ -198,7 +198,7 @@ export class FaseEventoComponent implements OnInit {
       this.criterioService.guardarCriterio(this.criterio).subscribe(
         (response: Response) => {
           if (response.estado == "OK") {
-            this.toastr.success(`Se ha guardado el criterio con exito`, 'Aviso', { closeButton: true });
+            this.toastr.success(`Se ha guardado el criterio con éxito`, 'Aviso', { closeButton: true });
             this.onHidden();
             this.onGetCriterios(this.item.fases[this.index]);
             this.loading = false;
@@ -341,7 +341,7 @@ export class FaseEventoComponent implements OnInit {
         this.item.fases[index].formulario = fase.formulario;
         this.item.fases[index].criterios = fase.criterios;
         this.item.fases[index].fase_guardada = fase.fase_guardada;
-        this.toastr.success(`Se ha guardado la fase con exito`, 'Aviso', { closeButton: true });
+        this.toastr.success(`Se ha guardado la fase con éxito`, 'Aviso', { closeButton: true });
 
         this.onHidden();
       }
@@ -383,7 +383,7 @@ export class FaseEventoComponent implements OnInit {
       faseNueva.idEvento = evento.idEvento;
       this.faseService.guardarFase(faseNueva).subscribe(
         (response: Response) => {
-          this.toastr.success(`Se ha guardado la fase con exito`, 'Aviso', { closeButton: true });
+          this.toastr.success(`Se ha guardado la fase con éxito`, 'Aviso', { closeButton: true });
           this.descripcionModal = "";
           this.getEventoActualizado();
         }
@@ -400,7 +400,7 @@ export class FaseEventoComponent implements OnInit {
       });
       this.faseService.guardarFase(faseNueva).subscribe(
         (response: Response) => {
-          this.toastr.success(`Se ha actualizado la fase con exito`, 'Aviso', { closeButton: true });
+          this.toastr.success(`Se ha actualizado la fase con éxito`, 'Aviso', { closeButton: true });
           this.getEventoActualizado();
           this.onHiddenEditarFase();
         }

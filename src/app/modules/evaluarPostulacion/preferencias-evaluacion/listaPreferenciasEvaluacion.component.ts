@@ -76,9 +76,9 @@ public ver:boolean;
             );
         }
         if(!this.ver)
-            this.toastr.success(`Se ha guardado con exito`, 'Aviso', { closeButton: true });
+            this.toastr.success(`Se ha guardado con éxito`, 'Aviso', { closeButton: true });
         else
-            this.toastr.warning(`Se ha guardado con exito`, 'Error', { closeButton: true });
+            this.toastr.warning(`Se ha guardado con éxito`, 'Error', { closeButton: true });
     }
  
 }

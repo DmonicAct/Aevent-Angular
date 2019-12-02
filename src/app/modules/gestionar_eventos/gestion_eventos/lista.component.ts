@@ -164,7 +164,7 @@ export class ListaEventosOrganizador implements OnInit {
         this.service.guardarEvento(item).subscribe(
             (response: Response) => {
                 if (response.estado == "OK") {
-                    this.toastr.success(`Se ha habilitado el evento con exito`, 'Aviso', { closeButton: true });
+                    this.toastr.success(`Se ha habilitado el evento con éxito`, 'Aviso', { closeButton: true });
                     if (this.activos) {
                         this.getListaActivos();
                     } else {
@@ -186,7 +186,7 @@ export class ListaEventosOrganizador implements OnInit {
         this.service.guardarEvento(item).subscribe(
             (response: Response) => {
                 if (response.estado == "OK") {
-                    this.toastr.success(`Se ha deshabilitado el evento con exito`, 'Aviso', { closeButton: true });
+                    this.toastr.success(`Se ha deshabilitado el evento con éxito`, 'Aviso', { closeButton: true });
                     if (this.activos) {
                         this.getListaActivos();
                     } else {

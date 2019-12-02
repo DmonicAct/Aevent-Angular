@@ -463,7 +463,7 @@ export class ComiteEventoVer implements OnInit {
           this.comiteElegido = this.itemEventoParent.comite;
           this.crearPreferencias();
           if (this.ver == true) {
-            this.toastr.success(`Se ha actualizado la lista de evaluadores del evento con exito`, 'Aviso', { closeButton: true });
+            this.toastr.success(`Se ha actualizado la lista de evaluadores del evento con éxito`, 'Aviso', { closeButton: true });
             this.paginacionComite.pagina = 1;
             this.paginacionComite.registros = 10;
             this.obtenerComite();

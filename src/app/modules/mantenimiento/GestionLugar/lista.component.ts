@@ -129,7 +129,7 @@ export class GestionLugarListaComponent implements OnInit  {
       this.service.guardarLugar(this.newItem).subscribe(
         (response: Response)=>{
           if(response.estado=="OK"){
-            this.toastr.success(`Se ha creado el lugar con exito`, 'Aviso', {closeButton: true});
+            this.toastr.success(`Se ha creado el lugar con éxito`, 'Aviso', {closeButton: true});
             if (this.activos == true){
               this.getListaActivos();
             } else{
@@ -251,7 +251,7 @@ export class GestionLugarListaComponent implements OnInit  {
     /* this.service.eliminarUsuario(item.idUsuario).subscribe(
       (response: Response) =>{
         if(response.estado=="OK"){
-          this.toastr.success(`Se ha deshabilitado con exito`, 'Aviso', {closeButton: true});
+          this.toastr.success(`Se ha deshabilitado con éxito`, 'Aviso', {closeButton: true});
           this.getLista()
         }
       }
