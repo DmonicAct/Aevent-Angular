@@ -513,6 +513,11 @@ export class FaseEventoComponent implements OnInit {
       });
   }
   OnEnviarFormulario() {
-
+    this.eventoService.setEstadoLanzamiento(this.item.idEvento).subscribe(
+      (response:Response)=>{
+        this.toastr.success("Se ha enviado el evento al presidente", "Aviso", { closeButton: true });
+        this.item = response.resultado;
+      }
+    );
   }
 }
