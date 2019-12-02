@@ -47,6 +47,7 @@ export class ListaEvaluacionComponent implements OnInit {
                 this.service.obtenerPropuestas(this.usr.idUsuario, this.paginacion.pagina, this.paginacion.registros).subscribe(
                     (response: Response) => {
                         this.evaluaciones = response.resultado;
+                        this.paginacion=response.paginacion;
                         console.log(response);
                     }
                 )
