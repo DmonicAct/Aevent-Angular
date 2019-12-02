@@ -8,5 +8,7 @@ export class Evaluacion{
     public propuesta: Propuesta;
     public comentarioParticipante: string;
     public comentarioPresidente: string;
+    public evaluacionGeneral: string;
+    public nivelConfianza: string;
     public estado: string;
 }

@@ -85,11 +85,14 @@ export class FasePropuestaComponent implements OnInit {
     if (this.isCriterioVacio) {
       this.toastr.warning('No es posible enviar la evaluación con criterios vacíos', 'Aviso', { closeButton: true });
       this.isCriterioVacio = false;
-    } else if (this.evaluacion.comentarioParticipante == "") {
-      this.toastr.warning('No es posible enviar la evaluación sin un comentario', 'Aviso', { closeButton: true });
-      this.isCriterioVacio = false;
     } else if (this.evaluacion.comentarioPresidente == "") {
       this.toastr.warning('No es posible enviar la evaluación sin un comentario', 'Aviso', { closeButton: true });
+      this.isCriterioVacio = false;
+    } else if (this.evaluacion.evaluacionGeneral == "") {
+      this.toastr.warning('No es posible enviar la evaluación sin la evaluacion general', 'Aviso', { closeButton: true });
+      this.isCriterioVacio = false;  
+    } else if (this.evaluacion.nivelConfianza == "") {
+      this.toastr.warning('No es posible enviar la evaluación sin un nivel de confianza', 'Aviso', { closeButton: true });
       this.isCriterioVacio = false;
     } else {
       this.isConfirmModalShown = true;

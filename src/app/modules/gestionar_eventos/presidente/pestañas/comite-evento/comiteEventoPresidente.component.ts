@@ -236,7 +236,6 @@ export class ComiteEventoVer implements OnInit {
         if (this.numeroTipoComite == 2) {
           this.servicePersonas.obtenerEvaluadoresComiteByUsername(this.itemEventoParent.idEvento, this.filtroComite.toString(), this.paginacion.pagina, this.paginacion.registros).subscribe(
             (response: Response) => {
-              debugger
               //       console.log(response.resultado)
               this.comiteFiltrado = response.resultado;
               this.paginacion = response.paginacion;
@@ -678,7 +677,6 @@ export class ComiteEventoVer implements OnInit {
   buscarUsuarioEvaluador() {
     this.cambioFiltroEvDisponibles();
     //console.log("numTipo: ",this.numeroTipo);
-    //debugger;
     //console.log("evaDisp: ",this.evaluadoresDisponibles);
     if (this.numeroTipoEvDispo != -1) {
       console.log("filtro length: ", this.filtroEvDisponibles.length);
@@ -692,7 +690,6 @@ export class ComiteEventoVer implements OnInit {
               console.log("evaluadoresFiltrados: ",this.evaluadoresFiltrados);
               this.evaluadoresDisponibles = this.evaluadoresFiltrados;
               //     console.log(response.paginacion)
-              //debugger
             }
           )
         }
@@ -715,7 +712,6 @@ export class ComiteEventoVer implements OnInit {
               this.paginacion = response.paginacion;
               console.log("evaluadoresFiltrados: ",this.evaluadoresFiltrados);
               this.evaluadoresDisponibles = this.evaluadoresFiltrados;
-              //debugger
             }
           )
         }

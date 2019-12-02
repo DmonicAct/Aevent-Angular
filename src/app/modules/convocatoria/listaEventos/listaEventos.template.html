@@ -58,7 +58,13 @@
                         </tr>
                       </td>
                       <td class="text-center" data-col="lugar">{{item.lugar.descripcion}}</td>
-                      <td class="text-center" data-col="fechaFinPostulacion">{{item.fechaInicio | date:'dd/MM/yyyy'}}</td>
+					  <td class="text-center" data-col="fechaFinPostulacion">
+		                <tr *ngFor="let fase of item.fases; let j = index" class="text-center">
+		                  <div *ngIf="j==0">
+		                    {{fase.fechaInicial | date:'dd/MM/yyyy'}}
+		                  </div>
+		                </tr>
+		              </td>
                       <td class="text-center" data-col="fechaEvento">{{item.fechaInicio | date:'dd/MM/yyyy'}}</td>
                     </tr>
                   </tbody>

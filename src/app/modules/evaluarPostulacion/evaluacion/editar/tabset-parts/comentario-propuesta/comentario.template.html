@@ -1,5 +1,5 @@
 <div class="color ibox-content">
-  <div *ngIf="this.evaluacion.estado=='ASIGNADO'">
+  <div *ngIf="this.evaluacion.estado=='EVALUACION_ASIGNADA'">
     <div class="col-md-8">
       <div class="pull-left">
         <div class="form-group">
@@ -21,17 +21,28 @@
               <h4><strong>Comentarios</strong></h4>
             </div>
           </div>
-          <!--
+          <div class="ibox-content">
+            <div class="row">
+              <label class="col-sm-3 control-label">Evaluación General: </label>
+              <div class="col-sm-7">
+                <ng-select [items]="itemEvaluacionGeneral" bindLabel="nombre" placeholder="Seleccionar Nivel"
+                  [disabled]="this.evaluacion.estado=='EVALUACION_CORREGIDA'"
+                  name="EvaluacionGeneral" autocomplete="off" [clearable]="false" [(ngModel)]="evaluacion.evaluacionGeneral">
+                </ng-select>
+              </div>
+            </div>
+          </div>
           <div class="ibox-content">
             <div class="row">
               <label class="col-sm-3 control-label">Nivel de Confianza: </label>
               <div class="col-sm-7">
-                <ng-select [items]="itemsCategorias" bindLabel="descripcion" placeholder="Seleccionar Categorias"
-                  name="Categorias" [clearable]="false" [(ngModel)]="categoriaSeleccionada">
+                <ng-select [items]="itemNivelDeConfianza" bindLabel="nombre" placeholder="Seleccionar Nivel"
+                  [disabled]="this.evaluacion.estado=='EVALUACION_CORREGIDA'"
+                  name="NivelDeConfianza" autocomplete="off" [clearable]="false" [(ngModel)]="evaluacion.nivelConfianza">
                 </ng-select>
               </div>
             </div>
-          </div>-->
+          </div>
           <div class="ibox-content">
             <div class="row">
               <div class="col-lg-3">
@@ -41,10 +52,11 @@
               <div class="col-lg-9">
                 <textarea type="text" rows="3" style="resize: none;" class="form-control"
                   [(ngModel)]="this.modalComentarioPresidente"
-                  [disabled]="this.evaluacion.estado=='EVALUADO'"></textarea>
+                  [disabled]="this.evaluacion.estado=='EVALUACION_CORREGIDA'"></textarea>
               </div>
             </div>
           </div>
+          <!--
           <div class="ibox-content">
             <div class="row">
               <div class="col-lg-3">
@@ -54,10 +66,10 @@
               <div class="col-lg-9">
                 <textarea type="text" rows="3" style="resize: none;" class="form-control"
                   [(ngModel)]="this.modalComentarioParticipante"
-                  [disabled]="this.evaluacion.estado=='EVALUADO'"></textarea>
+                  [disabled]="this.evaluacion.estado=='EVALUACION_CORREGIDA'"></textarea>
               </div>
             </div>
-          </div>
+          </div>-->
         </div>
       </div>
     </div>

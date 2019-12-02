@@ -117,8 +117,9 @@ export class DetalleEvaluacionFinal implements OnInit {
     public seleccionado: Boolean;
     public seleccionadoDetalle: Boolean;
     public evaluacionSeleccionada: Evaluacion;
-    public evaGeneral = 4;
-    public confianza = 4;
+    public evaGeneral: string;
+    public confianza: string;
+    
     cambioFase(){
         this.seleccionado = true;
         this.items = this.evaluaciones.filter(
@@ -126,9 +127,11 @@ export class DetalleEvaluacionFinal implements OnInit {
         )    
     }
 
-    OnSeleccionado(item){
+    OnSeleccionado(item: Evaluacion){
         this.evaluacionSeleccionada = item;
         this.seleccionadoDetalle = true;
+        this.confianza = item.nivelConfianza;
+        this.evaGeneral = item.evaluacionGeneral;
     }
 
     OnAprobar(){
