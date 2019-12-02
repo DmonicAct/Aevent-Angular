@@ -160,7 +160,7 @@ export class EventoService{
       let params:HttpParams = new HttpParams()
       .set('username', user);
 
-        return this.http.get(this.apiEndpoint + '/presidenteSinPaginacion', {params}).pipe(
+        return this.http.get(this.apiEndpoint + '/porAprobacion', {params}).pipe(
           catchError(e => {
             if (e.status == 400) {
               return throwError(e);
