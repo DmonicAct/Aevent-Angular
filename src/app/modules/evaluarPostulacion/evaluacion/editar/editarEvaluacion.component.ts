@@ -84,8 +84,9 @@ export class EditarEvaluacionComponent implements OnInit {
                 this.itemEvaluacion.fase.criterios.forEach((e) => {
                     this.serviceRespuestaCriterio.obtenerRespuestaCriterio(e.idCriterio,username).subscribe(
                         (response: Response) => {
+                            console.log('Response Respuesta Criterios',response.resultado);
                             if (response.estado == "OK" && response.resultado) {
-                                if (response.resultado[0] != null) {
+                                if (response.resultado[0] != null && (this.itemEvaluacion.propuesta.postulante.idUsuario == response.resultado[0].idPostulante)){
                                     this.respuestaCriterio.push(response.resultado[0]);
                                 }
                             }

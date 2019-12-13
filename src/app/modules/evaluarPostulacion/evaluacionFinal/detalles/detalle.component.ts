@@ -99,7 +99,11 @@ export class DetalleEvaluacionFinal implements OnInit {
                                 this.cambioFase();
                                 this.servicePropuesta.obtenerPostulaciones(this.propuesta.idPropuesta).subscribe(
                                     (response: Response) => {
-                                        this.listaRespuestaPostulacion = response.resultado[0].listaFormulario;
+                                        response.resultado.forEach((p,i) => {
+                                            if(p.postulacion.idFase == this.fase.idFase){
+                                                this.listaRespuestaPostulacion = p.listaFormulario;
+                                            }
+                                        });
                                     }
                                 );
                             }

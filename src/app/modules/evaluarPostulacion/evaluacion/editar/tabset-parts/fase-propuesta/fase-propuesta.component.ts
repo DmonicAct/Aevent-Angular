@@ -137,14 +137,17 @@ export class FasePropuestaComponent implements OnInit , OnChanges{
         if (this.respuestas[i].idRespuestaCriterio != null) {
           this.respuestas[i].idCriterio = criterio.idCriterio;
           this.respuestas[i].respuesta = this.modalRespuestas[i];
+          this.respuestas[i].idPostulante = this.evaluacion.propuesta.postulante.idUsuario;
         } else {
           this.respuestas[i].idCriterio = criterio.idCriterio;
           this.respuestas[i].respuesta = this.modalRespuestas[i];
+          this.respuestas[i].idPostulante = this.evaluacion.propuesta.postulante.idUsuario;
         }
       } else {
         this.respuestas[i] = new RespuestaCriterio;
         this.respuestas[i].idCriterio = criterio.idCriterio;
         this.respuestas[i].respuesta = this.modalRespuestas[i];
+        this.respuestas[i].idPostulante = this.evaluacion.propuesta.postulante.idUsuario;
       }
     });
     let username = this.authService.usuario.username;

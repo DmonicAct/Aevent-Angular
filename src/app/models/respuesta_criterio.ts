@@ -4,4 +4,5 @@ export class RespuestaCriterio{
 	public idCriterio:number;
 	public respuesta:string;
 	public idEvaluador:number;
+	public idPostulante:number;
 }

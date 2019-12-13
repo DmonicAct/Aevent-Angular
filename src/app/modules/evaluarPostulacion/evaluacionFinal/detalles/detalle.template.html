@@ -16,14 +16,14 @@
         <a class="btn btn-default m-r" (click)="VerDetalle()"><i class="fa fa-arrow-left"></i> Regresar</a>
       </div>
       <tabset #tabsDetalle>
-        <tab #tabsFases heading="Criterios de Evaluación" (select)="onSelect()">
+        <tab #tabsFases heading="Criterios de Evaluación">
           <div class="mail-box-header">
             <fase-propuesta #fasePropuesta [(item-evaluacion)]="evaluacionSeleccionada"
               [(item-respuesta)]="respuestaCriterio">
             </fase-propuesta>
           </div>
         </tab>
-        <tab #tabsFases heading="Evaluación General" (select)="onSelectComentario()">
+        <tab #tabsFases heading="Evaluación General">
           <div class="mail-box-header">
             <comentario [(item-evaluacion)]="evaluacionSeleccionada">
             </comentario>
