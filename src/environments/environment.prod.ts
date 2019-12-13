@@ -8,6 +8,7 @@ export const environment = {
   serviceBackEndpoint: url,
   serviceEndpoint: url + 'api',
   serviceAuthEndpoint: url + 'oauth/token',
+  serviceFileServer: 'http://ec2-18-206-239-108.compute-1.amazonaws.com:8080/fileserver/', //Cambiar por la ip de produccion
   //Credenciales
   APP_CONFIG_NAME: 'angularApp',
   APP_CONFIG_PASSWORD: 'angularApp'

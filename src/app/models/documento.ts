@@ -6,6 +6,7 @@ export class Document{
     public nombredoc: String;
     public extensiondoc: String;
     public contenido: Array<Number>;
-    public propuesta: Propuesta;
-    public fase: Fase;
+    public idPropietario:number;
+	public idPostulacion:number;
+	public enabled:Boolean;
 }

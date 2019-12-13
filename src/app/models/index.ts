@@ -20,6 +20,8 @@ import {TipoCriterio} from './tipocriterio';
 import {Postulacion} from './postulacion';
 import {RespuestaFormulario} from './respuesta_formulario';
 import {ListaFormulario} from './listaFormulario';
+import {UploadResponse} from './upload-response';
+import {TipoArchivo} from './enums/tipo-archivo';
 export {
 
     Persona,
@@ -43,5 +45,7 @@ export {
     TipoCriterio,
     Postulacion,
     RespuestaFormulario,
-    ListaFormulario
+    ListaFormulario,
+    UploadResponse,
+    TipoArchivo
 }

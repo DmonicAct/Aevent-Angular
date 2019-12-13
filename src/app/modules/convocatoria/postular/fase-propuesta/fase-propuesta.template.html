@@ -3,10 +3,26 @@
         <div class="pull-left">
             <button type="button" class="btn btn-primary m-r" (click)="OnEnviar()" [disabled]="postulacion.idPostulacion==null || this.postulacion.estado == 'POSTULACION_EN_ESPERA' || this.postulacion.estado == 'POSTULACION_APROBADA'"><i class="fa fa-send"></i>
                 Enviar Formulario</button>
-            <button type="button" class="btn btn-primary m-r" (click)="OnAdjuntar()" [disabled]="postulacion.idPostulacion==null"><i class="fa fa-file"></i>
-                Adjuntar Documento</button>
+                <!-- 
+                <div class="fileinput fileinput-new m-r-xs" 
+                    data-provides="fileinput"        
+                    popover="Archivo Adjuntado"   
+                    triggers="mouseenter:mouseleave">   
+                    <span class="btn btn-info m-r btn-file" [class.disabled]="cargaAdjunto || loading">
+                        <span class="fileinput-new">
+                            <i [class]="(documentoAdjunto=='') ? 'fa fa-check' : 'fa fa-check'"></i> Adjuntar
+                        </span>
+                        <span class="fileinput-exists">
+                            <i [class]="(documentoAdjunto=='') ? 'fa fa-check' : 'fa fa-check'"></i> Adjuntar
+                        </span><input type="file" #file name="file" [disabled]="cargaAdjunto" (change)="OnAdjuntar(file)"/>
+                        </span>
+                </div>
+                
+                <strong class="small">Archivo: </strong><br>
+                <a  #file_out type="file" (click)="OnVerAdjunto()"><i class="fa fa-file"></i> Archivo adjunto</a>
+                
             <button type="button" class="btn btn-danger m-r" (click)="VerObservaciones()" [disabled]="postulacion.idPostulacion==null"><i class="fa fa-eye"></i>
-                Observaciones</button>
+                Observaciones</button> -->
         </div>
     </div>
 

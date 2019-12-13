@@ -39,6 +39,7 @@
     "ngx-ui-switch": "^1.6.0",
     "peity": "^3.2.1",
     "rxjs": "^6.2.1",
+    "ng2-pdfjs-viewer": "^0.2.29",
     "rxjs-compat": "^6.2.1",
     "sweetalert2": "^7.25.0",
     "zone.js": "^0.8.26"
