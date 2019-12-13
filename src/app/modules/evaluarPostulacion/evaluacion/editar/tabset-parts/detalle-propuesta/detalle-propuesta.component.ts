@@ -31,6 +31,8 @@ export class DetallePropuestaComponent implements AfterViewInit, OnChanges{
   public postulacion: Postulacion;
   public seleccionados: any[];
   public loading: Boolean = false;
+  public acumulador: number;
+
   constructor(
     private toastr: ToastrService
   ) {
@@ -40,18 +42,24 @@ export class DetallePropuestaComponent implements AfterViewInit, OnChanges{
 
   ngOnChanges() {
     console.log("ITEMS",this.items);
+    console.log(this.respuestas);
+
     if(this.items && this.items.length>0)
-      this.items.forEach((e, i) => {
+      this.acumulador = 0;
+      this.items.forEach((d, i) => {
         let conjuntoRpta = new Array<RespuestaFormulario>();
-        e.seccionList[0].preguntaList.forEach((p, i) => {
-          let respuesta = new RespuestaFormulario();
-          //respuesta.idFormulario = this.idFormulario;
-          respuesta.idDivision = e.idDivision;
-          respuesta.idSeccion = e.seccionList[0].idSeccion;
-          respuesta.idPregunta = p.idPregunta;
-          respuesta.tipoPregunta = TipoSeccion.PREGUNTA_ABIERTA;
-          respuesta.respuesta = this.respuestas[i].respuesta;
-          conjuntoRpta.push(respuesta);
+        d.seccionList.forEach((s,j)=>{
+          s.preguntaList.forEach((p, k) => {
+            let respuesta = new RespuestaFormulario();
+            //respuesta.idFormulario = this.idFormulario;
+            respuesta.idDivision = d.idDivision;
+            respuesta.idSeccion = s.idSeccion;
+            respuesta.idPregunta = p.idPregunta;
+            respuesta.tipoPregunta = TipoSeccion.PREGUNTA_ABIERTA;
+            respuesta.respuesta = this.respuestas[this.acumulador].respuesta;
+            this.acumulador = this.acumulador + 1;
+            conjuntoRpta.push(respuesta);
+          });
         });
         this.itemsRepuesta.push(conjuntoRpta);
       });

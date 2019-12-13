@@ -101,7 +101,11 @@ export class EditarEvaluacionComponent implements OnInit {
                 this.servicePropuesta.obtenerPostulaciones(this.itemEvaluacion.propuesta.idPropuesta).subscribe(
                     (response: Response) => {
                         console.log("Response obtenerPostulaciones: ", response);
-                        this.respuestaFormulario = response.resultado[0].listaFormulario;
+                        response.resultado.forEach((p,i) => {
+                            if(p.postulacion.idFase == this.itemEvaluacion.fase.idFase){
+                                this.respuestaFormulario = p.listaFormulario;
+                            }
+                        });
                         console.log(this.respuestaFormulario)
                     }
                 );
