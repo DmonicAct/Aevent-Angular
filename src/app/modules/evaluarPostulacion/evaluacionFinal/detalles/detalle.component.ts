@@ -1,9 +1,9 @@
 import { OnInit, Component, ViewChild } from "@angular/core";
-import { Evento, Paginacion, Usuario, Postulacion, Fase, RespuestaFormulario } from '../../../../models'
+import { Evento, Paginacion, Usuario, Postulacion, Fase, RespuestaFormulario, Criterio } from '../../../../models'
 import { AuthService as AeventAuthService } from '../../../../auth/service/auth.service'
 import { EventoService, RespuestaCriterioService } from '../../../../services'
 import { ToastrService } from "ngx-toastr";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { Estado, Response } from '../../../../models';
 import { Propuesta } from "src/app/models/propuesta";
 import { Evaluacion } from "src/app/models/evaluacion";
@@ -14,6 +14,7 @@ import { PropuestaService } from "src/app/services/propuesta.service";
 import { PresidenteService } from "src/app/services/presidente.service";
 import { RespuestaPostulacion } from "src/app/models/respuesta_postulacion";
 import { RespuestaCriterio } from "src/app/models/respuesta_criterio";
+import { FasePropuestaComponent } from "../../evaluacion/editar/tabset-parts/fase-propuesta/fase-propuesta.component";
 
 @Component({
     selector: 'detalleEvaluacion',
@@ -32,10 +33,16 @@ export class DetalleEvaluacionFinal implements OnInit {
     public respuestaCriterio : Array<RespuestaCriterio>
     private listaRespuestaPostulacion: Array<RespuestaPostulacion>;
     public verEvaluacion : Boolean;
+    private sub: any;
+    private codigo:number;
+    @ViewChild('fasePropuesta') 
+    fase_propuesta: FasePropuestaComponent;
+
     constructor(private toastr: ToastrService,
         private authService: AeventAuthService,
         private usrService: UsuarioService,
         private router: Router,
+        private route: ActivatedRoute,
         private serviceFase: FaseService,
         private servicePropuesta: PropuestaService,
         private serviceEvaluacion: EvaluacionService,
@@ -54,27 +61,47 @@ export class DetalleEvaluacionFinal implements OnInit {
         this.verEvaluacion = false;   
     }
     ngOnInit() {
-        var url = window.location.href;
+    /*     var url = window.location.href;
         var res = url.split("/");
-        var id = parseInt(res[res.length - 1]);
+        var id = parseInt(res[res.length - 1]); */
+        this.sub = this.route.params.subscribe(params => {
+            this.codigo = +params['id'];
+            if(this.codigo){
+                this.obtener(this.codigo);
+            }
+        });
+        
+       
+    }
 
+    obtener(id:number){
         this.servicePropuesta.obtenerPropuesta(id).subscribe(
             (response: Response) => {
                 this.propuesta = response.resultado;
                 this.servicePropuesta.obtenerPostulaciones(id).subscribe(
                     (response: Response) => {
-                        //console.log("Response: ", response.resultado);
-                        this.postulacion = response.resultado[0].postulacion;
+                        
+                        let lista = Array<RespuestaPostulacion>();
+                        lista = response.resultado;
+                        lista.forEach(e=>{
+                            if(e.postulacion.estado=='POSTULACION_EN_ESPERA'){
+                                this.postulacion = e.postulacion;
+                            }
+                        });
+                       // this.postulacion = response.resultado[0].postulacion;
+
                         this.serviceEvaluacion.obtenerEvaluacionesPropuesta(id).subscribe(
                             (response: Response) => {
+                                console.log("Evaluaciones de Propuesta : ", response.resultado);
                                 this.evaluaciones = response.resultado;
                                 this.fase = this.sacarFase(this.evaluaciones,this.postulacion.idFase);
+                                
+                                this.cambioFase();
                                 this.servicePropuesta.obtenerPostulaciones(this.propuesta.idPropuesta).subscribe(
                                     (response: Response) => {
                                         this.listaRespuestaPostulacion = response.resultado[0].listaFormulario;
                                     }
                                 );
-                                this.cambioFase();
                             }
                         );
                     }
@@ -136,17 +163,39 @@ export class DetalleEvaluacionFinal implements OnInit {
         this.confianza = item.nivelConfianza;
         this.evaGeneral = item.evaluacionGeneral;
 
-        this.evaluacionSeleccionada.fase.criterios.forEach((e) => {
-            this.serviceRespuestaCriterio.obtenerRespuestaCriterio(e.idCriterio).subscribe(
-                (response: Response) => {
-                    if (response.estado == "OK") {
-                        if (response.resultado[0] != null) {
-                            this.respuestaCriterio.push(response.resultado[0]);
+        console.log(this.evaluacionSeleccionada);
+        this.evaluacionSeleccionada.fase.criterios
+        let e:Criterio;
+        let flag:Boolean = false;
+        let a: Array<number> = new Array<number>();
+        this.evaluacionSeleccionada.fase.criterios.forEach(e=>{
+            a.push(e.idCriterio);
+        })
+        this.respuestaCriterio = new Array<RespuestaCriterio>();
+        this.serviceRespuestaCriterio.obtenerRespuestaCriterio_test(a,this.evaluacionSeleccionada.evaluador.username).subscribe(
+            (response:Response)=>{
+                if (response.estado == "OK") {
+                    this.respuestaCriterio= response.resultado;
+                    console.log("reponse",response);
+                    console.log(this.respuestaCriterio);
+                }
+            }
+        );
+       /*  for(let i=0;i< this.evaluacionSeleccionada.fase.criterios.length;i++){
+            e= this.evaluacionSeleccionada.fase.criterios[i];
+            if(!flag)
+                this.serviceRespuestaCriterio.obtenerRespuestaCriterio(e.idCriterio,this.evaluacionSeleccionada.evaluador.username).subscribe(
+                    (response: Response) => {
+                        if (response.estado == "OK") {
+                            console.log(response.resultado);
+                            if (response.resultado[0] != null) {
+                                this.respuestaCriterio.push(response.resultado[0]);
+                                flag=true;
+                            }
                         }
                     }
-                }
-            );
-        });
+                );
+        } */
     }
 
     OnAprobar(){
@@ -192,6 +241,7 @@ export class DetalleEvaluacionFinal implements OnInit {
     }
 
     VerDetalle(){
+        console.log(this.respuestaCriterio);
         this.verEvaluacion = !this.verEvaluacion;
     }
 }

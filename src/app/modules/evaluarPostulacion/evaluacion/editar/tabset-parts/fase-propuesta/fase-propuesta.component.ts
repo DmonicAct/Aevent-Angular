@@ -1,21 +1,22 @@
-import { OnInit, Component, Input, ViewChild } from "@angular/core";
+import { OnInit, Component, Input, ViewChild,OnChanges } from "@angular/core";
 import { Criterio, Response } from "../../../../../../models";
 import { ToastrService } from 'ngx-toastr';
 import { RespuestaCriterioService, EvaluacionService } from '../../../../../../services/index';
 import { ModalDirective } from 'ngx-bootstrap';
 import { Evaluacion } from "src/app/models/evaluacion";
 import { RespuestaCriterio } from "src/app/models/respuesta_criterio";
+import { AuthService as AeventAuthService } from '../../../../../../auth/service/auth.service';
 
 @Component({
   selector: 'fase-propuesta',
   templateUrl: 'fase-propuesta.template.html',
   styleUrls: ['fase-propuesta.template.scss']
 })
-export class FasePropuestaComponent implements OnInit {
+export class FasePropuestaComponent implements OnInit , OnChanges{
 
   public criterios: Array<Criterio>;
   public isConfirmModalShown: Boolean;
-
+  public loading:Boolean = false;
   @Input('item-evaluacion')
   public evaluacion: Evaluacion;
   @Input('item-respuesta')
@@ -32,6 +33,7 @@ export class FasePropuestaComponent implements OnInit {
   constructor(private toastr: ToastrService,
     private service: RespuestaCriterioService,
     private serviceEvaluacion: EvaluacionService,
+    private authService: AeventAuthService
   ) {
     this.isCriterioVacio = false;
     this.isGuardarRespuestas = true;
@@ -55,7 +57,9 @@ export class FasePropuestaComponent implements OnInit {
       this.autoConfirmShownModal.hide();
     }
   }
-
+  ngOnChanges() {
+      this.onSelect();
+  }
   OnConfirmar() {
     this.evaluacion.estado = "EVALUACION_CORREGIDA";
 
@@ -70,7 +74,6 @@ export class FasePropuestaComponent implements OnInit {
       }
     );
   }
-
   OnTerminar() {
     this.onTerminar = true;
     this.OnGuardar();
@@ -98,12 +101,14 @@ export class FasePropuestaComponent implements OnInit {
       this.isConfirmModalShown = true;
     }
   }
-
   llenarRespuestas() {
     this.respuestas = new Array<RespuestaCriterio>();
+    let username = this.authService.usuario.username;
+    debugger;
     this.evaluacion.fase.criterios.forEach((e) => {
-      this.service.obtenerRespuestaCriterio(e.idCriterio).subscribe(
+      this.service.obtenerRespuestaCriterio(e.idCriterio,username).subscribe(
         (response: Response) => {
+          console.log("LLENAR RESPUESTAS:",response);
           if (response.estado == "OK") {
             if (response.resultado[0] != null) {
               this.respuestas.push(response.resultado[0]);
@@ -124,7 +129,10 @@ export class FasePropuestaComponent implements OnInit {
   }
 
   OnGuardar() {
-    this.evaluacion.fase.criterios.forEach((criterio, i) => {
+    let flag:Boolean = false;
+    
+    console.log("Respuestas antes de guardar:",this.respuestas);
+    this.evaluacion.fase.criterios.forEach((criterio, i)=>{
       if (this.respuestas[i] != null) {
         if (this.respuestas[i].idRespuestaCriterio != null) {
           this.respuestas[i].idCriterio = criterio.idCriterio;
@@ -138,24 +146,45 @@ export class FasePropuestaComponent implements OnInit {
         this.respuestas[i].idCriterio = criterio.idCriterio;
         this.respuestas[i].respuesta = this.modalRespuestas[i];
       }
-
-      console.log(this.respuestas[i]);
-      this.service.guardarRespuestaCriterio(this.respuestas[i]).subscribe(
-        (response: Response) => {
-          if (response.estado != "OK") {
-            this.isGuardarRespuestas = false;
-          }
-        }
-      );
     });
+    let username = this.authService.usuario.username;
+    this.loading = true;
+    this.service.guardarRespuestaCriterio_test(this.respuestas,username).subscribe(
+      (response: Response) => {
+        if (response.estado == "OK") {
+          this.respuestas = response.resultado;
+          console.log(this.respuestas);
+          /* this.isGuardarRespuestas = false; */
+         // this.llenarRespuestas();
+          this.toastr.success(`Se han guardado las respuestas correctamente`, 'Aviso', { closeButton: true });
+          this.onTerminar = false;
+          this.loading = false;
+        }
+      }
+    );
+    /* this.evaluacion.fase.criterios.forEach((criterio, i) => {
+      
+      console.log(this.respuestas[i]);
+      if(!flag)
+        this.service.guardarRespuestaCriterio(this.respuestas[i],username).subscribe(
+          (response: Response) => {
+            if (response.estado != "OK") {
+              this.respuestas[i] = response.resultado;
+              this.modalRespuestas[i] = response.resultado;
+              this.isGuardarRespuestas = false;
+              flag = true;
+            }
+          }
+        );
+    }); */
 
-    if (this.isGuardarRespuestas) {
+    /* if (this.isGuardarRespuestas) {
       this.llenarRespuestas();
       if (!this.onTerminar) {
         this.toastr.success(`Se han guardado las respuestas correctamente`, 'Aviso', { closeButton: true });
       }
     }
-    this.onTerminar = false;
+    this.onTerminar = false; */
   }
 
 }

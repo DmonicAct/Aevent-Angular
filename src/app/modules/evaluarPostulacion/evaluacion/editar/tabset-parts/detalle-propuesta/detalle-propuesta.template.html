@@ -24,7 +24,7 @@
                                                                 <label class="col-sm-4"
                                                                     style="text-align: left;">{{divIndex+1}}.{{i+1}}-
                                                                     {{pregunta.descripcion}}</label>
-                                                                <div class="col-sm-8">
+                                                                <div *ngIf="itemsRepuesta && itemsRepuesta.length>0"class="col-sm-8">
                                                                     <input class="form-control"
                                                                         value="{{itemsRepuesta[divIndex][i].respuesta}}"
                                                                         name="pregunta-{{division.indice}}-{{seccion.indice}}-{{i}}}"

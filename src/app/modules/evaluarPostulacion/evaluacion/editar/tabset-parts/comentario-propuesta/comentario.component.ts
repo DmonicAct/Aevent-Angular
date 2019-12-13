@@ -1,4 +1,4 @@
-import { OnInit, Component, Input } from "@angular/core";
+import { OnInit, Component, Input, OnChanges } from "@angular/core";
 import { Criterio, Response } from "../../../../../../models";
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -12,8 +12,8 @@ import { Evaluacion } from "src/app/models/evaluacion";
   templateUrl: 'comentario.template.html',
   styleUrls: ['comentario.template.scss']
 })
-export class ComentarioComponent implements OnInit {
-
+export class ComentarioComponent implements OnInit, OnChanges {
+  
   public criterios: Array<Criterio>;
 
   @Input('item-evaluacion')
@@ -26,7 +26,7 @@ export class ComentarioComponent implements OnInit {
 
   constructor(private toastr: ToastrService,
     private router: Router,
-    private service: EvaluacionService,
+    private service: EvaluacionService
   ) {
     this.evaluacion = new Evaluacion;
     this.itemNivelDeConfianza = ['1 (Bajo)','2','3','4','5 (Alto)'];
@@ -35,6 +35,13 @@ export class ComentarioComponent implements OnInit {
 
   ngOnInit(): void {
 
+  }
+  ngOnChanges() {
+    if(this.evaluacion){
+      this.modalComentarioParticipante = this.evaluacion.comentarioParticipante;
+    this.modalComentarioPresidente = this.evaluacion.comentarioPresidente;
+    }
+    
   }
 
   onSelect() {
@@ -47,7 +54,6 @@ export class ComentarioComponent implements OnInit {
 
     this.evaluacion.comentarioPresidente = this.modalComentarioPresidente;
     this.evaluacion.comentarioParticipante = this.modalComentarioParticipante;
-
     this.service.guardarRespuestaCriterio(this.evaluacion).subscribe(
       (response: Response) => {
         if (response.estado == "OK") {

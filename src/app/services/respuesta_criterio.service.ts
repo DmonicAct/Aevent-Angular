@@ -23,9 +23,9 @@ import { RespuestaCriterio } from "../models/respuesta_criterio";
         this.config_password = environment.APP_CONFIG_PASSWORD;
     }
 
-    obtenerRespuestaCriterio(idCriterio:number):Observable<any>{
+    obtenerRespuestaCriterio(idCriterio:number,username:string):Observable<any>{
         //const url = `${this.apiEndpoint}/${idEvaluador}`;    
-        let url = this.apiEndpoint + `/${idCriterio}`;
+        let url = this.apiEndpoint + `/${idCriterio}/${username}`;
           return this.http.get(url).pipe(
             catchError(e => {
               if (e.status == 400) {
@@ -38,8 +38,35 @@ import { RespuestaCriterio } from "../models/respuesta_criterio";
             }));
     }
 
-    guardarRespuestaCriterio(respuesta:RespuestaCriterio){
-      let url = this.apiEndpoint + `/guardar`;
+    guardarRespuestaCriterio(respuesta:RespuestaCriterio,username:string){
+      let url = this.apiEndpoint + `/guardar/${username}`;
+      return this.http.post(url, respuesta).pipe(
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+    }
+    obtenerRespuestaCriterio_test(idCriterio:Array<number>,username:string):Observable<any>{
+      //const url = `${this.apiEndpoint}/${idEvaluador}`;    
+      let url = this.apiEndpoint + `/test/${username}`;
+        return this.http.post(url,idCriterio).pipe(
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
+            return throwError(e);
+          }));
+  }
+    guardarRespuestaCriterio_test(respuesta:Array<RespuestaCriterio>,username:string){
+      let url = this.apiEndpoint + `/test/guardar/${username}`;
       return this.http.post(url, respuesta).pipe(
         catchError(e => {
           if (e.status == 400) {

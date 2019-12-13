@@ -12,7 +12,8 @@
     </div>
   </div>
   <div class="form-group">
-    <div class="color ibox-content">
+    <div class="color ibox-content" [ngClass]="{'sk-loading': loading}">
+      <sk-three-bounce></sk-three-bounce>
       <div class="cfp-height">
         <div class="row">
           <div class="form-group">

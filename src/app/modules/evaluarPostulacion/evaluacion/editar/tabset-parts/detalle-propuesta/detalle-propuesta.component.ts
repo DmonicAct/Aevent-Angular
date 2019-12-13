@@ -39,23 +39,22 @@ export class DetallePropuestaComponent implements AfterViewInit, OnChanges{
   }
 
   ngOnChanges() {
-    console.log(this.items);
-    console.log(this.respuestas);
-
-    this.items.forEach((e, i) => {
-      let conjuntoRpta = new Array<RespuestaFormulario>();
-      e.seccionList[0].preguntaList.forEach((p, i) => {
-        let respuesta = new RespuestaFormulario();
-        //respuesta.idFormulario = this.idFormulario;
-        respuesta.idDivision = e.idDivision;
-        respuesta.idSeccion = e.seccionList[0].idSeccion;
-        respuesta.idPregunta = p.idPregunta;
-        respuesta.tipoPregunta = TipoSeccion.PREGUNTA_ABIERTA;
-        respuesta.respuesta = this.respuestas[i].respuesta;
-        conjuntoRpta.push(respuesta);
+    console.log("ITEMS",this.items);
+    if(this.items && this.items.length>0)
+      this.items.forEach((e, i) => {
+        let conjuntoRpta = new Array<RespuestaFormulario>();
+        e.seccionList[0].preguntaList.forEach((p, i) => {
+          let respuesta = new RespuestaFormulario();
+          //respuesta.idFormulario = this.idFormulario;
+          respuesta.idDivision = e.idDivision;
+          respuesta.idSeccion = e.seccionList[0].idSeccion;
+          respuesta.idPregunta = p.idPregunta;
+          respuesta.tipoPregunta = TipoSeccion.PREGUNTA_ABIERTA;
+          respuesta.respuesta = this.respuestas[i].respuesta;
+          conjuntoRpta.push(respuesta);
+        });
+        this.itemsRepuesta.push(conjuntoRpta);
       });
-      this.itemsRepuesta.push(conjuntoRpta);
-    });
   }
 
   ngAfterViewInit() {
